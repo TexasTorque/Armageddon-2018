@@ -1,0 +1,10 @@
+bin/
+build/
+dist/
+sysProps.xml
+*.*.aux
+*.*.log
+*.*.synctex.gz
+*.*.toc
+.classpath
+*.DS_STORE
