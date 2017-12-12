@@ -21,7 +21,6 @@ public class HumanInput extends Input{
 		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
 	
-		AR_armUp = driver.getAButton();
 	}
 
 	
