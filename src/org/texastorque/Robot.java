@@ -1,6 +1,7 @@
 
 package org.texastorque;
 
+import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Drivebase;
 
 
@@ -42,10 +43,10 @@ public class Robot extends TorqueIterative {
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
-		subsystems = new ArrayList<Subsystem>(){{
-			add(Drivebase.getInstance());
-		}};
 		
+		subsystems = new ArrayList<Subsystem>();
+		subsystems.add(Drivebase.getInstance());
+		subsystems.add(Arm.getInstance());
 	}
 
 	/**

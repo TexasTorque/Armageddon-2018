@@ -7,6 +7,8 @@ public class Input {
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
 	
+	protected boolean AR_armUp;
+	
 	public Input(){
 		DB_leftSpeed = 0.0;
 		DB_rightSpeed = 0.0;
@@ -18,6 +20,10 @@ public class Input {
 	
 	public double getRightSpeed(){
 		return DB_rightSpeed;
+	}
+	
+	public boolean getArmUp() {
+		return AR_armUp;
 	}
 
 	public static Input getInstance() {
