@@ -5,6 +5,7 @@ import org.texastorque.constants.Ports;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class RobotOutput {
 	
@@ -15,11 +16,15 @@ public class RobotOutput {
 	
 	private DoubleSolenoid AR_armSole;
 
+	private static boolean clockwise = true;
+	
 	public static RobotOutput instance;
 
 	public RobotOutput(){
-		//DB_leftFore = new TorqueMotor(new VictorSP(_PORT_NUMBER_), flipDriveTrain)
-		// etc
+		DB_leftFore = new TorqueMotor(new VictorSP(Ports.DB_LEFT_FORE_PORT), clockwise);
+		DB_leftRear = new TorqueMotor(new VictorSP(Ports.DB_LEFT_REAR_PORT), clockwise);
+		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_PORT), !clockwise);
+		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_PORT), !clockwise);
 		AR_armSole = new DoubleSolenoid(Ports.AR_ARM_0, Ports.AR_ARM_1);
 	}
 	
