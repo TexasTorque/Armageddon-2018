@@ -5,7 +5,9 @@ import org.texastorque.constants.Ports;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 import edu.wpi.first.wpilibj.VictorSP;
+import org.texastorque.constants.Ports;
 
 public class RobotOutput {
 	
@@ -25,7 +27,8 @@ public class RobotOutput {
 		DB_leftRear = new TorqueMotor(new VictorSP(Ports.DB_LEFT_REAR_PORT), clockwise);
 		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_PORT), !clockwise);
 		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_PORT), !clockwise);
-		AR_armSole = new DoubleSolenoid(Ports.AR_ARM_0, Ports.AR_ARM_1);
+
+    AR_armSole = new DoubleSolenoid(Ports.AR_ARM_0, Ports.AR_ARM_1);
 	}
 	
 	public static RobotOutput getInstance() {
@@ -38,9 +41,5 @@ public class RobotOutput {
 		DB_leftRear.set(leftSpeed);
 		DB_rightFore.set(rightSpeed);
 		DB_rightRear.set(rightSpeed);
-	}
-	
-	public void setArmUp(boolean up) {
-		AR_armSole.set(up ? Value.kForward : Value.kReverse);
 	}
 }
