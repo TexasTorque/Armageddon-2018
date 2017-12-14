@@ -95,14 +95,19 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void teleopInit() {
-	
-	
+		for(Subsystem system : subsystems ) {
+			system.teleopInit();
+			system.setInput(HumanInput.getInstance());
+			
+		}
 	}
 
+	@Override
 	public void teleopContinuous(){
 		HumanInput.getInstance().update();
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();
-		
+		Drivebase.getInstance().teleopContinuous();
+		System.out.println("test");
 	}
 }
