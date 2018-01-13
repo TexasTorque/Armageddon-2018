@@ -89,6 +89,15 @@ public class Robot extends TorqueIterative {
 
 
 	@Override
+	public void disabledContinuous() {
+		
+	}
+	
+	public void alwaysContinuous() {
+		
+	}
+	
+	@Override
 	public void autonomousContinuous(){
 		
 	}
@@ -108,6 +117,5 @@ public class Robot extends TorqueIterative {
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();
 		Drivebase.getInstance().teleopContinuous();
-		System.out.println("test");
 	}
 }
