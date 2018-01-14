@@ -11,7 +11,7 @@ public class HumanInput extends Input{
 	private GenericController operator;
 	
 	protected TorqueToggle recording;
-	protected
+	
 	
 	public HumanInput(){
 		init();
