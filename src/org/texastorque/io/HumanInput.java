@@ -1,6 +1,7 @@
 package org.texastorque.io;
 
 import org.texastorque.torquelib.util.GenericController;
+import org.texastorque.torquelib.util.TorqueToggle;
 
 public class HumanInput extends Input{
 
@@ -8,6 +9,9 @@ public class HumanInput extends Input{
 
 	private GenericController driver;
 	private GenericController operator;
+	
+	protected TorqueToggle recording;
+	protected
 	
 	public HumanInput(){
 		init();
@@ -23,6 +27,7 @@ public class HumanInput extends Input{
 	
 	}
 
+	
 	
 	public void init(){
 		driver = new GenericController(0 ,.1);

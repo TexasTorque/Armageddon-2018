@@ -7,6 +7,8 @@ public class Input {
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
 	
+	protected boolean recorded;
+	
 	public Input(){
 		DB_leftSpeed = 0.0;
 		DB_rightSpeed = 0.0;
