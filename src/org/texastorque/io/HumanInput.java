@@ -15,6 +15,7 @@ public class HumanInput extends Input{
 	
 	public HumanInput(){
 		init();
+		
 	}
 	
 	public void update(){
@@ -27,7 +28,15 @@ public class HumanInput extends Input{
 	
 	}
 
-	
+	public void updateRecording() {
+		if(driver.getLeftStickClick()) {
+			recording.set(!recording.get());
+			if(recording.get()==true)
+				recorded = true;
+		}
+		if(recording.get())
+			System.out.println("Recording...");
+	}
 	
 	public void init(){
 		driver = new GenericController(0 ,.1);
