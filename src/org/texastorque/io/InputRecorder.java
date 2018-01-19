@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import org.texastorque.auto.AutoMode;
+import org.texastorque.torquelib.util.TorqueToggle;
 
 /* The purpose of this class is to read inputs from a controller for the same
  * length as the autonomous period, and then create an XML file from
@@ -18,7 +19,8 @@ public class InputRecorder extends HumanInput{
 	private ArrayList<Float> driveRecordingLeft;
 	private ArrayList<Float> driveRecordingRight;
 	
-	private int cycleReduction;
+	protected TorqueToggle recording;
+	
 	private XMLEncoder writer;
 	
 	private AutoMode currentMode;
@@ -32,6 +34,8 @@ public class InputRecorder extends HumanInput{
 	
 	
 	public void init(){
+
+		recording = new TorqueToggle();
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
 		} catch (FileNotFoundException e) {
@@ -46,15 +50,20 @@ public class InputRecorder extends HumanInput{
 	
 	
 	public void update(){
-		super.update();
 		System.out.println("I AM HERE I AM HERE I AM HERE");
 		if(recording.get()){
-			recordDrive();
 			System.out.println("RECORDING RECORDING RECORDING AHHHHHHH");
+			recordDrive();
 	}
-		if(recorded)
-			writeFile();
+			
 		
+	}
+	
+	public void updateRecordingStatus() {
+		recording.calc(driver.getDPADDown());
+		
+		if(driver.getDPADUp())
+			writeFile();
 	}
 	
 	public void recordDrive(){

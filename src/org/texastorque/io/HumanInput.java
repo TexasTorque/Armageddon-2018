@@ -7,10 +7,9 @@ public class HumanInput extends Input{
 
 	public static HumanInput instance;
 
-	private GenericController driver;
-	private GenericController operator;
+	protected GenericController driver;
+	protected GenericController operator;
 	
-	protected TorqueToggle recording;
 	
 	
 	public HumanInput(){
@@ -20,7 +19,6 @@ public class HumanInput extends Input{
 	
 	public void update(){
 		updateDrive();
-		updateRecording();
 	}
 	
 	public void updateDrive(){
@@ -29,22 +27,13 @@ public class HumanInput extends Input{
 	
 	}
 
-	public void updateRecording() {
-		recording.calc(driver.getDPADDown());
-		if(recording.get()) {
-			System.out.println("Recording..");
-		}
+	
 		
-		if(driver.getDPADUp())
-			recorded = true;
-			
-		
-	}
+	
 	
 	public void init(){
 		driver = new GenericController(0 ,.1);
 		operator = new GenericController(1, .1);
-		recording = new TorqueToggle();
 	}
 	
 	
