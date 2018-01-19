@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
+import org.texastorque.io.InputRecorder;
+import org.texastorque.io.HumanInput;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.torquelib.base.TorqueIterative;
@@ -40,6 +42,7 @@ public class Robot extends TorqueIterative {
 	public void robotInit() {
 		Input.getInstance();
 		HumanInput.getInstance();
+		InputRecorder.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
 		subsystems = new ArrayList<Subsystem>(){{
@@ -93,6 +96,16 @@ public class Robot extends TorqueIterative {
 		
 	}
 	
+	@Override
+	public void teleopPeriodic() {
+		
+	}
+	
+	@Override
+	public void autonomousPeriodic() {
+	
+		
+	}
 	public void alwaysContinuous() {
 		
 	}
@@ -106,14 +119,14 @@ public class Robot extends TorqueIterative {
 	public void teleopInit() {
 		for(Subsystem system : subsystems) {
 			system.teleopInit();
-			system.setInput(HumanInput.getInstance());
+			system.setInput(InputRecorder.getInstance());
 			
 		}
 	}
 
 	@Override
 	public void teleopContinuous(){
-		HumanInput.getInstance().update();
+		InputRecorder.getInstance().update();
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();
 		Drivebase.getInstance().teleopContinuous();

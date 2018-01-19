@@ -18,7 +18,6 @@ public class InputRecorder extends HumanInput{
 	private ArrayList<Float> driveRecordingLeft;
 	private ArrayList<Float> driveRecordingRight;
 	
-	private static int slowerClock = 0;
 	private int cycleReduction;
 	private XMLEncoder writer;
 	
@@ -39,22 +38,20 @@ public class InputRecorder extends HumanInput{
 			System.out.println("File Not Created? Found? Not really sure");
 		}
 		
-		cycleReduction = 10;
 		driveRecordingLeft = new ArrayList<Float>();
 		driveRecordingRight = new ArrayList<Float>();
 	//still need to figure out where to init timer, should ideally start at 0? 
 		//or do all timing by hand and it will work but kinda annoying
 	}
 	
-	@Override
+	
 	public void update(){
 		super.update();
+		System.out.println("I AM HERE I AM HERE I AM HERE");
 		if(recording.get()){
-			if(slowerClock % cycleReduction == 0){
-				recordDrive();
-			}
-			slowerClock++;
-		}
+			recordDrive();
+			System.out.println("RECORDING RECORDING RECORDING AHHHHHHH");
+	}
 		if(recorded)
 			writeFile();
 		
@@ -63,12 +60,12 @@ public class InputRecorder extends HumanInput{
 	public void recordDrive(){
 		driveRecordingLeft.add((float) DB_leftSpeed);
 		driveRecordingRight.add((float) DB_rightSpeed);
+		System.out.println("recording the drive" + DB_leftSpeed);
+		System.out.println("recording the drive" + DB_rightSpeed);
 
 	}
 	
-	public int getCycleReduction(){
-		return cycleReduction;
-	}
+	
 	
 	public void writeFile(){
 		currentMode = new AutoMode(fileName);

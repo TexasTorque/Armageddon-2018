@@ -8,10 +8,10 @@ import org.texastorque.io.RobotOutput;
 
 public class AutoMode extends Input{
 
-	private static final double length = 15000/InputRecorder.getInstance().getCycleReduction();
 	private ArrayList<Float> leftSpeeds;
 	private ArrayList<Float> rightSpeeds;
 	private ArrayList<Boolean> pneumaticValues;
+	private int length = 7500;
 	private int index = 0;
 	private static RobotOutput o;
 	//serialize in XML, need to figure out how to name things, might have to change

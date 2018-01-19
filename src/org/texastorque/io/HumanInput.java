@@ -20,6 +20,7 @@ public class HumanInput extends Input{
 	
 	public void update(){
 		updateDrive();
+		updateRecording();
 	}
 	
 	public void updateDrive(){
@@ -29,18 +30,21 @@ public class HumanInput extends Input{
 	}
 
 	public void updateRecording() {
-		if(driver.getLeftStickClick()) {
-			recording.set(!recording.get());
-			if(recording.get()==true)
-				recorded = true;
+		recording.calc(driver.getDPADDown());
+		if(recording.get()) {
+			System.out.println("Recording..");
 		}
-		if(recording.get())
-			System.out.println("Recording...");
+		
+		if(driver.getDPADUp())
+			recorded = true;
+			
+		
 	}
 	
 	public void init(){
 		driver = new GenericController(0 ,.1);
 		operator = new GenericController(1, .1);
+		recording = new TorqueToggle();
 	}
 	
 	
