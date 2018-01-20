@@ -4,8 +4,11 @@ import java.beans.XMLDecoder;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 public class AutoManager {
 
+	private static AutoManager instance;
 	private AutoMode currentMode;
 	private XMLDecoder reader;
 	private String fileName;
@@ -38,4 +41,13 @@ public class AutoManager {
 		//measurements
 		//or maybe we'll have vision and it won't matter
 	}
+	
+	public void setAutoModeName(String name) {
+		fileName = name;
+	}
+	
+	public static AutoManager getInstance() {
+		return instance == null ? instance = new AutoManager() : instance;
+	}
+	
 }

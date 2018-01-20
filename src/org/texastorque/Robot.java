@@ -6,6 +6,7 @@ import org.texastorque.subsystems.Drivebase;
 
 import java.util.ArrayList;
 
+import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
@@ -15,6 +16,7 @@ import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.torquelib.base.TorqueIterative;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -33,13 +35,14 @@ public class Robot extends TorqueIterative {
 
 
 	ArrayList<Subsystem> subsystems;
-	
+	private String fieldConfig;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		fieldConfig = "";
 		Input.getInstance();
 		HumanInput.getInstance();
 		InputRecorder.getInstance();
@@ -80,6 +83,9 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 	
+		AutoManager.getInstance();
+		fieldConfig = DriverStation.getInstance().getAlliance() + 
+				DriverStation.getInstance().getGameSpecificMessage();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -106,6 +112,7 @@ public class Robot extends TorqueIterative {
 	
 		
 	}
+	
 	public void alwaysContinuous() {
 		
 	}
@@ -127,6 +134,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void teleopContinuous(){
 		HumanInput.getInstance().update();
+		System.out.println("111111111111111111111111111111111111111");
 		InputRecorder.getInstance().update();
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();

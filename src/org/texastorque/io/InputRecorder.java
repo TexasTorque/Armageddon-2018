@@ -36,6 +36,7 @@ public class InputRecorder extends HumanInput{
 	public void init(){
 
 		recording = new TorqueToggle();
+		HumanInput.getInstance().init();
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
 		} catch (FileNotFoundException e) {
@@ -50,9 +51,11 @@ public class InputRecorder extends HumanInput{
 	
 	
 	public void update(){
-		System.out.println("I AM HERE I AM HERE I AM HERE");
+	
+		updateRecordingStatus();
+		System.out.println("InputRecorder Update Call and Update Recording Status Call");
 		if(recording.get()){
-			System.out.println("RECORDING RECORDING RECORDING AHHHHHHH");
+			System.out.println("RECORDING");
 			recordDrive();
 	}
 			
@@ -61,15 +64,16 @@ public class InputRecorder extends HumanInput{
 	
 	public void updateRecordingStatus() {
 		recording.calc(driver.getDPADDown());
-		
-		if(driver.getDPADUp())
+		if(driver.getDPADUp()) {
 			writeFile();
+			System.out.println("Called Write File");
+		}
 	}
 	
 	public void recordDrive(){
-		driveRecordingLeft.add((float) DB_leftSpeed);
-		driveRecordingRight.add((float) DB_rightSpeed);
-		System.out.println("recording the drive" + DB_leftSpeed);
+	//	driveRecordingLeft.add((float) DB_leftSpeed);
+	//	driveRecordingRight.add((float) DB_rightSpeed);
+	//	System.out.println("recording the drive" + DB_leftSpeed);
 		System.out.println("recording the drive" + DB_rightSpeed);
 
 	}
@@ -80,6 +84,7 @@ public class InputRecorder extends HumanInput{
 		currentMode = new AutoMode(fileName);
 		fillMode();
 		writer.writeObject(currentMode);
+		System.out.println("written");
 		writer.close();
 	}
 	

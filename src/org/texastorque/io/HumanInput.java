@@ -7,8 +7,8 @@ public class HumanInput extends Input{
 
 	public static HumanInput instance;
 
-	protected GenericController driver;
-	protected GenericController operator;
+	protected static GenericController driver;
+	protected static GenericController operator;
 	
 	
 	
@@ -22,6 +22,7 @@ public class HumanInput extends Input{
 	}
 	
 	public void updateDrive(){
+		System.out.println("Driving...");
 		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
 	
