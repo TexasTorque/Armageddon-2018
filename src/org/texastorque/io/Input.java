@@ -10,6 +10,7 @@ public class Input {
 	protected boolean recorded;
 	
 	public Input(){
+		
 		DB_leftSpeed = 0.0;
 		DB_rightSpeed = 0.0;
 	}

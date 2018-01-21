@@ -34,10 +34,9 @@ public class InputRecorder extends HumanInput{
 	public void init(){
 
 		recording = new TorqueToggle();
-		HumanInput.getInstance().init();
+		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
 		currentMode = new AutoMode(fileName);
-		//still need to figure out where to init timer, should ideally start at 0? 
-		//or do all timing by hand and it will work but kinda annoying
+		
 	}
 	
 	
@@ -45,8 +44,11 @@ public class InputRecorder extends HumanInput{
 	
 		updateRecordingStatus();
 		if(recording.get()){
-			recordDrive();
-	}
+			if(Math.abs(DB_leftSpeed) > .1) {
+				recordDrive();
+			}
+			
+		}
 			
 		
 	}
@@ -77,7 +79,6 @@ public class InputRecorder extends HumanInput{
 		}
 		
 	}
-	
 	
 	
 	public static InputRecorder getInstance(){

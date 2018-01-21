@@ -17,6 +17,11 @@ public class HumanInput extends Input{
 		
 	}
 	
+	public void init(){
+		driver = new GenericController(0 ,.1);
+		operator = new GenericController(1, .1);
+	}
+	
 	public void update(){
 		updateDrive();
 	}
@@ -28,13 +33,6 @@ public class HumanInput extends Input{
 	}
 
 	
-		
-	
-	
-	public void init(){
-		driver = new GenericController(0 ,.1);
-		operator = new GenericController(1, .1);
-	}
 	
 	
 	public static HumanInput getInstance() {
