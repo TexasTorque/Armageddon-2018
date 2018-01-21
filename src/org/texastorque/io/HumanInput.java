@@ -17,19 +17,15 @@ public class HumanInput extends Input{
 		updateDrive();
 	}
 	
-	public void updateDrive(){
-		System.out.println("Driving...");
+	public void updateDrive() {
 		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
-	
 	}
-
 	
 	public void init(){
 		driver = new GenericController(0 ,.1);
 		operator = new GenericController(1, .1);
 	}
-	
 	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;

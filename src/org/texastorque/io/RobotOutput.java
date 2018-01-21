@@ -15,8 +15,6 @@ public class RobotOutput {
 	private TorqueMotor DB_leftRear;
 	private TorqueMotor DB_rightFore;
 	private TorqueMotor DB_rightRear;
-	
-	private DoubleSolenoid AR_armSole;
 
 	private static boolean clockwise = true;
 	
@@ -27,7 +25,6 @@ public class RobotOutput {
 		DB_leftRear = new TorqueMotor(new VictorSP(Ports.DB_LEFT_REAR_PORT), clockwise);
 		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_PORT), !clockwise);
 		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_PORT), !clockwise);
-
 	}
 	
 	public static RobotOutput getInstance() {
@@ -35,7 +32,7 @@ public class RobotOutput {
 	}
 
 	
-	public void setDrivebaseSpeed(double leftSpeed, double rightSpeed){
+	public void setDrivebaseSpeed(double leftSpeed, double rightSpeed) {
 		DB_leftFore.set(leftSpeed);
 		DB_leftRear.set(leftSpeed);
 		DB_rightFore.set(rightSpeed);
