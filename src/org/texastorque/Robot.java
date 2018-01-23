@@ -43,6 +43,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void robotInit() {
 		fieldConfig = "";
+		SmartDashboard.putNumber("AutoMode", 0);
 		Input.getInstance();
 		HumanInput.getInstance();
 		InputRecorder.getInstance();
@@ -84,6 +85,7 @@ public class Robot extends TorqueIterative {
 	public void autonomousInit() {
 	
 		AutoManager.getInstance();
+		System.out.println("autoInit");
 		fieldConfig = DriverStation.getInstance().getAlliance() + 
 				DriverStation.getInstance().getGameSpecificMessage();
 		/*
@@ -119,7 +121,7 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void autonomousContinuous(){
-		System.out.println(AutoManager.getInstance().getRunningMode().trash);
+		
 	}
 	
 	@Override
@@ -139,4 +141,5 @@ public class Robot extends TorqueIterative {
 			s.teleopContinuous();
 		Drivebase.getInstance().teleopContinuous();
 	}
+	
 }

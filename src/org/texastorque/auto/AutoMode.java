@@ -11,7 +11,7 @@ import org.texastorque.io.RobotOutput;
 
 public class AutoMode extends Input{
 
-	XMLDecoder reader;
+	
 	private ArrayList<Float> DB_leftSpeeds;
 	private ArrayList<Float> DB_rightSpeeds;
 	private ArrayList<Boolean> pneumaticValues;
@@ -20,13 +20,7 @@ public class AutoMode extends Input{
 	//serialize in XML, need to figure out how to name things, might have to change
 	//a string manually every time in order to create a new AutoMode?
 	
-	public AutoMode(String name){
-		try {
-			reader = new XMLDecoder(new FileInputStream(name));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public AutoMode(){
 		o = RobotOutput.getInstance();
 		DB_leftSpeeds = new ArrayList<Float>();
 		DB_rightSpeeds= new ArrayList<Float>();
@@ -46,12 +40,13 @@ public class AutoMode extends Input{
 		System.out.println(DB_leftSpeeds.get(7));
 	}
 	
-	/*
-	 * runDrive puts the values in the ArrayList to the motors then takes those values out of the ArrayList
-	 * This is necessary because it prevents the loop in the other file from calling the first value endlessly
-	 */
 	public void runDrive(int index){
 		o.setDrivebaseSpeed(DB_leftSpeeds.get(index), DB_rightSpeeds.get(index));
 		System.out.println(DB_leftSpeeds.size());
 	}
+
+	/*
+	 * runDrive puts the values in the ArrayList to the motors then takes those values out of the ArrayList
+	 * This is necessary because it prevents the loop in the other file from calling the first value endlessly
+	 */
 }

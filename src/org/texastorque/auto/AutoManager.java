@@ -4,53 +4,47 @@ import java.beans.XMLDecoder;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.texastorque.subsystems.Drivebase;
+import org.texastorque.Robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoManager {
-
-	private static AutoManager instance;
-	private AutoMode modeInProgress;
+	
 	private XMLDecoder reader;
 	private String fileName;
-	//retrieve input from SmartDashboard, use that to call proper xml file
-	//readFile occurs here now
+	
+	private static AutoManager instance;
+	private AutoMode modeInProgress;
+	
 	
 	public AutoManager(){
-		fileName = "/home/lvuser/fooblah.xml";
+		fileName = getFileName();
 		try {
 			reader = new XMLDecoder(new FileInputStream(fileName));
+			((AutoMode)reader.readObject()).run();
 			modeInProgress = (AutoMode) reader.readObject();
 			reader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found (this one I actually know");
+			System.out.println("File not found");
 		}
-		readFile();
 	}
-	
-	public void readFile(){
-		
-		/* In order to read file, create an ArrayList of the ArrayLists and read
-		 * from the .dat until it reaches end, move to next
-		 * 
-		 * Or use xml...pretty sure we're using xml
-		 * 
-		 */
+
+	public String getFileName() {
+		return "/home/lvuser/"+SmartDashboard.getNumber("AutoMode", 0) 
+						+ DriverStation.getInstance().getGameSpecificMessage() + ".xml";
+
 	}
+
 	
 	public void modifyCurrentMode(){
-		//add to the speeds in the drivebase arraylists to match the fields 
-		//measurements
-		//or maybe we'll have vision and it won't matter
+		//add to the speeds in the drivebase arraylists to match the fields //measurements
 	}
 	
 	public AutoMode getRunningMode() {
 		return modeInProgress;
 	}
-	public void setAutoModeName(String name) {
-		fileName = name;
-	}
+
 	
 	public static AutoManager getInstance() {
 		return instance == null ? instance = new AutoManager() : instance;

@@ -1,6 +1,7 @@
 package org.texastorque.io;
 
 import org.texastorque.torquelib.component.TorqueMotor;
+
 import org.texastorque.constants.Ports;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;

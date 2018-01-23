@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 
+import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.AutoMode;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.torquelib.util.TorqueToggle;
@@ -26,7 +27,7 @@ public class InputRecorder extends HumanInput{
 	private AutoMode currentMode;
 	private boolean recordOn = false;
 	private static InputRecorder instance;
-	private static String fileName = "/home/lvuser/fooblah.xml"; 
+	private static String fileName;
 	
 /* The file has to be inside of the roboRIO or else the program will not execute properly because it does not have
  * the file permissions needed to save it.
@@ -38,10 +39,10 @@ public class InputRecorder extends HumanInput{
 	
 	
 	public void init(){
-
+		fileName = AutoManager.getInstance().getFileName();
 		recording = new TorqueToggle();
 		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
-		currentMode = new AutoMode(fileName);
+		currentMode = new AutoMode();
 		
 	}
 	
@@ -50,13 +51,9 @@ public class InputRecorder extends HumanInput{
 		super.update();
 		updateRecordingStatus();
 		if(recording.get()){
-			
 				recordDrive();
-			
-			
 		}
 			
-		
 	}
 	
 	public void updateRecordingStatus() {
@@ -71,7 +68,6 @@ public class InputRecorder extends HumanInput{
 	public void recordDrive(){
 		currentMode.addDBLeftSpeed((float)DB_leftSpeed);
 		currentMode.addDBRightSpeed((float)DB_rightSpeed);
-		System.out.println(DB_leftSpeed);
 	}
 	
 	
