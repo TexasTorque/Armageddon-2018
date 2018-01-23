@@ -102,7 +102,7 @@ public class Feedback {
 		DB_gyro.reset();
 	}
 	
-	public void smartDashBoard() {
+	public void smartDashboard() {
 		SmartDashboard.putNumber("DB_LEFTPOSITION", DB_leftDistance);
 		SmartDashboard.putNumber("DB_RIGHTPOSITION", DB_rightDistance);
 		SmartDashboard.putNumber("DB_GYRO", DB_angle);

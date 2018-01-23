@@ -2,6 +2,8 @@ package org.texastorque.io;
 
 import org.texastorque.torquelib.util.GenericController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class HumanInput extends Input{
 
 	public static HumanInput instance;
@@ -25,6 +27,10 @@ public class HumanInput extends Input{
 	public void init(){
 		driver = new GenericController(0 ,.1);
 		operator = new GenericController(1, .1);
+	}
+	
+	public void smartDashboard() {
+		
 	}
 	
 	public static HumanInput getInstance() {
