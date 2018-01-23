@@ -22,6 +22,7 @@ public class TorqueToggle {
 			// the toggle.
 			if (current) {
 				toggle = !toggle;
+				System.out.println("flipped");
 			}
 			// Keep track of the previous value. Does not need to be updated if
 			// lastCheck is already equal to current.

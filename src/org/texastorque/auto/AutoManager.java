@@ -4,21 +4,25 @@ import java.beans.XMLDecoder;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import org.texastorque.subsystems.Drivebase;
+
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class AutoManager {
 
 	private static AutoManager instance;
-	private AutoMode currentMode;
+	private Drivebase modeInProgress;
 	private XMLDecoder reader;
 	private String fileName;
 	//retrieve input from SmartDashboard, use that to call proper xml file
 	//readFile occurs here now
 	
 	public AutoManager(){
-		fileName = "AutoMode" + "1-3" + ".xml";
+		fileName = "/home/lvuser/fooblah.xml";
 		try {
 			reader = new XMLDecoder(new FileInputStream(fileName));
+			modeInProgress = (Drivebase) reader.readObject();
+			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found (this one I actually know");
 		}
@@ -26,7 +30,6 @@ public class AutoManager {
 	}
 	
 	public void readFile(){
-		currentMode = (AutoMode) reader.readObject();
 		
 		/* In order to read file, create an ArrayList of the ArrayLists and read
 		 * from the .dat until it reaches end, move to next
@@ -42,6 +45,9 @@ public class AutoManager {
 		//or maybe we'll have vision and it won't matter
 	}
 	
+	public Drivebase getRunningMode() {
+		return modeInProgress;
+	}
 	public void setAutoModeName(String name) {
 		fileName = name;
 	}

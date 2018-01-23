@@ -24,9 +24,9 @@ public class InputRecorder extends HumanInput{
 	private XMLEncoder writer;
 	private XMLDecoder reader;
 	private AutoMode currentMode;
-	private static String fileName = "/home/lvuser/fooblah.xml"; 
 	private boolean recordOn = false;
 	private static InputRecorder instance;
+	private static String fileName = "/home/lvuser/fooblah.xml"; 
 	
 /* The file has to be inside of the roboRIO or else the program will not execute properly because it does not have
  * the file permissions needed to save it.
@@ -47,7 +47,7 @@ public class InputRecorder extends HumanInput{
 	
 	
 	public void update(){
-	
+		super.update();
 		updateRecordingStatus();
 		if(recording.get()){
 			
@@ -71,29 +71,28 @@ public class InputRecorder extends HumanInput{
 	public void recordDrive(){
 		currentMode.addDBLeftSpeed((float)DB_leftSpeed);
 		currentMode.addDBRightSpeed((float)DB_rightSpeed);
-		System.out.println(Input.getInstance().DB_leftSpeed);
+		System.out.println(DB_leftSpeed);
 	}
 	
 	
 	
 	public void writeFile(){
 
-	
+	/*
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
 			writer.writeObject(currentMode);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}/*
+		}*/
 		try {
-			reader = new XMLDecoder(new FileInputStream(fileName));
-			Drivebase blah = (Drivebase)reader.readObject();
-			System.out.println(blah.trash);
+			writer = new XMLEncoder(new FileOutputStream(fileName));
+			writer.writeObject(Drivebase.getInstance());
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		
 	}

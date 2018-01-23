@@ -119,7 +119,7 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void autonomousContinuous(){
-		
+		System.out.println(AutoManager.getInstance().getRunningMode().trash);
 	}
 	
 	@Override

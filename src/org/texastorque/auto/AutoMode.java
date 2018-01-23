@@ -15,6 +15,7 @@ public class AutoMode extends Input{
 	private ArrayList<Float> DB_leftSpeeds;
 	private ArrayList<Float> DB_rightSpeeds;
 	private ArrayList<Boolean> pneumaticValues;
+	public String trash = "fooblah";
 	private static RobotOutput o;
 	//serialize in XML, need to figure out how to name things, might have to change
 	//a string manually every time in order to create a new AutoMode?
@@ -42,9 +43,7 @@ public class AutoMode extends Input{
 	
 	
 	public void run(){
-		for(int x = 0; x < DB_rightSpeeds.size(); x++) { //might need to make the index static or else it will
-			runDrive(x);								 //always call the first number
-		}
+		System.out.println(DB_leftSpeeds.get(7));
 	}
 	
 	/*
@@ -53,7 +52,6 @@ public class AutoMode extends Input{
 	 */
 	public void runDrive(int index){
 		o.setDrivebaseSpeed(DB_leftSpeeds.get(index), DB_rightSpeeds.get(index));
-		DB_leftSpeeds.remove(0);
-		DB_rightSpeeds.remove(0);
+		System.out.println(DB_leftSpeeds.size());
 	}
 }
