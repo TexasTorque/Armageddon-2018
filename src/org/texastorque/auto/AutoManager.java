@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class AutoManager {
 
 	private static AutoManager instance;
-	private Drivebase modeInProgress;
+	private AutoMode modeInProgress;
 	private XMLDecoder reader;
 	private String fileName;
 	//retrieve input from SmartDashboard, use that to call proper xml file
@@ -21,7 +21,7 @@ public class AutoManager {
 		fileName = "/home/lvuser/fooblah.xml";
 		try {
 			reader = new XMLDecoder(new FileInputStream(fileName));
-			modeInProgress = (Drivebase) reader.readObject();
+			modeInProgress = (AutoMode) reader.readObject();
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found (this one I actually know");
@@ -45,7 +45,7 @@ public class AutoManager {
 		//or maybe we'll have vision and it won't matter
 	}
 	
-	public Drivebase getRunningMode() {
+	public AutoMode getRunningMode() {
 		return modeInProgress;
 	}
 	public void setAutoModeName(String name) {

@@ -7,7 +7,6 @@ public class Drivebase extends Subsystem{
 	
 	private double leftSpeed;
 	private double rightSpeed;
-	public String trash = "fdbsjsak";
 	
 	@Override
 	public void autoInit() {
