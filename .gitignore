@@ -1,1 +1,14 @@
-/bin/
+# Directories
+bin/
+build/
+dist/
+
+# Files
+.classpath
+sysProps.xml
+*.*.aux
+*.class
+*.DS_STORE
+*.*.log
+*.*.synctex.gz
+*.*.toc
