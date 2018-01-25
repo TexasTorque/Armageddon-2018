@@ -22,8 +22,10 @@ public class AutoManager {
 		fileName = getFileName();
 		try {
 			reader = new XMLDecoder(new FileInputStream(fileName));
-			((AutoMode)reader.readObject()).run();
 			modeInProgress = (AutoMode) reader.readObject();
+			((AutoMode)reader.readObject).getDBLeftSpeeds.size());
+			
+		//	System.out.println(modeInProgress.getDBLeftSpeeds.size());
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");

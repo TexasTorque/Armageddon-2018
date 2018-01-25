@@ -112,7 +112,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousPeriodic() {
 	
-		
+		AutoManager.getInstance().getRunningMode().run();
 	}
 	
 	public void alwaysContinuous() {

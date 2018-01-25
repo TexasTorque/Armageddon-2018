@@ -1,6 +1,7 @@
 package org.texastorque.io;
 
 import java.util.ArrayList;
+
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 import java.io.FileInputStream;
@@ -66,10 +67,11 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void recordDrive(){
+		currentMode.trash = "the second coming of trash";
 		currentMode.addDBLeftSpeed((float)DB_leftSpeed);
+		System.out.println((float)DB_leftSpeed);
 		currentMode.addDBRightSpeed((float)DB_rightSpeed);
 	}
-	
 	
 	
 	public void writeFile(){
@@ -84,10 +86,11 @@ public class InputRecorder extends HumanInput{
 		}*/
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
-			writer.writeObject(Drivebase.getInstance());
+			writer.writeObject(currentMode);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			
 		}
 		
 		

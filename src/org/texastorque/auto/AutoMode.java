@@ -35,14 +35,16 @@ public class AutoMode extends Input{
 		DB_rightSpeeds.add(value);
 	}
 	
-	
+	public ArrayList<Float> getDBLeftSpeeds(){
+		return DB_leftSpeeds;
+	}
 	public void run(){
+		System.out.println(trash);
 		System.out.println(DB_leftSpeeds.get(7));
 	}
 	
 	public void runDrive(int index){
 		o.setDrivebaseSpeed(DB_leftSpeeds.get(index), DB_rightSpeeds.get(index));
-		System.out.println(DB_leftSpeeds.size());
 	}
 
 	/*
