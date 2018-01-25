@@ -15,6 +15,7 @@ public class RobotOutput {
 	private TorqueMotor DB_leftRear;
 	private TorqueMotor DB_rightFore;
 	private TorqueMotor DB_rightRear;
+	private DoubleSolenoid DB_gearSole;
 
 	private static boolean clockwise = true;
 	
@@ -30,12 +31,15 @@ public class RobotOutput {
 	public static RobotOutput getInstance() {
 		return instance == null ? instance = new RobotOutput() : instance;
 	}
-
 	
 	public void setDrivebaseSpeed(double leftSpeed, double rightSpeed) {
 		DB_leftFore.set(leftSpeed);
 		DB_leftRear.set(leftSpeed);
 		DB_rightFore.set(rightSpeed);
 		DB_rightRear.set(rightSpeed);
+	}
+	
+	public void setHighGear(boolean highGear) {
+		DB_gearSole.set(highGear ? Value.kForward : Value.kReverse);
 	}
 }
