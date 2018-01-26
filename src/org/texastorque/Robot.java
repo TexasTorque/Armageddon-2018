@@ -84,7 +84,6 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 	
-		AutoManager.getInstance();
 		System.out.println("autoInit");
 		fieldConfig = DriverStation.getInstance().getAlliance() + 
 				DriverStation.getInstance().getGameSpecificMessage();

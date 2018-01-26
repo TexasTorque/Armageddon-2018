@@ -15,7 +15,7 @@ public class AutoManager {
 	private String fileName;
 	
 	private static AutoManager instance;
-	private AutoMode modeInProgress;
+	private static AutoMode modeInProgress;
 	
 	
 	public AutoManager(){
@@ -23,7 +23,6 @@ public class AutoManager {
 		try {
 			reader = new XMLDecoder(new FileInputStream(fileName));
 			modeInProgress = (AutoMode) reader.readObject();
-			((AutoMode)reader.readObject).getDBLeftSpeeds.size());
 			
 		//	System.out.println(modeInProgress.getDBLeftSpeeds.size());
 			reader.close();

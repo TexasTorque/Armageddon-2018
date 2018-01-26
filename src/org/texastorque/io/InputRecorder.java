@@ -25,7 +25,7 @@ public class InputRecorder extends HumanInput{
 	
 	private XMLEncoder writer;
 	private XMLDecoder reader;
-	private AutoMode currentMode;
+	private static AutoMode currentMode;
 	private boolean recordOn = false;
 	private static InputRecorder instance;
 	private static String fileName;
@@ -52,7 +52,7 @@ public class InputRecorder extends HumanInput{
 		super.update();
 		updateRecordingStatus();
 		if(recording.get()){
-				recordDrive();
+			recordDrive();
 		}
 			
 	}
@@ -67,10 +67,11 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void recordDrive(){
-		currentMode.trash = "the second coming of trash";
-		currentMode.addDBLeftSpeed((float)DB_leftSpeed);
-		System.out.println((float)DB_leftSpeed);
-		currentMode.addDBRightSpeed((float)DB_rightSpeed);
+		
+		currentMode.addDBLeftSpeed(DB_leftSpeed);
+		System.out.println(currentMode.getDBLeftSpeeds().size() + "fds");
+		currentMode.addDBRightSpeed(DB_rightSpeed);
+		
 	}
 	
 	
@@ -87,9 +88,19 @@ public class InputRecorder extends HumanInput{
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
 			writer.writeObject(currentMode);
+			System.out.println(currentMode.getDBLeftSpeeds().size());
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		try {
+			reader = new XMLDecoder(new FileInputStream(fileName));
+			currentMode = (AutoMode) reader.readObject();
+				
+			//	System.out.println(modeInProgress.getDBLeftSpeeds.size());
+			reader.close();
+			} catch (FileNotFoundException ex) {
+				System.out.println("File not found");
+			}
 			
 		}
 		
