@@ -6,10 +6,12 @@ public class Input {
 	
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
+	protected double AM_speed;
 	
 	public Input(){
-		DB_leftSpeed = 0.0;
-		DB_rightSpeed = 0.0;
+		DB_leftSpeed = 0d;
+		DB_rightSpeed = 0d;
+		AM_speed = 0d;
 	}
 	
 	public double getLeftSpeed(){
@@ -20,6 +22,10 @@ public class Input {
 		return DB_rightSpeed;
 	}
 
+	public double getArmSpeed() {
+		return AM_speed;
+	}
+	
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	}

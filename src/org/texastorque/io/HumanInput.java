@@ -15,15 +15,22 @@ public class HumanInput extends Input{
 	
 	public void update(){
 		updateDrive();
+		updateArm();
 	}
 	
 	public void updateDrive(){
-		System.out.println("Driving...");
 		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
 	
 	}
 
+	public void updateArm() {
+		if(driver.getRightTrigger())
+			AM_speed = 1d;
+		else if(driver.getLeftTrigger())
+			AM_speed = -1d;
+		
+	}
 	
 	public void init(){
 		driver = new GenericController(0 ,.1);
