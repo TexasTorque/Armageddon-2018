@@ -8,6 +8,7 @@ import org.texastorque.io.HumanInput;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
+import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -74,10 +75,32 @@ public class Drivebase extends Subsystem{
 	}
 	
 	private void init() {
+		tmp = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
+		turnProfile = new TorqueTMP(Constants.DB_MAVELOCITY.getDouble(), Constants.DB_MAACCELERATION.getDouble());
 		leftPV = new TorquePV();
 		rightPV = new TorquePV();
 		turnPV = new TorquePV();
 		
+		leftPV.setGains(Constants.DB_LEFT_PV_P.getDouble(), Constants.DB_LEFT_PV_V.getDouble(),
+				Constants.DB_LEFT_PV_ffV.getDouble(), Constants.DB_LEFT_PV_ffA.getDouble());
+		leftPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
+		
+		rightPV.setGains(Constants.DB_RIGHT_PV_P.getDouble(), Constants.DB_RIGHT_PV_V.getDouble(),
+				Constants.DB_RIGHT_PV_ffV.getDouble(), Constants.DB_RIGHT_PV_ffA.getDouble());
+		rightPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
+
+		turnPV.setGains(Constants.DB_TURN_PV_P.getDouble(), Constants.DB_TURN_PV_V.getDouble(),
+				Constants.DB_TURN_PV_ffV.getDouble(), Constants.DB_TURN_PV_ffA.getDouble());
+		turnPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
+
+		rightRIMP = new TorqueRIMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble(), 0);
+		leftRIMP = new TorqueRIMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble(), 0);
+
+		rightRIMP.setGains(Constants.DB_RIMP_P.getDouble(), Constants.DB_RIMP_V.getDouble(),
+				Constants.DB_RIMP_ffV.getDouble(), Constants.DB_RIMP_ffA.getDouble());
+		leftRIMP.setGains(Constants.DB_RIMP_P.getDouble(), Constants.DB_RIMP_V.getDouble(),
+				Constants.DB_RIMP_ffV.getDouble(), Constants.DB_RIMP_ffA.getDouble());
+
 		previousTime = Timer.getFPGATimestamp();
 	}
 
@@ -89,8 +112,40 @@ public class Drivebase extends Subsystem{
 
 	@Override
 	public void autoContinuous() {
-		// TODO Auto-generated method stub
+		switch (type) {
+			case AUTODRIVE:
+				setpoint = i.getDB_setpoint();
+				if (setpoint != previousSetpoint) {
+					previousSetpoint = setpoint;
+					precision = i.getDB_precision();
+					tmp.generateTrapezoid(setpoint, 0d, 0d);
+					previousTime = Timer.getFPGATimestamp();
+				}
+				if (TorqueMathUtil.near(setpoint, f.getDB_leftDistance(), precision)
+						&& TorqueMathUtil.near(setpoint, f.getDB_rightDistance(), precision))
+					AutoManager.interruptThread();
+				double dt = Timer.getFPGATimestamp() - previousTime;
+				previousTime = Timer.getFPGATimestamp();
+				tmp.calculateNextSituation(dt);
 		
+				targetPosition = tmp.getCurrentPosition();
+				targetVelocity = tmp.getCurrentVelocity();
+				targetAcceleration = tmp.getCurrentAcceleration();
+		
+				leftSpeed = leftPV.calculate(tmp, f.getDB_leftDistance(), f.getDB_leftRate());
+				rightSpeed = rightPV.calculate(tmp, f.getDB_rightDistance(), f.getDB_rightRate());
+				highGear = false;
+				break;
+			
+			case AUTOTURN:
+				break;
+				
+			default:
+				leftSpeed = 0;
+				rightSpeed = 0;
+				break;
+		}
+		output();
 	}
 
 	@Override
@@ -106,7 +161,7 @@ public class Drivebase extends Subsystem{
 		output();
 	}
 	
-	public void output(){
+	public void output() {
 		if (i instanceof HumanInput) {
 			o.setHighGear(highGear);
 		} 
@@ -122,8 +177,16 @@ public class Drivebase extends Subsystem{
 
 	@Override
 	public void smartDashboard() {
-		// TODO Auto-generated method stub
-		
+		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
+		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
+		SmartDashboard.putBoolean("DB_HIGHGEAR", highGear);
+
+		SmartDashboard.putString("DBA_TYPE", type.toString());
+		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);
+		SmartDashboard.putNumber("DBA_TARGETVELOCITY", targetVelocity);
+		SmartDashboard.putNumber("DBA_TARGETACCELERATION", targetAcceleration);
+		SmartDashboard.putNumber("DBA_TARGETANGLE", targetAngle);
+		SmartDashboard.putNumber("DBA_TARGETANGULARVELOCITY", targetAngularVelocity);
 	}
 	
 	public static Drivebase getInstance(){

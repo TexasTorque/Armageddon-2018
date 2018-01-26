@@ -7,8 +7,8 @@ import org.texastorque.io.HumanInput;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.feedback.Feedback;
 
-import org.texastorque.subsystems.Subsystem;
-import org.texastorque.subsystems.Drivebase;
+import org.texastorque.auto.drive.*;
+import org.texastorque.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -33,26 +33,27 @@ public class AutoManager {
 	public static void beginAuto() {
 		setPointReached = false;
 		commandsDone = false;
+		analyzeAutoMode();
 	}
 	
+	/**
+	 * 0 = null, 1 = forward
+	 */
 	public static void analyzeAutoMode() {
-		int autoMode = (int)(SmartDashboard.getNumber("AUTOMODE", 0));
+		int autoMode = reverse((int)(SmartDashboard.getNumber("AUTOMODE", 0)));
 		
-		switch (autoMode) {
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			default:
-				break;
+		while (autoMode > 0) {
+			switch (autoMode % 10) {
+				case 0:
+					break;
+				case 1:
+					commandList.addAll(new ForwardMode().getCommands());
+					break;
+				default:
+					break;
+			}
+			autoMode /= 10;
 		}
-		
 		while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
 			commandList.remove(0).run();
 		}
@@ -92,6 +93,15 @@ public class AutoManager {
 	
 	public static void SmartDashboard() {
 		SmartDashboard.putNumber("A_AGGREGATETIME", aggregateTime);
+	}
+	
+	private static int reverse(int num) {
+		int temp = num;
+		while (num > 0) {
+			temp = (10 * temp) + (num % 10);
+			num /= 10;
+		}
+		return temp;
 	}
 	
 }

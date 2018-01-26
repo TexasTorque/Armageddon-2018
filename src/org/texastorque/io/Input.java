@@ -1,5 +1,7 @@
 package org.texastorque.io;
 
+import org.texastorque.feedback.Feedback;
+
 public class Input {
 
 	private static Input instance;
@@ -45,5 +47,19 @@ public class Input {
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	}
-
+	
+	public void setDB_driveSetpoint(double setpoint, double precision) {
+		DB_setpoint = setpoint;
+		DB_precision = precision;
+	}
+	
+	public void setDB_turnSetpoint(double setpoint, double precision) {
+		DB_turnSetpoint = setpoint + Feedback.getInstance().getDB_angle();
+		DB_precision = precision;
+	}
+	
+	public void setHighGear(boolean highGear) {
+		DB_gearSole = highGear;
+	}
+	
 }
