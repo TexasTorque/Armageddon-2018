@@ -15,8 +15,6 @@ public class RobotOutput {
 	private TorqueMotor DB_leftRear;
 	private TorqueMotor DB_rightFore;
 	private TorqueMotor DB_rightRear;
-	private DoubleSolenoid DB_gearSole;
-
 	private static boolean clockwise = true;
 	
 	public static RobotOutput instance;
@@ -39,7 +37,4 @@ public class RobotOutput {
 		DB_rightRear.set(rightSpeed);
 	}
 	
-	public void setHighGear(boolean highGear) {
-		DB_gearSole.set(highGear ? Value.kForward : Value.kReverse);
-	}
 }

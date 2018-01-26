@@ -20,7 +20,6 @@ public class Drivebase extends Subsystem{
 	private double leftSpeed;
 	private double rightSpeed;
 	
-	private boolean highGear;
 	
 	private double setpoint = 0;
 	private double previousSetpoint = 0;
@@ -48,7 +47,7 @@ public class Drivebase extends Subsystem{
 	private double targetAngularVelocity;
 	
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, AUTOBACKUP, WAIT;
 	}
 	
 	private DriveType type;
@@ -134,11 +133,15 @@ public class Drivebase extends Subsystem{
 		
 				leftSpeed = leftPV.calculate(tmp, f.getDB_leftDistance(), f.getDB_leftRate());
 				rightSpeed = rightPV.calculate(tmp, f.getDB_rightDistance(), f.getDB_rightRate());
-				highGear = false;
 				break;
 			
 			case AUTOTURN:
 				break;
+			case AUTOBACKUP:
+				while(Timer.getFPGATimestamp()>1.2) {
+					leftSpeed = 1.0;
+					rightSpeed = -1.0;
+				}
 				
 			default:
 				leftSpeed = 0;
@@ -154,7 +157,6 @@ public class Drivebase extends Subsystem{
 		case TELEOP:
 			leftSpeed = i.getDB_leftSpeed();
 			rightSpeed = i.getDB_rightSpeed();
-			highGear = i.getDB_gearSole();
 			break;
 		}
 		
@@ -162,12 +164,6 @@ public class Drivebase extends Subsystem{
 	}
 	
 	public void output() {
-		if (i instanceof HumanInput) {
-			o.setHighGear(highGear);
-		} 
-		else {
-			o.setHighGear(false);
-		}
 		o.setDrivebaseSpeed(leftSpeed, rightSpeed);
 	}
 	
@@ -179,7 +175,6 @@ public class Drivebase extends Subsystem{
 	public void smartDashboard() {
 		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
 		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
-		SmartDashboard.putBoolean("DB_HIGHGEAR", highGear);
 
 		SmartDashboard.putString("DBA_TYPE", type.toString());
 		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);

@@ -12,7 +12,7 @@ import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
 
 import org.texastorque.subsystems.Subsystem;
-
+import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.base.TorqueIterative;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,6 +27,7 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void robotInit() {
+		SmartDashboard.putNumber("AUTOMODE", 0);
 		Input.getInstance();
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
@@ -51,6 +52,8 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 	
+		Drivebase.getInstance().setType(DriveType.AUTODRIVE);
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -67,16 +70,18 @@ public class Robot extends TorqueIterative {
 	}
 	
 	public void alwaysContinuous() {
-		
+		Drivebase.getInstance().smartDashboard();
 	}
 	
 	@Override
 	public void autonomousContinuous(){
-		
+		Feedback.getInstance().update();
+		Drivebase.getInstance().autoContinuous();
 	}
 	
 	@Override
 	public void teleopInit() {
+		Drivebase.getInstance().setType(DriveType.TELEOP);
 		for(Subsystem system : subsystems) {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());

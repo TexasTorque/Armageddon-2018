@@ -32,7 +32,6 @@ public class Drive extends AutonomousCommand {
 	
 	@Override
 	public void run() {
-		output.setHighGear(false);
 		Feedback.getInstance().resetDB_gyro();
 		Feedback.getInstance().resetDB_encoders();
 		
