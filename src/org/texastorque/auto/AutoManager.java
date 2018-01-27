@@ -29,6 +29,7 @@ public class AutoManager {
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		}
+		
 	}
 
 	public String getFileName() {

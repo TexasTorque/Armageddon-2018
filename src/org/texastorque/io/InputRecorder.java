@@ -29,6 +29,7 @@ public class InputRecorder extends HumanInput{
 	private boolean recordOn = false;
 	private static InputRecorder instance;
 	private static String fileName;
+	private static int index;
 	
 /* The file has to be inside of the roboRIO or else the program will not execute properly because it does not have
  * the file permissions needed to save it.
@@ -44,6 +45,7 @@ public class InputRecorder extends HumanInput{
 		recording = new TorqueToggle();
 		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
 		currentMode = new AutoMode();
+		index = 0;
 		
 	}
 	
@@ -53,6 +55,7 @@ public class InputRecorder extends HumanInput{
 		updateRecordingStatus();
 		if(recording.get()){
 			recordDrive();
+			index++;
 		}
 			
 	}
@@ -67,10 +70,9 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void recordDrive(){
-		
-		currentMode.addDBLeftSpeed(DB_leftSpeed);
-		System.out.println(currentMode.getDBLeftSpeeds().size() + "fds");
-		currentMode.addDBRightSpeed(DB_rightSpeed);
+		System.out.println(DB_leftSpeed + "    "+index);
+		currentMode.setDBLeftSpeed(index, DB_leftSpeed);
+		currentMode.setDBRightSpeed(index, DB_rightSpeed);
 		
 	}
 	
@@ -88,20 +90,9 @@ public class InputRecorder extends HumanInput{
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
 			writer.writeObject(currentMode);
-			System.out.println(currentMode.getDBLeftSpeeds().size());
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		try {
-			reader = new XMLDecoder(new FileInputStream(fileName));
-			currentMode = (AutoMode) reader.readObject();
-				
-			//	System.out.println(modeInProgress.getDBLeftSpeeds.size());
-			reader.close();
-			} catch (FileNotFoundException ex) {
-				System.out.println("File not found");
-			}
-			
 		}
 		
 		

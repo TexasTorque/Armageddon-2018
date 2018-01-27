@@ -12,38 +12,42 @@ import org.texastorque.io.RobotOutput;
 
 public class AutoMode extends Input{
 
-	private ArrayList<Double> DB_leftSpeeds;
-	private ArrayList<Double> DB_rightSpeeds;
-	private ArrayList<Boolean> pneumaticValues;
-	public int trash = 5;
+	private double[] DB_leftSpeeds;
+	private double[] DB_rightSpeeds;
 	private static RobotOutput o;
+	private int index2=0;
 	//serialize in XML, need to figure out how to name things, might have to change
 	//a string manually every time in order to create a new AutoMode?
 	
 	public AutoMode(){
 		o = RobotOutput.getInstance();
-		DB_leftSpeeds = new ArrayList<Double>();
-		DB_rightSpeeds= new ArrayList<Double>();
-		pneumaticValues = new ArrayList<Boolean>();
+		DB_leftSpeeds = new double[1500];
+		DB_rightSpeeds= new double[1500];
 	}
 	
-	public void addDBLeftSpeed(double value) {
-		DB_leftSpeeds.add(value);
+	public void setDBLeftSpeed(int index, double value) {
+		DB_leftSpeeds[index] = value;
 	}
 	
-	public void addDBRightSpeed(double value) {
-		DB_rightSpeeds.add(value);
+	public void setDBRightSpeed(int index, double value) {
+		DB_rightSpeeds[index] = value;
 	}
 	
-	public ArrayList<Double> getDBLeftSpeeds(){
+	public double[] getDBLeftSpeeds(){
 		return DB_leftSpeeds;
 	}
+	
+	public double[] getDBRightSpeeds() {
+		return DB_rightSpeeds;
+	}
+	
 	public void run(){
-		System.out.println(DB_leftSpeeds.size());
+		index2++;
+		System.out.println(DB_leftSpeeds[index2]);
 	}
 	
 	public void runDrive(int index){
-		o.setDrivebaseSpeed(DB_leftSpeeds.get(index), DB_rightSpeeds.get(index));
+		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
 	}
 
 	/*
