@@ -26,7 +26,7 @@ public class AutoManager {
 	public static void init() {
 		SmartDashboard.putNumber("AUTOMODE", 0);
 		commandList = new LinkedList<>();
-		subsystems = new ArrayList<Subsystem>();
+		subsystems = new ArrayList<>();
 		subsystems.add(Drivebase.getInstance());
 	}
 	
