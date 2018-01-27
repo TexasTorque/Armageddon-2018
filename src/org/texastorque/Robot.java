@@ -70,6 +70,7 @@ public class Robot extends TorqueIterative {
 	}
 	
 	public void alwaysContinuous() {
+		Feedback.getInstance().update();
 		Drivebase.getInstance().smartDashboard();
 	}
 	

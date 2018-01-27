@@ -44,7 +44,7 @@ public class AutoManager {
 	 */
 	public static void analyzeAutoMode() {
 		//TODO: FIX THIS
-		int autoMode = (int)1.0;       
+		int autoMode = (int)2.0;       
 		System.out.println(autoMode);
 		while (autoMode > 0) {
 			System.out.println("beginAuto4");
