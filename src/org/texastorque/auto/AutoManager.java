@@ -9,6 +9,7 @@ import org.texastorque.feedback.Feedback;
 
 import org.texastorque.auto.drive.*;
 import org.texastorque.subsystems.*;
+import org.texastorque.subsystems.Drivebase.DriveType;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -24,15 +25,17 @@ public class AutoManager {
 	private static volatile boolean setPointReached;
 	
 	public static void init() {
-		SmartDashboard.putNumber("AUTOMODE", 0);
 		commandList = new LinkedList<>();
 		subsystems = new ArrayList<>();
 		subsystems.add(Drivebase.getInstance());
+		beginAuto();
 	}
 	
 	public static void beginAuto() {
+		System.out.println("beginAuto");
 		setPointReached = false;
 		commandsDone = false;
+		System.out.println("beginAuto2");
 		analyzeAutoMode();
 	}
 	
@@ -40,16 +43,22 @@ public class AutoManager {
 	 * 0 = null, 1 = forward
 	 */
 	public static void analyzeAutoMode() {
-		int autoMode = reverse((int)(SmartDashboard.getNumber("AUTOMODE", 0)));
-		
+		//TODO: FIX THIS
+		int autoMode = (int)2.0;       
+		System.out.println(autoMode);
 		while (autoMode > 0) {
-			switch (autoMode % 10) {
+			System.out.println("beginAuto4");
+			switch ((int)autoMode) {
 				case 0:
+					System.out.println("0");
 					break;
 				case 1:
+					Drivebase.getInstance().setType(DriveType.AUTOBACKUP);
+					break;
+				case 2:
 					commandList.addAll(new ForwardMode().getCommands());
 					break;
-				default:
+				default:System.out.println("default");
 					break;
 			}
 			autoMode /= 10;
@@ -95,13 +104,5 @@ public class AutoManager {
 		SmartDashboard.putNumber("A_AGGREGATETIME", aggregateTime);
 	}
 	
-	private static int reverse(int num) {
-		int temp = num;
-		while (num > 0) {
-			temp = (10 * temp) + (num % 10);
-			num /= 10;
-		}
-		return temp;
-	}
 	
 }

@@ -8,7 +8,6 @@ public class Input {
 	
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
-	protected boolean DB_gearSole = true;
 	
 	protected volatile double DB_setpoint;
 	protected volatile double DB_turnSetpoint;
@@ -40,9 +39,6 @@ public class Input {
 		return DB_precision;
 	}
 	
-	public boolean getDB_gearSole() {
-		return DB_gearSole;
-	}
 
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
@@ -58,8 +54,5 @@ public class Input {
 		DB_precision = precision;
 	}
 	
-	public void setHighGear(boolean highGear) {
-		DB_gearSole = highGear;
-	}
 	
 }
