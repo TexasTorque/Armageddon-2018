@@ -7,6 +7,7 @@ import org.texastorque.subsystems.Drivebase;
 import java.util.ArrayList;
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.auto.AutoMode;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
@@ -84,9 +85,11 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 	
+		AutoManager.getInstance().resetAuto();
 		System.out.println("autoInit");
 		fieldConfig = DriverStation.getInstance().getAlliance() + 
 				DriverStation.getInstance().getGameSpecificMessage();
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -111,7 +114,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousPeriodic() {
 	
-		AutoManager.getInstance().getRunningMode().run();
+		
 	}
 	
 	public void alwaysContinuous() {
@@ -121,7 +124,7 @@ public class Robot extends TorqueIterative {
 			
 	@Override
 	public void autonomousContinuous(){
-		
+		AutoManager.getInstance().getRunningMode().run();
 	}
 	
 	@Override

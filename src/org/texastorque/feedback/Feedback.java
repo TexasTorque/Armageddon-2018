@@ -4,6 +4,7 @@ import org.texastorque.constants.Ports;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
 import org.texastorque.torquelib.component.TorqueEncoder;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,12 +16,14 @@ public class Feedback {
 
 	private TorqueEncoder leftDrivebase;
 	private TorqueEncoder rightDrivebase;
+	private AHRS DB_gyro;
 	
 	public Feedback() {
 		leftDrivebase = new TorqueEncoder(Ports.DB_LEFTENCODER_A, Ports.DB_LEFTENCODER_B, false, EncodingType.k4X);
 		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, false, EncodingType.k4X);
 		leftDrivebase.reset();
 		rightDrivebase.reset();
+		
 	}
 	
 	public void update() {

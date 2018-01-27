@@ -54,8 +54,10 @@ public class InputRecorder extends HumanInput{
 		super.update();
 		updateRecordingStatus();
 		if(recording.get()){
-			recordDrive();
-			index++;
+			if(index < 1500) {
+				recordDrive();
+				index++;
+			}
 		}
 			
 	}
@@ -70,7 +72,6 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void recordDrive(){
-		System.out.println(DB_leftSpeed + "    "+index);
 		currentMode.setDBLeftSpeed(index, DB_leftSpeed);
 		currentMode.setDBRightSpeed(index, DB_rightSpeed);
 		

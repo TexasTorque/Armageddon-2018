@@ -1,5 +1,6 @@
 package org.texastorque.io;
 
+import org.texastorque.auto.AutoManager;
 import org.texastorque.torquelib.util.GenericController;
 import org.texastorque.torquelib.util.TorqueToggle;
 
@@ -24,6 +25,7 @@ public class HumanInput extends Input{
 	
 	public void update(){
 		updateDrive();
+		updateFile();
 	}
 	
 	public void updateDrive(){
@@ -33,7 +35,10 @@ public class HumanInput extends Input{
 	
 	}
 
-	
+	public void updateFile() {
+		if(driver.getYButton())
+			AutoManager.getInstance();
+	}
 	
 	
 	public static HumanInput getInstance() {

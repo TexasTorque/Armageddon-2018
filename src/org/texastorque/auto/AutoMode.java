@@ -12,10 +12,10 @@ import org.texastorque.io.RobotOutput;
 
 public class AutoMode extends Input{
 
-	private double[] DB_leftSpeeds;
-	private double[] DB_rightSpeeds;
+	public double[] DB_leftSpeeds;
+	public double[] DB_rightSpeeds;
 	private static RobotOutput o;
-	private int index2=0;
+	private int index;
 	//serialize in XML, need to figure out how to name things, might have to change
 	//a string manually every time in order to create a new AutoMode?
 	
@@ -23,6 +23,7 @@ public class AutoMode extends Input{
 		o = RobotOutput.getInstance();
 		DB_leftSpeeds = new double[1500];
 		DB_rightSpeeds= new double[1500];
+		index = 0;
 	}
 	
 	public void setDBLeftSpeed(int index, double value) {
@@ -42,8 +43,14 @@ public class AutoMode extends Input{
 	}
 	
 	public void run(){
-		index2++;
-		System.out.println(DB_leftSpeeds[index2]);
+		if(index < 1500) {
+			runDrive(index);
+			index++;
+		}
+	}
+	
+	public void resetIndex() {
+		index = 0;
 	}
 	
 	public void runDrive(int index){

@@ -19,12 +19,14 @@ public class AutoManager {
 	
 	
 	public AutoManager(){
+		init();
+	}
+	
+	public void init() {
 		fileName = getFileName();
 		try {
 			reader = new XMLDecoder(new FileInputStream(fileName));
 			modeInProgress = (AutoMode) reader.readObject();
-			
-		//	System.out.println(modeInProgress.getDBLeftSpeeds.size());
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
@@ -33,8 +35,7 @@ public class AutoManager {
 	}
 
 	public String getFileName() {
-		return "/home/lvuser/"+SmartDashboard.getNumber("AutoMode", 0) 
-						+ DriverStation.getInstance().getGameSpecificMessage() + ".xml";
+		return "/home/lvuser/" +SmartDashboard.getNumber("AutoMode", 0) + ".xml";
 
 	}
 
@@ -47,6 +48,18 @@ public class AutoManager {
 		return modeInProgress;
 	}
 
+	public void resetAuto() {
+		fileName = getFileName();
+	try {
+		reader = new XMLDecoder(new FileInputStream(fileName));
+		modeInProgress = (AutoMode) reader.readObject();
+		reader.close();
+	} catch (FileNotFoundException e) {
+		System.out.println("File not found");
+	}
+	
+		modeInProgress.resetIndex();
+	}
 	
 	public static AutoManager getInstance() {
 		return instance == null ? instance = new AutoManager() : instance;
