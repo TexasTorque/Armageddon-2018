@@ -12,10 +12,16 @@ public class HumanInput extends Input{
 	public HumanInput(){
 		init();
 	}
+
+	public void init(){
+		driver = new GenericController(0 ,.1);
+		operator = new GenericController(1, .1);
+	}
 	
 	public void update(){
 		updateDrive();
 		updateArm();
+		updateClaw();
 	}
 	
 	public void updateDrive(){
@@ -32,9 +38,9 @@ public class HumanInput extends Input{
 		
 	}
 	
-	public void init(){
-		driver = new GenericController(0 ,.1);
-		operator = new GenericController(1, .1);
+	public void updateClaw() {
+		CL_closed.calc(driver.getXButton());
+			
 	}
 	
 	

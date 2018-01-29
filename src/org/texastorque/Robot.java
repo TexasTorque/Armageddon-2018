@@ -46,6 +46,7 @@ public class Robot extends TorqueIterative {
 		subsystems = new ArrayList<Subsystem>(){{
 			add(Drivebase.getInstance());
 			add(Arm.getInstance());
+			add(Claw.getInstance());
 		}};
 		
 	}
@@ -55,14 +56,15 @@ public class Robot extends TorqueIterative {
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
 	 */
+	
 	@Override
 	public void disabledInit() {
-
+		Feedback.getInstance().reset();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-	
+		
 	}
 
 	/**
@@ -96,7 +98,8 @@ public class Robot extends TorqueIterative {
 	}
 	
 	public void alwaysContinuous() {
-		
+		Feedback.getInstance().update();
+		Feedback.getInstance().SmartDashboard();
 	}
 	
 			
@@ -112,7 +115,6 @@ public class Robot extends TorqueIterative {
 			system.setInput(HumanInput.getInstance());
 			
 		}
-		Feedback.getInstance();
 	}
 
 	@Override
@@ -121,7 +123,6 @@ public class Robot extends TorqueIterative {
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();
 		Drivebase.getInstance().teleopContinuous();
-		Feedback.getInstance().update();
-		Feedback.getInstance().SmartDashboard();
+		
 	}
 }
