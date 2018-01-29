@@ -32,6 +32,7 @@ public class Feedback {
 		leftDrivebase.reset();
 		rightDrivebase.reset();
 	}
+	
 	public static Feedback getInstance() {
 		return instance == null ? instance = new Feedback() : instance;
 	}

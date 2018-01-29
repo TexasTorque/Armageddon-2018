@@ -12,7 +12,8 @@ public class Ports {
 	public static final int AM_RIGHT_PORT= 4;
 	public static final int AM_LEFT_PORT= 5;
 	
-	public static final int 
+	public static final int CL_PORT_A = 6;
+	public static final int CL_PORT_B = 7;
 	
 	public static final int DB_LEFTENCODER_A = 0;
 	public static final int DB_LEFTENCODER_B = 1;

@@ -32,9 +32,10 @@ public class Input {
 		return AM_speed;
 	}
 	
-	public void getClosed() {
+	public boolean getClawClosed() {
 		return CL_closed.get();
 	}
+	
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	}
