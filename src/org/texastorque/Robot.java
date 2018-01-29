@@ -1,8 +1,4 @@
-
 package org.texastorque;
-
-import org.texastorque.subsystems.Drivebase;
-
 
 import java.util.ArrayList;
 
@@ -16,6 +12,7 @@ import org.texastorque.io.HumanInput;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.torquelib.base.TorqueIterative;
+import org.texastorque.subsystems.Drivebase;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;

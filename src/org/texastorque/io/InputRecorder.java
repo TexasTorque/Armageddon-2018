@@ -14,6 +14,8 @@ import org.texastorque.auto.AutoMode;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.torquelib.util.TorqueToggle;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /* The purpose of this class is to read inputs from a controller for the same
  * length as the autonomous period, and then create an XML file from
  * which an autonomous mode can be read. This is the recording/writing class, 
@@ -39,9 +41,11 @@ public class InputRecorder extends HumanInput{
 		init();
 	}
 	
-	
+	//for recording, input double that is 3.0X, and X is dependent on the fieldConfiguration, and during
+	//competition, only input the number that corresponds to starting location (IE 3) and the rest should 
+	//take care of itself
 	public void init(){
-		fileName = AutoManager.getInstance().getFileName();
+		fileName = "/home/lvuser/" + SmartDashboard.getNumber("AutoMode", 0);
 		recording = new TorqueToggle();
 		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
 		currentMode = new AutoMode();

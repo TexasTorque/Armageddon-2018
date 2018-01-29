@@ -49,13 +49,19 @@ public class AutoMode extends Input{
 		}
 	}
 	
+	public void runDrive(int index){
+		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
+	}
+	
 	public void resetIndex() {
 		index = 0;
 	}
 	
-	public void runDrive(int index){
-		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
+
+	public void tuneMode(){
+		//interpolate like Lubecki said, use encoders to make things line up better like Mr. Rip suggested
 	}
+	
 
 	/*
 	 * runDrive puts the values in the ArrayList to the motors then takes those values out of the ArrayList
