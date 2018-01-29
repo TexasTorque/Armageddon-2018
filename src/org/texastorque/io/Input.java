@@ -1,5 +1,7 @@
 package org.texastorque.io;
 
+import org.texastorque.torquelib.util.TorqueToggle;
+
 public class Input {
 
 	private static Input instance;
@@ -9,20 +11,33 @@ public class Input {
 	
 	protected boolean recorded;
 	
+	protected double AM_speed;
+	
+	protected TorqueToggle CL_closed;
+	
 	public Input(){
-		
-		DB_leftSpeed = 0.0;
-		DB_rightSpeed = 0.0;
+		DB_leftSpeed = 0d;
+		DB_rightSpeed = 0d;
+		AM_speed = 0d;
+		CL_closed = new TorqueToggle();
 	}
 	
-	public double getLeftSpeed(){
+	public double getDBLeftSpeed() {
 		return DB_leftSpeed;
 	}
 	
-	public double getRightSpeed(){
+	public double getDBRightSpeed() {
 		return DB_rightSpeed;
 	}
-
+	
+	public double getArmSpeed() {
+		return AM_speed;
+	}
+	
+	public boolean getClawClosed() {
+		return CL_closed.get();
+	}
+	
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	}

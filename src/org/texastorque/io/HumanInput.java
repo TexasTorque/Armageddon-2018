@@ -22,10 +22,12 @@ public class HumanInput extends Input{
 		driver = new GenericController(0 ,.1);
 		operator = new GenericController(1, .1);
 	}
-	
+
 	public void update(){
 		updateDrive();
 		updateFile();
+		updateArm();
+		updateClaw();
 	}
 	
 	public void updateDrive(){
@@ -38,6 +40,21 @@ public class HumanInput extends Input{
 	public void updateFile() {
 		if(driver.getYButton())
 			AutoManager.getInstance();
+	}
+	
+	
+	public void updateArm() {
+		if(driver.getRightTrigger())
+			AM_speed = 1d;
+		else if(driver.getLeftTrigger())
+			AM_speed = -1d;
+		
+	}
+	
+	public void updateClaw() {
+		CL_closed.calc(driver.getXButton());
+			
+
 	}
 	
 	
