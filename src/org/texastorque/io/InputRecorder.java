@@ -26,12 +26,12 @@ public class InputRecorder extends HumanInput{
 	protected TorqueToggle recording;
 	
 	private XMLEncoder writer;
-	private XMLDecoder reader;
-	private static AutoMode currentMode;
-	private boolean recordOn = false;
 	private static InputRecorder instance;
+
+	private static AutoMode currentMode;
 	private static String fileName;
 	private static int index;
+
 	
 /* The file has to be inside of the roboRIO or else the program will not execute properly because it does not have
  * the file permissions needed to save it.
