@@ -44,21 +44,26 @@ public class AutoManager {
 	 */
 	public static void analyzeAutoMode() {
 		//TODO: FIX THIS
-		int autoMode = (int)2.0;       
+		int autoMode = (int)1.0;       
 		System.out.println(autoMode);
+		
 		while (autoMode > 0) {
-			System.out.println("beginAuto4");
-			switch ((int)autoMode) {
+			switch (autoMode % 10) {
 				case 0:
 					System.out.println("0");
 					break;
+					
 				case 1:
-					Drivebase.getInstance().setType(DriveType.AUTOBACKUP);
+					System.out.println("1");
+					commandList.addAll(new ForwardMode(1.5).getCommands());
 					break;
+					
 				case 2:
-					commandList.addAll(new ForwardMode().getCommands());
+					System.out.println("2");
 					break;
-				default:System.out.println("default");
+					
+				default:
+					System.out.println("default");
 					break;
 			}
 			autoMode /= 10;

@@ -137,13 +137,14 @@ public class Drivebase extends Subsystem{
 			
 			case AUTOTURN:
 				break;
+			/*	
 			case AUTOBACKUP:
 				System.out.println(Timer.getFPGATimestamp());
-				while(Timer.getFPGATimestamp()>1.2) {
+				while(Timer.getFPGATimestamp() < 1.2) {
 					leftSpeed = 1.0;
 					rightSpeed = -1.0;
 				}
-				
+			*/
 			default:
 				leftSpeed = 0;
 				rightSpeed = 0;
@@ -168,7 +169,7 @@ public class Drivebase extends Subsystem{
 		o.setDrivebaseSpeed(leftSpeed, rightSpeed);
 	}
 	
-	public void setType (DriveType type) {
+	public void setType(DriveType type) {
 		this.type = type;
 	}
 

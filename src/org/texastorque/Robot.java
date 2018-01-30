@@ -23,7 +23,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TorqueIterative {
 
-	ArrayList<Subsystem> subsystems;
+	private ArrayList<Subsystem> subsystems;
+	private double time;
+	private boolean hasStarted = false;
 	
 	@Override
 	public void robotInit() {
@@ -40,38 +42,21 @@ public class Robot extends TorqueIterative {
 	}
 	
 	@Override
-	public void disabledInit() {
-
-	}
-
-	@Override
-	public void disabledPeriodic() {
-	
+	public void alwaysContinuous() {
+		Feedback.getInstance().update();
+		Drivebase.getInstance().smartDashboard();
 	}
 	
 	@Override
 	public void autonomousInit() {
-	
-		Drivebase.getInstance().setType(DriveType.AUTODRIVE);
-		
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-	}
-	
-	@Override
-	public void disabledContinuous() {
-		
-	}
-	
-	public void alwaysContinuous() {
-		Feedback.getInstance().update();
-		Drivebase.getInstance().smartDashboard();
+		//Drivebase.getInstance().setType(DriveType.AUTODRIVE);
+		time = 0;
+		for(Subsystem system : subsystems) {
+			system.autoInit();
+			system.setInput(Input.getInstance());
+		}
+		AutoManager.beginAuto();
+		hasStarted = true;
 	}
 	
 	@Override
@@ -86,7 +71,6 @@ public class Robot extends TorqueIterative {
 		for(Subsystem system : subsystems) {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());
-			
 		}
 	}
 
@@ -96,5 +80,26 @@ public class Robot extends TorqueIterative {
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();
 		Drivebase.getInstance().teleopContinuous();
+	}
+	
+	@Override
+	public void disabledInit() {
+		for(Subsystem system : subsystems) {
+			system.disabledInit();
+			system.setInput(HumanInput.getInstance());
+		}
+	}
+	
+	@Override
+	public void disabledContinuous() {
+		hasStarted = false;
+		for(Subsystem system : subsystems ) {
+			system.disabledContinuous();
+		}
+	}
+	
+	@Override
+	public void disabledPeriodic() {
+	
 	}
 }

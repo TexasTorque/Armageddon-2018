@@ -8,25 +8,16 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 
 public class ForwardMode extends AutonomousMode {
-private Alliance alliance;
 	
-	public ForwardMode() {
-		alliance = DriverStation.getInstance().getAlliance();
-		init();
-	}
+	private double time;
 
 	public ForwardMode(double time) {
-		alliance = DriverStation.getInstance().getAlliance();
+		this.time = time;
+		init();
 	}
 	
 	@Override
 	public void init() {
-		commandList.add(new Drive(50, .125, 1.5));
-	}
-	
-	public void init(double time) {
-		while(Timer.< time) {
-		}
-			
+		commandList.add(new BackupDrive(time));
 	}
 }
