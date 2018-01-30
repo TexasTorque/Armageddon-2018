@@ -34,14 +34,6 @@ public class AutoMode extends Input{
 		DB_rightSpeeds[index] = value;
 	}
 	
-	public double[] getDBLeftSpeeds(){
-		return DB_leftSpeeds;
-	}
-	
-	public double[] getDBRightSpeeds() {
-		return DB_rightSpeeds;
-	}
-	
 	public void run(){
 		if(index < 1500) {
 			runDrive(index);
@@ -49,12 +41,12 @@ public class AutoMode extends Input{
 		}
 	}
 	
-	public void runDrive(int index){
-		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
-	}
-	
 	public void resetIndex() {
 		index = 0;
+	}
+	
+	public void runDrive(int index){
+		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
 	}
 	
 

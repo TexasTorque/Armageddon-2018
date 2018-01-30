@@ -36,7 +36,7 @@ public class AutoManager {
 
 	public String getFileName() {
 		double autoSelection = SmartDashboard.getNumber("AutoMode", 0);
-		String fieldConfig = "LLL";//DriverStation.getInstance().getGameSpecificMessage();
+		String fieldConfig = DriverStation.getInstance().getGameSpecificMessage();
 		
 		if(autoSelection == 0.0)
 			return "/home/lvuser/0.0.xml";
