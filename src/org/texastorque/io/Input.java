@@ -11,6 +11,9 @@ public class Input {
 	
 	protected double AM_speed;
 	
+	protected int PT_index;
+	protected double[] PT_setpoints = new double[] {1,2,3,4,5,6}; //TBD
+	
 	protected TorqueToggle CL_closed;
 	
 	public Input(){
@@ -34,6 +37,10 @@ public class Input {
 	
 	public boolean getClawClosed() {
 		return CL_closed.get();
+	}
+	
+	public double getPTSetpoint() {
+		return PT_setpoints[PT_index];
 	}
 	
 	public static Input getInstance() {
