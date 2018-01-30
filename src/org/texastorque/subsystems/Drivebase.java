@@ -40,8 +40,8 @@ public class Drivebase extends Subsystem{
 
 	@Override
 	public void teleopContinuous() {
-		leftSpeed = i.getLeftSpeed();
-		rightSpeed = i.getRightSpeed();
+		leftSpeed = i.getDBLeftSpeed();
+		rightSpeed = i.getDBRightSpeed();
 		output();
 	}
 	
