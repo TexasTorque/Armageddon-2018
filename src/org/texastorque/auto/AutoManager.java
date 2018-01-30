@@ -40,12 +40,13 @@ public class AutoManager {
 		
 		if(autoSelection == 0.0)
 			return "/home/lvuser/0.0.xml";
+		
 		else if(autoSelection == 1.0)
 			return "/home/lvuser/1.0.xml";
+		
 		else return "/home/lvuser/" + SmartDashboard.getNumber("AutoMode", 0) + fieldConfig + ".xml";
-		//either need to hard code the LLL/LRL/RLR/RRR field configuration when recording modes or 
-		//create a switch that chooses the file based on the field configuration
-
+		//Right now, have to hard code the LLL/LRL/RLR/RRR field configuration when recording modes 
+		
 	}
 
 	
