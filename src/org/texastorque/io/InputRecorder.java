@@ -45,7 +45,7 @@ public class InputRecorder extends HumanInput{
 	//competition, only input the number that corresponds to starting location (IE 3) and the rest should 
 	//take care of itself
 	public void init(){
-		fileName = "/home/lvuser/" + SmartDashboard.getNumber("AutoMode", 0);
+		fileName = "/home/lvuser/1.0.xml";
 		recording = new TorqueToggle();
 		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
 		currentMode = new AutoMode();

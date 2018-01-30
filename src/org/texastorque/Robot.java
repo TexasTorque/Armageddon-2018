@@ -90,18 +90,8 @@ public class Robot extends TorqueIterative {
 	public void autonomousInit() {
 	
 		AutoManager.getInstance().resetAuto();
-		System.out.println("autoInit");
-		fieldConfig = DriverStation.getInstance().getAlliance() + 
-				DriverStation.getInstance().getGameSpecificMessage();
 		
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
+	
 	}
 
 
@@ -134,6 +124,8 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void teleopInit() {
+	
+		InputRecorder.getInstance();
 		for(Subsystem system : subsystems) {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());
