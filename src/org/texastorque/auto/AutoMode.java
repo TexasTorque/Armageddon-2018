@@ -16,8 +16,6 @@ public class AutoMode extends Input{
 	public double[] DB_rightSpeeds;
 	private static RobotOutput o;
 	private int index;
-	//serialize in XML, need to figure out how to name things, might have to change
-	//a string manually every time in order to create a new AutoMode?
 	
 	public AutoMode(){
 		o = RobotOutput.getInstance();
@@ -51,6 +49,10 @@ public class AutoMode extends Input{
 	
 
 	public void tuneMode(){
+		
+		
+		
+		
 		//interpolate like Lubecki said, use encoders to make things line up better like Mr. Rip suggested
 	}
 	

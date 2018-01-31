@@ -37,6 +37,12 @@ public class InputRecorder extends HumanInput{
  * the file permissions needed to save it.
  */
 	
+	/*
+	 * Write code to reflect an automode? Makes recording easier, not worth the effort unless I am really
+	 * bored though
+	 * 
+	 */
+	
 	public InputRecorder(){
 		init();
 	}
@@ -45,7 +51,7 @@ public class InputRecorder extends HumanInput{
 	//competition, only input the number that corresponds to starting location (IE 3) and the rest should 
 	//take care of itself
 	public void init(){
-		fileName = "/home/lvuser/1.0.xml";
+		fileName = "/home/lvuser/2.0LLL.xml";
 		recording = new TorqueToggle();
 		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
 		currentMode = new AutoMode();
