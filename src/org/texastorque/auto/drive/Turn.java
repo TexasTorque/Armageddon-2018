@@ -6,28 +6,28 @@ import org.texastorque.auto.AutoCommand;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Drivebase.DriveType;
 
-public class Drive extends AutoCommand {
+public class Turn extends AutoCommand {
 	
-	private final double D_CONSTANT = 0.0744;
-	private final double D_PRECISION = 0.125;
+	private final double T_CONSTANT = .05;
+	private final double D_PRECISION = .125;
 	
-	private double distance;
+	private double angle;
 	private double precision;
 	private double time = -999;
 	
-	public Drive(double distance, double precision, double time) {
-		this.distance = distance;
+	public Turn(double angle, double precision, double time) {
+		this.angle = angle;
 		this.precision = precision;
 		this.time = time;
 	}
 	
-	public Drive(double distance, double precision) {
-		this.distance = distance;
+	public Turn(double angle, double precision) {
+		this.angle = angle;
 		this.precision = precision;
 	}
 	
-	public Drive(double distance) {
-		this.distance = distance;
+	public Turn(double angle) {
+		this.angle = angle;
 		precision = D_PRECISION;
 	}
 	
@@ -36,17 +36,17 @@ public class Drive extends AutoCommand {
 		Feedback.getInstance().resetDB_gyro();
 		Feedback.getInstance().resetDB_encoders();
 		
-		input.setDB_driveSetpoint(distance, precision);
-		drivebase.setType(DriveType.AUTODRIVE);
+		input.setDB_turnSetpoint(angle, precision);
+		drivebase.setType(DriveType.AUTOTURN);
 		if(time != -999)
 			AutoManager.pause(time);
 		else
-			AutoManager.pause(distance * D_CONSTANT);
+			AutoManager.pause(angle * T_CONSTANT);
 	}
 
 	@Override
 	public void reset() {
-		distance = 0;
+		angle = 0;
 	}
-
+	
 }

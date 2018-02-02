@@ -1,13 +1,13 @@
 package org.texastorque.auto.drive;
 
 
-import org.texastorque.auto.AutonomousMode;
+import org.texastorque.auto.AutoSequence;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ForwardMode extends AutonomousMode {
+public class ForwardMode extends AutoSequence {
 	
 	private double time;
 

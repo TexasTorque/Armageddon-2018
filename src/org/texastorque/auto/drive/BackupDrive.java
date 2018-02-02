@@ -1,10 +1,10 @@
 package org.texastorque.auto.drive;
 
-import org.texastorque.auto.AutonomousCommand;
+import org.texastorque.auto.AutoCommand;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class BackupDrive extends AutonomousCommand {
+public class BackupDrive extends AutoCommand {
 	
 	private double time;
 	

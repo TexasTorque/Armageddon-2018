@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoManager {
 	
-	private static LinkedList<AutonomousCommand> commandList;
+	private static LinkedList<AutoCommand> commandList;
 	private static ArrayList<Subsystem> subsystems;
 	private static double aggregateTime;
 	
@@ -43,8 +43,7 @@ public class AutoManager {
 	 * 0 = null, 1 = forward
 	 */
 	public static void analyzeAutoMode() {
-		//TODO: FIX THIS
-		int autoMode = (int)1.0;       
+		int autoMode = (int)2.0;       
 		System.out.println(autoMode);
 		
 		while (autoMode > 0) {
@@ -60,6 +59,7 @@ public class AutoManager {
 					
 				case 2:
 					System.out.println("2");
+					commandList.addAll(new PlaceCubeScale().getCommands());
 					break;
 					
 				default:

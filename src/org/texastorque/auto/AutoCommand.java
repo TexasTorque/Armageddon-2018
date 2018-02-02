@@ -6,14 +6,14 @@ import org.texastorque.feedback.Feedback;
 
 import org.texastorque.subsystems.Drivebase;
 
-public abstract class AutonomousCommand {
+public abstract class AutoCommand {
 	protected RobotOutput output;
 	protected Input input;
 	protected Feedback feedback;
 	
 	protected Drivebase drivebase;
 	
-	public AutonomousCommand() {
+	public AutoCommand() {
 		init();
 	}
 	

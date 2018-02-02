@@ -20,7 +20,6 @@ public class Drivebase extends Subsystem{
 	private double leftSpeed;
 	private double rightSpeed;
 	
-	
 	private double setpoint = 0;
 	private double previousSetpoint = 0;
 	private double previousTime;
@@ -47,7 +46,7 @@ public class Drivebase extends Subsystem{
 	private double targetAngularVelocity;
 	
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, AUTOBACKUP, WAIT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
 	}
 	
 	private DriveType type;
@@ -137,14 +136,7 @@ public class Drivebase extends Subsystem{
 			
 			case AUTOTURN:
 				break;
-			/*	
-			case AUTOBACKUP:
-				System.out.println(Timer.getFPGATimestamp());
-				while(Timer.getFPGATimestamp() < 1.2) {
-					leftSpeed = 1.0;
-					rightSpeed = -1.0;
-				}
-			*/
+				
 			default:
 				leftSpeed = 0;
 				rightSpeed = 0;
