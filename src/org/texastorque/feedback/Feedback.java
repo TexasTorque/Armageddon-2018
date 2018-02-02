@@ -16,6 +16,7 @@ public class Feedback {
 
 	private TorqueEncoder leftDrivebase;
 	private TorqueEncoder rightDrivebase;
+	private final double DISTANCE_CONVERSION = 0.0744;
 	private AHRS DB_gyro;
 	
 	public Feedback() {
@@ -36,16 +37,23 @@ public class Feedback {
 		rightDrivebase.reset();
 	}
 	
+	public TorqueEncoder getLeftEncoder() {
+		return leftDrivebase;
+	}
+	
+	public TorqueEncoder getRightEncoder() {
+		return rightDrivebase;
+	}
+	
 	public static Feedback getInstance() {
 		return instance == null ? instance = new Feedback() : instance;
 	}
 
 	public void SmartDashboard() {
-		SmartDashboard.putNumber("Left_Encoder_Distance", leftDrivebase.getDistance());
-		SmartDashboard.putNumber("Right_Encoder_Distance", rightDrivebase.getDistance()*0.0062);
+		SmartDashboard.putNumber("Left_Encoder_Distance", leftDrivebase.getDistance() * DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Right_Encoder_Distance", rightDrivebase.getDistance()* DISTANCE_CONVERSION);
 		SmartDashboard.putNumber("Left_Encoder_Speed", leftDrivebase.getRate());
-		SmartDashboard.putNumber("Right_Encoder_Speed", rightDrivebase.getRate()*0.0062);
-		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+		SmartDashboard.putNumber("Right_Encoder_Speed", rightDrivebase.getRate()*DISTANCE_CONVERSION);
 	}
 
 }

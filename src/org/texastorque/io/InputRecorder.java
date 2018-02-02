@@ -11,6 +11,7 @@ import java.io.FileWriter;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.AutoMode;
+import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.torquelib.util.TorqueToggle;
 
@@ -84,12 +85,13 @@ public class InputRecorder extends HumanInput{
 	public void recordDrive(){
 		currentMode.setDBLeftSpeed(index, DB_leftSpeed);
 		currentMode.setDBRightSpeed(index, DB_rightSpeed);
-		
+		currentMode.setDBLeftDistance(index, Feedback.getInstance().getLeftEncoder().getDistance());
+		currentMode.setDBRightDistance(index, Feedback.getInstance().getRightEncoder().getDistance());
 	}
 	
 	
 	public void writeFile(){
-
+		
 	/*
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
