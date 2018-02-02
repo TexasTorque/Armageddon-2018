@@ -57,6 +57,7 @@ public class Drivebase extends Subsystem{
 	
 	@Override
 	public void autoInit() {
+		type = DriveType.AUTODRIVE;
 		init();
 	}
 
@@ -170,7 +171,7 @@ public class Drivebase extends Subsystem{
 		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
 		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
 
-		SmartDashboard.putString("DBA_TYPE", type.toString());
+//		SmartDashboard.putString("DBA_TYPE", type.toString());
 		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);
 		SmartDashboard.putNumber("DBA_TARGETVELOCITY", targetVelocity);
 		SmartDashboard.putNumber("DBA_TARGETACCELERATION", targetAcceleration);
