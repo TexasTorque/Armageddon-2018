@@ -133,6 +133,7 @@ public class Drivebase extends Subsystem{
 		
 				leftSpeed = leftPV.calculate(tmp, f.getDB_leftDistance(), f.getDB_leftRate());
 				rightSpeed = rightPV.calculate(tmp, f.getDB_rightDistance(), f.getDB_rightRate());
+		//		o.setDrivebaseSpeed(leftSpeed, rightSpeed);
 				break;
 			
 			case AUTOTURN:
