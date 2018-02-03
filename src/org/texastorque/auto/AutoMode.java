@@ -10,6 +10,7 @@ import org.texastorque.feedback.Feedback;
 import org.texastorque.io.Input;
 import org.texastorque.io.InputRecorder;
 import org.texastorque.io.RobotOutput;
+import org.texastorque.torquelib.controlLoop.TorquePID;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,10 +35,9 @@ public class AutoMode extends Input{
 	private double rightPrevError = 0;
 	private double leftDeltaError;
 	private double rightDeltaError;
+	private TorquePID leftPID;
+	private TorquePID rightPID;
 	
-	private static final double kP = 4.0;
-	private static final double kI = 4.0;
-	private static final double snake = 4.0;
 	
 	private static RobotOutput o;
 	private int index;
@@ -49,6 +49,15 @@ public class AutoMode extends Input{
 		DB_leftDistances = new double[1500];
 		DB_rightDistances = new double[1500];
 		index = 0;
+		
+		leftPID = new TorquePID(.01, .01, .01);
+		leftPID.setControllingSpeed(true);
+		leftPID.setEpsilon(4);
+		leftPID.setMaxOutput(.5);
+		rightPID = new TorquePID(.01, .01, .01);
+		rightPID.setControllingSpeed(true);
+		rightPID.setEpsilon(4);
+		rightPID.setMaxOutput(.5);
 	}
 	
 	public void setDBLeftSpeed(int index, double value) {
@@ -80,9 +89,7 @@ public class AutoMode extends Input{
 	
 	public void runDrive(int index){
 		tuneMode();
-//		DB_leftSpeeds[index] += leftDistanceCorrection;
 //		DB_rightSpeeds[index] *= .98;
-		DB_rightSpeeds[index] += rightDistanceCorrection;
 		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
 	}
 
@@ -93,15 +100,43 @@ public class AutoMode extends Input{
 		
 	public double getLeftDeltaError() {
 		return leftDeltaError;
-		
 	}
 	
 	public double getRightDeltaError() {
 		return rightDeltaError;
 	}
 
+	public void tuneMode() {
+		tuneLeft();
+		tuneRight();
+	}
 	
-	private void tuneMode(){
+	public void tuneLeft() {
+		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
+		leftPID.setSetpoint(DB_leftDistances[index]);
+		leftDistanceCorrection = leftPID.calculate(currentLeftDistance) - currentLeftDistance;
+		DB_leftSpeeds[index] += leftDistanceCorrection;
+	}
+	
+	public void tuneRight() {
+		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
+		rightPID.setSetpoint(DB_rightDistances[index]);
+		rightDistanceCorrection = rightPID.calculate(currentRightDistance) - currentRightDistance;
+		DB_rightSpeeds[index] +=rightDistanceCorrection;
+	}
+	
+	public void SmartDashboard() {
+		SmartDashboard.putNumber("leftDeltaError", leftDeltaError);
+		SmartDashboard.putNumber("rightDeltaError", rightDeltaError);
+	}
+
+	
+	
+}
+
+
+
+//private void tuneMode(){
 	/*	currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
 		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
 		expectedLeftDistance = DB_leftDistances[index];
@@ -117,9 +152,9 @@ public class AutoMode extends Input{
 		leftPrevError = leftError;
 		rightPrevError = rightError;
 	*/
-	}
+	//}
 	
-	private void fix() {
+	//private void fix() {
 		/*if(leftError > 4) {
 			leftDistanceCorrection = 
 					DB_leftSpeed * leftError / Feedback.getInstance().getLeftEncoder().getRate();
@@ -129,13 +164,5 @@ public class AutoMode extends Input{
 					-1 * (DB_rightSpeed * rightError / Feedback.getInstance().getRightEncoder().getRate());
 		}
 		*/
-	}
+	//}
 	
-	public void SmartDashboard() {
-		SmartDashboard.putNumber("leftDeltaError", leftDeltaError);
-		SmartDashboard.putNumber("rightDeltaError", rightDeltaError);
-	}
-
-	
-	
-}

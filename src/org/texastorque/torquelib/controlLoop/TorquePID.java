@@ -106,7 +106,7 @@ public class TorquePID extends ControlLoop {
 	 * @param d
 	 *            The derivative constant.
 	 */
-	public void setPIDGains(double p, double i, double d) {
+	public void setGains(double p, double i, double d) {
 		kP = p;
 		kI = i;
 		kD = d;
@@ -184,6 +184,7 @@ public class TorquePID extends ControlLoop {
 		// ----- Error -----
 		prevError = error;
 		error = setpoint - currentValue;
+		System.out.println(error);
 
 		// ----- P Calculation -----
 		output += kP * error;
