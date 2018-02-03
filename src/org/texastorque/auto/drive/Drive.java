@@ -8,7 +8,7 @@ import org.texastorque.subsystems.Drivebase.DriveType;
 
 public class Drive extends AutoCommand {
 	
-	private final double D_CONSTANT = 0.0744;
+	private final double D_CONSTANT = 0.00926; //0.0744;
 	private final double D_PRECISION = 0.125;
 	
 	private double distance;

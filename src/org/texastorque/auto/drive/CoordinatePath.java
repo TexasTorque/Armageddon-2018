@@ -31,5 +31,4 @@ public class CoordinatePath extends AutoSequence {
 			commandList.add(new Turn(angle, 0.125));
 		}
 	}
-	
 }

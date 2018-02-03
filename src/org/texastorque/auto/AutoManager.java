@@ -58,9 +58,8 @@ public class AutoManager {
 					break;
 					
 				case 2:
-					System.out.println("6");
+					System.out.println("2");
 					commandList.addAll(new PlaceCubeScale().getCommands());
-					System.out.println("7");
 					break;
 					
 				default:
