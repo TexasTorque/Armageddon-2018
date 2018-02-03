@@ -1,7 +1,8 @@
 package org.texastorque;
 
 import org.texastorque.subsystems.Drivebase;
-
+import org.texastorque.subsystems.Arm;
+import org.texastorque.subsystems.Claw;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,6 @@ public class Robot extends TorqueIterative {
 		
 		subsystems = new ArrayList<Subsystem>();
 		subsystems.add(Drivebase.getInstance());
-		
 	}
 	
 	@Override
@@ -59,8 +59,10 @@ public class Robot extends TorqueIterative {
 		AutoManager.init();
 		AutoManager.beginAuto();
 		hasStarted = true;
+
 	}
 	
+			
 	@Override
 	public void autonomousContinuous(){
 		Feedback.getInstance().update();
@@ -82,6 +84,7 @@ public class Robot extends TorqueIterative {
 		for(Subsystem s: subsystems)
 			s.teleopContinuous();
 		Drivebase.getInstance().teleopContinuous();
+		
 	}
 	
 	@Override

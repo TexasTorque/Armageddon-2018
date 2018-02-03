@@ -4,7 +4,6 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
-
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
@@ -13,7 +12,7 @@ import org.texastorque.torquelib.util.TorqueMathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Drivebase extends Subsystem{
+public class Drivebase extends Subsystem {
 
 	private static Drivebase instance;
 	
@@ -113,10 +112,10 @@ public class Drivebase extends Subsystem{
 	public void autoContinuous() {
 		switch (type) {
 			case AUTODRIVE:
-				setpoint = i.getDB_setpoint();
+				setpoint = i.getDBSetpoint();
 				if (setpoint != previousSetpoint) {
 					previousSetpoint = setpoint;
-					precision = i.getDB_precision();
+					precision = i.getDBPrecision();
 					tmp.generateTrapezoid(setpoint, 0d, 0d);
 					previousTime = Timer.getFPGATimestamp();
 				}
@@ -133,7 +132,7 @@ public class Drivebase extends Subsystem{
 		
 				leftSpeed = leftPV.calculate(tmp, f.getDB_leftDistance(), f.getDB_leftRate());
 				rightSpeed = rightPV.calculate(tmp, f.getDB_rightDistance(), f.getDB_rightRate());
-		//		o.setDrivebaseSpeed(leftSpeed, rightSpeed);
+				//o.setDrivebaseSpeed(leftSpeed, rightSpeed);
 				break;
 			
 			case AUTOTURN:
@@ -151,8 +150,12 @@ public class Drivebase extends Subsystem{
 	public void teleopContinuous() {
 		switch (type) {
 		case TELEOP:
-			leftSpeed = i.getDB_leftSpeed();
-			rightSpeed = i.getDB_rightSpeed();
+			leftSpeed = i.getDBLeftSpeed();
+			rightSpeed = i.getDBRightSpeed();
+			break;
+			
+		default:
+			type = DriveType.TELEOP;
 			break;
 		}
 		
@@ -171,8 +174,7 @@ public class Drivebase extends Subsystem{
 	public void smartDashboard() {
 		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
 		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
-
-//		SmartDashboard.putString("DBA_TYPE", type.toString());
+		
 		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);
 		SmartDashboard.putNumber("DBA_TARGETVELOCITY", targetVelocity);
 		SmartDashboard.putNumber("DBA_TARGETACCELERATION", targetAcceleration);

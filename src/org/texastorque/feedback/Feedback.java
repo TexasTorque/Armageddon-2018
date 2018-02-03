@@ -1,18 +1,16 @@
 package org.texastorque.feedback;
 
 import org.texastorque.constants.Ports;
+import org.texastorque.io.Input;
 import org.texastorque.torquelib.component.TorqueEncoder;
 import org.texastorque.torquelib.util.TorqueMathUtil;
-
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.texastorque.io.Input;
-import org.texastorque.torquelib.component.TorqueEncoder;
+import com.kauailabs.navx.frc.AHRS;
 
 import java.util.ArrayList;
 
@@ -108,6 +106,7 @@ public class Feedback {
 		SmartDashboard.putNumber("DB_GYRO", DB_angle);
 		SmartDashboard.putNumber("DB_GYRORATE", DB_angleRate);
 		SmartDashboard.putNumber("GYROX", DB_gyro.getAngle());
+
 	}
 	
 	public static Feedback getInstance() {

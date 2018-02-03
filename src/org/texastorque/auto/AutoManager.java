@@ -48,23 +48,23 @@ public class AutoManager {
 		
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
-				case 0:
-					System.out.println("0");
-					break;
-					
-				case 1:
-					System.out.println("1");
-					commandList.addAll(new ForwardMode(1.5).getCommands());
-					break;
-					
-				case 2:
-					System.out.println("2");
-					commandList.addAll(new PlaceCubeScale().getCommands());
-					break;
-					
-				default:
-					System.out.println("default");
-					break;
+			case 0:
+				System.out.println("0");
+				break;
+
+			case 1:
+				System.out.println("1");
+				commandList.addAll(new ForwardMode(1.5).getCommands());
+				break;
+
+			case 2:
+				System.out.println("2");
+				commandList.addAll(new PlaceCubeScale().getCommands());
+				break;
+
+			default:
+				System.out.println("default");
+				break;
 			}
 			autoMode /= 10;
 		}
