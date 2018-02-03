@@ -35,6 +35,10 @@ public class AutoMode extends Input{
 	private double leftDeltaError;
 	private double rightDeltaError;
 	
+	private static final double kP = 4.0;
+	private static final double kI = 4.0;
+	private static final double snake = 4.0;
+	
 	private static RobotOutput o;
 	private int index;
 	
@@ -96,8 +100,9 @@ public class AutoMode extends Input{
 		return rightDeltaError;
 	}
 
+	
 	private void tuneMode(){
-		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
+	/*	currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
 		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
 		expectedLeftDistance = DB_leftDistances[index];
 		expectedRightDistance = DB_rightDistances[index];
@@ -111,10 +116,11 @@ public class AutoMode extends Input{
 		
 		leftPrevError = leftError;
 		rightPrevError = rightError;
+	*/
 	}
 	
 	private void fix() {
-		if(leftError > 4) {
+		/*if(leftError > 4) {
 			leftDistanceCorrection = 
 					DB_leftSpeed * leftError / Feedback.getInstance().getLeftEncoder().getRate();
 		}
@@ -122,7 +128,7 @@ public class AutoMode extends Input{
 			rightDistanceCorrection = 
 					-1 * (DB_rightSpeed * rightError / Feedback.getInstance().getRightEncoder().getRate());
 		}
-		
+		*/
 	}
 	
 	public void SmartDashboard() {
