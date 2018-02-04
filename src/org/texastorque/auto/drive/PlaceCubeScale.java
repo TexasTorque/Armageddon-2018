@@ -19,15 +19,15 @@ public class PlaceCubeScale extends AutoSequence {
 	
 	@Override
 	public void init() {
-		System.out.println("init in placecubeseq");
+		System.out.println("init PlaceCubeScale");
 		if (startPos == 1) {
 			if (scaleSide == 'L') {
-				System.out.println("scaleSide L");
+				System.out.println("1L");
 				commandList.add(new Drive(300, 0.125));
 				commandList.add(new Turn(-90, 0.125));
 			}
 			else {
-				System.out.println("scaleSide R");
+				System.out.println("1R");
 				commandList.add(new Drive(240, 0.125));
 				commandList.add(new Turn(-90, 0.125));
 				commandList.add(new Drive(180, 0.125));

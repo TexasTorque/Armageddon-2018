@@ -63,40 +63,40 @@ public class Feedback {
 		DB_angleRate = DB_gyro.getVelocityX();
 	}
 	
-	public double getDB_distance() {
+	public double getDBDistance() {
 		return DB_distance;
 	}
 	
-	public double getDB_leftDistance() {
+	public double getDBLeftDistance() {
 		return DB_leftDistance;
 	}
 	
-	public double getDB_rightDistance() {
+	public double getDBRightDistance() {
 		return DB_rightDistance;
 	}
 	
-	public double getDB_leftRate() {
+	public double getDBLeftRate() {
 		return DB_leftRate;
 	}
 	
-	public double getDB_rightRate() {
+	public double getDBRightRate() {
 		return DB_rightRate;
 	}
 	
-	public double getDB_angle() {
+	public double getDBAngle() {
 		return DB_angle;
 	}
 	
-	public double getDB_angleRate() {
+	public double getDBAngleRate() {
 		return DB_angleRate;
 	}
 	
-	public void resetDB_encoders() {
+	public void resetDBEncoders() {
 		DB_leftEncoder.reset();
 		DB_rightEncoder.reset();
 	}
 	
-	public void resetDB_gyro() {
+	public void resetDBGyro() {
 		DB_gyro.reset();
 	}
 	
@@ -112,5 +112,4 @@ public class Feedback {
 	public static Feedback getInstance() {
 		return instance == null ? instance = new Feedback() : instance;
 	}
-
 }

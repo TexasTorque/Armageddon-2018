@@ -10,7 +10,7 @@ public class Input {
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
 	
-	protected volatile double DB_setpoint;
+	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
 
@@ -37,8 +37,8 @@ public class Input {
 		return DB_rightSpeed;
 	}
 	
-	public double getDBSetpoint() {
-		return DB_setpoint;
+	public double getDBDriveSetpoint() {
+		return DB_driveSetpoint;
 	}
 
 	public double getDBTurnSetpoint() {
@@ -47,6 +47,16 @@ public class Input {
 	
 	public double getDBPrecision() {
 		return DB_precision;
+	}
+	
+	public void setDBDriveSetpoint(double setpoint, double precision) {
+		DB_driveSetpoint = setpoint;
+		DB_precision = precision;
+	}
+	
+	public void setDBTurnSetpoint(double setpoint, double precision) {
+		DB_turnSetpoint = setpoint + Feedback.getInstance().getDBAngle();
+		DB_precision = precision;
 	}
 	
 	//Arm
@@ -67,16 +77,4 @@ public class Input {
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	}
-	
-	public void setDB_driveSetpoint(double setpoint, double precision) {
-		DB_setpoint = setpoint;
-		DB_precision = precision;
-	}
-	
-	public void setDB_turnSetpoint(double setpoint, double precision) {
-		DB_turnSetpoint = setpoint + Feedback.getInstance().getDB_angle();
-		DB_precision = precision;
-	}
-	
-	
 }

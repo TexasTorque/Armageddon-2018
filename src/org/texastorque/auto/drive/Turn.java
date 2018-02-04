@@ -33,10 +33,10 @@ public class Turn extends AutoCommand {
 	
 	@Override
 	public void run() {
-		Feedback.getInstance().resetDB_gyro();
-		Feedback.getInstance().resetDB_encoders();
+		Feedback.getInstance().resetDBGyro();
+		Feedback.getInstance().resetDBEncoders();
 		
-		input.setDB_turnSetpoint(angle, precision);
+		input.setDBTurnSetpoint(angle, precision);
 		drivebase.setType(DriveType.AUTOTURN);
 		if(time != -999)
 			AutoManager.pause(time);

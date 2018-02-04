@@ -33,10 +33,10 @@ public class Drive extends AutoCommand {
 	
 	@Override
 	public void run() {
-		Feedback.getInstance().resetDB_gyro();
-		Feedback.getInstance().resetDB_encoders();
+		Feedback.getInstance().resetDBGyro();
+		Feedback.getInstance().resetDBEncoders();
 		System.out.println("run");
-		input.setDB_driveSetpoint(distance, precision);
+		input.setDBDriveSetpoint(distance, precision);
 		drivebase.setType(DriveType.AUTODRIVE);
 		if(time != -999)
 			AutoManager.pause(time);
