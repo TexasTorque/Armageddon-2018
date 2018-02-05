@@ -151,8 +151,8 @@ public class Drivebase extends Subsystem {
 				targetAngle = turnTMP.getCurrentPosition();
 				targetAngularVelocity = turnTMP.getCurrentVelocity();
 
-				leftSpeed = turnPV.calculate(turnTMP, f.getDBAngle(), f.getDBAngleRate());
-				rightSpeed = -leftSpeed;
+				rightSpeed = turnPV.calculate(turnTMP, f.getDBAngle(), f.getDBAngleRate());
+				leftSpeed = -rightSpeed;
 				break;
 				
 			default:

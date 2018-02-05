@@ -19,7 +19,7 @@ public class Feedback {
 	public static Feedback instance;
 	
 	//constants
-	private final double DB_DISTANCE_CONVERSION = 0.04927988; //incorrect
+	private final double DB_DISTANCE_CONVERSION = 0.0748; //inaccurate
 	
 	//sensors
 	private TorqueEncoder DB_leftEncoder;

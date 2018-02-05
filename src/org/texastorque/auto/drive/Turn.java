@@ -36,6 +36,7 @@ public class Turn extends AutoCommand {
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDBEncoders();
 		
+		System.out.println("turn");
 		input.setDBTurnSetpoint(angle, precision);
 		drivebase.setType(DriveType.AUTOTURN);
 		if(time != -999)
