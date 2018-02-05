@@ -35,8 +35,19 @@ public class AutoMode extends Input{
 	private double rightPrevError = 0;
 	private double leftDeltaError;
 	private double rightDeltaError;
+	
 	private TorquePID leftPID;
 	private TorquePID rightPID;
+
+	
+	private double currentLeftSpeed;
+	private double currentRightSpeed;
+	private double expectedLeftSpeed;
+	private double expectedRightSpeed;
+	private double leftPercentError;
+	private double rightPercentError;
+	private double[] DB_leftEncoderSpeeds;
+	private double[] DB_rightEncoderSpeeds;
 	
 	
 	private static RobotOutput o;
@@ -50,14 +61,14 @@ public class AutoMode extends Input{
 		DB_rightDistances = new double[1500];
 		index = 0;
 		
-		leftPID = new TorquePID(.01, .01, .01);
+		leftPID = new TorquePID(.000000001, 0, 0);
 		leftPID.setControllingSpeed(true);
-		leftPID.setEpsilon(4);
-		leftPID.setMaxOutput(.5);
-		rightPID = new TorquePID(.01, .01, .01);
+		leftPID.setEpsilon(1);
+		leftPID.setMaxOutput(.000000001);
+		rightPID = new TorquePID(.000000001, 0, 0);
 		rightPID.setControllingSpeed(true);
-		rightPID.setEpsilon(4);
-		rightPID.setMaxOutput(.5);
+		rightPID.setEpsilon(1);
+		rightPID.setMaxOutput(.000000001);
 	}
 	
 	public void setDBLeftSpeed(int index, double value) {
@@ -88,8 +99,7 @@ public class AutoMode extends Input{
 	}
 	
 	public void runDrive(int index){
-		tuneMode();
-//		DB_rightSpeeds[index] *= .98;
+	//	tuneMode();
 		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
 	}
 
@@ -106,10 +116,12 @@ public class AutoMode extends Input{
 		return rightDeltaError;
 	}
 
+	/*
 	public void tuneMode() {
 		tuneLeft();
 		tuneRight();
 	}
+	*/
 	
 	public void tuneLeft() {
 		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
@@ -129,15 +141,9 @@ public class AutoMode extends Input{
 		SmartDashboard.putNumber("leftDeltaError", leftDeltaError);
 		SmartDashboard.putNumber("rightDeltaError", rightDeltaError);
 	}
-
-	
-	
-}
-
-
-
-//private void tuneMode(){
-	/*	currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
+/*
+	private void tuneMode(){
+		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
 		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
 		expectedLeftDistance = DB_leftDistances[index];
 		expectedRightDistance = DB_rightDistances[index];
@@ -151,11 +157,11 @@ public class AutoMode extends Input{
 		
 		leftPrevError = leftError;
 		rightPrevError = rightError;
-	*/
-	//}
 	
-	//private void fix() {
-		/*if(leftError > 4) {
+	}
+	
+	private void fix() {
+		if(leftError > 4) {
 			leftDistanceCorrection = 
 					DB_leftSpeed * leftError / Feedback.getInstance().getLeftEncoder().getRate();
 		}
@@ -163,6 +169,42 @@ public class AutoMode extends Input{
 			rightDistanceCorrection = 
 					-1 * (DB_rightSpeed * rightError / Feedback.getInstance().getRightEncoder().getRate());
 		}
-		*/
-	//}
+		
+	}
+	*/
+	/*
+	private void tuneMode() {
+		currentLeftSpeed = Feedback.getInstance().getLeftEncoder().getRate(); //NEED TO MAKE A CONVERSION
+		currentRightSpeed = Feedback.getInstance().getRightEncoder().getRate(); //FACTOR  
+		//These are currently in units fps, naturally in units radians/rpm
+		//actually I think naturally the enc
+		expectedLeftSpeed = DB_leftEncoderSpeeds[index]; 
+		expectedRightSpeed = DB_rightEncoderSpeeds[index]; 
+		//These are encoder readings as well
+		leftError = expectedLeftSpeed - currentLeftSpeed;
+		rightError = expectedRightSpeed - currentRightSpeed;
+		//This needs to be in units from -1 to 1 but for that we need to convert rate values
+		//right now they would basically always be -1 or 1, but they would be opposite of intended as well
+		leftPercentError = leftError / expectedLeftSpeed;
+		rightPercentError = rightError / expectedRightSpeed;
+		//percent off it is
+		if(leftPercentError > -1 && rightPercentError > -1)
+			DB_leftEncoderSpeeds[index] *= 1 + leftPercentError;
+			DB_rightEncoderSpeeds[index] *= 1 + rightPercentError;
+		//need to change it if percent error is less than 0
+	}
+	
+	private void fix() {
+		
+	}
+	*/
+	
+	private void tuneMode() {
+		//compare the sum of the rates as time elapses and if it doesn't line up then correct it
+	}
+	
+}
+
+
+
 	

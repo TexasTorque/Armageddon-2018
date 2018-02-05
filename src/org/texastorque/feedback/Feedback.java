@@ -21,7 +21,7 @@ public class Feedback {
 	
 	public Feedback() {
 		leftDrivebase = new TorqueEncoder(Ports.DB_LEFTENCODER_A, Ports.DB_LEFTENCODER_B, false, EncodingType.k4X);
-		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, false, EncodingType.k4X);
+		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, true, EncodingType.k4X);
 		leftDrivebase.reset();
 		rightDrivebase.reset();
 		
