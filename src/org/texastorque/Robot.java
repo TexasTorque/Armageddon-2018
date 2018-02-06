@@ -49,19 +49,15 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void autonomousInit() {
-		//Drivebase.getInstance().setType(DriveType.AUTODRIVE);
-		
 		time = 0;
 		for(Subsystem system : subsystems) {
 			system.autoInit();
 			system.setInput(Input.getInstance());
 		}
 		AutoManager.init();
-		AutoManager.beginAuto();
 		hasStarted = true;
 
 	}
-	
 			
 	@Override
 	public void autonomousContinuous(){

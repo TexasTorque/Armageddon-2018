@@ -1,6 +1,8 @@
 package org.texastorque.auto.drive;
 
 import org.texastorque.auto.AutoSequence;
+import org.texastorque.subsystems.Drivebase;
+import org.texastorque.subsystems.Drivebase.DriveType;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -10,7 +12,7 @@ public class PlaceCubeScale extends AutoSequence {
 	private char scaleSide;
 	
 	public PlaceCubeScale() {
-		
+		//startPos = DriverStation.getInstance().getLocation();
 		startPos = 3;
 		//scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
 		scaleSide = 'R';
@@ -39,8 +41,9 @@ public class PlaceCubeScale extends AutoSequence {
 		else if (startPos == 3) {
 			if (scaleSide == 'R') {
 				System.out.println("3R");
-				commandList.add(new Drive(300, 0.5));
-				commandList.add(new Turn(90, 0.5));
+				//commandList.add(new Drive(300, 0.125, 3.0));
+				commandList.add(new Turn(-90, 0.125, 3.0));
+				commandList.add(new Wait(12));
 			}
 			else {
 				System.out.println("3L");

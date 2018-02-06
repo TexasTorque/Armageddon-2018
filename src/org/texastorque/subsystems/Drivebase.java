@@ -4,6 +4,7 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
+import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
@@ -12,7 +13,7 @@ import org.texastorque.torquelib.util.TorqueMathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Drivebase extends Subsystem {
+public class Drivebase extends Subsystem { private int counter = 0;
 
 	private static Drivebase instance;
 	
@@ -151,8 +152,13 @@ public class Drivebase extends Subsystem {
 				targetAngle = turnTMP.getCurrentPosition();
 				targetAngularVelocity = turnTMP.getCurrentVelocity();
 
-				rightSpeed = turnPV.calculate(turnTMP, f.getDBAngle(), f.getDBAngleRate());
-				leftSpeed = -rightSpeed;
+				leftSpeed = turnPV.calculate(turnTMP, f.getDBAngle(), f.getDBAngleRate());
+				rightSpeed = -leftSpeed;
+				
+				if (counter % 20 == 0) {
+					System.out.println(leftSpeed + ", " + rightSpeed);
+				}
+				counter++;
 				break;
 				
 			default:
@@ -160,7 +166,7 @@ public class Drivebase extends Subsystem {
 				rightSpeed = 0;
 				break;
 		}
-		output();
+		run();
 	}
 
 	@Override
@@ -179,7 +185,15 @@ public class Drivebase extends Subsystem {
 		output();
 	}
 	
-	public void output() {
+	private void run() {
+		if(type == DriveType.WAIT) {
+			leftSpeed = 0;
+			rightSpeed = 0;
+		}
+		output();
+	}
+	
+	private void output() {
 		o.setDrivebaseSpeed(leftSpeed, rightSpeed);
 	}
 	

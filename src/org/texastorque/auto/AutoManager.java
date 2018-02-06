@@ -25,6 +25,7 @@ public class AutoManager {
 	private static volatile boolean setPointReached;
 	
 	public static void init() {
+		SmartDashboard.putNumber("AUTOMODE", 0);
 		commandList = new LinkedList<>();
 		subsystems = new ArrayList<>();
 		subsystems.add(Drivebase.getInstance());
@@ -35,7 +36,6 @@ public class AutoManager {
 		System.out.println("beginAuto");
 		setPointReached = false;
 		commandsDone = false;
-		System.out.println("beginAuto2");
 		analyzeAutoMode();
 	}
 	
@@ -43,8 +43,9 @@ public class AutoManager {
 	 * 0 = null, 1 = forward
 	 */
 	public static void analyzeAutoMode() {
-		int autoMode = (int)2.0;       
-		System.out.println(autoMode);
+		//int autoMode = Integer.parseInt(reverse(Integer.toString(
+		//		(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
+		int autoMode = 2;
 		
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
@@ -68,8 +69,10 @@ public class AutoManager {
 			}
 			autoMode /= 10;
 		}
+		
 		while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
 			commandList.remove(0).run();
+			System.out.println("end");
 		}
 		commandsDone = true;
 		
@@ -78,15 +81,25 @@ public class AutoManager {
 		}
 	}
 	
+	private static String reverse(String str) {
+		String reverse = "";
+		while (str.length() > 0) {
+			reverse = str.substring(0, 1) + reverse;
+			str = str.substring(1);
+		}
+		return reverse;
+	}
+	
 	public static void pause(double time) {
 		double startTime = Timer.getFPGATimestamp();
 		time = Math.abs(time);
 		
-		while (DriverStation.getInstance().isAutonomous() && !setPointReached && Timer.getFPGATimestamp() - startTime < time) {
+		while (DriverStation.getInstance().isAutonomous() && !setPointReached 
+				&& Timer.getFPGATimestamp() - startTime < time) {
 			Feedback.getInstance().update();
 			HumanInput.getInstance().smartDashboard();
 			Feedback.getInstance().smartDashboard();
-			AutoManager.SmartDashboard();
+			AutoManager.smartDashboard();
 			
 			for(Subsystem system : subsystems) {
 				system.autoContinuous();
@@ -105,9 +118,8 @@ public class AutoManager {
 		return commandsDone;
 	}
 	
-	public static void SmartDashboard() {
+	public static void smartDashboard() {
 		SmartDashboard.putNumber("A_AGGREGATETIME", aggregateTime);
 	}
-	
 	
 }
