@@ -23,6 +23,7 @@ public class HumanInput extends Input{
 		updateArm();
 		updateClaw();
 		updateWheelIntake();
+		updatePivot();
 
 	}
 	
@@ -45,12 +46,7 @@ public class HumanInput extends Input{
 			
 	}
 	 
-	
-	
-	public static HumanInput getInstance() {
-		return instance == null ? instance = new HumanInput() : instance;
-	}
-	
+
 	public void updateWheelIntake() {
 		boolean intaking;
 		if (operator.getLeftBumper() && operator.getRightStickClick()) {
@@ -71,5 +67,31 @@ public class HumanInput extends Input{
 			IN_lowerSpeed = 0d;
 		}
 	}
+	
+	public void updatePivot() {
+		
+		/*
+		if() {
+			
+		}else if{
+			
+		}else if{
+			
+		}else if{
+			
+		}else if{
+			
+		}else if{
+			
+		}else {
+			
+		}
+		*/
+	}
 
+	
+	public static HumanInput getInstance() {
+		return instance == null ? instance = new HumanInput() : instance;
+	}
+	
 }
