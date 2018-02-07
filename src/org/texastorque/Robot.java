@@ -4,6 +4,7 @@ package org.texastorque;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Claw;
+import org.texastorque.subsystems.WheelIntake;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class Robot extends TorqueIterative {
 			add(Drivebase.getInstance());
 			add(Arm.getInstance());
 			add(Claw.getInstance());
+			add(WheelIntake.getInstance());
 		}};
 		
 	}
@@ -81,12 +83,10 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 	
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+		
+		  //String autoSelected = SmartDashboard.getString("Auto Selector", "Default"); switch(autoSelected) { case "My Auto": autonomousCommand  = new MyAutoCommand(); break; case "Default Auto": default:
+		  //autonomousCommand = new ExampleCommand(); break; }
+		 
 
 		// schedule the autonomous command (example)
 	}

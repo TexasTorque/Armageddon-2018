@@ -8,6 +8,9 @@ public class Input {
 	
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
+	protected double IN_lowerSpeed;
+	protected double IN_upperSpeed;
+
 	
 	protected double AM_speed;
 	
@@ -31,6 +34,7 @@ public class Input {
 		return DB_rightSpeed;
 	}
 	
+
 	public double getArmSpeed() {
 		return AM_speed;
 	}
@@ -43,8 +47,30 @@ public class Input {
 		return PT_setpoints[PT_index];
 	}
 	
+
+	public double getIN_lowerSpeed() {
+		return IN_lowerSpeed;
+	}
+	
+	public double getIN_upperSpeed() {
+		return IN_upperSpeed;
+	}
+
+
+
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
+	
 	}
+	
+	public void setIN_lowerSpeed(double speed) {
+		IN_lowerSpeed = speed;
+	}
+	
+	public void setIN_upperSpeed(double speed) {
+		IN_upperSpeed = speed;
+	}
+
+
 
 }
