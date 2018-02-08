@@ -2,6 +2,7 @@ package org.texastorque.subsystems;
 
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
+import org.texastorque.feedback.Feedback;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
