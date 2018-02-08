@@ -16,21 +16,27 @@ public class Feedback {
 	private TorqueEncoder leftDrivebase;
 	private TorqueEncoder rightDrivebase;
 	
+	private TorqueEncoder pivot;
+	
 	public Feedback() {
 		leftDrivebase = new TorqueEncoder(Ports.DB_LEFTENCODER_A, Ports.DB_LEFTENCODER_B, false, EncodingType.k4X);
 		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, false, EncodingType.k4X);
+		pivot = new TorqueEncoder(1,2,false,EncodingType.k4X);
 		leftDrivebase.reset();
 		rightDrivebase.reset();
+		pivot.reset();
 	}
 	
 	public void update() {
 		leftDrivebase.calc();
 		rightDrivebase.calc();
+		pivot.calc();
 	}
 	
 	public void reset() {
 		leftDrivebase.reset();
 		rightDrivebase.reset();
+		pivot.reset();
 	}
 	
 	public static Feedback getInstance() {
@@ -42,6 +48,7 @@ public class Feedback {
 		SmartDashboard.putNumber("Right_Encoder_Distance", rightDrivebase.getDistance()*0.0062);
 		SmartDashboard.putNumber("Left_Encoder_Speed", leftDrivebase.getRate());
 		SmartDashboard.putNumber("Right_Encoder_Speed", rightDrivebase.getRate()*0.0062);
+		SmartDashboard.putNumber("Pivot_Encoder_Distance", pivot.getDistance());
 		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
 	}
 

@@ -15,7 +15,9 @@ public class Input {
 	protected double AM_speed;
 	
 	protected int PT_index;
-	protected double[] PT_setpoints = new double[] {1,2,3,4,5,6}; //TBD
+	protected double[] PT_setpoints = new double[] {1,2,3,4,5,6,7,8,9,10}; //TBD
+	
+	protected boolean PT_setpointChanged;
 	
 	protected TorqueToggle CL_closed;
 	
@@ -24,6 +26,7 @@ public class Input {
 		DB_rightSpeed = 0d;
 		AM_speed = 0d;
 		CL_closed = new TorqueToggle();
+		PT_setpointChanged = false;
 	}
 	
 	public double getDBLeftSpeed() {
@@ -48,14 +51,17 @@ public class Input {
 	}
 	
 
-	public double getIN_lowerSpeed() {
+	public double getINLowerSpeed() {
 		return IN_lowerSpeed;
 	}
 	
-	public double getIN_upperSpeed() {
+	public double getINUpperSpeed() {
 		return IN_upperSpeed;
 	}
 
+	public boolean getPTSetpointChanged() {
+		return PT_setpointChanged;
+	}
 
 
 	public static Input getInstance() {

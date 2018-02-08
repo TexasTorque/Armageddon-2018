@@ -31,6 +31,7 @@ public class RobotOutput {
 	private TorqueMotor IN_upper;
 	private TorqueMotor IN_lower;
 
+	private TorqueMotor PT_sole;
 	
 	public static RobotOutput instance;
 
@@ -46,6 +47,8 @@ public class RobotOutput {
 		
 		IN_upper = new TorqueMotor(new VictorSP(Ports.IN_LOWER), !clockwise);
 		IN_lower = new TorqueMotor(new VictorSP(Ports.IN_UPPER), clockwise);
+		
+		PT_sole = new TorqueMotor(new VictorSP(1),clockwise);
 		
 
 	}
@@ -76,7 +79,11 @@ public class RobotOutput {
 		upperSpeed = TorqueMathUtil.constrain(upperSpeed, Constants.IN_LIMIT.getDouble());
 		IN_upper.set(upperSpeed);
 		IN_lower.set(lowerSpeed);
-                                 	}
+    }
+	
+	public void setPivotSpeed(double speed) {
+		PT_sole.set(speed);
+	}
 
 }
 
