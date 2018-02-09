@@ -8,6 +8,7 @@ import org.texastorque.torquelib.component.TorqueEncoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.math.*;
 
 public class Feedback {
 
@@ -23,6 +24,7 @@ public class Feedback {
 	private double PX_x1;
 	private double PX_y1;
 	private double PX_surfaceArea1;
+	private double PX_height;
 	private double PX_x2;
 	private double PX_y2;
 	private double PX_surfaceArea2;
@@ -49,9 +51,10 @@ public class Feedback {
 		
 		try {
 			PixyPacket one = pixy.readPacket(1);
-			PX_x1 = one.X - 160;
-			PX_y1 = one.Y - 100;
-			PX_surfaceArea1 = one.Width * one.Height;
+			PX_x1 = one.X;
+			PX_y1 = one.Y;
+			PX_surfaceArea1 = one.SurfaceArea;
+			PX_height = one.Height;
 			
 			//should not need to read in a second packet ever
 			//if it doesn't work on the first, it shouldn't ever
@@ -83,6 +86,10 @@ public class Feedback {
 		return ((PX_x1 + PX_x2) / 2)*PX_CONVERSIONH;
 	}
 	
+	public double SR_getPX_HorizontalDegreeOff() {
+		return (Math.tan(Math.abs(PX_x1-640)/((12/PX_height)*800)))*360/3.14159;
+	}
+	
 	public static Feedback getInstance() {
 		return instance == null ? instance = new Feedback() : instance;
 	}
@@ -94,6 +101,10 @@ public class Feedback {
 		SmartDashboard.putNumber("Right_Encoder_Speed", rightDrivebase.getRate()*0.0062);
 		SmartDashboard.putNumber("Pivot_Encoder_Distance", pivot.getDistance());
 		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+		
+		SmartDashboard.putNumber("PIXYX_1", PX_x1);
+		SmartDashboard.putNumber("PIXYY_1", PX_y1);
+		SmartDashboard.putNumber("PIXYHEIGHT_1", PX_height);
 	}
 
 }

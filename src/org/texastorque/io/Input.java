@@ -10,7 +10,8 @@ public class Input {
 	protected double DB_rightSpeed;
 	protected double IN_lowerSpeed;
 	protected double IN_upperSpeed;
-
+	
+	protected volatile double DB_turnSetpoint;
 	
 	protected double AM_speed;
 	
@@ -61,6 +62,10 @@ public class Input {
 
 	public boolean getPTSetpointChanged() {
 		return PT_setpointChanged;
+	}
+	
+	public double getDB_turnSetpoint() {
+		return DB_turnSetpoint;
 	}
 
 
