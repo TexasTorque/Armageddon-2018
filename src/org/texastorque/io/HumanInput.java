@@ -43,9 +43,9 @@ public class HumanInput extends Input{
 		 * Checks to see if the drivebase should be going more positive or negative
 		 */
 		double leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
-									/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
+							/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
 		double rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
-				/(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
+							  /(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
 		
 		
 		
@@ -53,8 +53,8 @@ public class HumanInput extends Input{
 			DB_leftSpeed = lastLeftSpeed + MAX_START_ACCEL * leftNegativeTest;
 			DB_rightSpeed = lastRightSpeed + MAX_START_ACCEL * rightNegativeTest;
 		} else {
-			DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
-			DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
+			DB_leftSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
+			DB_rightSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
 		}
 		
 		if(starting) {
