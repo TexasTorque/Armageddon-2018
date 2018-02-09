@@ -121,7 +121,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousContinuous(){
 		AutoManager.getInstance().getRunningMode().run();
-		AutoManager.getInstance().getRunningMode().SmartDashboard();
+	//	AutoManager.getInstance().getRunningMode().SmartDashboard();
 	}
 	
 	@Override

@@ -85,8 +85,9 @@ public class InputRecorder extends HumanInput{
 	public void recordDrive(){
 		currentMode.setDBLeftSpeed(index, DB_leftSpeed);
 		currentMode.setDBRightSpeed(index, DB_rightSpeed);
-		currentMode.setDBLeftDistance(index, Feedback.getInstance().getLeftEncoder().getDistance());
-		currentMode.setDBRightDistance(index, Feedback.getInstance().getRightEncoder().getDistance());
+		currentMode.setDBLeftEncoderRate(index, Feedback.getInstance().getLeftEncoder().getRate());
+		System.out.println(Feedback.getInstance().getLeftEncoder().getRate());
+		currentMode.setDBRightEncoderRate(index, Feedback.getInstance().getRightEncoder().getRate());
 	}
 	
 	

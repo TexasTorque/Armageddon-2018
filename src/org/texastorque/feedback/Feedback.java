@@ -20,8 +20,8 @@ public class Feedback {
 	private AHRS DB_gyro;
 	
 	public Feedback() {
-		leftDrivebase = new TorqueEncoder(Ports.DB_LEFTENCODER_A, Ports.DB_LEFTENCODER_B, false, EncodingType.k4X);
-		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, true, EncodingType.k4X);
+		leftDrivebase = new TorqueEncoder(Ports.DB_LEFTENCODER_A, Ports.DB_LEFTENCODER_B, true, EncodingType.k4X);
+		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, false, EncodingType.k4X);
 		leftDrivebase.reset();
 		rightDrivebase.reset();
 		
@@ -52,7 +52,7 @@ public class Feedback {
 	public void SmartDashboard() {
 		SmartDashboard.putNumber("Left_Encoder_Distance", leftDrivebase.getDistance() * DISTANCE_CONVERSION);
 		SmartDashboard.putNumber("Right_Encoder_Distance", rightDrivebase.getDistance()* DISTANCE_CONVERSION);
-		SmartDashboard.putNumber("Left_Encoder_Speed", leftDrivebase.getRate());
+		SmartDashboard.putNumber("Left_Encoder_Speed", leftDrivebase.getRate() * DISTANCE_CONVERSION);
 		SmartDashboard.putNumber("Right_Encoder_Speed", rightDrivebase.getRate()*DISTANCE_CONVERSION);
 	}
 

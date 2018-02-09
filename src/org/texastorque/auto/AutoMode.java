@@ -11,6 +11,7 @@ import org.texastorque.io.Input;
 import org.texastorque.io.InputRecorder;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.torquelib.controlLoop.TorquePID;
+import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,12 +20,15 @@ public class AutoMode extends Input{
 
 	public double[] DB_leftSpeeds;
 	public double[] DB_rightSpeeds;
-	public double[] DB_leftDistances;
-	public double[] DB_rightDistances;
+	public double[] DB_leftEncoderSpeeds;
+	public double[] DB_rightEncoderSpeeds;
 	
 	private double leftDistanceCorrection = 0;
 	private double rightDistanceCorrection = 0;
-
+	private double leftCorrectionNeeded = 0;
+	private double rightCorrectionNeeded = 0;
+	
+	/*
 	private double currentLeftDistance;
 	private double currentRightDistance;
 	private double expectedLeftDistance;
@@ -38,7 +42,6 @@ public class AutoMode extends Input{
 	
 	private TorquePID leftPID;
 	private TorquePID rightPID;
-
 	
 	private double currentLeftSpeed;
 	private double currentRightSpeed;
@@ -46,10 +49,20 @@ public class AutoMode extends Input{
 	private double expectedRightSpeed;
 	private double leftPercentError;
 	private double rightPercentError;
-	private double[] DB_leftEncoderSpeeds;
-	private double[] DB_rightEncoderSpeeds;
+	
+	*/
 	
 	
+	private double currentSumLeft = 0;
+	private double expectedSumLeft = 0;
+	private double currentSumRight = 0;
+	private double expectedSumRight = 0;
+	private double setpoint = 1.5;
+	
+	private double errorLeft;
+	private double prevErrorLeft;
+	private double errorRight;
+	private double prevErrorRight;
 	private static RobotOutput o;
 	private int index;
 	
@@ -57,10 +70,10 @@ public class AutoMode extends Input{
 		o = RobotOutput.getInstance();
 		DB_leftSpeeds = new double[1500];
 		DB_rightSpeeds= new double[1500];
-		DB_leftDistances = new double[1500];
-		DB_rightDistances = new double[1500];
+		DB_leftEncoderSpeeds= new double[1500];
+		DB_rightEncoderSpeeds= new double[1500];
 		index = 0;
-		
+		/*
 		leftPID = new TorquePID(.000000001, 0, 0);
 		leftPID.setControllingSpeed(true);
 		leftPID.setEpsilon(1);
@@ -69,6 +82,7 @@ public class AutoMode extends Input{
 		rightPID.setControllingSpeed(true);
 		rightPID.setEpsilon(1);
 		rightPID.setMaxOutput(.000000001);
+	*/
 	}
 	
 	public void setDBLeftSpeed(int index, double value) {
@@ -79,12 +93,12 @@ public class AutoMode extends Input{
 		DB_rightSpeeds[index] = value;
 	}
 	
-	public void setDBLeftDistance(int index, double value) {
-		DB_leftDistances[index] = value;
+	public void setDBLeftEncoderRate(int index, double value) {
+		DB_leftEncoderSpeeds[index] = value;
 	}
 	
-	public void setDBRightDistance(int index, double value) {
-		DB_rightDistances[index] = value;
+	public void setDBRightEncoderRate(int index, double value) {
+		DB_rightEncoderSpeeds[index] = value;
 	}
 	
 	public void run(){
@@ -99,15 +113,14 @@ public class AutoMode extends Input{
 	}
 	
 	public void runDrive(int index){
-	//	tuneMode();
+		tuneMode();
 		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
 	}
 
 	/*
 	 * runDrive puts the values in the ArrayList to the motors then takes those values out of the ArrayList
 	 * This is necessary because it prevents the loop in the other file from calling the first value endlessly
-	 */
-		
+	 *		
 	public double getLeftDeltaError() {
 		return leftDeltaError;
 	}
@@ -115,13 +128,12 @@ public class AutoMode extends Input{
 	public double getRightDeltaError() {
 		return rightDeltaError;
 	}
-
 	/*
 	public void tuneMode() {
 		tuneLeft();
 		tuneRight();
 	}
-	*/
+	
 	
 	public void tuneLeft() {
 		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
@@ -141,7 +153,6 @@ public class AutoMode extends Input{
 		SmartDashboard.putNumber("leftDeltaError", leftDeltaError);
 		SmartDashboard.putNumber("rightDeltaError", rightDeltaError);
 	}
-/*
 	private void tuneMode(){
 		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
 		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
@@ -200,7 +211,52 @@ public class AutoMode extends Input{
 	*/
 	
 	private void tuneMode() {
+		updateValues();
+		calculateCorrection();
+		fix();
+//		System.out.println(errorLeft + "/t\t" + errorRight);
 		//compare the sum of the rates as time elapses and if it doesn't line up then correct it
+	}
+	
+	private void updateValues() {
+		currentSumLeft += Feedback.getInstance().getLeftEncoder().getRate();
+		expectedSumLeft += DB_leftSpeeds[index];
+		errorLeft = expectedSumLeft - currentSumLeft;
+		leftCorrectionNeeded = TorqueMathUtil.decreaseMagnitude(errorLeft, setpoint);
+		
+		currentSumRight+= Feedback.getInstance().getRightEncoder().getRate();
+		expectedSumRight += DB_rightSpeeds[index];
+		errorRight = expectedSumRight - currentSumRight;
+		rightCorrectionNeeded = TorqueMathUtil.decreaseMagnitude(errorRight, setpoint);
+	}
+	
+	private void calculateCorrection() {
+		calculateCorrection(leftCorrectionNeeded, 'L');
+		calculateCorrection(rightCorrectionNeeded, 'R');
+	}
+	
+	private void calculateCorrection(double correctionDeterminer, char side) {	
+		System.out.println(leftDistanceCorrection + "reeeeeeee" + rightDistanceCorrection);
+		if(side == 'L') {
+			leftDistanceCorrection = correctionDeterminer / 1000000;
+		} else rightDistanceCorrection = correctionDeterminer / 1000000;
+			
+	}
+	
+	/*
+	switch(correctionDeterminer) {
+		case 1: 
+			if(left)
+				leftDistanceCorrection = smallNumber that would get larger as the cases get higher if the equation I write doesn't work
+			break;
+		case 2:
+			break;
+			etc
+	*/
+
+	private void fix() {
+		DB_leftSpeeds[index] += leftDistanceCorrection;
+		DB_rightSpeeds[index] += rightDistanceCorrection;
 	}
 	
 }
