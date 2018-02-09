@@ -238,8 +238,8 @@ public class AutoMode extends Input{
 	private void calculateCorrection(double correctionDeterminer, char side) {	
 		System.out.println(leftDistanceCorrection + "reeeeeeee" + rightDistanceCorrection);
 		if(side == 'L') {
-			leftDistanceCorrection = correctionDeterminer / 1000000;
-		} else rightDistanceCorrection = correctionDeterminer / 1000000;
+			leftDistanceCorrection = correctionDeterminer / 10000000;
+		} else rightDistanceCorrection = correctionDeterminer / 10000000;
 			
 	}
 	
