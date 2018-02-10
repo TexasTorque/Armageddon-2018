@@ -1,54 +1,62 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.auto.AutoManager;
+import org.texastorque.constants.Constants;
+import org.texastorque.feedback.Feedback;
+import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
+import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pivot extends Subsystem {
 
-	
 	private static Pivot instance;
 	
 	private double speed;
 	
-	private TorqueTMP tmp;
+	private TorqueTMP pivotTMP;
+	private TorquePV pivotPV;
 	
-	private double setpoint;
-	private double previousSetpoint;
-
-	private boolean setTime;
-	private double cachedTime;
-	private double prevTime;
+	private double setpoint = 0;
+	private double previousSetpoint = 0;
+	private double previousTime;
+	private double precision;
 	
-	private TorquePV solePV;
-	private double targetPosition;
+	private double targetAngle;
 	private double targetVelocity;
 	private double targetAcceleration;
 	
-	
 	public Pivot() {
-		//tmp = new TorqueTMP();
+		init();
 	}
-	
 	
 	@Override
 	public void autoInit() {
-		// TODO Auto-generated method stub
-		
+		init();
 	}
 
 	@Override
 	public void teleopInit() {
-		// TODO Auto-generated method stub
-		
+		init();
 	}
 
 	@Override
 	public void disabledInit() {
-		// TODO Auto-generated method stub
+		speed = 0;
+	}
+	
+	private void init() {
+		pivotTMP = new TorqueTMP(Constants.PT_MVELOCITY.getDouble(), Constants.PT_MACCELERATION.getDouble());
+		pivotPV = new TorquePV();
 		
+		pivotPV.setGains(Constants.PT_PV_P.getDouble(), Constants.PT_PV_V.getDouble(),
+				Constants.PT_PV_ffV.getDouble(), Constants.PT_PV_ffA.getDouble());
+		pivotPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
+		
+		previousTime = Timer.getFPGATimestamp();
 	}
 
 	@Override
@@ -59,47 +67,47 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		// TODO Auto-generated method stub
-		
+		runPivot();
 	}
 
 	@Override
 	public void teleopContinuous() {
-		if(i.getGC_outake()) {
-			setpoint = i.getGC_outakeSetpoint();
-			if(!setTime) {
-				cachedTime = Timer.getFPGATimestamp();
-				setTime = true;
-			}
-		} else {
-			setpoint = i.getGC_setpoint();
-			setTime = false;
-		}
-		if (previousSetpoint != setpoint) {
+		runPivot();
+	}
+	
+	public void runPivot() {
+		setpoint = i.getPTSetpoint();
+		if (setpoint != previousSetpoint) {
 			previousSetpoint = setpoint;
-			tmp.generateTrapezoid(setpoint, 0d, 0d);
-			prevTime = Timer.getFPGATimestamp();
-		} else {
-			double dt = Timer.getFPGATimestamp() - prevTime;
-			prevTime = Timer.getFPGATimestamp();
-			tmp.calculateNextSituation(dt);
-
-			targetPosition = tmp.getCurrentPosition();
-			targetVelocity = tmp.getCurrentVelocity();
-			targetAcceleration = tmp.getCurrentAcceleration();
-
-			speed = solePV.calculate(tmp, Feedback.getInstance().getGC_distance(),
-					Feedback.getInstance().getGC_rate());
+			precision = i.getPTPrecision();
+			pivotTMP.generateTrapezoid(setpoint, 0d, 0d);
+			previousTime = Timer.getFPGATimestamp();
+		}
+		if (TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
+				&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision))
+			AutoManager.interruptThread();
+		double dt = Timer.getFPGATimestamp() - previousTime;
+		previousTime = Timer.getFPGATimestamp();
+		pivotTMP.calculateNextSituation(dt);
 		
+		targetAngle = pivotTMP.getCurrentPosition();
+		targetVelocity = pivotTMP.getCurrentVelocity();
+		targetAcceleration = pivotTMP.getCurrentAcceleration();
+		
+		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
+		output();
+	}
+	
+	public void output() {
+		o.setPivotSpeed(speed);
 	}
 
 	@Override
 	public void smartDashboard() {
-		
-		
+		SmartDashboard.putNumber("PT_SPEED", speed);
 	}
 	
-	public Pivot getInstance() {
+	public static Pivot getInstance() {
 		return instance == null ? instance = new Pivot() : instance;
 	}
 
