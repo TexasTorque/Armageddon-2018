@@ -79,16 +79,18 @@ public class RobotOutput {
 		CL_sole.set(closed ? Value.kForward : Value.kReverse);
 	}
 
-	public void setIntakeSpeed(double upperSpeed, double lowerSpeed) {
-		upperSpeed = TorqueMathUtil.constrain(upperSpeed, Constants.IN_LIMIT.getDouble());
-		IN_left.set(upperSpeed);
-		IN_right.set(lowerSpeed);
+	public void setIntakeSpeed(double speed) {
+		IN_left.set(speed);
+		IN_right.set(-speed);
     }
 	
+	public void setIntakePneumatics(boolean out, boolean down) {
+		IN_out.set(out ? Value.kForward : Value.kReverse);
+		IN_down.set(down ? Value.kForward : Value.kReverse);
+	}
 	public void setPivotSpeed(double speed) {
 		PT_sole.set(speed);
 	}
-
 
 	
 	public static RobotOutput getInstance() {

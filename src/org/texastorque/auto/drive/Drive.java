@@ -34,7 +34,7 @@ public class Drive extends AutoCommand {
 	@Override
 	public void run() {
 		Feedback.getInstance().resetDBGyro();
-		Feedback.getInstance().resetDBEncoders();
+		Feedback.getInstance().resetEncoders();
 		
 		System.out.println("drive");
 		input.setDBDriveSetpoint(distance, precision);

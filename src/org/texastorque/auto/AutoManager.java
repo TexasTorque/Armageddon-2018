@@ -97,7 +97,6 @@ public class AutoManager {
 		while (DriverStation.getInstance().isAutonomous() && !setPointReached 
 				&& Timer.getFPGATimestamp() - startTime < time) {
 			Feedback.getInstance().update();
-			HumanInput.getInstance().smartDashboard();
 			Feedback.getInstance().smartDashboard();
 			AutoManager.smartDashboard();
 			
