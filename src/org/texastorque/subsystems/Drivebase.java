@@ -13,13 +13,14 @@ import org.texastorque.torquelib.util.TorqueMathUtil;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Drivebase extends Subsystem { private int counter = 0;
+public class Drivebase extends Subsystem {
 
 	private static Drivebase instance;
 	
 	private double leftSpeed;
 	private double rightSpeed;
 	
+	//Drive
 	private double setpoint = 0;
 	private double previousSetpoint = 0;
 	private double previousTime;
@@ -35,7 +36,8 @@ public class Drivebase extends Subsystem { private int counter = 0;
 	private double targetPosition;
 	private double targetVelocity;
 	private double targetAcceleration;
-
+	
+	//Turn
 	private double turnPreviousSetpoint = 0;
 	private double turnSetpoint;
 
@@ -48,7 +50,6 @@ public class Drivebase extends Subsystem { private int counter = 0;
 	public enum DriveType {
 		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
 	}
-	
 	private DriveType type;
 	
 	public Drivebase() {
@@ -75,7 +76,7 @@ public class Drivebase extends Subsystem { private int counter = 0;
 	
 	private void init() {
 		driveTMP = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
-		turnTMP = new TorqueTMP(Constants.DB_MAVELOCITY.getDouble(), Constants.DB_MAACCELERATION.getDouble());
+		turnTMP = new TorqueTMP(Constants.DB_TURN_MVELOCITY.getDouble(), Constants.DB_TURN_MACCELERATION.getDouble());
 		leftPV = new TorquePV();
 		rightPV = new TorquePV();
 		turnPV = new TorquePV();
@@ -105,8 +106,7 @@ public class Drivebase extends Subsystem { private int counter = 0;
 
 	@Override
 	public void disabledContinuous() {
-		// TODO Auto-generated method stub
-		
+		output();
 	}
 
 	@Override
@@ -154,11 +154,6 @@ public class Drivebase extends Subsystem { private int counter = 0;
 
 				leftSpeed = turnPV.calculate(turnTMP, f.getDBAngle(), f.getDBAngleRate());
 				rightSpeed = -leftSpeed;
-				
-				if (counter % 20 == 0) {
-					System.out.println(leftSpeed + ", " + rightSpeed);
-				}
-				counter++;
 				break;
 				
 			default:
@@ -181,10 +176,9 @@ public class Drivebase extends Subsystem { private int counter = 0;
 			type = DriveType.TELEOP;
 			break;
 		}
-		
 		output();
 	}
-	
+		
 	private void run() {
 		if(type == DriveType.WAIT) {
 			leftSpeed = 0;
@@ -213,7 +207,7 @@ public class Drivebase extends Subsystem { private int counter = 0;
 		SmartDashboard.putNumber("DBA_TARGETANGULARVELOCITY", targetAngularVelocity);
 	}
 	
-	public static Drivebase getInstance(){
+	public static Drivebase getInstance() {
 		return instance == null ? instance = new Drivebase() : instance;
 	}
 	

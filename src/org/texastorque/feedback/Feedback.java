@@ -19,12 +19,15 @@ public class Feedback {
 	public static Feedback instance;
 	
 	//constants
-	private final double DB_DISTANCE_CONVERSION = 0.0748; //inaccurate
+	private final double DISTANCE_CONVERSION = 0.07383;
+	private final double ANGLE_CONVERSION = 360 / 250;
 	
 	//sensors
 	private TorqueEncoder DB_leftEncoder;
 	private TorqueEncoder DB_rightEncoder;
 	private AHRS DB_gyro;
+	
+	private TorqueEncoder PT_encoder;
 	
 	//related values
 	private double DB_distance;
@@ -40,12 +43,15 @@ public class Feedback {
 	private double DB_angle;
 	private double DB_angleRate;
 	
+	private double PT_angle;
+	private double PT_angleRate;
+	
 	public Feedback() {
 		init();
 	}
 	
 	public void init() {
-		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
+		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, true, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
 	}
@@ -53,14 +59,20 @@ public class Feedback {
 	public void update() {
 		DB_leftEncoder.calc();
 		DB_rightEncoder.calc();
+		PT_encoder.calc();
 		
-		DB_leftDistance = DB_leftEncoder.getDistance() * DB_DISTANCE_CONVERSION;
-		DB_rightDistance = DB_rightEncoder.getDistance() * DB_DISTANCE_CONVERSION;
-		DB_leftRate = DB_leftEncoder.getRate() * DB_DISTANCE_CONVERSION;
-		DB_rightRate = DB_rightEncoder.getRate() * DB_DISTANCE_CONVERSION;
+		//Drivebase
+		DB_leftDistance = DB_leftEncoder.getDistance() * DISTANCE_CONVERSION;
+		DB_rightDistance = DB_rightEncoder.getDistance() * DISTANCE_CONVERSION;
+		DB_leftRate = DB_leftEncoder.getRate() * DISTANCE_CONVERSION;
+		DB_rightRate = DB_rightEncoder.getRate() * DISTANCE_CONVERSION;
 		
 		DB_angle = DB_gyro.getAngle();
 		DB_angleRate = DB_gyro.getVelocityX();
+		
+		//Pivot
+		PT_angle = PT_encoder.getDistance() * ANGLE_CONVERSION;
+		PT_angleRate = PT_encoder.getRate() * ANGLE_CONVERSION;
 	}
 	
 	public double getDBDistance() {
@@ -90,6 +102,14 @@ public class Feedback {
 	public double getDBAngleRate() {
 		return DB_angleRate;
 	}
+
+	public double getPTAngle() {
+		return PT_angle;
+	}
+	
+	public double getPTAngleRate() {
+		return PT_angleRate;
+	}
 	
 	public void resetDBEncoders() {
 		DB_leftEncoder.reset();
@@ -98,6 +118,10 @@ public class Feedback {
 	
 	public void resetDBGyro() {
 		DB_gyro.reset();
+	}
+	
+	public void resetPTEncoder() {
+		PT_encoder.reset();
 	}
 	
 	public void smartDashboard() {

@@ -1,8 +1,7 @@
 package org.texastorque;
 
-import org.texastorque.subsystems.Drivebase;
-import org.texastorque.subsystems.Arm;
-import org.texastorque.subsystems.Claw;
+import org.texastorque.subsystems.*;
+import org.texastorque.subsystems.Drivebase.DriveType;
 
 import java.util.ArrayList;
 
@@ -11,10 +10,8 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
-
-import org.texastorque.subsystems.Subsystem;
-import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.base.TorqueIterative;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -38,36 +35,53 @@ public class Robot extends TorqueIterative {
 		
 		subsystems = new ArrayList<Subsystem>();
 		subsystems.add(Drivebase.getInstance());
+		subsystems.add(Pivot.getInstance());
+		
+		AutoManager.init();
 	}
 	
 	@Override
 	public void alwaysContinuous() {
 		Feedback.getInstance().update();
+		for (Subsystem system : subsystems) {
+			system.smartDashboard();
+		}
+		if(!isDisabled()) {
+			SmartDashboard.putNumber("Time", time++);
+		}
+		
+		HumanInput.getInstance().smartDashboard();
 		Feedback.getInstance().smartDashboard();
-		Drivebase.getInstance().smartDashboard();
+		AutoManager.smartDashboard();
 	}
 	
 	@Override
 	public void autonomousInit() {
 		time = 0;
-		for(Subsystem system : subsystems) {
+		for (Subsystem system : subsystems) {
 			system.autoInit();
 			system.setInput(Input.getInstance());
 		}
-		AutoManager.init();
+		AutoManager.beginAuto();
 		hasStarted = true;
-
 	}
-			
+	
 	@Override
 	public void autonomousContinuous(){
+		if(!hasStarted && AutoManager.commandsDone()) {
+			AutoManager.beginAuto();
+			hasStarted = true;
+		}
 		Feedback.getInstance().update();
-		Drivebase.getInstance().autoContinuous();
+		for (Subsystem system : subsystems) {
+			system.autoContinuous();
+		}
 	}
 	
 	@Override
 	public void teleopInit() {
 		Drivebase.getInstance().setType(DriveType.TELEOP);
+		
 		for(Subsystem system : subsystems) {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());
@@ -75,17 +89,17 @@ public class Robot extends TorqueIterative {
 	}
 
 	@Override
-	public void teleopContinuous(){
+	public void teleopContinuous() {
+		Feedback.getInstance().update();
 		HumanInput.getInstance().update();
-		for(Subsystem s: subsystems)
-			s.teleopContinuous();
-		Drivebase.getInstance().teleopContinuous();
-		
+		for(Subsystem system : subsystems) {
+			system.teleopContinuous();
+		}
 	}
 	
 	@Override
 	public void disabledInit() {
-		for(Subsystem system : subsystems) {
+		for (Subsystem system : subsystems) {
 			system.disabledInit();
 			system.setInput(HumanInput.getInstance());
 		}
@@ -94,13 +108,8 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void disabledContinuous() {
 		hasStarted = false;
-		for(Subsystem system : subsystems ) {
+		for (Subsystem system : subsystems ) {
 			system.disabledContinuous();
 		}
-	}
-	
-	@Override
-	public void disabledPeriodic() {
-	
 	}
 }

@@ -4,7 +4,7 @@ import org.texastorque.torquelib.util.GenericController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class HumanInput extends Input{
+public class HumanInput extends Input {
 
 	public static HumanInput instance;
 
@@ -15,12 +15,12 @@ public class HumanInput extends Input{
 		init();
 	}
 
-	public void init(){
+	public void init() {
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
 	}
 	
-	public void update(){
+	public void update() {
 		updateDrive();
 		updateArm();
 		updateClaw();
@@ -29,6 +29,10 @@ public class HumanInput extends Input{
 	public void updateDrive() {
 		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
+	}
+	
+	public void updatePivot() {
+		PT_setpoint = 0; //test value
 	}
 
 	public void updateArm() {
@@ -40,7 +44,6 @@ public class HumanInput extends Input{
 	
 	public void updateClaw() {
 		CL_closed.calc(driver.getXButton());
-			
 	}
 	
 	public void smartDashboard() {

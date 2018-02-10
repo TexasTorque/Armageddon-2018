@@ -7,21 +7,29 @@ public class Input {
 
 	private static Input instance;
 	
+	//Drivebase
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
 	
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
-
+	
+	//Arm
 	protected double AM_speed;
 	
-	protected int PT_index;
-	protected double[] PT_setpoints = new double[] {1, 2, 3, 4, 5, 6}; //TBD
+	//Pivot
+	protected double PT_speed;
 	
+	protected volatile int PT_setpoint;
+	protected volatile double[] PT_setpoints = 
+		{0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0}; //TBD
+	protected volatile double PT_precision;
+	
+	//Claw
 	protected TorqueToggle CL_closed;
 	
-	public Input(){
+	public Input() {
 		DB_leftSpeed = 0d;
 		DB_rightSpeed = 0d;
 		AM_speed = 0d;
@@ -71,7 +79,16 @@ public class Input {
 	
 	//Pivot
 	public double getPTSetpoint() {
-		return PT_setpoints[PT_index];
+		return PT_setpoints[PT_setpoint];
+	}
+	
+	public double getPTPrecision() {
+		return PT_precision;
+	}
+	
+	public void setPTSetpoint(int setpoint, double precision) {
+		PT_setpoint = setpoint;
+		PT_precision = precision;
 	}
 	
 	public static Input getInstance() {

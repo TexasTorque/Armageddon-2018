@@ -41,9 +41,8 @@ public class PlaceCubeScale extends AutoSequence {
 		else if (startPos == 3) {
 			if (scaleSide == 'R') {
 				System.out.println("3R");
-				//commandList.add(new Drive(300, 0.125, 3.0));
-				commandList.add(new Turn(-90, 0.125, 3.0));
-				commandList.add(new Wait(12));
+				commandList.add(new Drive(300, 0.125, 6.0));
+				commandList.add(new Turn(-90, 1.5, 5.0));
 			}
 			else {
 				System.out.println("3L");
