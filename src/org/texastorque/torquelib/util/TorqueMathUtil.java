@@ -42,4 +42,8 @@ public class TorqueMathUtil {
 		}
 	}	
 	
+	public static double timesFactorTen(double value, int power) {
+		return value * Math.pow(10, power);
+	}
+	
 }
