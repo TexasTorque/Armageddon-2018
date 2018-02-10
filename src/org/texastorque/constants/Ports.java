@@ -22,7 +22,11 @@ public class Ports {
 	public static final int DB_RIGHTENCODER_B = 3;
 
 
-	public static final int IN_LOWER = 4;
-	public static final int IN_UPPER = 5;
+	public static final int IN_LEFT= 4;
+	public static final int IN_RIGHT = 5;
+	public static final int IN_DOWN_A = 6;
+	public static final int IN_DOWN_B = 7;
+	public static final int IN_OUT_A = 7;
+	public static final int IN_OUT_B = 8;
 
 }

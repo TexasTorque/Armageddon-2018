@@ -26,33 +26,35 @@ public class RobotOutput {
 	private TorqueMotor AM_left;
 	private DoubleSolenoid CL_sole;
 
-	private static boolean clockwise = true;
-
 	private TorqueMotor IN_left;
 	private TorqueMotor IN_right;
 	private DoubleSolenoid IN_down;
 	private DoubleSolenoid IN_out;
 
 	private TorqueMotor PT_sole;
-	
+
+	private static boolean clockwise = true;	
 	public static RobotOutput instance;
 
+	
 	public RobotOutput(){
 
 		DB_leftFore = new TorqueMotor(new VictorSP(Ports.DB_LEFT_FORE_PORT), !clockwise);
 		DB_leftRear = new TorqueMotor(new VictorSP(Ports.DB_LEFT_REAR_PORT), !clockwise);
 		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_PORT), clockwise);
 		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_PORT), clockwise);
+		
 		AM_right = 	   new TorqueMotor(new VictorSP(Ports.AM_RIGHT_PORT), clockwise);
 		AM_left = 	   new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
+		
 		CL_sole =      new DoubleSolenoid(Ports.CL_PORT_A, Ports.CL_PORT_B);
 		
-		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LOWER), !clockwise);
-		IN_right = new TorqueMotor(new VictorSP(Ports.IN_UPPER), clockwise);
+		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LEFT), !clockwise);
+		IN_right = new TorqueMotor(new VictorSP(Ports.IN_RIGHT), clockwise);
 		IN_down = new DoubleSolenoid(Ports.IN_DOWN_A, Ports.IN_DOWN_B);
 		IN_out = new DoubleSolenoid(Ports.IN_OUT_A, Ports.IN_OUT_B);
 		
-		PT_sole = new TorqueMotor(new VictorSP(1), clockwise);
+		PT_sole = new TorqueMotor(new VictorSP(Ports.PT_SOLE), clockwise);
 		
 
 	}
