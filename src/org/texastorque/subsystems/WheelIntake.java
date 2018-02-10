@@ -45,8 +45,8 @@ private static WheelIntake instance;
 	}
 
 	private void run() {
-		lowerSpeed = i.getIN_lowerSpeed();
-		upperSpeed = i.getIN_upperSpeed();
+		lowerSpeed = i.getINLowerSpeed();
+		upperSpeed = i.getINUpperSpeed();
 		output();
 	}
 	
