@@ -7,8 +7,10 @@ public class WheelIntake extends Subsystem {
 	
 private static WheelIntake instance;
 	
-	private double lowerSpeed = 0d;
-	private double upperSpeed = 0d;
+	private double leftSpeed = 0d;
+	private double rightSpeed = 0d;
+	private boolean out = false;
+	private boolean down = false;
 	
 	@Override
 	public void autoInit() {
@@ -22,8 +24,8 @@ private static WheelIntake instance;
 	
 	@Override
 	public void disabledInit() {
-		lowerSpeed = 0;
-		upperSpeed = 0;
+		leftSpeed = 0;
+		rightSpeed = 0;
 	}
 
 	private void init() {
@@ -45,8 +47,9 @@ private static WheelIntake instance;
 	}
 
 	private void run() {
-		lowerSpeed = i.getINLowerSpeed();
-		upperSpeed = i.getINUpperSpeed();
+		leftSpeed = i.getINLowerSpeed();
+		rightSpeed = i.getINUpperSpeed();
+		out = 
 		output();
 	}
 	
@@ -55,7 +58,7 @@ private static WheelIntake instance;
 			//if(i.getVI_rpmsGood()) {
 				RobotOutput.getInstance().setIntakeSpeed(1, .3);
 			} else {
-				RobotOutput.getInstance().setIntakeSpeed(upperSpeed, lowerSpeed);
+				RobotOutput.getInstance().setIntakeSpeed(rightSpeed, leftSpeed);
 			}
 		}
 	//}

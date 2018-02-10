@@ -8,25 +8,25 @@ public class Input {
 	
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
-	protected double IN_lowerSpeed;
-	protected double IN_upperSpeed;
-
+	
+	protected double IN_speed;
+	protected TorqueToggle IN_down;
+	protected TorqueToggle IN_out;
 	
 	protected double AM_speed;
 	
-	protected int PT_index;
-	protected double[] PT_setpoints = new double[] {1,2,3,4,5,6,7,8,9,10}; //TBD
-	
-	protected boolean PT_setpointChanged;
-	
 	protected TorqueToggle CL_closed;
+	
+	protected int PT_index;
 	
 	public Input(){
 		DB_leftSpeed = 0d;
 		DB_rightSpeed = 0d;
 		AM_speed = 0d;
 		CL_closed = new TorqueToggle();
-		PT_setpointChanged = false;
+		IN_down = new TorqueToggle();
+		IN_out = new TorqueToggle();
+		PT_index = 0;
 	}
 	
 	public double getDBLeftSpeed() {
@@ -46,35 +46,22 @@ public class Input {
 		return CL_closed.get();
 	}
 	
-	public double getPTSetpoint() {
-		return PT_setpoints[PT_index];
+	public double getINSpeed() {
+		return IN_speed;
 	}
 	
-
-	public double getINLowerSpeed() {
-		return IN_lowerSpeed;
+	public boolean getINDown() {
+		return IN_down.get();
 	}
 	
-	public double getINUpperSpeed() {
-		return IN_upperSpeed;
-	}
-
-	public boolean getPTSetpointChanged() {
-		return PT_setpointChanged;
+	public boolean getINOut() {
+		return IN_out.get();
 	}
 
 
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	
-	}
-	
-	public void setIN_lowerSpeed(double speed) {
-		IN_lowerSpeed = speed;
-	}
-	
-	public void setIN_upperSpeed(double speed) {
-		IN_upperSpeed = speed;
 	}
 
 

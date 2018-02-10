@@ -1,14 +1,14 @@
 package org.texastorque.io;
 
 import org.texastorque.torquelib.component.TorqueMotor;
-<<<<<<< HEAD
+
 import org.texastorque.constants.Ports;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-=======
+
 import org.texastorque.torquelib.util.TorqueMathUtil;
->>>>>>> k
+
 
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -28,8 +28,10 @@ public class RobotOutput {
 
 	private static boolean clockwise = true;
 
-	private TorqueMotor IN_upper;
-	private TorqueMotor IN_lower;
+	private TorqueMotor IN_left;
+	private TorqueMotor IN_right;
+	private DoubleSolenoid IN_down;
+	private DoubleSolenoid IN_out;
 
 	private TorqueMotor PT_sole;
 	
@@ -45,10 +47,12 @@ public class RobotOutput {
 		AM_left = 	   new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
 		CL_sole =      new DoubleSolenoid(Ports.CL_PORT_A, Ports.CL_PORT_B);
 		
-		IN_upper = new TorqueMotor(new VictorSP(Ports.IN_LOWER), !clockwise);
-		IN_lower = new TorqueMotor(new VictorSP(Ports.IN_UPPER), clockwise);
+		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LOWER), !clockwise);
+		IN_right = new TorqueMotor(new VictorSP(Ports.IN_UPPER), clockwise);
+		IN_down = new DoubleSolenoid(Ports.IN_DOWN_A, Ports.IN_DOWN_B);
+		IN_out = new DoubleSolenoid(Ports.IN_OUT_A, Ports.IN_OUT_B);
 		
-		PT_sole = new TorqueMotor(new VictorSP(1),clockwise);
+		PT_sole = new TorqueMotor(new VictorSP(1), clockwise);
 		
 
 	}
@@ -77,8 +81,8 @@ public class RobotOutput {
 
 	public void setIntakeSpeed(double upperSpeed, double lowerSpeed) {
 		upperSpeed = TorqueMathUtil.constrain(upperSpeed, Constants.IN_LIMIT.getDouble());
-		IN_upper.set(upperSpeed);
-		IN_lower.set(lowerSpeed);
+		IN_left.set(upperSpeed);
+		IN_right.set(lowerSpeed);
     }
 	
 	public void setPivotSpeed(double speed) {
