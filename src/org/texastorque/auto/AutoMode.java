@@ -116,99 +116,6 @@ public class AutoMode extends Input{
 		tuneMode();
 		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
 	}
-
-	/*
-	 * runDrive puts the values in the ArrayList to the motors then takes those values out of the ArrayList
-	 * This is necessary because it prevents the loop in the other file from calling the first value endlessly
-	 *		
-	public double getLeftDeltaError() {
-		return leftDeltaError;
-	}
-	
-	public double getRightDeltaError() {
-		return rightDeltaError;
-	}
-	/*
-	public void tuneMode() {
-		tuneLeft();
-		tuneRight();
-	}
-	
-	
-	public void tuneLeft() {
-		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
-		leftPID.setSetpoint(DB_leftDistances[index]);
-		leftDistanceCorrection = leftPID.calculate(currentLeftDistance) - currentLeftDistance;
-		DB_leftSpeeds[index] += leftDistanceCorrection;
-	}
-	
-	public void tuneRight() {
-		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
-		rightPID.setSetpoint(DB_rightDistances[index]);
-		rightDistanceCorrection = rightPID.calculate(currentRightDistance) - currentRightDistance;
-		DB_rightSpeeds[index] +=rightDistanceCorrection;
-	}
-	
-	public void SmartDashboard() {
-		SmartDashboard.putNumber("leftDeltaError", leftDeltaError);
-		SmartDashboard.putNumber("rightDeltaError", rightDeltaError);
-	}
-	private void tuneMode(){
-		currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
-		currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
-		expectedLeftDistance = DB_leftDistances[index];
-		expectedRightDistance = DB_rightDistances[index];
-		leftError = currentLeftDistance - expectedLeftDistance;
-		rightError = currentRightDistance - expectedRightDistance;
-		fix();
-		System.out.println(index + "--"+ currentRightDistance + "--" + rightError + "--" + rightPrevError + 
-				"--" + rightDeltaError);
-		leftDeltaError = leftError - leftPrevError;
-		rightDeltaError = rightError - rightPrevError;
-		
-		leftPrevError = leftError;
-		rightPrevError = rightError;
-	
-	}
-	
-	private void fix() {
-		if(leftError > 4) {
-			leftDistanceCorrection = 
-					DB_leftSpeed * leftError / Feedback.getInstance().getLeftEncoder().getRate();
-		}
-		if(rightError > 4) {
-			rightDistanceCorrection = 
-					-1 * (DB_rightSpeed * rightError / Feedback.getInstance().getRightEncoder().getRate());
-		}
-		
-	}
-	*/
-	/*
-	private void tuneMode() {
-		currentLeftSpeed = Feedback.getInstance().getLeftEncoder().getRate(); //NEED TO MAKE A CONVERSION
-		currentRightSpeed = Feedback.getInstance().getRightEncoder().getRate(); //FACTOR  
-		//These are currently in units fps, naturally in units radians/rpm
-		//actually I think naturally the enc
-		expectedLeftSpeed = DB_leftEncoderSpeeds[index]; 
-		expectedRightSpeed = DB_rightEncoderSpeeds[index]; 
-		//These are encoder readings as well
-		leftError = expectedLeftSpeed - currentLeftSpeed;
-		rightError = expectedRightSpeed - currentRightSpeed;
-		//This needs to be in units from -1 to 1 but for that we need to convert rate values
-		//right now they would basically always be -1 or 1, but they would be opposite of intended as well
-		leftPercentError = leftError / expectedLeftSpeed;
-		rightPercentError = rightError / expectedRightSpeed;
-		//percent off it is
-		if(leftPercentError > -1 && rightPercentError > -1)
-			DB_leftEncoderSpeeds[index] *= 1 + leftPercentError;
-			DB_rightEncoderSpeeds[index] *= 1 + rightPercentError;
-		//need to change it if percent error is less than 0
-	}
-	
-	private void fix() {
-		
-	}
-	*/
 	
 	private void tuneMode() {
 		updateValues();
@@ -219,13 +126,13 @@ public class AutoMode extends Input{
 	}
 	
 	private void updateValues() {
-		currentSumLeft += Feedback.getInstance().getLeftEncoder().getRate();
-		expectedSumLeft += DB_leftSpeeds[index];
+		currentSumLeft += Feedback.getInstance().getLeftEncoder().getRate() * .01;
+		expectedSumLeft += DB_leftEncoderSpeeds[index] * .01;
 		errorLeft = expectedSumLeft - currentSumLeft;
 		leftCorrectionNeeded = TorqueMathUtil.decreaseMagnitude(errorLeft, setpoint);
-		
-		currentSumRight+= Feedback.getInstance().getRightEncoder().getRate();
-		expectedSumRight += DB_rightSpeeds[index];
+
+		currentSumRight+= Feedback.getInstance().getRightEncoder().getRate() * .01;
+		expectedSumRight += DB_rightEncoderSpeeds[index] * .01;
 		errorRight = expectedSumRight - currentSumRight;
 		rightCorrectionNeeded = TorqueMathUtil.decreaseMagnitude(errorRight, setpoint);
 	}
@@ -236,16 +143,15 @@ public class AutoMode extends Input{
 	}
 	
 	private void calculateCorrection(double correctionDeterminer, char side) {	
-		System.out.println(leftDistanceCorrection + "reeeeeeee" + rightDistanceCorrection);
 		if(side == 'L') {
-			leftDistanceCorrection = correctionDeterminer / 10000000;
-		} else rightDistanceCorrection = correctionDeterminer / 10000000;
+			leftDistanceCorrection = correctionDeterminer / (index * 10);
+		} else rightDistanceCorrection = correctionDeterminer / (index * 10);
 			
 	}
 	
 	/*
 	switch(correctionDeterminer) {
-		case 1: 
+	7	case 1: 
 			if(left)
 				leftDistanceCorrection = smallNumber that would get larger as the cases get higher if the equation I write doesn't work
 			break;
@@ -263,4 +169,97 @@ public class AutoMode extends Input{
 
 
 
+
+/*
+ * runDrive puts the values in the ArrayList to the motors then takes those values out of the ArrayList
+ * This is necessary because it prevents the loop in the other file from calling the first value endlessly
+ *		
+public double getLeftDeltaError() {
+	return leftDeltaError;
+}
+
+public double getRightDeltaError() {
+	return rightDeltaError;
+}
+/*
+public void tuneMode() {
+	tuneLeft();
+	tuneRight();
+}
+
+
+public void tuneLeft() {
+	currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
+	leftPID.setSetpoint(DB_leftDistances[index]);
+	leftDistanceCorrection = leftPID.calculate(currentLeftDistance) - currentLeftDistance;
+	DB_leftSpeeds[index] += leftDistanceCorrection;
+}
+
+public void tuneRight() {
+	currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
+	rightPID.setSetpoint(DB_rightDistances[index]);
+	rightDistanceCorrection = rightPID.calculate(currentRightDistance) - currentRightDistance;
+	DB_rightSpeeds[index] +=rightDistanceCorrection;
+}
+
+public void SmartDashboard() {
+	SmartDashboard.putNumber("leftDeltaError", leftDeltaError);
+	SmartDashboard.putNumber("rightDeltaError", rightDeltaError);
+}
+private void tuneMode(){
+	currentLeftDistance = Feedback.getInstance().getLeftEncoder().getDistance();
+	currentRightDistance = Feedback.getInstance().getRightEncoder().getDistance();
+	expectedLeftDistance = DB_leftDistances[index];
+	expectedRightDistance = DB_rightDistances[index];
+	leftError = currentLeftDistance - expectedLeftDistance;
+	rightError = currentRightDistance - expectedRightDistance;
+	fix();
+	System.out.println(index + "--"+ currentRightDistance + "--" + rightError + "--" + rightPrevError + 
+			"--" + rightDeltaError);
+	leftDeltaError = leftError - leftPrevError;
+	rightDeltaError = rightError - rightPrevError;
+	
+	leftPrevError = leftError;
+	rightPrevError = rightError;
+
+}
+
+private void fix() {
+	if(leftError > 4) {
+		leftDistanceCorrection = 
+				DB_leftSpeed * leftError / Feedback.getInstance().getLeftEncoder().getRate();
+	}
+	if(rightError > 4) {
+		rightDistanceCorrection = 
+				-1 * (DB_rightSpeed * rightError / Feedback.getInstance().getRightEncoder().getRate());
+	}
+	
+}
+*/
+/*
+private void tuneMode() {
+	currentLeftSpeed = Feedback.getInstance().getLeftEncoder().getRate(); //NEED TO MAKE A CONVERSION
+	currentRightSpeed = Feedback.getInstance().getRightEncoder().getRate(); //FACTOR  
+	//These are currently in units fps, naturally in units radians/rpm
+	//actually I think naturally the enc
+	expectedLeftSpeed = DB_leftEncoderSpeeds[index]; 
+	expectedRightSpeed = DB_rightEncoderSpeeds[index]; 
+	//These are encoder readings as well
+	leftError = expectedLeftSpeed - currentLeftSpeed;
+	rightError = expectedRightSpeed - currentRightSpeed;
+	//This needs to be in units from -1 to 1 but for that we need to convert rate values
+	//right now they would basically always be -1 or 1, but they would be opposite of intended as well
+	leftPercentError = leftError / expectedLeftSpeed;
+	rightPercentError = rightError / expectedRightSpeed;
+	//percent off it is
+	if(leftPercentError > -1 && rightPercentError > -1)
+		DB_leftEncoderSpeeds[index] *= 1 + leftPercentError;
+		DB_rightEncoderSpeeds[index] *= 1 + rightPercentError;
+	//need to change it if percent error is less than 0
+}
+
+private void fix() {
+	
+}
+*/
 	

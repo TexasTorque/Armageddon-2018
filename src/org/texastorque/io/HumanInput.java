@@ -53,8 +53,8 @@ public class HumanInput extends Input{
 			DB_leftSpeed = lastLeftSpeed + MAX_START_ACCEL * leftNegativeTest;
 			DB_rightSpeed = lastRightSpeed + MAX_START_ACCEL * rightNegativeTest;
 		} else {
-			DB_leftSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
-			DB_rightSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
+			DB_leftSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
+			DB_rightSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
 		}
 		
 		if(starting) {

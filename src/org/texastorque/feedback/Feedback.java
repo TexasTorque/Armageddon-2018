@@ -14,17 +14,23 @@ public class Feedback {
 
 	private static Feedback instance;
 
+	private double sum;
+	private double duration;
+	private double lastTime;
 	private TorqueEncoder leftDrivebase;
 	private TorqueEncoder rightDrivebase;
 	private final double DISTANCE_CONVERSION = 0.0744;
+	private final double DISTANCE_PER_PULSE_IN_FEET= 0.02618;
 	private AHRS DB_gyro;
 	
 	public Feedback() {
 		leftDrivebase = new TorqueEncoder(Ports.DB_LEFTENCODER_A, Ports.DB_LEFTENCODER_B, true, EncodingType.k4X);
 		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHTENCODER_A, Ports.DB_RIGHTENCODER_B, false, EncodingType.k4X);
+		leftDrivebase.setDistancePerPulse(DISTANCE_PER_PULSE_IN_FEET);
+		lastTime = Timer.getFPGATimestamp();
+//		rightDrivebase.setDistancePerPulse(DISTANCE_PER_PULSE_IN_FEET);
 		leftDrivebase.reset();
 		rightDrivebase.reset();
-		
 	}
 	
 	public void update() {
@@ -50,10 +56,15 @@ public class Feedback {
 	}
 
 	public void SmartDashboard() {
-		SmartDashboard.putNumber("Left_Encoder_Distance", leftDrivebase.getDistance() * DISTANCE_CONVERSION);
+		duration += (Timer.getFPGATimestamp() - lastTime);
+		lastTime = Timer.getFPGATimestamp();
+		
+		SmartDashboard.putNumber("Left_Encoder_Distance", leftDrivebase.getDistance());
 		SmartDashboard.putNumber("Right_Encoder_Distance", rightDrivebase.getDistance()* DISTANCE_CONVERSION);
-		SmartDashboard.putNumber("Left_Encoder_Speed", leftDrivebase.getRate() * DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Left_Encoder_Speed", leftDrivebase.getRate());
 		SmartDashboard.putNumber("Right_Encoder_Speed", rightDrivebase.getRate()*DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+		SmartDashboard.putNumber("Rate", leftDrivebase.getRate());
 	}
 
 }
