@@ -21,6 +21,7 @@ public class Ports {
 	public static final int DB_RIGHTENCODER_A = 2;
 	public static final int DB_RIGHTENCODER_B = 3;
 
+	public static final int PT_SOLE = 9;
 
 	public static final int IN_LEFT= 4;
 	public static final int IN_RIGHT = 5;
