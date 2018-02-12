@@ -40,7 +40,7 @@ public class HumanInput extends Input {
 	public void updateArm() {
 	
 		if(driver.getAButton())
-			AM_speed = -1;
+			AM_speed = -.1;
 		
 	}
 	
