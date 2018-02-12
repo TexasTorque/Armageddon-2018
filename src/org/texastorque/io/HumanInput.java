@@ -56,9 +56,9 @@ public class HumanInput extends Input {
 	public void updateWheelIntake() {
 		
 		if(operator.getLeftBumper()) {
-			IN_speed = -1;
+			IN_speed = -.25;
 		} else if(operator.getRightBumper()) {
-			IN_speed = 1;
+			IN_speed = .25;
 		} else IN_speed = 0;
 	
 		IN_down.calc(operator.getXButton());
