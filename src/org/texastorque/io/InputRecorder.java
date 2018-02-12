@@ -74,9 +74,9 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void updateRecordingStatus() {
-			recording.calc(driver.getAButton()); 
+			recording.calc(driver.getDPADDown()); 
 		//If possible, make this more than 1 button so it is harder to overwrite
-		if(driver.getBButton()) {		     //something
+		if(driver.getDPADUp()) {		     //something
 			writeFile();
 			System.out.println("Called Write File");
 		}
@@ -86,11 +86,25 @@ public class InputRecorder extends HumanInput{
 		currentMode.setDBLeftSpeed(index, DB_leftSpeed);
 		currentMode.setDBRightSpeed(index, DB_rightSpeed);
 		currentMode.setDBLeftEncoderRate(index, Feedback.getInstance().getLeftEncoder().getRate());
-		System.out.println(Feedback.getInstance().getLeftEncoder().getRate());
 		currentMode.setDBRightEncoderRate(index, Feedback.getInstance().getRightEncoder().getRate());
 	}
+
+	public void recordArm() {
+		currentMode.setAMSpeed(index, AM_speed);
+	}
 	
+	public void recordClaw() {
+		currentMode.setCLState(index, CL_closed.get());
+	}
 	
+	public void recordPivot() {
+
+	}
+	
+	public void recordIntake() {
+		currentMode.setINPneumatics(index, IN_down.get(), IN_out.get());
+	}
+
 	public void writeFile(){
 		
 	/*

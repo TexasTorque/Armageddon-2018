@@ -13,9 +13,9 @@ public class HumanInput extends Input {
 	private double lastLeftSpeed = 0;
 	private double lastRightSpeed = 0;
 	
-	private GenericController driver;
-	private GenericController operator;
-	private OperatorConsole board;
+	protected GenericController driver;
+	protected GenericController operator;
+	protected OperatorConsole board;
 	
 	public HumanInput(){
 		init();

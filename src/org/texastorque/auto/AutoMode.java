@@ -22,6 +22,12 @@ public class AutoMode extends Input{
 	public double[] DB_rightSpeeds;
 	public double[] DB_leftEncoderSpeeds;
 	public double[] DB_rightEncoderSpeeds;
+	public double[] IN_speeds;
+	public boolean[] IN_downStates;
+	public boolean[] IN_outStates;
+	public boolean[] CL_states;
+	public double[] AM_speeds;
+	public double[] PT_speeds;
 	
 	private double leftDistanceCorrection = 0;
 	private double rightDistanceCorrection = 0;
@@ -72,6 +78,12 @@ public class AutoMode extends Input{
 		DB_rightSpeeds= new double[1500];
 		DB_leftEncoderSpeeds= new double[1500];
 		DB_rightEncoderSpeeds= new double[1500];
+		IN_speeds = new double[1500];
+		IN_downStates = new boolean[1500];
+		IN_outStates = new boolean[1500];
+		CL_states = new boolean[1500];
+		AM_speeds = new double[1500];
+		PT_speeds = new double[1500];
 		index = 0;
 		/*
 		leftPID = new TorquePID(.000000001, 0, 0);
@@ -101,9 +113,34 @@ public class AutoMode extends Input{
 		DB_rightEncoderSpeeds[index] = value;
 	}
 	
+	public void setAMSpeed(int index, double value) {
+		AM_speeds[index] = value;
+	}
+	
+	public void setCLState(int index, boolean on) {
+		CL_states[index] = on;
+	}
+	
+	public void setPTIndex(int index, double speed) {
+		PT_speeds[index] = speed;
+	}
+	
+	public void setINPneumatics(int index, boolean down, boolean out) {
+		IN_downStates[index] = down;
+		IN_outStates[index] = out;
+	}
+
+	public void setINSpeed(int index, double speed) {
+		IN_speeds[index] = speed;
+	}
+	
 	public void run(){
 		if(index < 1500) {
 			runDrive(index);
+			runArm(index);
+			runClaw(index);
+			runPivot(index);
+			runIntake(index);
 			index++;
 		}
 	}
@@ -115,6 +152,23 @@ public class AutoMode extends Input{
 	public void runDrive(int index){
 		tuneMode();
 		o.setDrivebaseSpeed(DB_leftSpeeds[index], DB_rightSpeeds[index]);
+	}
+	
+	public void runArm(int index) {
+		o.setArmSpeed(AM_speeds[index]);
+	}
+	
+	public void runClaw(int index) {
+		o.setClaw(CL_states[index]);
+	}
+	
+	public void runPivot(int index) {
+		o.setPivotSpeed(PT_speeds[index]);
+	}
+	
+	public void runIntake(int index) {
+		o.setIntakeSpeed(IN_speeds[index]);
+		o.setIntakePneumatics(IN_outStates[index], IN_downStates[index]);
 	}
 	
 	private void tuneMode() {

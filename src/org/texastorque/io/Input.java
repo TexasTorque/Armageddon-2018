@@ -25,15 +25,13 @@ public class Input {
 	//Pivot
 	protected double PT_speed;
 	
-	protected volatile int PT_setpoint;
+	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
 		{0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0}; //TBD
 	protected volatile double PT_precision;
 	
 	//Claw
 	protected TorqueToggle CL_closed;
-	
-	protected int PT_index;
 	
 	public Input() {
 		DB_leftSpeed = 0d;
@@ -95,7 +93,7 @@ public class Input {
 	}
 	//Pivot
 	public double getPTSetpoint() {
-		return PT_setpoints[PT_setpoint];
+		return PT_setpoints[PT_index];
 	}
 	
 	public boolean getINOut() {
