@@ -39,10 +39,10 @@ public class Drive extends AutoCommand {
 		System.out.println("drive");
 		input.setDBDriveSetpoint(distance, precision);
 		drivebase.setType(DriveType.AUTODRIVE);
-		if(time != -999)
-			AutoManager.pause(time);
-		else
-			AutoManager.pause(distance * D_CONSTANT);
+	//	if(time != -999)
+	//		AutoManager.pause(time);
+	//	else
+	//		AutoManager.pause(distance * D_CONSTANT);
 	}
 
 	@Override

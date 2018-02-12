@@ -28,6 +28,7 @@ public class AutoManager {
 	private String fileName;
 	
 	private static AutoManager instance;
+	private static AutoModeCollection amc;
 	private static AutoMode modeInProgress;
 	
 	
@@ -37,45 +38,45 @@ public class AutoManager {
 	
 	public void init() {
 		fileName = getFileName();
+		selectRunningMode();
 		try {
-			reader = new XMLDecoder(new FileInputStream(fileName));
-			modeInProgress = (AutoMode) reader.readObject();
+			reader = new XMLDecoder(new FileInputStream(AutoModeCollection.getInstance().getFileLocation()));
+			amc = (AutoModeCollection) reader.readObject();
 			reader.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		}
-		
 	}
 
 	public String getFileName() {
 		double autoSelection = 2.0;//SmartDashboard.getNumber("AutoMode", 0);
 		String fieldConfig = DriverStation.getInstance().getGameSpecificMessage();
 		if(autoSelection == 0.0)
-			return "/home/lvuser/0.0.xml";
+			return "0.0";
 		
 		else if(autoSelection == 1.0)
-			return "/home/lvuser/1.0.xml";
+			return "1.0";
 		
-		else return "/home/lvuser/" + "2.0" + fieldConfig + ".xml";
+		else return "2.0" + fieldConfig + ".xml";
 		//Right now, have to hard code the LLL/LRL/RLR/RRR field configuration when recording modes 
 		
 	}
 
+	public void selectRunningMode() {
+		for(AutoMode a : amc.list) {
+			if(fileName.equals(a.name)) {
+				modeInProgress = a;
+				break;
+			}
+		}
+	}
 	
 	public AutoMode getRunningMode() {
 		return modeInProgress;
 	}
 
 	public void resetAuto() {
-		fileName = getFileName();
-	try {
-		reader = new XMLDecoder(new FileInputStream(fileName));
-		modeInProgress = (AutoMode) reader.readObject();
-		reader.close();
-	} catch (FileNotFoundException e) {
-		System.out.println("File not found");
-	}
-	
+		init();
 		modeInProgress.resetIndex();
 	}
 	

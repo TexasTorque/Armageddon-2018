@@ -11,8 +11,10 @@ import java.io.FileWriter;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.AutoMode;
+import org.texastorque.auto.AutoModeCollection;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Drivebase;
+import org.texastorque.subsystems.Pivot;
 import org.texastorque.torquelib.util.TorqueToggle;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +32,7 @@ public class InputRecorder extends HumanInput{
 	private static InputRecorder instance;
 
 	private static AutoMode currentMode;
+	private static AutoModeCollection amc;
 	private static String fileName;
 	private static int index;
 
@@ -52,12 +55,13 @@ public class InputRecorder extends HumanInput{
 	//competition, only input the number that corresponds to starting location (IE 3) and the rest should 
 	//take care of itself
 	public void init(){
-		fileName = "/home/lvuser/2.0LLL.xml";
+		fileName = "2.0LLL";
 		recording = new TorqueToggle();
 		HumanInput.getInstance().init();			//SEE IF THIS IS NECESSARY
 		currentMode = new AutoMode();
+		currentMode.name = fileName;
 		index = 0;
-		
+		amc = AutoModeCollection.getInstance();
 	}
 	
 	
@@ -98,7 +102,7 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void recordPivot() {
-
+		currentMode.setPTSpeed(index, Pivot.getInstance().getSpeed());
 	}
 	
 	public void recordIntake() {
@@ -106,7 +110,7 @@ public class InputRecorder extends HumanInput{
 	}
 
 	public void writeFile(){
-		
+		amc.addMode(currentMode);
 	/*
 		try {
 			writer = new XMLEncoder(new FileOutputStream(fileName));
@@ -116,8 +120,8 @@ public class InputRecorder extends HumanInput{
 			e.printStackTrace();
 		}*/
 		try {
-			writer = new XMLEncoder(new FileOutputStream(fileName));
-			writer.writeObject(currentMode);
+			writer = new XMLEncoder(new FileOutputStream(amc.getFileLocation()));
+			writer.writeObject(amc);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

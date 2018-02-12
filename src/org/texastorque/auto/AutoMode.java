@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoMode extends Input{
 
+	public String name;
+	
 	public double[] DB_leftSpeeds;
 	public double[] DB_rightSpeeds;
 	public double[] DB_leftEncoderSpeeds;
@@ -85,6 +87,7 @@ public class AutoMode extends Input{
 		AM_speeds = new double[1500];
 		PT_speeds = new double[1500];
 		index = 0;
+		name = "";
 		/*
 		leftPID = new TorquePID(.000000001, 0, 0);
 		leftPID.setControllingSpeed(true);
@@ -121,7 +124,7 @@ public class AutoMode extends Input{
 		CL_states[index] = on;
 	}
 	
-	public void setPTIndex(int index, double speed) {
+	public void setPTSpeed(int index, double speed) {
 		PT_speeds[index] = speed;
 	}
 	

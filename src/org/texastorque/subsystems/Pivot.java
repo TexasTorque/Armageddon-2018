@@ -103,6 +103,10 @@ public class Pivot extends Subsystem {
 		o.setPivotSpeed(speed);
 	}
 
+	public double getSpeed() {
+		return speed;
+	}
+	
 	@Override
 	public void smartDashboard() {
 		SmartDashboard.putNumber("PT_SPEED", speed);
