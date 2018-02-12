@@ -7,6 +7,19 @@ import java.io.FileNotFoundException;
 import org.texastorque.Robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import org.texastorque.io.HumanInput;
+import org.texastorque.io.RobotOutput;
+import org.texastorque.feedback.Feedback;
+
+import org.texastorque.auto.drive.*;
+import org.texastorque.subsystems.*;
+import org.texastorque.subsystems.Drivebase.DriveType;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoManager {

@@ -40,13 +40,13 @@ public class TorqueEncoder extends Encoder {
 	 *            Channel a port.
 	 * @param bChannel
 	 *            Channel b port.
-	 * @param reverseDireciton
+	 * @param reverseDirection
 	 *            Whether or not the encoder is revered.
 	 * @param encodingType
 	 *            What type of encoding the encoder is using.
 	 */
-	public TorqueEncoder(int aChannel, int bChannel, boolean reverseDireciton, CounterBase.EncodingType encodingType) {
-		super(aChannel, bChannel, reverseDireciton, encodingType);
+	public TorqueEncoder(int aChannel, int bChannel, boolean reverseDirection, CounterBase.EncodingType encodingType) {
+		super(aChannel, bChannel, reverseDirection, encodingType);
 	}
 
 	/**

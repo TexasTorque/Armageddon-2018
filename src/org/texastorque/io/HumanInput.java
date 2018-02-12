@@ -4,32 +4,39 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.torquelib.util.GenericController;
 import org.texastorque.torquelib.util.TorqueToggle;
 
-public class HumanInput extends Input{
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+public class HumanInput extends Input {
 
 	public static HumanInput instance;
 
-	protected static GenericController driver;
-	protected static GenericController operator;
-	
 	private double lastLeftSpeed = 0;
 	private double lastRightSpeed = 0;
 	
+	private GenericController driver;
+	private GenericController operator;
+	private OperatorConsole board;
 	
 	public HumanInput(){
 		init();
 		
 	}
 	
-	public void init(){
-		driver = new GenericController(0 ,.1);
-		operator = new GenericController(1, .1);
-	}
 
-	public void update(){
+	public void init() {
+		driver = new GenericController(0 , .1);
+		operator = new GenericController(1, .1);
+		board = new OperatorConsole(2);
+	}
+	
+	public void update() {
 		updateDrive();
 		updateFile();
 		updateArm();
 		updateClaw();
+		updateWheelIntake();
+		updatePivot();
+
 	}
 	
 	public void updateDrive(){
@@ -61,7 +68,6 @@ public class HumanInput extends Input{
 			lastLeftSpeed = DB_leftSpeed;
 			lastRightSpeed = DB_rightSpeed;
 		}
-	
 	}
 
 	public void updateFile() {
@@ -71,21 +77,44 @@ public class HumanInput extends Input{
 	
 	
 	public void updateArm() {
-		if(driver.getRightTrigger())
-			AM_speed = 1d;
-		else if(driver.getLeftTrigger())
-			AM_speed = -1d;
+	
+		//if(slider and current position don't line up)
+		//   arm goes all the way up
+		//basically its a dumber version of bangbang
+		if(driver.getAButton())
+			AM_speed = -.1;
 		
 	}
 	
 	public void updateClaw() {
-		CL_closed.calc(driver.getXButton());
-			
+		CL_closed.calc(operator.getBButton());
+		CL_closed.calc(driver.getYButton());
+	}
+	 
 
+	public void updateWheelIntake() {
+		
+		if(operator.getLeftBumper()) {
+			IN_speed = -1;
+		} else if(operator.getRightBumper()) {
+			IN_speed = 1;
+		} else IN_speed = 0;
+	
+		IN_down.calc(operator.getXButton());
+		IN_out.calc(operator.getAButton());
+		
 	}
 	
-	
+	public void updatePivot() {	
+		for(int x = 0; x<10; x++) {
+			if (board.getButton(x))
+				PT_index = x;
+		}
+	}
+
+		
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
 	}
+	
 }
