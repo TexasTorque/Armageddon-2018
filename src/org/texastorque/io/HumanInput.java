@@ -39,6 +39,9 @@ public class HumanInput extends Input {
 
 	public void updateArm() {
 	
+		//if(slider and current position don't line up)
+		//   arm goes all the way up
+		//basically its a dumber version of bangbang
 		if(driver.getAButton())
 			AM_speed = -.1;
 		

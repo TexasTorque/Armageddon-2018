@@ -97,15 +97,6 @@ public class Input {
 		return PT_setpoints[PT_setpoint];
 	}
 	
-	public double getPTPrecision() {
-		return PT_precision;
-	}
-	
-	public void setPTSetpoint(int setpoint, double precision) {
-		PT_setpoint = setpoint;
-		PT_precision = precision;
-	}
-	
 	public boolean getINOut() {
 		return IN_out.get();
 	}
