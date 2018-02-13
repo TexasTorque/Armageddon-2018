@@ -1,18 +1,19 @@
-
 package org.texastorque;
 
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Claw;
 import org.texastorque.subsystems.WheelIntake;
+import org.texastorque.subsystems.*;
+import org.texastorque.subsystems.Drivebase.DriveType;
 
 import java.util.ArrayList;
 
 import org.texastorque.feedback.Feedback;
+import org.texastorque.auto.AutoManager;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
-import org.texastorque.subsystems.Subsystem;
 import org.texastorque.torquelib.base.TorqueIterative;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -22,66 +23,27 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
 public class Robot extends TorqueIterative {
 
-
-	ArrayList<Subsystem> subsystems;
+	private ArrayList<Subsystem> subsystems;
+	private double time;
+	private boolean hasStarted = false;
 	
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
 	@Override
 	public void robotInit() {
+		SmartDashboard.putNumber("AUTOMODE", 0);
 		Input.getInstance();
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
-		subsystems = new ArrayList<Subsystem>(){{
-			add(Drivebase.getInstance());
-			add(Arm.getInstance());
-			add(Claw.getInstance());
-			add(WheelIntake.getInstance());
-		}};
-		
+		subsystems = new ArrayList<Subsystem>();
+		subsystems.add(Drivebase.getInstance());
+		subsystems.add(Pivot.getInstance());
+		subsystems.add(Arm.getInstance());
+		subsystems.add(WheelIntake.getInstance());
+		subsystems.add(Claw.getInstance());
+		AutoManager.init();
 	}
-
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
-	
-	@Override
-	public void disabledInit() {
-		Feedback.getInstance().reset();
-	}
-
-	@Override
-	public void disabledPeriodic() {
-		
-	}
-
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
-	@Override
-	public void autonomousInit() {
 	
 		
 		  //String autoSelected = SmartDashboard.getString("Auto Selector", "Default"); switch(autoSelected) { case "My Auto": autonomousCommand  = new MyAutoCommand(); break; case "Default Auto": default:
@@ -89,40 +51,77 @@ public class Robot extends TorqueIterative {
 		 
 
 		// schedule the autonomous command (example)
-	}
 
 
 	@Override
-	public void disabledContinuous() {
-		
-	}
-	
 	public void alwaysContinuous() {
 		Feedback.getInstance().update();
-		Feedback.getInstance().SmartDashboard();
+		for (Subsystem system : subsystems) {
+			system.smartDashboard();
+		}
+		if(!isDisabled()) {
+			SmartDashboard.putNumber("Time", time++);
+		}
+		
+		Feedback.getInstance().smartDashboard();
+		AutoManager.smartDashboard();
 	}
 	
-			
+	@Override
+	public void autonomousInit() {
+		time = 0;
+		for (Subsystem system : subsystems) {
+			system.autoInit();
+			system.setInput(Input.getInstance());
+		}
+		AutoManager.beginAuto();
+		hasStarted = true;
+	}
+	
 	@Override
 	public void autonomousContinuous(){
-		
+		if(!hasStarted && AutoManager.commandsDone()) {
+			AutoManager.beginAuto();
+			hasStarted = true;
+		}
+		Feedback.getInstance().update();
+		for (Subsystem system : subsystems) {
+			system.autoContinuous();
+		}
 	}
 	
 	@Override
 	public void teleopInit() {
+		Drivebase.getInstance().setType(DriveType.TELEOP);
+		
 		for(Subsystem system : subsystems) {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());
-			
 		}
 	}
 
 	@Override
-	public void teleopContinuous(){
+	public void teleopContinuous() {
+		Feedback.getInstance().update();
 		HumanInput.getInstance().update();
-		for(Subsystem s: subsystems)
-			s.teleopContinuous();
-		Drivebase.getInstance().teleopContinuous();
-		
+		for(Subsystem system : subsystems) {
+			system.teleopContinuous();
+		}
+	}
+	
+	@Override
+	public void disabledInit() {
+		for (Subsystem system : subsystems) {
+			system.disabledInit();
+			system.setInput(HumanInput.getInstance());
+		}
+	}
+	
+	@Override
+	public void disabledContinuous() {
+		hasStarted = false;
+		for (Subsystem system : subsystems ) {
+			system.disabledContinuous();
+		}
 	}
 }
