@@ -10,7 +10,9 @@ public class Ports {
 	public static final int DB_RIGHT_ENCODER_B = 3;
 	public static final int AM_ENCODER_A = 4;
 	public static final int AM_ENCODER_B = 5;
-
+	public static final int PT_ENCODER_A = 6;
+	public static final int PT_ENCODER_B = 7;
+	
 	//Drivebase
 	public static final int DB_LEFT_FORE_PORT = 2;
 	public static final int DB_LEFT_REAR_PORT = 3;
@@ -18,8 +20,8 @@ public class Ports {
 	public static final int DB_RIGHT_REAR_PORT = 1;
 	
 	//Arm
-	public static final int AM_RIGHT_PORT= 8;
-	public static final int AM_LEFT_PORT= 9;
+	public static final int AM_RIGHT_PORT = 9;
+	public static final int AM_LEFT_PORT = 10;
 
 	public static final int PT_SOLE = 4;	
 

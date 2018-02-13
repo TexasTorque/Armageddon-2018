@@ -54,7 +54,7 @@ public class Feedback {
 
 		leftDrivebase = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
-		PT_encoder = new TorqueEncoder(1, 2, false, EncodingType.k4X);
+		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
 		resetEncoders();
 	}

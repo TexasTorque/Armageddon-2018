@@ -15,7 +15,7 @@ public class HumanInput extends Input {
 	
 	protected GenericController driver;
 	protected GenericController operator;
-	protected OperatorConsole board;
+//	protected OperatorConsole board;
 	
 	public HumanInput(){
 		init();
@@ -26,7 +26,7 @@ public class HumanInput extends Input {
 	public void init() {
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
-		board = new OperatorConsole(2);
+//		board = new OperatorConsole(2);
 	}
 	
 	public void update() {
@@ -35,7 +35,7 @@ public class HumanInput extends Input {
 		updateArm();
 		updateClaw();
 		updateWheelIntake();
-		updatePivot();
+//		updatePivot();
 
 	}
 	
@@ -68,6 +68,8 @@ public class HumanInput extends Input {
 			lastLeftSpeed = DB_leftSpeed;
 			lastRightSpeed = DB_rightSpeed;
 		}
+		
+		System.out.println("OYE VEI");
 	}
 
 	public void updateFile() {
@@ -82,7 +84,7 @@ public class HumanInput extends Input {
 		//   arm goes all the way up
 		//basically its a dumber version of bangbang
 		if(driver.getAButton())
-			AM_speed = -.1;
+			AM_speed = .1;
 		
 	}
 	
@@ -95,23 +97,23 @@ public class HumanInput extends Input {
 	public void updateWheelIntake() {
 		
 		if(operator.getLeftBumper()) {
-			IN_speed = -1;
+			IN_speed = -.25;
 		} else if(operator.getRightBumper()) {
-			IN_speed = 1;
+			IN_speed = .25;
 		} else IN_speed = 0;
 	
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(operator.getAButton());
 		
 	}
-	
+	/*
 	public void updatePivot() {	
-		for(int x = 0; x<10; x++) {
+		for(int x = 0; x < 10; x++) {
 			if (board.getButton(x))
 				PT_index = x;
 		}
 	}
-
+*/
 		
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;

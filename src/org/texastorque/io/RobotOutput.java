@@ -57,9 +57,9 @@ public class RobotOutput {
 		
 		PT_sole = new TorqueMotor(new VictorSP(Ports.PT_SOLE), clockwise);
 				
-		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
-		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_PORT), clockwise);
-		CL_sole = new DoubleSolenoid(Ports.CL_PORT_A, Ports.CL_PORT_B);
+//		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
+//		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_PORT), clockwise);
+//		CL_sole = new DoubleSolenoid(Ports.CL_PORT_A, Ports.CL_PORT_B);
 
 	}
 	
