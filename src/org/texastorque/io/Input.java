@@ -3,6 +3,8 @@ package org.texastorque.io;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.TorqueToggle;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 public class Input {
 
 	private static Input instance;
@@ -32,6 +34,7 @@ public class Input {
 	
 	//Claw
 	protected TorqueToggle CL_closed;
+//	protected boolean CL_closed_backup;
 	
 	public Input() {
 		DB_leftSpeed = 0d;
@@ -40,7 +43,11 @@ public class Input {
 		CL_closed = new TorqueToggle();
 		IN_down = new TorqueToggle();
 		IN_out = new TorqueToggle();
+		CL_closed.set(false);
+		IN_down.set(false);
+		IN_out.set(false);
 		PT_index = 0;
+	//	CL_closed_backup = false;
 	}
 	
 	//Drivebase

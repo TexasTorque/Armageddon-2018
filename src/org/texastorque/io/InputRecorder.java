@@ -66,7 +66,7 @@ public class InputRecorder extends HumanInput{
 	
 	
 	public void update(){
-		super.update();
+		HumanInput.getInstance().update();
 		updateRecordingStatus();
 		if(recording.get()){
 			if(index < 1500) {
@@ -78,7 +78,7 @@ public class InputRecorder extends HumanInput{
 	}
 	
 	public void updateRecordingStatus() {
-			recording.calc(driver.getDPADDown()); 
+		//	recording.calc(driver.getDPADDown()); 
 		//If possible, make this more than 1 button so it is harder to overwrite
 		if(driver.getDPADUp()) {		     //something
 			writeFile();

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.DigitalSource;
 
 public class Ports {
 	
+	public static final int PCM_PORT = 2;
+	
 	public static final int DB_LEFT_ENCODER_A = 0;
 	public static final int DB_LEFT_ENCODER_B = 1;
 	public static final int DB_RIGHT_ENCODER_A = 2;
@@ -21,7 +23,7 @@ public class Ports {
 	
 	//Arm
 	public static final int AM_RIGHT_PORT = 9;
-	public static final int AM_LEFT_PORT = 10;
+	public static final int AM_LEFT_PORT = 19;
 
 	public static final int PT_SOLE = 4;	
 

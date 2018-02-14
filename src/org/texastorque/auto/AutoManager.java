@@ -33,7 +33,7 @@ public class AutoManager {
 	
 	
 	public AutoManager(){
-		init();
+	//	init();
 	}
 	
 	public void init() {

@@ -4,6 +4,8 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.torquelib.util.GenericController;
 import org.texastorque.torquelib.util.TorqueToggle;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HumanInput extends Input {
@@ -12,11 +14,14 @@ public class HumanInput extends Input {
 
 	private double lastLeftSpeed = 0;
 	private double lastRightSpeed = 0;
+	private double leftNegativeTest = 0;
+	private double rightNegativeTest = 0;
 	
 	protected GenericController driver;
 	protected GenericController operator;
 //	protected OperatorConsole board;
 	
+
 	public HumanInput(){
 		init();
 		
@@ -24,6 +29,8 @@ public class HumanInput extends Input {
 	
 
 	public void init() {
+
+		System.out.println("fdnskalf");
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
 //		board = new OperatorConsole(2);
@@ -31,7 +38,7 @@ public class HumanInput extends Input {
 	
 	public void update() {
 		updateDrive();
-		updateFile();
+//		updateFile();
 		updateArm();
 		updateClaw();
 		updateWheelIntake();
@@ -40,18 +47,19 @@ public class HumanInput extends Input {
 	}
 	
 	public void updateDrive(){
-		final double MAX_START_ACCEL = .05;
+/*		final double MAX_START_ACCEL = .05;
 		boolean starting = false;
 		if(Math.abs(lastLeftSpeed) <.5)
 			starting = true;
 			
-		
+		*/
 		/*
 		 * Checks to see if the drivebase should be going more positive or negative
 		 */
-		double leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
+		/*
+		leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
 							/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
-		double rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
+		rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
 							  /(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
 		
 		
@@ -70,6 +78,9 @@ public class HumanInput extends Input {
 		}
 		
 		System.out.println("OYE VEI");
+		*/
+		DB_leftSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
+		DB_rightSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
 	}
 
 	public void updateFile() {
@@ -84,27 +95,25 @@ public class HumanInput extends Input {
 		//   arm goes all the way up
 		//basically its a dumber version of bangbang
 		if(driver.getAButton())
-			AM_speed = .1;
+			AM_speed = .4;
+		else AM_speed = 0;
 		
 	}
 	
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
-		CL_closed.calc(driver.getYButton());
 	}
 	 
 
 	public void updateWheelIntake() {
-		
+
+		IN_down.calc(operator.getXButton());
+		IN_out.calc(operator.getAButton());
 		if(operator.getLeftBumper()) {
 			IN_speed = -.25;
 		} else if(operator.getRightBumper()) {
 			IN_speed = .25;
 		} else IN_speed = 0;
-	
-		IN_down.calc(operator.getXButton());
-		IN_out.calc(operator.getAButton());
-		
 	}
 	/*
 	public void updatePivot() {	
@@ -114,7 +123,7 @@ public class HumanInput extends Input {
 		}
 	}
 */
-		
+	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
 	}

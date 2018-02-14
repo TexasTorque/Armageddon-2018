@@ -101,6 +101,7 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void teleopInit() {
+		HumanInput.getInstance();
 		InputRecorder.getInstance();
 		Drivebase.getInstance().setType(DriveType.TELEOP);
 		
