@@ -59,7 +59,7 @@ public class Feedback {
 	public void update() {
 		DB_leftEncoder.calc();
 		DB_rightEncoder.calc();
-		PT_encoder.calc();
+		//PT_encoder.calc();
 		
 		//Drivebase
 		DB_leftDistance = DB_leftEncoder.getDistance() * DISTANCE_CONVERSION;
@@ -69,10 +69,11 @@ public class Feedback {
 		
 		DB_angle = DB_gyro.getAngle();
 		DB_angleRate = DB_gyro.getVelocityX();
-		
+		/*
 		//Pivot
 		PT_angle = PT_encoder.getDistance() * ANGLE_CONVERSION;
 		PT_angleRate = PT_encoder.getRate() * ANGLE_CONVERSION;
+		*/
 	}
 	
 	public double getDBDistance() {

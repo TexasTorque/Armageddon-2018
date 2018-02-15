@@ -99,7 +99,7 @@ public class Pivot extends Subsystem {
 	}
 	
 	public void output() {
-		o.setPivotSpeed(speed);
+		//o.setPivotSpeed(speed);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class HumanInput extends Input {
 	private GenericController driver;
 	private GenericController operator;
 	
-	public HumanInput(){
+	public HumanInput() {
 		init();
 	}
 
@@ -30,11 +30,11 @@ public class HumanInput extends Input {
 		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
 	}
-	
+	/*
 	public void updatePivot() {
 		PT_setpoint = 0; //test value
 	}
-
+	*/
 	public void updateArm() {
 		if(driver.getRightTrigger())
 			AM_speed = 1d;

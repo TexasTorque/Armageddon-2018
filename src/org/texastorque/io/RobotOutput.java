@@ -32,7 +32,7 @@ public class RobotOutput {
 		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_PORT), clockwise);
 		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_PORT), clockwise);
 		
-		PT_motor = new TorqueMotor(new VictorSP(Ports.PT_PORT), !clockwise);
+		//PT_motor = new TorqueMotor(new VictorSP(Ports.PT_PORT), !clockwise);
 		
 		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
 		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_PORT), clockwise);
@@ -45,11 +45,11 @@ public class RobotOutput {
 		DB_rightFore.set(rightSpeed);
 		DB_rightRear.set(rightSpeed);
 	}
-	
+	/*
 	public void setPivotSpeed(double speed) {
 		PT_motor.set(speed);
 	}
-	
+	*/
 	public void setArmSpeed(double speed) {
 		AM_left.set(speed);
 		AM_right.set(-speed);
