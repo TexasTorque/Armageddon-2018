@@ -8,6 +8,7 @@ import org.texastorque.torquelib.util.TorqueMathUtil;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -47,13 +48,18 @@ public class Feedback {
 	private double PT_angleRate;
 	
 	public Feedback() {
-		init();
-	}
-	
-	public void init() {
-		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, true, EncodingType.k4X);
+
+		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
+		PT_encoder = new TorqueEncoder(1, 2, false, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
+		resetEncoders();
+	}
+		
+	public void resetEncoders() {
+		DB_leftEncoder.reset();
+		DB_rightEncoder.reset();
+		PT_encoder.reset();
 	}
 	
 	public void update() {
@@ -103,7 +109,7 @@ public class Feedback {
 	public double getDBAngleRate() {
 		return DB_angleRate;
 	}
-
+	
 	public double getPTAngle() {
 		return PT_angle;
 	}
@@ -112,17 +118,8 @@ public class Feedback {
 		return PT_angleRate;
 	}
 	
-	public void resetDBEncoders() {
-		DB_leftEncoder.reset();
-		DB_rightEncoder.reset();
-	}
-	
 	public void resetDBGyro() {
 		DB_gyro.reset();
-	}
-	
-	public void resetPTEncoder() {
-		PT_encoder.reset();
 	}
 	
 	public void smartDashboard() {

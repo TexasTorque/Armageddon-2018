@@ -111,6 +111,7 @@ public class Drivebase extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
+		double dt;
 		switch (type) {
 			case AUTODRIVE:
 				setpoint = i.getDBDriveSetpoint();
@@ -123,7 +124,7 @@ public class Drivebase extends Subsystem {
 				if (TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
 						&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision))
 					AutoManager.interruptThread();
-				double dt = Timer.getFPGATimestamp() - previousTime;
+				dt = Timer.getFPGATimestamp() - previousTime;
 				previousTime = Timer.getFPGATimestamp();
 				driveTMP.calculateNextSituation(dt);
 		
@@ -143,7 +144,7 @@ public class Drivebase extends Subsystem {
 					turnTMP.generateTrapezoid(turnSetpoint, 0.0, 0.0);
 					previousTime = Timer.getFPGATimestamp();
 				}
-				if (TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), precision))
+				if (TorqueMathUtil.near(turnSetpoint, f.getDBLeftDistance() * 4.5, precision))
 					AutoManager.interruptThread();
 				dt = Timer.getFPGATimestamp() - previousTime;
 				previousTime = Timer.getFPGATimestamp();
@@ -152,7 +153,7 @@ public class Drivebase extends Subsystem {
 				targetAngle = turnTMP.getCurrentPosition();
 				targetAngularVelocity = turnTMP.getCurrentVelocity();
 
-				leftSpeed = turnPV.calculate(turnTMP, f.getDBAngle(), f.getDBAngleRate());
+				leftSpeed = turnPV.calculate(turnTMP, f.getDBLeftDistance(), f.getDBLeftRate());
 				rightSpeed = -leftSpeed;
 				break;
 				

@@ -15,14 +15,28 @@ public class Ports {
 	public static final int DB_RIGHT_ENCODER_B = 3;
 	
 	//Pivot
-	//public static final int PT_PORT = 9;
+	//public static final int PT_PORT = 4;
 	
 	//Arm
-	public static final int AM_RIGHT_PORT= 4;
-	public static final int AM_LEFT_PORT= 5;
+	public static final int AM_RIGHT_PORT= 8;
+	public static final int AM_LEFT_PORT= 9;
+	
+	public static final int AM_ENCODER_A = 4;
+	public static final int AM_ENCODER_B = 5;	
+	
+	//Intake
+	public static final int IN_LEFT= 5;
+	public static final int IN_RIGHT = 6;
+	
+	public static final int IN_DOWN_A = 4;
+	public static final int IN_DOWN_B = 5;
+	public static final int IN_OUT_A = 2;
+	public static final int IN_OUT_B = 3;
 	
 	//Claw
-	public static final int CL_PORT_A = 6;
-	public static final int CL_PORT_B = 7;
-	
+	public static final int CL_PORT_A = 0;
+	public static final int CL_PORT_B = 1;
+
+
+
 }

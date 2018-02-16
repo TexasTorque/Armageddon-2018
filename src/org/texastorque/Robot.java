@@ -1,5 +1,9 @@
 package org.texastorque;
 
+import org.texastorque.subsystems.Drivebase;
+import org.texastorque.subsystems.Arm;
+import org.texastorque.subsystems.Claw;
+import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.subsystems.*;
 import org.texastorque.subsystems.Drivebase.DriveType;
 
@@ -32,14 +36,23 @@ public class Robot extends TorqueIterative {
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
-		
 		subsystems = new ArrayList<Subsystem>();
 		subsystems.add(Drivebase.getInstance());
 		subsystems.add(Pivot.getInstance());
-		
+		subsystems.add(Arm.getInstance());
+		subsystems.add(WheelIntake.getInstance());
+		subsystems.add(Claw.getInstance());
 		AutoManager.init();
 	}
 	
+		
+		  //String autoSelected = SmartDashboard.getString("Auto Selector", "Default"); switch(autoSelected) { case "My Auto": autonomousCommand  = new MyAutoCommand(); break; case "Default Auto": default:
+		  //autonomousCommand = new ExampleCommand(); break; }
+		 
+
+		// schedule the autonomous command (example)
+
+
 	@Override
 	public void alwaysContinuous() {
 		Feedback.getInstance().update();
@@ -50,7 +63,6 @@ public class Robot extends TorqueIterative {
 			SmartDashboard.putNumber("Time", time++);
 		}
 		
-		HumanInput.getInstance().smartDashboard();
 		Feedback.getInstance().smartDashboard();
 		AutoManager.smartDashboard();
 	}

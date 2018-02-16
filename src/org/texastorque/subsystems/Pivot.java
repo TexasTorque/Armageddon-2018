@@ -79,13 +79,14 @@ public class Pivot extends Subsystem {
 		setpoint = i.getPTSetpoint();
 		if (setpoint != previousSetpoint) {
 			previousSetpoint = setpoint;
-			precision = i.getPTPrecision();
 			pivotTMP.generateTrapezoid(setpoint, 0d, 0d);
 			previousTime = Timer.getFPGATimestamp();
 		}
+		/*
 		if (TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
 				&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision))
 			AutoManager.interruptThread();
+		*/
 		double dt = Timer.getFPGATimestamp() - previousTime;
 		previousTime = Timer.getFPGATimestamp();
 		pivotTMP.calculateNextSituation(dt);

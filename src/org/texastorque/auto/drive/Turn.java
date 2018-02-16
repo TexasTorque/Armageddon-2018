@@ -34,7 +34,7 @@ public class Turn extends AutoCommand {
 	@Override
 	public void run() {
 		Feedback.getInstance().resetDBGyro();
-		Feedback.getInstance().resetDBEncoders();
+		Feedback.getInstance().resetEncoders();
 		
 		System.out.println("turn");
 		input.setDBTurnSetpoint(angle, precision);
