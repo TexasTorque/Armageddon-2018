@@ -40,27 +40,22 @@ public class RobotOutput {
 
 
 	public RobotOutput() {
-		DB_leftFore = new TorqueMotor(new VictorSP(Ports.DB_LEFT_FORE_PORT), !clockwise);
-		DB_leftRear = new TorqueMotor(new VictorSP(Ports.DB_LEFT_REAR_PORT), !clockwise);
-		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_PORT), clockwise);
-		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_PORT), clockwise);
+		DB_leftFore = new TorqueMotor(new VictorSP(Ports.DB_LEFT_FORE_MOTOR), !clockwise);
+		DB_leftRear = new TorqueMotor(new VictorSP(Ports.DB_LEFT_REAR_MOTOR), !clockwise);
+		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_MOTOR), clockwise);
+		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_MOTOR), clockwise);
 		
 		//PT_motor = new TorqueMotor(new VictorSP(Ports.PT_PORT), !clockwise);
 		
-		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_PORT), clockwise);
-		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
+		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LEFT_MOTOR), !clockwise);
+		IN_right = new TorqueMotor(new VictorSP(Ports.IN_RIGHT_MOTOR), clockwise);
+		IN_down = new DoubleSolenoid(Ports.IN_DOWN_SOLE_A, Ports.IN_DOWN_SOLE_B);
+		IN_out = new DoubleSolenoid(Ports.IN_OUT_SOLE_A, Ports.IN_OUT_SOLE_B);
 		
-		CL_sole = new DoubleSolenoid(Ports.CL_PORT_A, Ports.CL_PORT_B);
+		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_MOTOR), clockwise);
+		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_MOTOR), !clockwise);
 		
-		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LEFT), !clockwise);
-		IN_right = new TorqueMotor(new VictorSP(Ports.IN_RIGHT), clockwise);
-		IN_down = new DoubleSolenoid(Ports.IN_DOWN_A, Ports.IN_DOWN_B);
-		IN_out = new DoubleSolenoid(Ports.IN_OUT_A, Ports.IN_OUT_B);
-				
-		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_PORT), !clockwise);
-		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_PORT), clockwise);
-		CL_sole = new DoubleSolenoid(Ports.CL_PORT_A, Ports.CL_PORT_B);
-
+		CL_sole = new DoubleSolenoid(Ports.CL_SOLE_A, Ports.CL_SOLE_B);
 	}
 	
 	public void setDrivebaseSpeed(double leftSpeed, double rightSpeed) {

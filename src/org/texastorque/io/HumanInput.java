@@ -28,12 +28,11 @@ public class HumanInput extends Input {
 		updateClaw();
 		updateWheelIntake();
 		updatePivot();
-
 	}
 	
 	public void updateDrive() {
-		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
-		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
+		DB_leftSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
+		DB_rightSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
 	}
 	/*
 	public void updatePivot() {
@@ -68,12 +67,11 @@ public class HumanInput extends Input {
 	}
 	
 	public void updatePivot() {	
-		for(int x = 0; x<10; x++) {
+		for(int x = 0; x < 10; x++) {
 			if (board.getButton(x))
 				PT_index = x;
 		}
 	}
-
 		
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;

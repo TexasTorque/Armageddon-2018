@@ -51,7 +51,7 @@ public class Feedback {
 
 		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
-		PT_encoder = new TorqueEncoder(1, 2, false, EncodingType.k4X);
+		//PT_encoder = new TorqueEncoder(1, 2, false, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
 		resetEncoders();
 	}
@@ -59,7 +59,7 @@ public class Feedback {
 	public void resetEncoders() {
 		DB_leftEncoder.reset();
 		DB_rightEncoder.reset();
-		PT_encoder.reset();
+		//PT_encoder.reset();
 	}
 	
 	public void update() {

@@ -26,7 +26,7 @@ public class Input {
 	
 	protected volatile int PT_setpoint;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0}; //TBD
+		{0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0}; //TBD
 	protected volatile double PT_precision;
 	
 	//Claw
