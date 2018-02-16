@@ -48,7 +48,7 @@ public class Drivebase extends Subsystem {
 	private double targetAngularVelocity;
 	
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, AUTOVISIONTURN, WAIT;
 	}
 	private DriveType type;
 	
@@ -135,7 +135,6 @@ public class Drivebase extends Subsystem {
 				leftSpeed = leftPV.calculate(driveTMP, f.getDBLeftDistance(), f.getDBLeftRate());
 				rightSpeed = rightPV.calculate(driveTMP, f.getDBRightDistance(), f.getDBRightRate());
 				break;
-			
 			case AUTOTURN:
 				turnSetpoint = i.getDBTurnSetpoint();
 				if (turnSetpoint != turnPreviousSetpoint) {
@@ -155,6 +154,12 @@ public class Drivebase extends Subsystem {
 
 				leftSpeed = turnPV.calculate(turnTMP, f.getDBLeftDistance(), f.getDBLeftRate());
 				rightSpeed = -leftSpeed;
+				break;
+			case AUTOVISIONTURN:
+				double error = -f.getPX_HorizontalDegreeOff();
+				leftSpeed = leftRIMP.calculate(-error, f.getDBAngleRate());
+				rightSpeed = -leftSpeed;
+				previousError = error;
 				break;
 				
 			default:
