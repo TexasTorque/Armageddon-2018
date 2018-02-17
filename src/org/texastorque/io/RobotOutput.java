@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
-
 import edu.wpi.first.wpilibj.VictorSP;
 
 import org.texastorque.constants.Constants;
@@ -33,8 +32,6 @@ public class RobotOutput {
 	private DoubleSolenoid IN_down;
 	private DoubleSolenoid IN_out;
 
-	private TorqueMotor PT_sole;
-
 	private static boolean clockwise = true;	
 	public static RobotOutput instance;
 
@@ -45,7 +42,7 @@ public class RobotOutput {
 		DB_rightFore = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_FORE_MOTOR), clockwise);
 		DB_rightRear = new TorqueMotor(new VictorSP(Ports.DB_RIGHT_REAR_MOTOR), clockwise);
 		
-		//PT_motor = new TorqueMotor(new VictorSP(Ports.PT_PORT), !clockwise);
+		PT_motor = new TorqueMotor(new VictorSP(Ports.PT_PORT), !clockwise);
 		
 		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LEFT_MOTOR), !clockwise);
 		IN_right = new TorqueMotor(new VictorSP(Ports.IN_RIGHT_MOTOR), clockwise);
@@ -64,11 +61,11 @@ public class RobotOutput {
 		DB_rightFore.set(rightSpeed);
 		DB_rightRear.set(rightSpeed);
 	}
-	/*
+	
 	public void setPivotSpeed(double speed) {
 		PT_motor.set(speed);
 	}
-	*/
+	
 	public void setArmSpeed(double speed) {
 		AM_left.set(speed);
 		AM_right.set(-speed);
@@ -87,10 +84,6 @@ public class RobotOutput {
 		IN_out.set(out ? Value.kForward : Value.kReverse);
 		IN_down.set(down ? Value.kForward : Value.kReverse);
 	}
-	public void setPivotSpeed(double speed) {
-		PT_sole.set(speed);
-	}
-
 	
 	public static RobotOutput getInstance() {
 		return instance == null ? instance = new RobotOutput() : instance;

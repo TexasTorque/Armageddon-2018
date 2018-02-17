@@ -51,21 +51,23 @@ public class Feedback {
 
 		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
-		//PT_encoder = new TorqueEncoder(1, 2, false, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
+		
+		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
 		resetEncoders();
 	}
 		
 	public void resetEncoders() {
 		DB_leftEncoder.reset();
 		DB_rightEncoder.reset();
-		//PT_encoder.reset();
+		
+		PT_encoder.reset();
 	}
 	
 	public void update() {
 		DB_leftEncoder.calc();
 		DB_rightEncoder.calc();
-		//PT_encoder.calc();
+		PT_encoder.calc();
 		
 		//Drivebase
 		DB_leftDistance = DB_leftEncoder.getDistance() * DISTANCE_CONVERSION;
@@ -75,11 +77,10 @@ public class Feedback {
 		
 		DB_angle = DB_gyro.getAngle();
 		DB_angleRate = DB_gyro.getVelocityX();
-		/*
+		
 		//Pivot
 		PT_angle = PT_encoder.getDistance() * ANGLE_CONVERSION;
 		PT_angleRate = PT_encoder.getRate() * ANGLE_CONVERSION;
-		*/
 	}
 	
 	public double getDBDistance() {

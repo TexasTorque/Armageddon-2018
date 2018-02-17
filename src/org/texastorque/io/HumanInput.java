@@ -24,27 +24,33 @@ public class HumanInput extends Input {
 	
 	public void update() {
 		updateDrive();
+		updatePivot();
 		updateArm();
 		updateClaw();
 		updateWheelIntake();
-		updatePivot();
 	}
 	
 	public void updateDrive() {
 		DB_leftSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
 		DB_rightSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
 	}
-	/*
+	
+	private int counter = 0; //for testing
+	
 	public void updatePivot() {
-		PT_setpoint = 0; //test value
+		for(int x = 1; x <= 9; x++) {
+			if (board.getButton(x)) {
+				if (counter % 50 == 0)
+					System.out.println("Button " + x);
+				PT_setpoint = x;
+			}
+		}
 	}
-	*/
+	
 	public void updateArm() {
-		//if(slider and current position don't line up)
-		//   arm goes all the way up
-		//basically its a dumber version of bangbang
-		if(driver.getAButton())
-			AM_speed = -.1;
+		if (counter % 50 == 0)
+			System.out.println(board.getSlider());
+		counter++;
 	}
 	
 	public void updateClaw() {
@@ -54,7 +60,6 @@ public class HumanInput extends Input {
 	 
 
 	public void updateWheelIntake() {
-		
 		if(operator.getLeftBumper()) {
 			IN_speed = -.25;
 		} else if(operator.getRightBumper()) {
@@ -64,13 +69,6 @@ public class HumanInput extends Input {
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(operator.getAButton());
 		
-	}
-	
-	public void updatePivot() {	
-		for(int x = 0; x < 10; x++) {
-			if (board.getButton(x))
-				PT_index = x;
-		}
 	}
 		
 	public static HumanInput getInstance() {

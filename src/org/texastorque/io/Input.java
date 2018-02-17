@@ -11,15 +11,9 @@ public class Input {
 	protected double DB_leftSpeed;
 	protected double DB_rightSpeed;
 	
-	protected double IN_speed;
-	protected TorqueToggle IN_down;
-	protected TorqueToggle IN_out;
-	
-	protected double AM_speed;
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
-	
 	
 	//Pivot
 	protected double PT_speed;
@@ -29,19 +23,25 @@ public class Input {
 		{0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0}; //TBD
 	protected volatile double PT_precision;
 	
+	//Intake
+	protected double IN_speed;
+	protected TorqueToggle IN_down;
+	protected TorqueToggle IN_out;
+	
+	//Arm
+	protected double AM_speed;
+	
 	//Claw
 	protected TorqueToggle CL_closed;
-	
-	protected int PT_index;
 	
 	public Input() {
 		DB_leftSpeed = 0d;
 		DB_rightSpeed = 0d;
+		PT_setpoint = 0;
 		AM_speed = 0d;
 		CL_closed = new TorqueToggle();
 		IN_down = new TorqueToggle();
 		IN_out = new TorqueToggle();
-		PT_index = 0;
 	}
 	
 	//Drivebase
@@ -75,6 +75,11 @@ public class Input {
 		DB_precision = precision;
 	}
 	
+	//Pivot
+	public double getPTSetpoint() {
+		return PT_setpoints[PT_setpoint];
+	}
+	
 	//Arm
 	public double getArmSpeed() {
 		return AM_speed;
@@ -92,15 +97,11 @@ public class Input {
 	public boolean getINDown() {
 		return IN_down.get();
 	}
-	//Pivot
-	public double getPTSetpoint() {
-		return PT_setpoints[PT_setpoint];
-	}
 	
+	//Intake
 	public boolean getINOut() {
 		return IN_out.get();
 	}
-
 
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
