@@ -75,13 +75,11 @@ public class Arm extends Subsystem {
     	upMotor.set(-.5);
     	downMotor.set(-.5);
     }
-    public void rotateArm() {
-    	if (armRotator.get() > 0) {
-    		armRotator.set(.5);
-    	}
-    	else if (armRotator.get() < 0) {
-    		armRotator.set(-.5);
-    	}
+    public void rotateArmForward() {
+    	armRotator.set(.5);
+    }
+    public void rotateArmBackward() {
+    	armRotator.set(-.5);
     }
     public void stopArmRotation() {
     	armRotator.set(0);

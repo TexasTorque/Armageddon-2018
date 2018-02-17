@@ -49,9 +49,11 @@ public class MoveArm extends InstantCommand {
     		break;
     		case 4: Robot.arm.stopArmShift();
     		break;
-    		case 5: Robot.arm.rotateArm();
+    		case 5: Robot.arm.rotateArmForward();
     		break;
-    		case 6: Robot.arm.stopArmRotation();
+    		case 6: Robot.arm.rotateArmBackward();
+    		break;
+    		case 7: Robot.arm.stopArmRotation();
     		break;
     		default: break;
     	}

@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -53,7 +52,7 @@ public class RobotMap {
     public static SpeedController intakeRightIntake;
     public static DoubleSolenoid armGripSolenoid;
     public static Encoder armArmEncoder;
-    public static Encoder armArmRotationEncoder;
+    public static Encoder armArmRotatorEncoder;
     public static SpeedController armArmRotator;
     public static SpeedController armDownMotor;
     public static SpeedController armUpMotor;
@@ -96,8 +95,8 @@ public class RobotMap {
         driveTrainCompressor = new Compressor(2);
         LiveWindow.addActuator("DriveTrain", "Compressor", driveTrainCompressor);
         
-        driveTrainHDrive = new Spark(7);
-        LiveWindow.addActuator("DriveTrain", "HDrive", (Spark) driveTrainHDrive);
+        driveTrainHDrive = new VictorSP(7);
+        LiveWindow.addActuator("DriveTrain", "HDrive", (VictorSP) driveTrainHDrive);
         driveTrainHDrive.setInverted(false);
         intakeIntakeGrip = new DoubleSolenoid(2, 2, 3);
         LiveWindow.addActuator("Intake", "Intake Grip", intakeIntakeGrip);
@@ -118,10 +117,10 @@ public class RobotMap {
         LiveWindow.addSensor("Arm", "Arm Encoder", armArmEncoder);
         armArmEncoder.setDistancePerPulse(1.0);
         armArmEncoder.setPIDSourceType(PIDSourceType.kRate);
-        armArmRotationEncoder = new Encoder(6, 7, false, EncodingType.k4X);
-        LiveWindow.addSensor("Arm", "Arm Rotation Encoder", armArmRotationEncoder);
-        armArmRotationEncoder.setDistancePerPulse(1.0);
-        armArmRotationEncoder.setPIDSourceType(PIDSourceType.kRate);
+        armArmRotatorEncoder = new Encoder(6, 7, false, EncodingType.k4X);
+        LiveWindow.addSensor("Arm", "Arm Rotator Encoder", armArmRotatorEncoder);
+        armArmRotatorEncoder.setDistancePerPulse(1.0);
+        armArmRotatorEncoder.setPIDSourceType(PIDSourceType.kRate);
         armArmRotator = new VictorSP(4);
         LiveWindow.addActuator("Arm", "Arm Rotator", (VictorSP) armArmRotator);
         armArmRotator.setInverted(false);
