@@ -200,6 +200,25 @@ public class Drivebase extends Subsystem {
 	public void setType(DriveType type) {
 		this.type = type;
 	}
+	
+	public void visionAlignment() {
+		if(!i.getVI_rpmsGood()) {
+			Feedback.getInstance().resetDB_gyro();
+			Feedback.getInstance().resetDB_encoders();
+			setType(DriveType.AUTOVISIONTURN);
+			i.setDB_turnSetpoint(Feedback.getInstance().getPX_HorizontalDegreeOff(), precision);
+			AutoManager.pauseTeleop(.1);
+		} else {
+			setType(DriveType.WAIT);
+		}
+	}
+	
+	public void relinquishVision() {
+		setType(DriveType.TELEOP);
+		i.setVI_rpmsGood(false);
+		leftSpeed = 0;
+		rightSpeed = 0;
+	}
 
 	@Override
 	public void smartDashboard() {

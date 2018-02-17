@@ -12,6 +12,8 @@ public class Input {
 	protected double DB_rightSpeed;
 	protected double IN_lowerSpeed;
 	protected double IN_upperSpeed;
+	protected boolean DB_runningVision = false;
+	protected boolean VI_rpmsGood = false;
 	
 	protected double IN_speed;
 	protected TorqueToggle IN_down;
