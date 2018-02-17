@@ -1,7 +1,10 @@
 package org.texastorque.io;
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.feedback.Feedback;
+import org.texastorque.subsystems.Drivebase;
 import org.texastorque.torquelib.util.GenericController;
+import org.texastorque.torquelib.util.TorqueMathUtil;
 import org.texastorque.torquelib.util.TorqueToggle;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -19,7 +22,7 @@ public class HumanInput extends Input {
 	
 	protected GenericController driver;
 	protected GenericController operator;
-//	protected OperatorConsole board;
+	protected OperatorConsole board;
 	
 
 	public HumanInput(){
@@ -29,8 +32,6 @@ public class HumanInput extends Input {
 	
 
 	public void init() {
-
-		System.out.println("fdnskalf");
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
 //		board = new OperatorConsole(2);
@@ -38,11 +39,11 @@ public class HumanInput extends Input {
 	
 	public void update() {
 		updateDrive();
-//		updateFile();
+		updateFile();
 		updateArm();
 		updateClaw();
 		updateWheelIntake();
-//		updatePivot();
+		updatePivot();
 
 	}
 	
@@ -81,6 +82,24 @@ public class HumanInput extends Input {
 		*/
 		DB_leftSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
 		DB_rightSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
+		
+		if (driver.getDPADUp()) {
+			DB_runningVision = true;
+			Drivebase.getInstance().visionAlignment();
+			if (TorqueMathUtil.near(Feedback.getInstance().getPX_HorizontalDegreeOff(), 0, 2)) {
+				
+			}
+		} else {
+			if (driver.getDPADDown()) {
+				DB_runningVision = true;
+				Drivebase.getInstance().visionAlignment();
+			} else {
+				if (DB_runningVision) {
+					Drivebase.getInstance().relinquishVision();
+					DB_runningVision = false;
+				}
+			}
+		}
 	}
 
 	public void updateFile() {
@@ -115,14 +134,13 @@ public class HumanInput extends Input {
 			IN_speed = .25;
 		} else IN_speed = 0;
 	}
-	/*
+	
 	public void updatePivot() {	
 		for(int x = 0; x < 10; x++) {
 			if (board.getButton(x))
 				PT_index = x;
 		}
 	}
-*/
 	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;

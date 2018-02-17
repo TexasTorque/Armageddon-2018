@@ -12,26 +12,28 @@ public class OperatorConsole {
 	 * 
 	 */
 	
-    private GenericController joystick;
+    private GenericController board;
 
     public OperatorConsole(int port) {
-        joystick = new GenericController(port, .1);
+        board = new GenericController(port, .1);
     }
     
     public boolean getButton(int x) {
-    	if(x != 7 && x != 8) {
-    		return joystick.getRawButton(x);
-    	} else if(x == 7) {
-    		return joystick.getRawButton(11);
+    	System.out.println("Button " + x);
+    	if (x == 7) {
+    		return board.getRawButton(11);
     	}
-    	return joystick.getRawButton(12);
+    	else if (x != 8) {
+    		return board.getRawButton(x);
+    	}
+    	return board.getRawButton(12);
     }
     
     public double getSlider() {
-    	return joystick.getRightYAxis();
+    	return board.getRightYAxis();
     }
     
     public double getDial() {
-    	return joystick.getLeftXAxis();
+    	return board.getLeftXAxis();
     }
 }

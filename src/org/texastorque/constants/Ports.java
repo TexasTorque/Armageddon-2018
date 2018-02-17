@@ -10,6 +10,8 @@ public class Ports {
 	public static final int DB_RIGHT_ENCODER_B = 3;
 	public static final int AM_ENCODER_A = 4;
 	public static final int AM_ENCODER_B = 5;
+	public static final int PT_ENCODER_A = 6;
+	public static final int PT_ENCODER_B = 7;
 
 	//Drivebase
 	public static final int DB_LEFT_FORE_PORT = 2;

@@ -84,6 +84,11 @@ public class Feedback {
 		PT_encoder.reset();
 	}
 	
+	public void resetDBEncoders() {
+		leftDrivebase.reset();
+		rightDrivebase.reset();
+	}
+	
 	public void update() {
 		leftDrivebase.calc();
 		rightDrivebase.calc();
@@ -134,7 +139,12 @@ public class Feedback {
 	public double getDBDistance() {
 		return DB_distance;
 	}
+	
 	//important, but need to ask Glen what this does
+	public boolean getPX_goodPacket() {
+		return PX_goodPacket;
+	}
+	
 	public double getPX_HorizontalDegreeOff() {
 		return ((PX_x1 + PX_x2) / 2)*PX_CONVERSIONH;
 	}
