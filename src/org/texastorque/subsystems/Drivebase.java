@@ -169,6 +169,14 @@ public class Drivebase extends Subsystem {
 		}
 		run();
 	}
+	
+	private void run() {
+		if(type == DriveType.WAIT) {
+			leftSpeed = 0;
+			rightSpeed = 0;
+		}
+		output();
+	}
 
 	@Override
 	public void teleopContinuous() {
@@ -185,13 +193,6 @@ public class Drivebase extends Subsystem {
 		output();
 	}
 		
-	private void run() {
-		if(type == DriveType.WAIT) {
-			leftSpeed = 0;
-			rightSpeed = 0;
-		}
-		output();
-	}
 	
 	private void output() {
 		o.setDrivebaseSpeed(leftSpeed, rightSpeed);

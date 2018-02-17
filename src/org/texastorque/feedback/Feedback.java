@@ -4,6 +4,7 @@ import org.texastorque.constants.Ports;
 import org.texastorque.feedback.*;
 import org.texastorque.io.Input;
 import org.texastorque.torquelib.component.TorqueEncoder;
+import com.kauailabs.navx.frc.AHRS;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -19,16 +20,18 @@ import java.util.ArrayList;
 
 public class Feedback {
 
+	private double sum;
+	private double duration;
+	private double lastTime;
+	private TorqueEncoder leftDrivebase;
+	private TorqueEncoder rightDrivebase;
+	private final double DISTANCE_CONVERSION = 0.0744;
+	private final double DISTANCE_PER_PULSE_IN_FEET= 0.02618;
+	private final double ANGLE_CONVERSION = 360/250;
+	private AHRS DB_gyro;
 	public static Feedback instance;
 	
 	//constants
-	private final double DISTANCE_CONVERSION = 0.07383;
-	private final double ANGLE_CONVERSION = 360 / 250;
-	
-	//sensors
-	private TorqueEncoder leftDrivebase;
-	private TorqueEncoder rightDrivebase;
-	private AHRS DB_gyro;
 	
 	private TorqueEncoder PT_encoder;
 	
@@ -68,7 +71,7 @@ public class Feedback {
 
 		leftDrivebase = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		rightDrivebase = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
-		PT_encoder = new TorqueEncoder(1, 2, false, EncodingType.k4X);
+		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
 		resetEncoders();
 	}
@@ -131,7 +134,6 @@ public class Feedback {
 	public double getDBDistance() {
 		return DB_distance;
 	}
-	
 	//important, but need to ask Glen what this does
 	public double getPX_HorizontalDegreeOff() {
 		return ((PX_x1 + PX_x2) / 2)*PX_CONVERSIONH;
@@ -164,6 +166,14 @@ public class Feedback {
 
 	}
 		
+	public TorqueEncoder getLeftEncoder() {
+		return leftDrivebase;
+	}
+	
+	public TorqueEncoder getRightEncoder() {
+		return rightDrivebase;
+	}
+	
 	public double getDBLeftDistance() {
 		return DB_leftDistance;
 	}

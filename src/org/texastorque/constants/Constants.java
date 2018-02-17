@@ -1,5 +1,6 @@
 package org.texastorque.constants;
 
+import org.texastorque.torquelib.util.Parameters;
 import org.texastorque.torquelib.util.Parameters.Constant;
 
 public class Constants {

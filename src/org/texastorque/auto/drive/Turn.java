@@ -39,10 +39,10 @@ public class Turn extends AutoCommand {
 		System.out.println("turn");
 		input.setDBTurnSetpoint(angle, precision);
 		drivebase.setType(DriveType.AUTOTURN);
-		if(time != -999)
-			AutoManager.pause(time);
-		else
-			AutoManager.pause(angle * T_CONSTANT);
+//		if(time != -999)
+	//		AutoManager.pause(time);
+		//else
+			//AutoManager.pause(angle * T_CONSTANT);
 	}
 
 	@Override

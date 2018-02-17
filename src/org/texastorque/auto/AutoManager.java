@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoManager {
 	
+	private static AutoManager instance;
+	
 	private static LinkedList<AutoCommand> commandList;
 	private static ArrayList<Subsystem> subsystems;
 	private static double aggregateTime;
@@ -121,4 +123,7 @@ public class AutoManager {
 		SmartDashboard.putNumber("A_AGGREGATETIME", aggregateTime);
 	}
 	
+	public static AutoManager getInstance() {
+		return instance == null ? instance = new AutoManager() : instance;
+	}
 }

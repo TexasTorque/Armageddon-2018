@@ -26,11 +26,24 @@ public class TorqueMathUtil {
 		return Math.abs(number - value) < howClose;
 	}
 
-	public static double addSign(double value, double add) {
+	public static double increaseMagnitude(double value, double add) {
 		if (value < 0) {
 			return value - add;
 		} else {
 			return value + add;
 		}
 	}
+	
+	public static double decreaseMagnitude(double value, double add) {
+		if (value < 0) {
+			return value + add;
+		} else {
+			return value - add;
+		}
+	}	
+	
+	public static double timesFactorTen(double value, int power) {
+		return value * Math.pow(10, power);
+	}
+	
 }

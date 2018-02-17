@@ -3,6 +3,8 @@ package org.texastorque.io;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.TorqueToggle;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 public class Input {
 
 	private static Input instance;
@@ -15,6 +17,7 @@ public class Input {
 	protected boolean DB_runningVision = false;
 	protected boolean VI_rpmsGood = false;
 	
+	protected boolean recorded;
 	protected double IN_speed;
 	protected TorqueToggle IN_down;
 	protected TorqueToggle IN_out;
@@ -28,15 +31,14 @@ public class Input {
 	//Pivot
 	protected double PT_speed;
 	
-	protected volatile int PT_setpoint;
+	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
 		{0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0}; //TBD
 	protected volatile double PT_precision;
 	
 	//Claw
 	protected TorqueToggle CL_closed;
-	
-	protected int PT_index;
+//	protected boolean CL_closed_backup;
 	
 	public Input() {
 		DB_leftSpeed = 0d;
@@ -45,7 +47,11 @@ public class Input {
 		CL_closed = new TorqueToggle();
 		IN_down = new TorqueToggle();
 		IN_out = new TorqueToggle();
+		CL_closed.set(false);
+		IN_down.set(false);
+		IN_out.set(false);
 		PT_index = 0;
+	//	CL_closed_backup = false;
 	}
 	
 	//Drivebase
@@ -98,7 +104,7 @@ public class Input {
 	}
 	//Pivot
 	public double getPTSetpoint() {
-		return PT_setpoints[PT_setpoint];
+		return PT_setpoints[PT_index];
 	}
 	
 	public boolean getINOut() {

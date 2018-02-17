@@ -8,8 +8,8 @@ public class WheelIntake extends Subsystem {
 private static WheelIntake instance;
 	
 	private double speed = 0d;
-	private boolean out = false;
-	private boolean down = false;
+	private boolean out;
+	private boolean down;
 	
 	@Override
 	public void autoInit() {
@@ -54,7 +54,7 @@ private static WheelIntake instance;
 	
 	private void output() {
 		o.setIntakeSpeed(speed);
-	
+		o.setIntakePneumatics(out, down);
 	}
 	
 	@Override
