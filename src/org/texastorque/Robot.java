@@ -63,7 +63,7 @@ public class Robot extends TorqueIterative {
 			SmartDashboard.putNumber("Time", time++);
 		}
 		
-		Feedback.getInstance().smartDashboard();
+		Feedback.getInstance().SmartDashboard();
 		AutoManager.smartDashboard();
 	}
 	

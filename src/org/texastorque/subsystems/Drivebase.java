@@ -203,11 +203,11 @@ public class Drivebase extends Subsystem {
 	
 	public void visionAlignment() {
 		if(!i.getVI_rpmsGood()) {
-			Feedback.getInstance().resetDB_gyro();
-			Feedback.getInstance().resetDB_encoders();
+			Feedback.getInstance().resetDBGyro();
+			Feedback.getInstance().resetEncoders();
 			setType(DriveType.AUTOVISIONTURN);
-			i.setDB_turnSetpoint(Feedback.getInstance().getPX_HorizontalDegreeOff(), precision);
-			AutoManager.pauseTeleop(.1);
+			i.setDBTurnSetpoint(Feedback.getInstance().getPX_HorizontalDegreeOff(), precision);
+			//AutoManager.pauseTeleop(.1);
 		} else {
 			setType(DriveType.WAIT);
 		}

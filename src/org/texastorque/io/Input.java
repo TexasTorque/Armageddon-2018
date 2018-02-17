@@ -108,6 +108,14 @@ public class Input {
 	public double getDB_turnSetpoint() {
 		return DB_turnSetpoint;
 	}
+	
+	public void setVI_rpmsGood(boolean good) {
+		VI_rpmsGood = good;
+	}
+	
+	public boolean getVI_rpmsGood() {
+		return VI_rpmsGood;
+	}
 
 
 	public static Input getInstance() {
