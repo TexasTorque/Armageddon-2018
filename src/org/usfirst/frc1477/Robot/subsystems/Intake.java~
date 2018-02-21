@@ -50,25 +50,23 @@ public class Intake extends Subsystem implements Sendable {
 
     public void periodic() {
     }
-    public void intake() {
-    	if (leftIntake.get()>0 && rightIntake.get() > 0) {
-    		leftIntake.set(-.5);
-    		rightIntake.set(-.5);
-    	}
-    	else{
-    		leftIntake.set(.5);
-    		rightIntake.set(.5);
-    	}
+    public void intakeIn() {
+    	leftIntake.set(.2);
+    	rightIntake.set(-.2);
+    }
+    public void intakeOut() {
+    	leftIntake.set(-.2);
+    	rightIntake.set(.2);
+    }
+    public void intakeStop() {
+    	leftIntake.set(0);
+    	rightIntake.set(0);
     }
     public void setGrip() {
     	if(intakeGrip.get() == Value.kReverse)
     		intakeGrip.set(Value.kForward);
     	else
     		intakeGrip.set(Value.kReverse);
-    }
-	public void stopIntake() {
-    	leftIntake.set(0);
-    	rightIntake.set(0);
     }
     public void intakeExtend() {
     	if (intakeExtender.get() == Value.kForward)
@@ -77,7 +75,7 @@ public class Intake extends Subsystem implements Sendable {
     		intakeExtender.set(Value.kForward);	
     }
     public void stop() {
-    	stopIntake();
+    	intakeStop();
     	intakeExtender.set(Value.kOff);
     	intakeGrip.set(Value.kOff);
     }

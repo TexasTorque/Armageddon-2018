@@ -124,10 +124,10 @@ public class RobotMap {
         armArmRotator = new VictorSP(4);
         LiveWindow.addActuator("Arm", "Arm Rotator", (VictorSP) armArmRotator);
         armArmRotator.setInverted(false);
-        armDownMotor = new VictorSP(9);
+        armDownMotor = new VictorSP(10);
         LiveWindow.addActuator("Arm", "Down Motor", (VictorSP) armDownMotor);
         armDownMotor.setInverted(false);
-        armUpMotor = new VictorSP(10);
+        armUpMotor = new VictorSP(9);
         LiveWindow.addActuator("Arm", "Up Motor", (VictorSP) armUpMotor);
         armUpMotor.setInverted(false);
 

@@ -40,13 +40,15 @@ public class BlockIntake extends InstantCommand {
     @Override
     protected void initialize() {
     	switch(button) {
-    		case 1: Robot.intake.intake();
+    		case 1: Robot.intake.intakeOut();
     		break;
-    		case 2: Robot.intake.stopIntake();
+    		case 2: Robot.intake.intakeIn();
     		break;
-    		case 3: Robot.intake.intakeExtend();
+    		case 3: Robot.intake.intakeStop();
     		break;
-    		case 4: Robot.intake.setGrip();
+    		case 4: Robot.intake.intakeExtend();
+    		break;
+    		case 5: Robot.intake.setGrip();
     		default: break;
     	}
     }

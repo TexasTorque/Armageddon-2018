@@ -13,6 +13,7 @@ package org.usfirst.frc1477.Robot.commands;
 import org.usfirst.frc1477.Robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -39,7 +40,12 @@ public class AutonomousCommand extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-    	Robot.driveTrain.autonomous();
+    	switch((int)SmartDashboard.getNumber("Auto Mode", 0)) {
+    		case 1: Robot.driveTrain.autoSwitch();
+    		break;
+    		default: Robot.driveTrain.autoStraight();
+    		break;
+    	}
     	end();
     }
 

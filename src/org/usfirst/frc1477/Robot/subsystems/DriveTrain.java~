@@ -11,6 +11,7 @@
 
 package org.usfirst.frc1477.Robot.subsystems;
 
+import org.usfirst.frc1477.Robot.Robot;
 import org.usfirst.frc1477.Robot.RobotMap;
 import org.usfirst.frc1477.Robot.commands.ArcadeDrive;
 
@@ -74,12 +75,9 @@ public class DriveTrain extends Subsystem {
     	Left_Encoder_Value = leftEncoder.get(); // 50 updates in 1 second
     	Left_Encoder_Rate = leftEncoder.getRate();
     	
-    	Right_Encoder_Value = rightEncoder.get(); // 50 updates in 1 second
+    	Right_Encoder_Value = rightEncoder.get();
     	Right_Encoder_Rate = rightEncoder.getRate();
     	i++;
-    	/*if (i >= second) {
-    		System.out.println(Encoder_Value);
-    	}*/
     	
     }
 
@@ -88,9 +86,9 @@ public class DriveTrain extends Subsystem {
     public void start() {
     }
     public void arcadeDrive(Joystick stick) {
-    	leftSpeed = stick.getRawAxis(1) - stick.getRawAxis(4);
-    	rightSpeed = stick.getRawAxis(1) + stick.getRawAxis(4);
-    	robotDrive.arcadeDrive(leftSpeed, rightSpeed);
+    	//leftSpeed = stick.getRawAxis(1) - stick.getRawAxis(4);
+    	//rightSpeed = stick.getRawAxis(1) + stick.getRawAxis(4);
+    	robotDrive.arcadeDrive(stick.getRawAxis(1), stick.getRawAxis(4));
     }
     public void driveStraight(double speed) {
     	robotDrive.tankDrive(speed, speed);
@@ -108,7 +106,12 @@ public class DriveTrain extends Subsystem {
     public boolean getCompressor() {
     	return compressor.enabled();
     }
-   
+    public SpeedController getHDrive() {
+		return hDrive;
+	}
+    public void setHDrive(double speed) {
+    	hDrive.set(speed);
+    }
     public void stop() {
     	robotDrive.free();
     	frontLeft.disable();
@@ -117,16 +120,25 @@ public class DriveTrain extends Subsystem {
     	rearRight.disable();
     	stopCompressor();
     }
-	public void autonomous() {
+    
+	public void autoStraight() {
+		double rotate = 0;
     	for (int i = 0; i < second*5; i++) {
-    		robotDrive.drive(.2, 0.0);
+    		rotate = gyro.getAngle();
+    		if (gyro.getAngle() !=0) {
+    			rotate = -gyro.getAngle();
+    		}
+    		robotDrive.arcadeDrive(.5, rotate);	
     	}
-    	for (int i = 0; i < second*5; i++) {
-    		robotDrive.drive(.3, 0.5);
+    }
+	public void autoSwitch() {
+		for (int i = 0; i < second*5; i++) {
+    		robotDrive.arcadeDrive(.5, 0);
     	}
-    	for (int i = 0; i < second*5; i++) {
-    		robotDrive.drive(.4, -0.5);
+    	while(gyro.getAngle() <= 90) {
+    		robotDrive.arcadeDrive(0, .5);
     	}
     }
 }
 
+//
