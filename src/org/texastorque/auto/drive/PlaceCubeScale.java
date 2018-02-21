@@ -15,7 +15,7 @@ public class PlaceCubeScale extends AutoSequence {
 		//startPos = DriverStation.getInstance().getLocation();
 		startPos = 3;
 		//scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
-		scaleSide = 'R';
+		scaleSide = 'L';
 		init();
 	}
 	
@@ -41,17 +41,17 @@ public class PlaceCubeScale extends AutoSequence {
 		else if (startPos == 3) {
 			if (scaleSide == 'R') {
 				System.out.println("3R");
-				commandList.add(new Drive(260, 0.125, 6.0));
-				commandList.add(new Turn(-45, 1.5, 5.0));
+				commandList.add(new Drive(260, 0.125, 5.0));
+				commandList.add(new Turn(-45, 1.5, 3.0));
 			}
 			else {
 				System.out.println("3L");
-				commandList.add(new Drive(240, 0.125));
-				commandList.add(new Turn(90, 0.125));
-				commandList.add(new Drive(180, 0.125));
-				commandList.add(new Turn(-90, 0.125));
-				commandList.add(new Drive(60, 0.125));
-				commandList.add(new Turn(-90, 0.125));
+	//			commandList.add(new Drive(220, 0.125, 4.0));
+				commandList.add(new Turn(-90, 0.125, 6.0));
+	//			commandList.add(new Drive(180, 0.125, 3.0));
+	//			commandList.add(new Turn(90, 0.125, 2.0));
+	//			commandList.add(new Drive(60, 0.125, 2.0));
+//				commandList.add(new Turn(-90, 0.125));
 			}
 		}
 	}
