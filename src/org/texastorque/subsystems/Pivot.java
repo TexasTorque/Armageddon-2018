@@ -18,6 +18,7 @@ public class Pivot extends Subsystem {
 	private double speed;
 	
 	private TorqueTMP pivotTMP;
+	private TorqueTMP pivotDownTMP;
 	private TorquePV pivotPV;
 	
 	private double setpoint = 0;
@@ -28,6 +29,8 @@ public class Pivot extends Subsystem {
 	private double targetAngle;
 	private double targetVelocity;
 	private double targetAcceleration;
+	
+	private boolean goingDown;
 	
 	public Pivot() {
 		init();
@@ -56,6 +59,7 @@ public class Pivot extends Subsystem {
 				Constants.PT_PV_ffV.getDouble(), Constants.PT_PV_ffA.getDouble());
 		pivotPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
 		
+		goingDown = false;
 		previousTime = Timer.getFPGATimestamp();
 	}
 
@@ -77,21 +81,23 @@ public class Pivot extends Subsystem {
 	
 	public void runPivot() {
 		setpoint = i.getPTSetpoint();
-		if (setpoint != previousSetpoint) {
-			previousSetpoint = setpoint;
-			pivotTMP.generateTrapezoid(setpoint, 0d, 0d);
+
+			if (setpoint != previousSetpoint) {
+				previousSetpoint = setpoint;
+				pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
+				previousTime = Timer.getFPGATimestamp();
+			}
+			
+			double dt = Timer.getFPGATimestamp() - previousTime;
 			previousTime = Timer.getFPGATimestamp();
-		}
-		
-		double dt = Timer.getFPGATimestamp() - previousTime;
-		previousTime = Timer.getFPGATimestamp();
-		pivotTMP.calculateNextSituation(dt);
-		
-		targetAngle = pivotTMP.getCurrentPosition();
-		targetVelocity = pivotTMP.getCurrentVelocity();
-		targetAcceleration = pivotTMP.getCurrentAcceleration();
-		
+			pivotTMP.calculateNextSituation(dt);
+			
+			targetAngle = pivotTMP.getCurrentPosition();
+			targetVelocity = pivotTMP.getCurrentVelocity();
+			targetAcceleration = pivotTMP.getCurrentAcceleration();
+			
 		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
+		
 		output();
 	}
 	
@@ -99,6 +105,10 @@ public class Pivot extends Subsystem {
 		o.setPivotSpeed(speed);
 	}
 
+	public double getSpeed() {
+		return speed;
+	}
+	
 	@Override
 	public void smartDashboard() {
 		SmartDashboard.putNumber("PT_SPEED", speed);
