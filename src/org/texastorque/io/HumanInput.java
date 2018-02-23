@@ -42,15 +42,45 @@ public class HumanInput extends Input {
 
 	}
 	
-	public void updateDrive() {
-		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
-		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
+	public void updateDrive(){
+		/*
+		final double MAX_START_ACCEL = .05;
+		boolean starting = false;
+		if(Math.abs(lastLeftSpeed) <.5)
+			starting = true;
+			
+		
+		/*
+		 * Checks to see if the drivebase should be going more positive or negative
+		 */
+		/*
+		leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
+							/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
+		rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
+							  /(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
+		*/
+		
+		/*
+		if(starting && Math.abs(DB_leftSpeed) > 0.05) {
+			DB_leftSpeed = lastLeftSpeed + MAX_START_ACCEL * leftNegativeTest;
+			DB_rightSpeed = lastRightSpeed + MAX_START_ACCEL * rightNegativeTest;
+		} else {
+			
+		}
+		
+		if(starting) {
+			lastLeftSpeed = DB_leftSpeed;
+			lastRightSpeed = DB_rightSpeed;
+		} */
+		DB_leftSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
+		DB_rightSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
 	}
 
 	public void updateFile() {
 		if(driver.getYButton())
 			AutoManager.getInstance();
 	}
+	
 	
 	public void updateArm() {
 		
@@ -59,17 +89,19 @@ public class HumanInput extends Input {
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
 	}
+	 
 
 	public void updateWheelIntake() {
 
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(operator.getAButton());
 		if(operator.getLeftBumper()) {
-			IN_speed = -.25;
+			IN_speed = -.5;
 		} else if(operator.getRightBumper()) {
-			IN_speed = .25;
+			IN_speed = .2;
 		} else IN_speed = 0;
 	}
+	
 	
 	public void updateBoardSubsystems() {	
 		for(int x = 1; x < 10; x++) {
@@ -77,8 +109,8 @@ public class HumanInput extends Input {
 				PT_index = x;
 				AM_index = x;
 				MAXIMUM_OVERDRIVE.set(false);
-			}
-		}
+			} //if
+		}//for
 		if(board.getButton(11)) {
 			PT_index = 0;
 			AM_index = 0;
@@ -86,7 +118,8 @@ public class HumanInput extends Input {
 		}
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
 		if(MAXIMUM_OVERDRIVE.get()) {
-	//		AM_setpoint = board.getSlider() * AM_CONVERSION;
+			AM_setpoint = board.getSlider() * AM_CONVERSION;
+			System.out.println(board.getSlider());
 			PT_test = (int)(Math.round(board.getDial() / 0.00787401571));
 			switch(PT_test) {
 				case 0:
@@ -142,14 +175,18 @@ public class HumanInput extends Input {
 					break;
 			
 			}
-	//		System.out.println(board.getDial());
 		}
 		if(driver.getAButton()) {
-			AM_index = 0;
-			AM_speed = -.75;
+			AM_speed = -.5;
 		} //0.00787401571
-		
+		if(/*operator.getStartButton*/) {
+			//PT_setpoint[12] -=3;
+			//make an 12th index that is 0
+			//PT_encoder.reset
+		}
+			
 	}
+
 	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
