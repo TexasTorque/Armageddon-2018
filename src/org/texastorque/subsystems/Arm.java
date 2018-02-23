@@ -6,8 +6,9 @@ import org.texastorque.torquelib.util.TorqueMathUtil;
 
 public class Arm extends Subsystem {
 	
-	private double speed;
 	private static Arm instance;
+	
+	private double speed;
 	private double setpoint;
 	private double previousSetpoint;
 	
@@ -47,18 +48,31 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		// TODO Auto-generated method stub
-		
+		setpoint = i.getArmSetpoint();
+		if (setpoint != previousSetpoint) {
+			if (TorqueMathUtil.near(setpoint, f.getArmDistance(), 10)) {
+				i.setArmSpeed(0);
+				previousSetpoint = setpoint;
+			}
+			else if (Feedback.getInstance().getPTAngle() < 45) {
+				i.setArmSpeed(0);
+			}
+			else {
+				i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - f.getArmDistance())));
+			}
+		}
+		speed = i.getArmSpeed();
+		output();
 	}
 
 	@Override
 	public void teleopContinuous() {
 		setpoint = i.getArmSetpoint();
+		/*
 		if(TorqueMathUtil.near(setpoint, f.getArmDistance(), 30)) {
 			i.setArmSpeed(0);
 		}
 		else if(setpoint != previousSetpoint) {
-			
 			if(setpoint - previousSetpoint < 0) {
 				i.setArmSpeed(-.75);
 			} else i.setArmSpeed(.75);
@@ -68,6 +82,21 @@ public class Arm extends Subsystem {
 			if(Feedback.getInstance().getPTAngle() < 45)
 				i.setArmSpeed(0);
 			else previousSetpoint = setpoint;
+		}
+		speed = i.getArmSpeed();
+		output();
+		*/
+		if (setpoint != previousSetpoint) {
+			if (TorqueMathUtil.near(setpoint, f.getArmDistance(), 30)) {
+				i.setArmSpeed(0);
+				previousSetpoint = setpoint;
+			}
+			else if (Feedback.getInstance().getPTAngle() < 45) {
+				i.setArmSpeed(0);
+			}
+			else {
+				i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - f.getArmDistance())));
+			}
 		}
 		speed = i.getArmSpeed();
 		output();

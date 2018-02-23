@@ -31,15 +31,14 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoContinuous() {
-		// TODO Auto-generated method stub
-		
+		closed = i.getClawClosed();
+		o.setClaw(closed);
 	}
 
 	@Override
 	public void teleopContinuous() {
 		closed = i.getClawClosed();
 		o.setClaw(closed);
-		
 	}
 
 	@Override

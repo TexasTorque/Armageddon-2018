@@ -18,24 +18,21 @@ public class Input {
 	protected TorqueToggle IN_out;
 	protected TorqueToggle MAXIMUM_OVERDRIVE;
 	
+	//Arm
 	protected double AM_speed;
-	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
 		{0, 10, 540, 500, 500, 500, 500, 500, 500};
-	protected static final int AM_CONVERSION = 10150;
 	
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
 	
-	
 	//Pivot
 	protected double PT_speed;
-	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 45.0, 90.0, 130.0, 150.0, 100.0, 110.0, 110, 110, 110, 110, 110}; //TBD
+		{0.0, 45.0, 90.0, 130.0, 150.0, 100.0, 110.0, 110.0, 110.0, 110.0, 110.0, 110.0}; //TBD
 	
 	//Claw
 	protected TorqueToggle CL_closed;
@@ -44,10 +41,12 @@ public class Input {
 		DB_leftSpeed = 0d;
 		DB_rightSpeed = 0d;
 		AM_speed = 0d;
+		
 		CL_closed = new TorqueToggle();
 		IN_down = new TorqueToggle();
 		IN_out = new TorqueToggle();
 		MAXIMUM_OVERDRIVE = new TorqueToggle();
+		
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);
@@ -98,11 +97,21 @@ public class Input {
 	public double getArmSetpoint() {
 		return AM_setpoints[AM_index];
 	}
+	
+	public void setArmSetpoint(int index) {
+		AM_index = index;
+	}
+	
 	//Claw
 	public boolean getClawClosed() {
 		return CL_closed.get();
 	}
 	
+	public void setClawClosed(boolean closed) {
+		CL_closed.set(closed);
+	}
+	
+	//Intake
 	public double getINSpeed() {
 		return IN_speed;
 	}
@@ -110,15 +119,19 @@ public class Input {
 	public boolean getINDown() {
 		return IN_down.get();
 	}
+	
+	public boolean getINOut() {
+		return IN_out.get();
+	}
+	
 	//Pivot
 	public double getPTSetpoint() {
 		return PT_setpoints[PT_index];
 	}
 	
-	public boolean getINOut() {
-		return IN_out.get();
+	public void setPTSetpoint(int index) {
+		PT_index = index;
 	}
-
 
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;

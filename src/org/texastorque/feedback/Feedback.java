@@ -3,6 +3,7 @@ package org.texastorque.feedback;
 import org.texastorque.constants.Ports;
 import org.texastorque.io.Input;
 import org.texastorque.torquelib.component.TorqueEncoder;
+import com.kauailabs.navx.frc.AHRS;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -16,19 +17,25 @@ import com.kauailabs.navx.frc.AHRS;
 import java.util.ArrayList;
 
 public class Feedback {
-
+	
 	public static Feedback instance;
 	
 	//constants
-	private final double DISTANCE_CONVERSION = 0.07383;
-	private final double ANGLE_CONVERSION = 360 / 250;
+	public static final double DISTANCE_CONVERSION = 0.07383;
+	public static final double DISTANCE_PER_PULSE_IN_FEET= 0.02618;
+	public static final double ANGLE_CONVERSION = 360/250;
+	public static final int AM_CONVERSION = 10150;
+
+	private double sum;
+	private double duration;
+	private double lastTime;
 	
 	//sensors
 	private TorqueEncoder DB_leftEncoder;
 	private TorqueEncoder DB_rightEncoder;
 	private AHRS DB_gyro;
-	
 	private TorqueEncoder PT_encoder;
+	private TorqueEncoder AM_encoder;
 	
 	//related values
 	private double DB_distance;
@@ -47,27 +54,30 @@ public class Feedback {
 	private double PT_angle;
 	private double PT_angleRate;
 	
+	private double AM_distance;
+	
 	public Feedback() {
 
 		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
-		DB_gyro = new AHRS(SPI.Port.kMXP);
-		
 		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
+		AM_encoder = new TorqueEncoder(Ports.AM_ENCODER_A, Ports.AM_ENCODER_B, false, EncodingType.k4X);
+		DB_gyro = new AHRS(SPI.Port.kMXP);
 		resetEncoders();
 	}
 		
 	public void resetEncoders() {
 		DB_leftEncoder.reset();
 		DB_rightEncoder.reset();
-		
 		PT_encoder.reset();
+		AM_encoder.reset();
 	}
-	
+
 	public void update() {
 		DB_leftEncoder.calc();
 		DB_rightEncoder.calc();
 		PT_encoder.calc();
+		AM_encoder.calc();
 		
 		//Drivebase
 		DB_leftDistance = DB_leftEncoder.getDistance() * DISTANCE_CONVERSION;
@@ -81,12 +91,22 @@ public class Feedback {
 		//Pivot
 		PT_angle = PT_encoder.getDistance() * ANGLE_CONVERSION;
 		PT_angleRate = PT_encoder.getRate() * ANGLE_CONVERSION;
+		
+		AM_distance = AM_encoder.getDistance();
 	}
 	
 	public double getDBDistance() {
 		return DB_distance;
 	}
 	
+	public TorqueEncoder getLeftEncoder() {
+		return DB_leftEncoder;
+	}
+	
+	public TorqueEncoder getRightEncoder() {
+		return DB_rightEncoder;
+	}
+		
 	public double getDBLeftDistance() {
 		return DB_leftDistance;
 	}
@@ -119,17 +139,36 @@ public class Feedback {
 		return PT_angleRate;
 	}
 	
+	public double getArmDistance() {
+		return AM_distance;
+	}
+	
+	public TorqueEncoder getArmEncoder() {
+		return AM_encoder;
+	}
+	
 	public void resetDBGyro() {
 		DB_gyro.reset();
 	}
 	
 	public void smartDashboard() {
-		SmartDashboard.putNumber("DB_LEFTPOSITION", DB_leftDistance);
-		SmartDashboard.putNumber("DB_RIGHTPOSITION", DB_rightDistance);
-		SmartDashboard.putNumber("DB_GYRO", DB_angle);
-		SmartDashboard.putNumber("DB_GYRORATE", DB_angleRate);
-		SmartDashboard.putNumber("GYROX", DB_gyro.getAngle());
-
+		duration += (Timer.getFPGATimestamp() - lastTime);
+		lastTime = Timer.getFPGATimestamp();
+		
+		SmartDashboard.putNumber("Left_Encoder_Distance", DB_leftEncoder.getDistance());
+		SmartDashboard.putNumber("Right_Encoder_Distance", DB_rightEncoder.getDistance()* DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Left_Encoder_Speed", DB_leftEncoder.getRate());
+		SmartDashboard.putNumber("Right_Encoder_Speed", DB_rightEncoder.getRate()*DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
+		SmartDashboard.putNumber("Rate", DB_leftEncoder.getRate());
+		SmartDashboard.putNumber("Gyro", DB_gyro.getAngle());
+		SmartDashboard.putNumber("PT", PT_encoder.getDistance());
+		SmartDashboard.putNumber("AM", AM_encoder.getDistance());
+		SmartDashboard.putNumber("X", DB_gyro.getDisplacementX());
+		SmartDashboard.putNumber("Y", DB_gyro.getDisplacementY());
+		SmartDashboard.putNumber("Z", DB_gyro.getDisplacementZ());
+		SmartDashboard.putNumber("Yaw", DB_gyro.getYaw());
+		SmartDashboard.putNumber("Roll", DB_gyro.getRoll());
 	}
 	
 	public static Feedback getInstance() {

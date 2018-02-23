@@ -1,8 +1,9 @@
-package org.texastorque.auto.drive;
+package org.texastorque.auto.sequences;
 
 import org.texastorque.auto.AutoSequence;
-import org.texastorque.subsystems.Drivebase;
-import org.texastorque.subsystems.Drivebase.DriveType;
+import org.texastorque.auto.arm.ShiftPivotArm;
+import org.texastorque.auto.drive.Drive;
+import org.texastorque.auto.drive.Turn;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -43,6 +44,7 @@ public class PlaceCubeScale extends AutoSequence {
 				System.out.println("3R");
 				commandList.add(new Drive(260, 0.125, 5.0));
 				commandList.add(new Turn(-45, 1.5, 3.0));
+				commandList.add(new ShiftPivotArm(3, 3.0));
 			}
 			else {
 				System.out.println("3L");
