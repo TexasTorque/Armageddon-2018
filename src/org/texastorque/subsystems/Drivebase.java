@@ -145,7 +145,7 @@ public class Drivebase extends Subsystem {
 					previousTime = Timer.getFPGATimestamp();
 				}
 				if (TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), precision)) {
-					turnTMP.generateTrapezoid(f.getDBLeftDistance(), f.getDBLeftDistance(), 0);
+					AutoManager.interruptThread();
 				}
 					//AutoManager.interruptThread();
 				dt = Timer.getFPGATimestamp() - previousTime;

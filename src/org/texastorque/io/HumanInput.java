@@ -43,8 +43,8 @@ public class HumanInput extends Input {
 	}
 	
 	public void updateDrive() {
-		DB_leftSpeed = driver.getLeftYAxis() + .75 * driver.getRightXAxis();
-		DB_rightSpeed = driver.getLeftYAxis() - .75 * driver.getRightXAxis();
+		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
+		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
 	}
 
 	public void updateFile() {

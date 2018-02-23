@@ -46,13 +46,13 @@ public class RobotOutput {
 		
 		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LEFT_MOTOR), !clockwise);
 		IN_right = new TorqueMotor(new VictorSP(Ports.IN_RIGHT_MOTOR), clockwise);
-		IN_down = new DoubleSolenoid(Ports.IN_DOWN_SOLE_A, Ports.IN_DOWN_SOLE_B);
-		IN_out = new DoubleSolenoid(Ports.IN_OUT_SOLE_A, Ports.IN_OUT_SOLE_B);
+		IN_down = new DoubleSolenoid(2, Ports.IN_DOWN_SOLE_A, Ports.IN_DOWN_SOLE_B);
+		IN_out = new DoubleSolenoid(2, Ports.IN_OUT_SOLE_A, Ports.IN_OUT_SOLE_B);
 		
 		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_MOTOR), clockwise);
 		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_MOTOR), !clockwise);
 		
-		CL_sole = new DoubleSolenoid(Ports.CL_SOLE_A, Ports.CL_SOLE_B);
+		CL_sole = new DoubleSolenoid(2, Ports.CL_SOLE_A, Ports.CL_SOLE_B);
 	}
 	
 	public void setDrivebaseSpeed(double leftSpeed, double rightSpeed) {

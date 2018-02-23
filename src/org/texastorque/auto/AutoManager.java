@@ -8,6 +8,7 @@ import org.texastorque.io.RobotOutput;
 import org.texastorque.feedback.Feedback;
 
 import org.texastorque.auto.drive.*;
+import org.texastorque.auto.sequences.PlaceCube;
 import org.texastorque.auto.sequences.PlaceCubeScale;
 import org.texastorque.subsystems.*;
 import org.texastorque.subsystems.Drivebase.DriveType;
@@ -59,6 +60,7 @@ public class AutoManager {
 
 			case 2:
 				System.out.println("2");
+				commandList.addAll(new PlaceCube().getCommands());
 				commandList.addAll(new PlaceCubeScale().getCommands());
 				break;
 

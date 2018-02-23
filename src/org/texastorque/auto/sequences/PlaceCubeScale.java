@@ -16,7 +16,7 @@ public class PlaceCubeScale extends AutoSequence {
 		//startPos = DriverStation.getInstance().getLocation();
 		startPos = 3;
 		//scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
-		scaleSide = 'L';
+		scaleSide = 'R';
 		init();
 	}
 	
@@ -44,7 +44,6 @@ public class PlaceCubeScale extends AutoSequence {
 				System.out.println("3R");
 				commandList.add(new Drive(260, 0.125, 5.0));
 				commandList.add(new Turn(-45, 1.5, 3.0));
-				commandList.add(new ShiftPivotArm(3, 3.0));
 			}
 			else {
 				System.out.println("3L");
