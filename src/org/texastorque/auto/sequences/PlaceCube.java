@@ -16,8 +16,7 @@ public class PlaceCube extends AutoSequence {
 	public void init() {
 		System.out.println("init PlaceCube");
 //		commandList.add(new SetClaw(true));
-		commandList.add(new ShiftPivotArm(4, 6.0));
-		commandList.add(new SetClaw(false));
+//		commandList.add(new ShiftPivotArm(4, 5.0));
 	}
 	
 }

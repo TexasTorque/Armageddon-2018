@@ -51,20 +51,24 @@ public class Arm extends Subsystem {
 	@Override
 	public void autoContinuous() {
 		setpoint = i.getArmSetpoint();
-		if (setpoint != previousSetpoint) {
-			if (TorqueMathUtil.near(setpoint, f.getArmDistance(), 10)) {
-				i.setArmSpeed(0);
-				previousSetpoint = setpoint;
-			}
-			else if (Feedback.getInstance().getPTAngle() < 45) {
-				i.setArmSpeed(0);
-			}
-			else {
-				
-			}
+		currentDistance = f.getArmDistance();
+		currentAngle = f.getPTAngle();
+		if(currentAngle < 30) {
+			setpoint = 350;
 		}
-		speed = i.getArmSpeed();
-		output();
+		if((currentAngle >=30 && currentAngle < 60) || currentAngle > 130) {
+			setpoint = 10;
+		}
+			
+		if(TorqueMathUtil.near(setpoint, currentDistance, 20)){
+			i.setArmSpeed(0);
+		} else {
+			i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+	}	
+			
+			speed = i.getArmSpeed();
+			output();
+		
 	}
 
 	@Override

@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.feedback.Feedback;
-
+import org.texastorque.auto.arm.SetClaw;
+import org.texastorque.auto.arm.ShiftPivotArm;
 import org.texastorque.auto.drive.*;
 import org.texastorque.auto.sequences.PlaceCube;
 import org.texastorque.auto.sequences.PlaceCubeScale;
@@ -60,8 +61,9 @@ public class AutoManager {
 
 			case 2:
 				System.out.println("2");
+	//			commandList.add(new ShiftPivotArm(4));
 				commandList.addAll(new PlaceCubeScale().getCommands());
-				commandList.addAll(new PlaceCube().getCommands());
+	//			commandList.add(new SetClaw(false));
 				break;
 
 			default:

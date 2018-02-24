@@ -1,6 +1,7 @@
 package org.texastorque.auto.sequences;
 
 import org.texastorque.auto.AutoSequence;
+import org.texastorque.auto.arm.SetClaw;
 import org.texastorque.auto.arm.ShiftPivotArm;
 import org.texastorque.auto.drive.Drive;
 import org.texastorque.auto.drive.Turn;
@@ -43,7 +44,9 @@ public class PlaceCubeScale extends AutoSequence {
 			if (scaleSide == 'R') {
 				System.out.println("3R");
 				commandList.add(new Drive(260, 0.125, 5.0));
-				commandList.add(new Turn(-45, 1.5, 3.0));
+				commandList.add(new ShiftPivotArm(4, 5));
+				commandList.add(new Turn(-45, 1.5, 2.0));
+				commandList.add(new SetClaw());
 			}
 			else {
 				System.out.println("3L");

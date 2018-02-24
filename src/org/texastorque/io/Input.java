@@ -130,8 +130,8 @@ public class Input {
 	
 	}
 
-	public void setClawClosed(boolean closed) {
-		CL_closed.set(closed);
+	public void toggleClaw() {
+		CL_closed.calc(true);
 		
 	}
 
@@ -144,6 +144,6 @@ public class Input {
 
 	public void setArmSetpoint(int setpointIndex) {
 		AM_index = setpointIndex;
-		
+		AM_setpoint = AM_setpoints[AM_index];
 	}
 }

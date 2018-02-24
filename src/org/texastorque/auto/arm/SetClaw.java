@@ -8,16 +8,14 @@ import org.texastorque.subsystems.Pivot;
 
 public class SetClaw extends AutoCommand {
 	
-	private boolean closed;
 	
-	public SetClaw(boolean closed) {
-		this.closed = closed;
+	public SetClaw() {
 	}
 	
 	@Override
 	public void run() {
 		System.out.println("set claw");
-		input.setClawClosed(closed);
+		input.toggleClaw();
 	}
 
 	@Override
