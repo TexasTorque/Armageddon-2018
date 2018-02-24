@@ -80,7 +80,7 @@ public class Arm extends Subsystem {
 			
 			speed = i.getArmSpeed();
 			output();
-		}
+		
 		/*setpoint = i.getArmSetpoint();
 		
 		if(TorqueMathUtil.near(setpoint, f.getArmDistance(), 30)) {

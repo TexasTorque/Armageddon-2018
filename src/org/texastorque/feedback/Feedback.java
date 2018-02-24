@@ -80,8 +80,8 @@ public class Feedback {
 		AM_encoder.calc();
 		
 		//Drivebase
-		DB_leftDistance = DB_leftEncoder.getDistance() * DISTANCE_CONVERSION;
-		DB_rightDistance = DB_rightEncoder.getDistance() * DISTANCE_CONVERSION;
+		DB_leftDistance = DB_leftEncoder.getDistance(); //* DISTANCE_CONVERSION;
+		DB_rightDistance = DB_rightEncoder.getDistance(); //* DISTANCE_CONVERSION;
 		DB_leftRate = DB_leftEncoder.getRate() * DISTANCE_CONVERSION;
 		DB_rightRate = DB_rightEncoder.getRate() * DISTANCE_CONVERSION;
 		

@@ -60,7 +60,7 @@ public class AutoManager {
 
 			case 2:
 				System.out.println("2");
-				commandList.addAll(new PlaceCube().getCommands());
+	//			commandList.addAll(new PlaceCube().getCommands());
 				commandList.addAll(new PlaceCubeScale().getCommands());
 				break;
 

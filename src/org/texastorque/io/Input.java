@@ -82,7 +82,7 @@ public class Input {
 	}
 	
 	public void setDBTurnSetpoint(double setpoint, double precision) {
-		DB_turnSetpoint = setpoint + Feedback.getInstance().getDBAngle();
+		DB_turnSetpoint = setpoint;
 		DB_precision = precision;
 	}
 	
@@ -125,5 +125,21 @@ public class Input {
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	
+	}
+
+	public void setClawClosed(boolean closed) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void setPTSetpoint(int setpointIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setArmSetpoint(int setpointIndex) {
+		// TODO Auto-generated method stub
+		
 	}
 }

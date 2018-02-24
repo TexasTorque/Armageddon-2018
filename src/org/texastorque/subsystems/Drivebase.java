@@ -40,7 +40,8 @@ public class Drivebase extends Subsystem {
 	//Turn
 	private double turnPreviousSetpoint = 0;
 	private double turnSetpoint;
-
+	private double currentAngle;
+	
 	private TorqueTMP turnTMP;
 	private TorquePV turnPV;
 
@@ -138,7 +139,8 @@ public class Drivebase extends Subsystem {
 			
 			case AUTOTURN:
 				turnSetpoint = i.getDBTurnSetpoint();
-				if (turnSetpoint != turnPreviousSetpoint) {
+				currentAngle = f.getDBAngle();
+			/*	if (turnSetpoint != turnPreviousSetpoint) {
 					turnPreviousSetpoint = turnSetpoint;
 					precision = i.getDBPrecision();
 					turnTMP.generateTrapezoid(turnSetpoint, 0.0, 0.0);
@@ -158,13 +160,25 @@ public class Drivebase extends Subsystem {
 				leftSpeed = turnPV.calculate(turnTMP, f.getDBLeftDistance(), f.getDBLeftRate());
 				rightSpeed = -leftSpeed;
 				break;
+			*/
+				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 5)) {
+					if(turnSetpoint - currentAngle > 0) {
+						leftSpeed = -.35;
+					} else if(turnSetpoint - currentAngle < 0) {
+						leftSpeed = .35;
+					}
+					rightSpeed = -leftSpeed;
+				} else {
+					leftSpeed = 0;
+					rightSpeed = 0;
+				}
 				
 			default:
 				leftSpeed = 0;
 				rightSpeed = 0;
 				break;
 		}
-		run();
+		output();
 	}
 
 	@Override
@@ -178,14 +192,6 @@ public class Drivebase extends Subsystem {
 		default:
 			type = DriveType.TELEOP;
 			break;
-		}
-		output();
-	}
-		
-	private void run() {
-		if(type == DriveType.WAIT) {
-			leftSpeed = 0;
-			rightSpeed = 0;
 		}
 		output();
 	}

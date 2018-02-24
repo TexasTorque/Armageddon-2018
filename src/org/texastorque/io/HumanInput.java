@@ -179,11 +179,11 @@ public class HumanInput extends Input {
 		if(driver.getAButton()) {
 			AM_speed = -.5;
 		} //0.00787401571
-		if(/*operator.getStartButton*/) {
+//		if(/*operator.getStartButton*/) {
 			//PT_setpoint[12] -=3;
 			//make an 12th index that is 0
 			//PT_encoder.reset
-		}
+//		}
 			
 	}
 
