@@ -54,7 +54,7 @@ private static WheelIntake instance;
 	
 	private void output() {
 		o.setIntakeSpeed(speed);
-	
+		o.setIntakePneumatics(out, down);
 	}
 	
 	@Override

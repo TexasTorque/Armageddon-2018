@@ -7,10 +7,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class PlaceCube extends AutoSequence {
 
+	
+	public PlaceCube() {
+		init();
+	}
+	
 	@Override
 	public void init() {
 		System.out.println("init PlaceCube");
-		commandList.add(new SetClaw(true));
+//		commandList.add(new SetClaw(true));
 		commandList.add(new ShiftPivotArm(4, 6.0));
 		commandList.add(new SetClaw(false));
 	}

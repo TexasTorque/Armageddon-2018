@@ -30,14 +30,14 @@ public class Ports {
 	
 	//Arm
 	public static final int AM_RIGHT_MOTOR = 9;
-	public static final int AM_LEFT_MOTOR = 10;
+	public static final int AM_LEFT_MOTOR = 19;
 	
 	public static final int AM_ENCODER_A = 4;
 	public static final int AM_ENCODER_B = 5;	
 	
 	//Claw
-	public static final int CL_SOLE_A = 0;
-	public static final int CL_SOLE_B = 1;
+	public static final int CL_SOLE_A = 1;
+	public static final int CL_SOLE_B = 0;
 
 
 

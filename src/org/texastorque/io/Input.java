@@ -40,6 +40,7 @@ public class Input {
 	//Claw
 	protected TorqueToggle CL_closed;
 	
+	
 	public Input() {
 		DB_leftSpeed = 0d;
 		DB_rightSpeed = 0d;
@@ -95,10 +96,12 @@ public class Input {
 		AM_speed = speed;
 	}
 	
+	public void setIntakeDown(boolean down) {
+		IN_down.set(down);
+	}
+	
 	public double getArmSetpoint() {
-		if(MAXIMUM_OVERDRIVE.get())
-			return AM_setpoint;
-		return AM_setpoints[AM_index];
+		return AM_setpoint;
 	}
 	//Claw
 	public boolean getClawClosed() {
@@ -114,7 +117,7 @@ public class Input {
 	}
 	//Pivot
 	public double getPTSetpoint() {
-		return PT_setpoints[PT_index];
+		return PT_setpoint;
 	}
 	
 	public boolean getINOut() {
@@ -128,18 +131,19 @@ public class Input {
 	}
 
 	public void setClawClosed(boolean closed) {
-		// TODO Auto-generated method stub
+		CL_closed.set(closed);
 		
 	}
 
 
 	public void setPTSetpoint(int setpointIndex) {
-		// TODO Auto-generated method stub
+		PT_index = setpointIndex;
+		PT_setpoint = PT_setpoints[PT_index];
 		
 	}
 
 	public void setArmSetpoint(int setpointIndex) {
-		// TODO Auto-generated method stub
+		AM_index = setpointIndex;
 		
 	}
 }

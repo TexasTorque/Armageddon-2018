@@ -1,6 +1,7 @@
 package org.texastorque.io;
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.GenericController;
 import org.texastorque.torquelib.util.TorqueToggle;
 
@@ -72,8 +73,8 @@ public class HumanInput extends Input {
 			lastLeftSpeed = DB_leftSpeed;
 			lastRightSpeed = DB_rightSpeed;
 		} */
-		DB_leftSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
-		DB_rightSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
+		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
+		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
 	}
 
 	public void updateFile() {
@@ -109,81 +110,32 @@ public class HumanInput extends Input {
 				PT_index = x;
 				AM_index = x;
 				MAXIMUM_OVERDRIVE.set(false);
+				PT_setpoint = PT_setpoints[PT_index];
+				AM_setpoint = AM_setpoints[AM_index];
 			} //if
 		}//for
 		if(board.getButton(11)) {
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		}
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
 		if(MAXIMUM_OVERDRIVE.get()) {
 			AM_setpoint = board.getSlider() * AM_CONVERSION;
 			System.out.println(board.getSlider());
-			PT_test = (int)(Math.round(board.getDial() / 0.00787401571));
-			switch(PT_test) {
-				case 0:
-					PT_index = 0;
-					break;
-				case 1:
-					PT_index = 1;
-					break;
-				case 2:
-					PT_index = 1;
-					break;
-				case 3:
-					PT_index = 2;
-					break;
-				case 4:
-					PT_index = 3;
-					break;
-				case 5:
-					PT_index = 3;
-					break;
-				case 6:
-					PT_index = 4;
-					break;
-				case 7:
-					PT_index = 5;
-					break;
-				case 8:
-					PT_index = 5;
-					break;
-				case 9:
-					PT_index = 6;
-					break;
-				case 10:
-					PT_index = 6;
-					break;
-				case 11:
-					PT_index = 7;
-					break;
-				case 12:
-					PT_index = 7;
-					break;
-				case 13:
-					PT_index = 8;
-					break;
-				case 14:
-					PT_index = 9;
-					break;
-				case 15:
-					PT_index = 9;
-					break;
-				default:
-					PT_index = 5;
-					break;
+			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;
 			
 			}
-		}
+		
 		if(driver.getAButton()) {
 			AM_speed = -.5;
 		} //0.00787401571
-//		if(/*operator.getStartButton*/) {
-			//PT_setpoint[12] -=3;
-			//make an 12th index that is 0
-			//PT_encoder.reset
-//		}
+		if(operator.getLeftCenterButton()) {
+			PT_setpoint -=3;
+			Feedback.getInstance().resetPivot();
+		}
 			
 	}
 

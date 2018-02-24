@@ -12,6 +12,7 @@ public class Arm extends Subsystem {
 	private double setpoint;
 	private double previousSetpoint;
 	private double currentDistance;
+	private double currentAngle;
 	
 	private TorqueTMP armTMP;
 	
@@ -59,7 +60,7 @@ public class Arm extends Subsystem {
 				i.setArmSpeed(0);
 			}
 			else {
-				i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - f.getArmDistance())));
+				
 			}
 		}
 		speed = i.getArmSpeed();
@@ -70,12 +71,18 @@ public class Arm extends Subsystem {
 	public void teleopContinuous() {
 		setpoint = i.getArmSetpoint();
 		currentDistance = f.getArmDistance();
-		if(TorqueMathUtil.near(setpoint, currentDistance, 8) 
-				|| (f.getPTAngle() < 60) || f.getPTAngle() > 130) {
+		currentAngle = f.getPTAngle();
+		if(currentAngle < 30) {
+			setpoint = 350;
+		}
+		if((currentAngle >=30 && currentAngle < 45) || currentAngle > 130) {
+			setpoint = 10;
+		}
+			
+		if(TorqueMathUtil.near(setpoint, currentDistance, 20)){
 			i.setArmSpeed(0);
 		} else {
-			i.setArmSpeed(.35 * (setpoint - currentDistance) / (Math.abs(setpoint - currentDistance)));
-			
+			i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 	}	
 			
 			speed = i.getArmSpeed();

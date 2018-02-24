@@ -37,8 +37,8 @@ public class Constants {
 	public static final Constant DB_RIMP_ffA = new Constant("DB_RIMP_ffA", 0);
 	
 	//Pivot
-	public static final Constant PT_MVELOCITY = new Constant("PT_MVELOCITY", 10.0);
-	public static final Constant PT_MACCELERATION = new Constant("PT_MACCELERATION", 5.0);
+	public static final Constant PT_MVELOCITY = new Constant("PT_MVELOCITY", 15.0);
+	public static final Constant PT_MACCELERATION = new Constant("PT_MACCELERATION", 7.5);
 	public static final Constant PT_PV_P = new Constant("PT_PV_P", .08);
 	public static final Constant PT_PV_V = new Constant("PT_PV_V", .008);
 	public static final Constant PT_PV_ffV = new Constant("PT_PV_ffV", 0.002);

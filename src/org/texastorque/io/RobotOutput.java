@@ -50,7 +50,7 @@ public class RobotOutput {
 		IN_out = new DoubleSolenoid(2, Ports.IN_OUT_SOLE_A, Ports.IN_OUT_SOLE_B);
 		
 		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_MOTOR), clockwise);
-		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_MOTOR), !clockwise);
+		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_MOTOR), clockwise);
 		
 		CL_sole = new DoubleSolenoid(2, Ports.CL_SOLE_A, Ports.CL_SOLE_B);
 	}

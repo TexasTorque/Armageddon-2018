@@ -61,7 +61,7 @@ public class Feedback {
 		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
 		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
-		AM_encoder = new TorqueEncoder(Ports.AM_ENCODER_A, Ports.AM_ENCODER_B, false, EncodingType.k4X);
+		AM_encoder = new TorqueEncoder(Ports.AM_ENCODER_A, Ports.AM_ENCODER_B, true, EncodingType.k4X);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
 		resetEncoders();
 	}
@@ -72,6 +72,10 @@ public class Feedback {
 		PT_encoder.reset();
 		AM_encoder.reset();
 	}
+	
+	public void resetPivot() {
+		PT_encoder.reset();
+	}
 
 	public void update() {
 		DB_leftEncoder.calc();
@@ -80,8 +84,8 @@ public class Feedback {
 		AM_encoder.calc();
 		
 		//Drivebase
-		DB_leftDistance = DB_leftEncoder.getDistance(); //* DISTANCE_CONVERSION;
-		DB_rightDistance = DB_rightEncoder.getDistance(); //* DISTANCE_CONVERSION;
+		DB_leftDistance = DB_leftEncoder.getDistance() * DISTANCE_CONVERSION;
+		DB_rightDistance = DB_rightEncoder.getDistance() * DISTANCE_CONVERSION;
 		DB_leftRate = DB_leftEncoder.getRate() * DISTANCE_CONVERSION;
 		DB_rightRate = DB_rightEncoder.getRate() * DISTANCE_CONVERSION;
 		
@@ -155,10 +159,10 @@ public class Feedback {
 		duration += (Timer.getFPGATimestamp() - lastTime);
 		lastTime = Timer.getFPGATimestamp();
 		
-		SmartDashboard.putNumber("Left_Encoder_Distance", DB_leftEncoder.getDistance());
-		SmartDashboard.putNumber("Right_Encoder_Distance", DB_rightEncoder.getDistance()* DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Left_Encoder_Distance", DB_leftDistance);
+		SmartDashboard.putNumber("Right_Encoder_Distance", DB_rightDistance);
 		SmartDashboard.putNumber("Left_Encoder_Speed", DB_leftEncoder.getRate());
-		SmartDashboard.putNumber("Right_Encoder_Speed", DB_rightEncoder.getRate()*DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Right_Encoder_Speed", DB_rightEncoder.getRate());
 		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
 		SmartDashboard.putNumber("Rate", DB_leftEncoder.getRate());
 		SmartDashboard.putNumber("Gyro", DB_gyro.getAngle());
