@@ -29,7 +29,8 @@ public class RobotOutput {
 
 	private TorqueMotor IN_left;
 	private TorqueMotor IN_right;
-	private DoubleSolenoid IN_down;
+	private DoubleSolenoid IN_leftDown;
+	private DoubleSolenoid IN_rightDown;
 	private DoubleSolenoid IN_out;
 
 	private static boolean clockwise = true;	
@@ -46,7 +47,8 @@ public class RobotOutput {
 		
 		IN_left = new TorqueMotor(new VictorSP(Ports.IN_LEFT_MOTOR), !clockwise);
 		IN_right = new TorqueMotor(new VictorSP(Ports.IN_RIGHT_MOTOR), clockwise);
-		IN_down = new DoubleSolenoid(2, Ports.IN_DOWN_SOLE_A, Ports.IN_DOWN_SOLE_B);
+		IN_leftDown = new DoubleSolenoid(2, Ports.IN_LEFT_DOWN_SOLE_A, Ports.IN_LEFT_DOWN_SOLE_B);
+		IN_rightDown = new DoubleSolenoid(2, Ports.IN_RIGHT_DOWN_SOLE_A, Ports.IN_RIGHT_DOWN_SOLE_B);
 		IN_out = new DoubleSolenoid(2, Ports.IN_OUT_SOLE_A, Ports.IN_OUT_SOLE_B);
 		
 		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_MOTOR), clockwise);
@@ -82,7 +84,8 @@ public class RobotOutput {
 	
 	public void setIntakePneumatics(boolean out, boolean down) {
 		IN_out.set(out ? Value.kForward : Value.kReverse);
-		IN_down.set(down ? Value.kForward : Value.kReverse);
+		IN_leftDown.set(down ? Value.kForward : Value.kReverse);
+		IN_rightDown.set(down ? Value.kForward : Value.kReverse);
 	}
 	
 	public static RobotOutput getInstance() {

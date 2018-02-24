@@ -23,8 +23,10 @@ public class Ports {
 	public static final int IN_LEFT_MOTOR = 5;
 	public static final int IN_RIGHT_MOTOR = 6;
 
-	public static final int IN_DOWN_SOLE_A = 4;
-	public static final int IN_DOWN_SOLE_B = 5;
+	public static final int IN_LEFT_DOWN_SOLE_A = 4;
+	public static final int IN_LEFT_DOWN_SOLE_B = 5;
+	public static final int IN_RIGHT_DOWN_SOLE_A = 6;
+	public static final int IN_RIGHT_DOWN_SOLE_B = 7;
 	public static final int IN_OUT_SOLE_A = 2;
 	public static final int IN_OUT_SOLE_B = 3;
 	
