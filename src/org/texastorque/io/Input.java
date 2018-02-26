@@ -25,6 +25,8 @@ public class Input {
 		{0, 300, 280, 550, 2040, 750, 750, 570, 50, 0};
 	protected static final int AM_CONVERSION = 6000;
 	
+	protected boolean climbing;
+	
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
@@ -52,6 +54,10 @@ public class Input {
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);
+		initIndexes();
+	}
+	
+	public void initIndexes() {
 		PT_index = 0;
 		AM_index = 0;
 	}
@@ -90,6 +96,10 @@ public class Input {
 	//Arm
 	public double getArmSpeed() {
 		return AM_speed;
+	}
+	
+	public boolean getClimbing() {
+		return climbing;
 	}
 	
 	public void setArmSpeed(double speed) {
