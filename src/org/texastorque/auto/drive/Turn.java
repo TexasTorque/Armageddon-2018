@@ -15,7 +15,8 @@ public class Turn extends AutoCommand {
 	private double precision;
 	private double time = -999;
 	
-	public Turn(double angle, double precision, double time) {
+	public Turn(double angle, double precision, double time, boolean pause) {
+		super(pause);
 		this.angle = angle;
 		this.precision = precision;
 		this.time = time;
@@ -33,9 +34,6 @@ public class Turn extends AutoCommand {
 	
 	@Override
 	public void run() {
-		Feedback.getInstance().resetDBGyro();
-		Feedback.getInstance().resetEncoders();
-		
 		System.out.println("turn");
 		input.setDBTurnSetpoint(angle, precision);
 		drivebase.setType(DriveType.AUTOTURN);

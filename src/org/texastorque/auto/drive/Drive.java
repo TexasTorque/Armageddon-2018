@@ -15,7 +15,8 @@ public class Drive extends AutoCommand {
 	private double precision;
 	private double time = -999;
 	
-	public Drive(double distance, double precision, double time) {
+	public Drive(double distance, double precision, double time, boolean pause) {
+		super(pause);
 		this.distance = distance;
 		this.precision = precision;
 		this.time = time;
@@ -33,13 +34,11 @@ public class Drive extends AutoCommand {
 	
 	@Override
 	public void run() {
-		Feedback.getInstance().resetDBGyro();
-		Feedback.getInstance().resetEncoders();
-		
+		Feedback.getInstance().resetDriveEncoders();
 		System.out.println("drive");
 		input.setDBDriveSetpoint(distance, precision);
 		drivebase.setType(DriveType.AUTODRIVE);
-		if(time != -999)
+		if(time != -999 && pause)
 			AutoManager.pause(time);
 		else
 			AutoManager.pause(distance * D_CONSTANT);

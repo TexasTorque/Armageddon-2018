@@ -30,14 +30,19 @@ public class Pivot extends Subsystem {
 	private double targetVelocity;
 	private double targetAcceleration;
 	
+	private double autoStartTime;
+	private double delay;
+	
 	private boolean goingDown;
 	
 	public Pivot() {
 		init();
+		delay = 0;
 	}
 	
 	@Override
 	public void autoInit() {
+		autoStartTime = Timer.getFPGATimestamp();
 		init();
 	}
 
@@ -71,7 +76,8 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		runPivot();
+		if(autoStartTime + delay < Timer.getFPGATimestamp()) 
+			runPivot();
 	}
 
 	@Override
@@ -107,6 +113,10 @@ public class Pivot extends Subsystem {
 
 	public double getSpeed() {
 		return speed;
+	}
+	
+	public void setDelay(double time) {
+		delay = time;
 	}
 	
 	@Override

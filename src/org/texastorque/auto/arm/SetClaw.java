@@ -9,13 +9,15 @@ import org.texastorque.subsystems.Pivot;
 public class SetClaw extends AutoCommand {
 	
 	
-	public SetClaw() {
+	public SetClaw(boolean pause) {
+		super(pause);
 	}
 	
 	@Override
 	public void run() {
 		System.out.println("set claw");
 		input.toggleClaw();
+		
 	}
 
 	@Override

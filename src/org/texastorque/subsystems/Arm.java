@@ -4,6 +4,8 @@ import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class Arm extends Subsystem {
 	
 	private static Arm instance;
@@ -13,6 +15,8 @@ public class Arm extends Subsystem {
 	private double previousSetpoint;
 	private double currentDistance;
 	private double currentAngle;
+	private double autoStartTime;
+	private double delay;
 	
 	private TorqueTMP armTMP;
 	
@@ -26,8 +30,8 @@ public class Arm extends Subsystem {
 	
 	@Override
 	public void autoInit() {
-		// TODO Auto-generated method stub
-		
+		autoStartTime = Timer.getFPGATimestamp();
+		delay = 0;
 	}
 
 	@Override
@@ -50,25 +54,26 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		setpoint = i.getArmSetpoint();
-		currentDistance = f.getArmDistance();
-		currentAngle = f.getPTAngle();
-		if(currentAngle < 30) {
-			setpoint = 350;
-		}
-		if((currentAngle >=30 && currentAngle < 60) || currentAngle > 130) {
-			setpoint = 10;
-		}
-			
-		if(TorqueMathUtil.near(setpoint, currentDistance, 20)){
-			i.setArmSpeed(0);
-		} else {
-			i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-	}	
-			
+		if(autoStartTime + delay < Timer.getFPGATimestamp()) {
+			setpoint = i.getArmSetpoint();
+			currentDistance = f.getArmDistance();
+			currentAngle = f.getPTAngle();
+			if(currentAngle < 30) {
+				setpoint = currentDistance;
+			}
+			if((currentAngle >=20 && currentAngle < 45) || currentAngle > 130) {
+				setpoint = 10;
+			}
+				
+			if(TorqueMathUtil.near(setpoint, currentDistance, 20)){
+				i.setArmSpeed(0);
+			} else {
+				i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			}	
+				
 			speed = i.getArmSpeed();
 			output();
-		
+		}		
 	}
 
 	@Override
@@ -79,14 +84,14 @@ public class Arm extends Subsystem {
 		if(currentAngle < 30) {
 			setpoint = 350;
 		}
-		if((currentAngle >=30 && currentAngle < 45) || currentAngle > 130) {
+		if((currentAngle >=20 && currentAngle < 60) || currentAngle > 130) {
 			setpoint = 10;
 		}
 			
 		if(TorqueMathUtil.near(setpoint, currentDistance, 20)){
 			i.setArmSpeed(0);
 		} else {
-			i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 	}	
 			
 			speed = i.getArmSpeed();
@@ -127,7 +132,11 @@ public class Arm extends Subsystem {
 		output();
 		*/
 	}
-
+	
+	public void setDelay(double time) {
+		delay = time;
+	}
+	
 	@Override
 	public void smartDashboard() {
 		// TODO Auto-generated method stub

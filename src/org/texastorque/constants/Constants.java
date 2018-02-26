@@ -12,7 +12,7 @@ public class Constants {
 
 	//Drivebase
 	public static final Constant DB_MVELOCITY = new Constant("DB_MVELOCITY", 100.0);
-	public static final Constant DB_MACCELERATION = new Constant("DB_MACCELERATION", 100.0);
+	public static final Constant DB_MACCELERATION = new Constant("DB_MACCELERATION", 75.0);
 	public static final Constant DB_TURN_MVELOCITY = new Constant("DB_TURN_MVELOCITY", 50.0); //60
 	public static final Constant DB_TURN_MACCELERATION = new Constant("DB_TURN_MACCELERATION", 20.0); //10
 	
@@ -37,8 +37,8 @@ public class Constants {
 	public static final Constant DB_RIMP_ffA = new Constant("DB_RIMP_ffA", 0);
 	
 	//Pivot
-	public static final Constant PT_MVELOCITY = new Constant("PT_MVELOCITY", 15.0);
-	public static final Constant PT_MACCELERATION = new Constant("PT_MACCELERATION", 7.5);
+	public static final Constant PT_MVELOCITY = new Constant("PT_MVELOCITY", 200.0);
+	public static final Constant PT_MACCELERATION = new Constant("PT_MACCELERATION", 50.0);
 	public static final Constant PT_PV_P = new Constant("PT_PV_P", .08);
 	public static final Constant PT_PV_V = new Constant("PT_PV_V", .008);
 	public static final Constant PT_PV_ffV = new Constant("PT_PV_ffV", 0.002);

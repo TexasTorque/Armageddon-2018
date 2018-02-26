@@ -22,7 +22,7 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 0, 280, 550, 750, 750, 750, 570, 50, 0};
+		{0, 300, 280, 550, 2040, 750, 750, 570, 50, 0};
 	protected static final int AM_CONVERSION = 6000;
 	
 	protected volatile double DB_driveSetpoint;
@@ -35,7 +35,7 @@ public class Input {
 	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 43.0, 70.0, 82.0, 90.0, 90.0, 105.0, 110, 125, 150}; //TBD
+		{0.0, 50.0, 70.0, 82.0, 90.0, 90.0, 105.0, 110, 125, 150}; //TBD
 	
 	//Claw
 	protected TorqueToggle CL_closed;

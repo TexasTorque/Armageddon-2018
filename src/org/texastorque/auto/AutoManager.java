@@ -9,7 +9,7 @@ import org.texastorque.feedback.Feedback;
 import org.texastorque.auto.arm.SetClaw;
 import org.texastorque.auto.arm.ShiftPivotArm;
 import org.texastorque.auto.drive.*;
-import org.texastorque.auto.sequences.PlaceCube;
+import org.texastorque.auto.sequences.PlaceCubeSwitch;
 import org.texastorque.auto.sequences.PlaceCubeScale;
 import org.texastorque.subsystems.*;
 import org.texastorque.subsystems.Drivebase.DriveType;
@@ -34,6 +34,8 @@ public class AutoManager {
 		
 		subsystems = new ArrayList<>();
 		subsystems.add(Drivebase.getInstance());
+		subsystems.add(Arm.getInstance());
+		subsystems.add(Pivot.getInstance());
 	}
 	
 	public static void beginAuto() {
@@ -46,7 +48,7 @@ public class AutoManager {
 	public static void analyzeAutoMode() {
 		//int autoMode = Integer.parseInt(reverse(Integer.toString(
 		//		(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
-		int autoMode = 2;
+		int autoMode = 3;
 		
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
@@ -61,11 +63,12 @@ public class AutoManager {
 
 			case 2:
 				System.out.println("2");
-	//			commandList.add(new ShiftPivotArm(4));
+				commandList.add(new ShiftPivotArm(4, 5.0, false, 4));
 				commandList.addAll(new PlaceCubeScale().getCommands());
-	//			commandList.add(new SetClaw(false));
 				break;
-
+			case 3:
+				commandList.add(new ShiftPivotArm(1, 5.0, false, 4));
+				commandList.addAll(new PlaceCubeSwitch().getCommands());
 			default:
 				System.out.println("default");
 				break;

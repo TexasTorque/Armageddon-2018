@@ -105,6 +105,11 @@ public class HumanInput extends Input {
 	
 	
 	public void updateBoardSubsystems() {	
+		if(driver.getAButton()) {
+			System.out.println("just work stupid bitch");
+			AM_speed = -.5;
+			AM_setpoint = 0;
+		} else {
 		for(int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
@@ -127,11 +132,8 @@ public class HumanInput extends Input {
 			System.out.println(board.getSlider());
 			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;
 			
-			}
-		
-		if(driver.getAButton()) {
-			AM_speed = -.5;
-		} //0.00787401571
+		}
+		}
 		if(operator.getLeftCenterButton()) {
 			PT_setpoint -=3;
 			Feedback.getInstance().resetPivot();

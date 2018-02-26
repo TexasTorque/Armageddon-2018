@@ -66,6 +66,8 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void autonomousInit() {
+		Feedback.getInstance().resetDBGyro();
+		Feedback.getInstance().resetDriveEncoders();
 		time = 0;
 		for (Subsystem system : subsystems) {
 			system.autoInit();

@@ -10,10 +10,16 @@ public abstract class AutoCommand {
 	protected RobotOutput output;
 	protected Input input;
 	protected Feedback feedback;
+	protected boolean pause;
 	
 	protected Drivebase drivebase;
 	
 	public AutoCommand() {
+		init();
+	}
+	
+	public AutoCommand(boolean pause) {
+		this.pause = pause;
 		init();
 	}
 	

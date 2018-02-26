@@ -73,6 +73,11 @@ public class Feedback {
 		AM_encoder.reset();
 	}
 	
+	public void resetDriveEncoders() {
+		DB_leftEncoder.reset();
+		DB_rightEncoder.reset();
+	}
+	
 	public void resetPivot() {
 		PT_encoder.reset();
 	}
@@ -161,8 +166,8 @@ public class Feedback {
 		
 		SmartDashboard.putNumber("Left_Encoder_Distance", DB_leftDistance);
 		SmartDashboard.putNumber("Right_Encoder_Distance", DB_rightDistance);
-		SmartDashboard.putNumber("Left_Encoder_Speed", DB_leftEncoder.getRate());
-		SmartDashboard.putNumber("Right_Encoder_Speed", DB_rightEncoder.getRate());
+		SmartDashboard.putNumber("Left_Encoder_Speed", DB_leftEncoder.getRate() * DISTANCE_CONVERSION);
+		SmartDashboard.putNumber("Right_Encoder_Speed", DB_rightEncoder.getRate() * DISTANCE_CONVERSION);
 		SmartDashboard.putNumber("Time", Timer.getFPGATimestamp());
 		SmartDashboard.putNumber("Rate", DB_leftEncoder.getRate());
 		SmartDashboard.putNumber("Gyro", DB_gyro.getAngle());
