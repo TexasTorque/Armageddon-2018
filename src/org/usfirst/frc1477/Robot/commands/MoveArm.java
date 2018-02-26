@@ -43,15 +43,14 @@ public class MoveArm extends InstantCommand {
     protected void initialize() {
     	switch(button) {
     		case 1: Robot.arm.grabAndRelease();
-    		break;
+    				break;
     		case 2: Robot.arm.setArmShift(5);
-    		break;
+    				break;
     		case 3: Robot.arm.setArmRotation(5);
-    		break;
-    		case 4: Robot.arm.setArmRotation(0);
-    		break;
-    		default: System.out.println(button); //temp until I figure out why the methods aren't going
-    		break;
+    				break;
+    		case 4: Robot.arm.setArmRotation(setpoints[0]);
+    				break;
+    		default: break;
     	}
     }
 
