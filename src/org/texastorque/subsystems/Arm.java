@@ -81,6 +81,7 @@ public class Arm extends Subsystem {
 		setpoint = i.getArmSetpoint();
 		currentDistance = f.getArmDistance();
 		currentAngle = f.getPTAngle();
+		
 		if((currentAngle >=20 && currentAngle < 70) || currentAngle > 110 || 
 				(currentAngle < 70 && i.getPTSetpoint() > 1)) {
 			setpoint = 10;
@@ -89,14 +90,14 @@ public class Arm extends Subsystem {
 			i.setArmSpeed(0);
 		} else {
 			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-		}	
+		}
+		
 		if(i.getClimbing()){
 			speed = .15;
 		} else 
 			speed = i.getArmSpeed();
 			
 		output();
-		
 	}
 	
 	public void setDelay(double time) {
