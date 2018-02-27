@@ -99,12 +99,17 @@ public class HumanInput extends Input {
 		if(operator.getLeftBumper()) {
 			IN_speed = -.5;
 		} else if(operator.getRightBumper()) {
-			IN_speed = .2;
+			IN_speed = .35;
 		} else IN_speed = 0;
 	}
 	
 	
 	public void updateBoardSubsystems() {	
+		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
+		if(MAXIMUM_OVERDRIVE.get()) {
+			AM_setpoint = board.getSlider() * AM_CONVERSION;
+			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
+		} else {
 		if(driver.getAButton()) {
 			climbing = true;
 //			AM_setpoint = 0;
@@ -127,19 +132,12 @@ public class HumanInput extends Input {
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		}
-		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
-		if(MAXIMUM_OVERDRIVE.get()) {
-			AM_setpoint = board.getSlider() * AM_CONVERSION;
-			System.out.println(board.getSlider());
-			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;
-			
-		}
-		
 		if(operator.getLeftCenterButton()) {
 			PT_setpoint -=3;
 			Feedback.getInstance().resetPivot();
 		}
-			
+		
+		}
 	}
 
 	
