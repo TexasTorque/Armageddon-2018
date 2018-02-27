@@ -15,7 +15,7 @@ public class PlaceCubeScale extends AutoSequence {
 	
 	public PlaceCubeScale() {
 		//startPos = DriverStation.getInstance().getLocation();
-		startPos = 3;
+		startPos = 1;
 		//scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
 		scaleSide = 'L';
 		init();

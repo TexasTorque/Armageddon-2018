@@ -49,7 +49,7 @@ public class AutoManager {
 	public static void analyzeAutoMode() {
 		//int autoMode = Integer.parseInt(reverse(Integer.toString(
 		//		(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
-		int autoMode = 3;
+		int autoMode = 2;
 		
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
