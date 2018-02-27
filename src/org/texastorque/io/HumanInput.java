@@ -133,7 +133,7 @@ public class HumanInput extends Input {
 			AM_setpoint = AM_setpoints[AM_index];
 		}
 		if(operator.getLeftCenterButton()) {
-			PT_setpoint -=3;
+			PT_setpoint -=.03;
 			Feedback.getInstance().resetPivot();
 		}
 		

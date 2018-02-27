@@ -22,7 +22,7 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 300, 280, 550, 2040, 750, 750, 570, 50, 0};
+		{0, 0, 1208.0, 1855, 2040, 2110, 2110, 1540, 915, 200};
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean climbing;
@@ -37,7 +37,7 @@ public class Input {
 	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 50.0, 70.0, 82.0, 90.0, 90.0, 105.0, 110, 125, 150}; //TBD
+		{0.0, 50.0, 73.75, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
 	
 	//Claw
 	protected TorqueToggle CL_closed;
