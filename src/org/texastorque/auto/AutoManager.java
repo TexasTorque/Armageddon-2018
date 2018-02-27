@@ -10,6 +10,7 @@ import org.texastorque.auto.arm.SetClaw;
 import org.texastorque.auto.arm.ShiftPivotArm;
 import org.texastorque.auto.drive.*;
 import org.texastorque.auto.sequences.PlaceCubeSwitch;
+import org.texastorque.auto.sequences.ForwardMode;
 import org.texastorque.auto.sequences.PlaceCubeScale;
 import org.texastorque.subsystems.*;
 import org.texastorque.subsystems.Drivebase.DriveType;
@@ -63,12 +64,14 @@ public class AutoManager {
 
 			case 2:
 				System.out.println("2");
-				commandList.add(new ShiftPivotArm(4, 5.0, false, 4));
 				commandList.addAll(new PlaceCubeScale().getCommands());
 				break;
+				
 			case 3:
-				commandList.add(new ShiftPivotArm(1, 5.0, false, 4));
+				System.out.println("3");
 				commandList.addAll(new PlaceCubeSwitch().getCommands());
+				break;
+				
 			default:
 				System.out.println("default");
 				break;

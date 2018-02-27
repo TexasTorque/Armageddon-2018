@@ -6,6 +6,7 @@ import org.texastorque.auto.AutoCommand;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Pivot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.texastorque.subsystems.Arm;
@@ -28,12 +29,12 @@ public class ShiftPivotArm extends AutoCommand {
 	
 	@Override
 	public void run() {
-		
 		System.out.println("shift pivot arm");
 		input.setIntakeDown(false);
+		
 		input.setPTSetpoint(setpointIndex);
 		input.setArmSetpoint(setpointIndex);
-		if(pause)
+		if (pause)
 			AutoManager.pause(time);
 	}
 
