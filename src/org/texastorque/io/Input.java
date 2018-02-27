@@ -23,7 +23,7 @@ public class Input {
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
 		{0, 300, 280, 550, 2040, 750, 750, 570, 50, 0};
-	protected static final int AM_CONVERSION = 6000;
+	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean climbing;
 	
@@ -113,6 +113,7 @@ public class Input {
 	public double getArmSetpoint() {
 		return AM_setpoint;
 	}
+	
 	//Claw
 	public boolean getClawClosed() {
 		return CL_closed.get();

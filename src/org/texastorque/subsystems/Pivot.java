@@ -102,7 +102,8 @@ public class Pivot extends Subsystem {
 			targetVelocity = pivotTMP.getCurrentVelocity();
 			targetAcceleration = pivotTMP.getCurrentAcceleration();
 			
-		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
+		if(Math.abs(setpoint - f.getPTAngle()) < 2)	
+			speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
 		
 		output();
 	}
