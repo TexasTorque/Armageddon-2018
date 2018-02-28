@@ -32,7 +32,6 @@ public class Input {
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
 	
-	
 	//Pivot
 	protected double PT_speed;
 	protected double PT_setpoint;
@@ -112,17 +111,18 @@ public class Input {
 		AM_speed = speed;
 	}
 	
-	public void setIntakeDown(boolean down) {
-		IN_down.set(down);
-	}
-	
 	public double getArmSetpoint() {
 		return AM_setpoint;
 	}
 	
-	//Claw
-	public boolean getClawClosed() {
-		return CL_closed.get();
+	public void setArmSetpoint(int setpointIndex) {
+		AM_index = setpointIndex;
+		AM_setpoint = AM_setpoints[AM_index];
+	}
+		
+	//Intake
+	public void setIntakeDown(boolean down) {
+		IN_down.set(down);
 	}
 	
 	public double getINSpeed() {
@@ -132,35 +132,31 @@ public class Input {
 	public boolean getINDown() {
 		return IN_down.get();
 	}
+	
+	public boolean getINOut() {
+		return IN_out.get();
+	}
+	
 	//Pivot
 	public double getPTSetpoint() {
 		return PT_setpoint;
 	}
 	
-	public boolean getINOut() {
-		return IN_out.get();
-	}
-
-
-	public static Input getInstance() {
-		return instance == null ? instance = new Input() : instance;
-	
-	}
-
-	public void toggleClaw() {
-		CL_closed.calc(true);
-		
-	}
-
-
 	public void setPTSetpoint(int setpointIndex) {
 		PT_index = setpointIndex;
 		PT_setpoint = PT_setpoints[PT_index];
-		
 	}
-
-	public void setArmSetpoint(int setpointIndex) {
-		AM_index = setpointIndex;
-		AM_setpoint = AM_setpoints[AM_index];
+	
+	//Claw
+	public boolean getClawClosed() {
+		return CL_closed.get();
+	}
+	
+	public void toggleClaw() {
+		CL_closed.calc(true);
+	}
+	
+	public static Input getInstance() {
+		return instance == null ? instance = new Input() : instance;
 	}
 }
