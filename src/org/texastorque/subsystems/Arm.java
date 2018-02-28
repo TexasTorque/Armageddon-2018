@@ -94,6 +94,9 @@ public class Arm extends Subsystem {
 		} else {
 			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 		}
+		if(!f.getBlockade())
+			System.out.println("went too far");
+			//setpoint = f.getArmDistance() - 15;
 		
 		if(i.getClimbing()){
 			speed = .15;
