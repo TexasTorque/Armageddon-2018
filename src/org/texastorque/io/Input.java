@@ -26,6 +26,7 @@ public class Input {
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean climbing;
+	protected TorqueToggle pickingUp;
 	
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
@@ -51,6 +52,7 @@ public class Input {
 		IN_down = new TorqueToggle();
 		IN_out = new TorqueToggle();
 		MAXIMUM_OVERDRIVE = new TorqueToggle();
+		pickingUp = new TorqueToggle();
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);
@@ -100,6 +102,10 @@ public class Input {
 	
 	public boolean getClimbing() {
 		return climbing;
+	}
+	
+	public  boolean getPickingUp() {
+		return pickingUp.get();
 	}
 	
 	public void setArmSpeed(double speed) {

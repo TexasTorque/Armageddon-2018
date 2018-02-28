@@ -85,6 +85,9 @@ public class Arm extends Subsystem {
 				(currentAngle < 70 && i.getPTSetpoint() > 1)) {
 			setpoint = 10;
 		}
+		if(i.getPickingUp()) {
+			setpoint = 350;
+		}
 		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 			i.setArmSpeed(0);
 		} else {

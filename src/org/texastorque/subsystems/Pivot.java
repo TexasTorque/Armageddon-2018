@@ -87,7 +87,10 @@ public class Pivot extends Subsystem {
 	
 	public void runPivot() {
 		setpoint = i.getPTSetpoint();
-
+		if(i.getPickingUp()) {
+			setpoint = 4;
+		}
+			
 			if (setpoint != previousSetpoint) {
 				previousSetpoint = setpoint;
 				pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);

@@ -116,6 +116,7 @@ public class HumanInput extends Input {
 		} else {
 			climbing = false;
 		}
+		pickingUp.calc(operator.getYButton());
 		for(int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
