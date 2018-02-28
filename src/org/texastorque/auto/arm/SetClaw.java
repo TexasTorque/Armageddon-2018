@@ -15,8 +15,12 @@ public class SetClaw extends AutoCommand {
 	
 	@Override
 	public void run() {
-		System.out.println("set claw");
 		input.toggleClaw();
+	}
+	
+	public void run(double time) {
+		input.toggleClaw();
+		AutoManager.getInstance().pause(time);
 	}
 
 	@Override

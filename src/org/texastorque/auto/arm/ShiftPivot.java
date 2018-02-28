@@ -20,7 +20,6 @@ public class ShiftPivot extends AutoCommand {
 	public void run() {
 		Feedback.getInstance().resetEncoders();
 		
-		System.out.println("shift pivot");
 		input.setPTSetpoint(setpointIndex);
 		AutoManager.pause(time);
 	}

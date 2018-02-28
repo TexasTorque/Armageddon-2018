@@ -87,11 +87,14 @@ public class Pivot extends Subsystem {
 	
 	public void runPivot() {
 		setpoint = i.getPTSetpoint();
+		double currentArmPosition = f.getArmDistance();
 		if(i.getPickingUp()) {
-			setpoint = 4;
+			setpoint = 7;
 		}
-			
 			if (setpoint != previousSetpoint) {
+				if(currentArmPosition > 400) {
+					setpoint = 85;
+				} 
 				previousSetpoint = setpoint;
 				pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
 				previousTime = Timer.getFPGATimestamp();
@@ -105,6 +108,13 @@ public class Pivot extends Subsystem {
 			targetVelocity = pivotTMP.getCurrentVelocity();
 			targetAcceleration = pivotTMP.getCurrentAcceleration();
 				
+		if(i.getMovingLeft()) {
+			speed = -.2;
+			setpoint = f.getPTAngle();
+		} else if(i.getMovingRight()) {
+			speed = .2;
+			setpoint = f.getPTAngle();
+		}
 		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
 		
 		output();

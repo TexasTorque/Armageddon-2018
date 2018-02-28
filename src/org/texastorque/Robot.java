@@ -16,6 +16,7 @@ import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.torquelib.base.TorqueIterative;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -32,6 +33,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void robotInit() {
 		SmartDashboard.putNumber("AUTOMODE", 0);
+		CameraServer.getInstance().startAutomaticCapture(0);
 		Input.getInstance();
 		HumanInput.getInstance();
 		RobotOutput.getInstance();

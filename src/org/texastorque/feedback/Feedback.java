@@ -163,7 +163,6 @@ public class Feedback {
 	public void smartDashboard() {
 		duration += (Timer.getFPGATimestamp() - lastTime);
 		lastTime = Timer.getFPGATimestamp();
-		
 		SmartDashboard.putNumber("Left_Encoder_Distance", DB_leftDistance);
 		SmartDashboard.putNumber("Right_Encoder_Distance", DB_rightDistance);
 		SmartDashboard.putNumber("Left_Encoder_Speed", DB_leftEncoder.getRate() * DISTANCE_CONVERSION);

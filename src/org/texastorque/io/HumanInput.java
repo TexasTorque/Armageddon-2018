@@ -95,10 +95,10 @@ public class HumanInput extends Input {
 	public void updateWheelIntake() {
 
 		IN_down.calc(operator.getXButton());
-		IN_out.calc(operator.getAButton());
-		if(operator.getLeftBumper()) {
+		IN_out.calc(driver.getAButton());
+		if(driver.getLeftBumper()) {
 			IN_speed = -.5;
-		} else if(operator.getRightBumper()) {
+		} else if(driver.getRightBumper()) {
 			IN_speed = .35;
 		} else IN_speed = 0;
 	}
@@ -110,13 +110,27 @@ public class HumanInput extends Input {
 			AM_setpoint = board.getSlider() * AM_CONVERSION;
 			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
 		} else {
-		if(driver.getAButton()) {
+			updateNotManualOverride();
+			updateArmPivotBackup();
+		} //if not manual override
+	} //method close
+
+	private void updateNotManualOverride() {
+		if(driver.getXButton()) {
 			climbing = true;
 //			AM_setpoint = 0;
 		} else {
 			climbing = false;
 		}
-		pickingUp.calc(operator.getYButton());
+		if(operator.getLeftCenterButton()) {
+			Feedback.getInstance().resetPivot();
+		}
+		if(operator.getRightCenterButton()) {
+			Feedback.getInstance().resetPivot();
+		} 
+		if(operator.getYButton()) {
+			pickingUp = true;
+		} else pickingUp = false;
 		for(int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
@@ -124,8 +138,8 @@ public class HumanInput extends Input {
 				MAXIMUM_OVERDRIVE.set(false);
 				PT_setpoint = PT_setpoints[PT_index];
 				AM_setpoint = AM_setpoints[AM_index];
-			} //if
-		}//for
+			} 
+		}
 		if(board.getButton(11)) {
 			PT_index = 0;
 			AM_index = 0;
@@ -133,14 +147,16 @@ public class HumanInput extends Input {
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		}
-		if(operator.getLeftCenterButton()) {
-			PT_setpoint -=.03;
-			Feedback.getInstance().resetPivot();
+	}
+	
+	private void updateArmPivotBackup() {
+		if(operator.getDPADLeft())
+			movingLeft = true;
+		else if(operator.getDPADRight()) {
+			movingRight = true;
 		}
 		
-		}
 	}
-
 	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;

@@ -20,7 +20,6 @@ public class ShiftArm extends AutoCommand {
 	public void run() {
 		Feedback.getInstance().resetEncoders();
 		
-		System.out.println("shift arm");
 		input.setArmSetpoint(setpointIndex);
 		AutoManager.pause(time);
 	}

@@ -82,8 +82,8 @@ public class Arm extends Subsystem {
 		currentDistance = f.getArmDistance();
 		currentAngle = f.getPTAngle();
 		
-		if((currentAngle >=20 && currentAngle < 70) || currentAngle > 110 || 
-				(currentAngle < 70 && i.getPTSetpoint() > 1)) {
+		if((currentAngle >=35 && currentAngle < 80) || currentAngle > 110 || 
+				(currentAngle < 80 && i.getPTSetpoint() > 1)) {
 			setpoint = 10;
 		}
 		if(i.getPickingUp()) {

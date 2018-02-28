@@ -29,9 +29,7 @@ public class ShiftPivotArm extends AutoCommand {
 	
 	@Override
 	public void run() {
-		System.out.println("shift pivot arm");
-		input.setIntakeDown(false);
-		
+		input.setIntakeDown(false);	
 		input.setPTSetpoint(setpointIndex);
 		input.setArmSetpoint(setpointIndex);
 		if (pause)

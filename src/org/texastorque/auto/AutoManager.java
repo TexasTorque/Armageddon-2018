@@ -47,9 +47,8 @@ public class AutoManager {
 	}
 	
 	public static void analyzeAutoMode() {
-		//int autoMode = Integer.parseInt(reverse(Integer.toString(
-		//		(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
-		int autoMode = 2;
+		int autoMode = Integer.parseInt(reverse(Integer.toString(
+				(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
 		
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
@@ -58,22 +57,18 @@ public class AutoManager {
 				break;
 
 			case 1:
-				System.out.println("1");
 				commandList.addAll(new ForwardMode(1.5).getCommands());
 				break;
 
 			case 2:
-				System.out.println("2");
 				commandList.addAll(new PlaceCubeScale().getCommands());
 				break;
 				
 			case 3:
-				System.out.println("3");
 				commandList.addAll(new PlaceCubeSwitch().getCommands());
 				break;
 				
 			default:
-				System.out.println("default");
 				break;
 			}
 			autoMode /= 10;

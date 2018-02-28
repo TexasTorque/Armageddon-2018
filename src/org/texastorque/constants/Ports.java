@@ -18,6 +18,7 @@ public class Ports {
 	public static final int PT_PORT = 4;
 	public static final int PT_ENCODER_A = 6;
 	public static final int PT_ENCODER_B = 7;
+	public static final int AM_CHECK_SWITCH = 8;
 	
 	//Intake
 	public static final int IN_LEFT_MOTOR = 5;

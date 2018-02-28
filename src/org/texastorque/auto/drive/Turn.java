@@ -34,7 +34,6 @@ public class Turn extends AutoCommand {
 	
 	@Override
 	public void run() {
-		System.out.println("turn");
 		input.setDBTurnSetpoint(angle, precision);
 		drivebase.setType(DriveType.AUTOTURN);
 		if(time != -999)

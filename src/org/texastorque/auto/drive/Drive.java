@@ -35,7 +35,6 @@ public class Drive extends AutoCommand {
 	@Override
 	public void run() {
 		Feedback.getInstance().resetDriveEncoders();
-		System.out.println("drive");
 		input.setDBDriveSetpoint(distance, precision);
 		drivebase.setType(DriveType.AUTODRIVE);
 		if(time != -999 && pause)
