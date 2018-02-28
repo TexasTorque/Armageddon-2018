@@ -40,7 +40,7 @@ public class PlaceCubeScale extends AutoSequence {
 				commandList.add(new Turn(90, 1.5, 2.0, true));
 				commandList.add(new Drive(190, 0.125, 3.25, true));
 				commandList.add(new Turn(0, 1.5, 2.0, true));
-				commandList.add(new Drive(54, 0.125, 2.0, true));
+				commandList.add(new Drive(48, 0.125, 2.0, true));
 			}
 		}
 		else if (startPos == 3) {
@@ -56,7 +56,7 @@ public class PlaceCubeScale extends AutoSequence {
 				commandList.add(new Turn(-90, 1.5, 2.0, true));
 				commandList.add(new Drive(190, 0.125, 3.25, true));
 				commandList.add(new Turn(0, 1.5, 2.0, true));
-				commandList.add(new Drive(54, 0.125, 2.0, true));
+				commandList.add(new Drive(48, 0.125, 2.0, true));
 			}
 		} else if (startPos == -1 || scaleSide == 'X') {
 			commandList.add(new Drive(220, .125, 3.25, true));
