@@ -39,7 +39,7 @@ public class PlaceCubeSwitch extends AutoSequence {
 				commandList.add(new Turn(90, 1.5, 2.0, true));
 				commandList.add(new Drive(180, 0.125, 3.25, true));
 				commandList.add(new Turn(180, 1.5, 2.0, true));
-				commandList.add(new Drive(20, 0.125, .25, true));
+				commandList.add(new Drive(24, 0.125, 1.25, true));
 			}
 		}
 		else if (startPos == 3) {
@@ -55,7 +55,15 @@ public class PlaceCubeSwitch extends AutoSequence {
 				commandList.add(new Turn(-90, 1.5, 2.0, true));
 				commandList.add(new Drive(180, 0.125, 3.25, true));
 				commandList.add(new Turn(-180, 1.5, 2.0, true));
-				commandList.add(new Drive(20, 0.125, .25, true));
+				commandList.add(new Drive(24, 0.125, 1.25, true));
+			}
+		} else if(startPos == 2) {
+			if(switchSide == 'R') {
+				commandList.add(new Turn(17.5, 1.5, 1.0, true));
+				commandList.add(new Drive(108, 0.125, 3.25, true));
+			} else if(switchSide == 'L') {
+				commandList.add(new Turn(-17.5, 1.5, 1.0, true));
+				commandList.add(new Drive(108, 0.125, 3.25, true));
 			}
 		} else if (startPos == -1 || switchSide == 'X') {
 			commandList.add(new Drive(220, .125, 3.25, true));

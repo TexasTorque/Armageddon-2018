@@ -61,11 +61,11 @@ public class Arm extends Subsystem {
 			if(currentAngle < 30) {
 				setpoint = currentDistance;
 			}
-			if((currentAngle >=20 && currentAngle < 45) || currentAngle > 130) {
+			if((currentAngle >=35 && currentAngle < 80) || currentAngle > 110 || 
+					(currentAngle < 80 && i.getPTSetpoint() > 1)) {
 				setpoint = 10;
-			}
-				
-			if(TorqueMathUtil.near(setpoint, currentDistance, 20)){
+			}		
+			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 				i.setArmSpeed(0);
 			} else {
 				i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
@@ -94,12 +94,13 @@ public class Arm extends Subsystem {
 		} else {
 			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 		}
-		if(!f.getBlockade())
-			System.out.println("went too far");
-			//setpoint = f.getArmDistance() - 15;
+		if(!f.getBlockade()) {
+			setpoint = f.getArmDistance();
+			speed = 0;
+		}
 		
 		if(i.getClimbing()){
-			speed = .15;
+			speed = -.15;
 		} else 
 			speed = i.getArmSpeed();
 			

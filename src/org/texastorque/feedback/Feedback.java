@@ -107,7 +107,6 @@ public class Feedback {
 		
 		AM_distance = AM_encoder.getDistance();
 		
-		AM_blockade.enableInterrupts();
 	}
 	
 	public double getDBDistance() {
