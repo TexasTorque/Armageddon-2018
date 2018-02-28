@@ -33,8 +33,6 @@ public class Pivot extends Subsystem {
 	private double autoStartTime;
 	private double delay;
 	
-	private boolean goingDown;
-	
 	public Pivot() {
 		init();
 		delay = 0;
@@ -64,7 +62,6 @@ public class Pivot extends Subsystem {
 				Constants.PT_PV_ffV.getDouble(), Constants.PT_PV_ffA.getDouble());
 		pivotPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
 		
-		goingDown = false;
 		previousTime = Timer.getFPGATimestamp();
 	}
 
@@ -85,42 +82,44 @@ public class Pivot extends Subsystem {
 		runPivot();
 	}
 	
-	public void runPivot() {
+	private void runPivot() {
 		setpoint = i.getPTSetpoint();
 		double currentArmPosition = f.getArmDistance();
 		if(i.getPickingUp()) {
 			setpoint = 7;
 		}
-			if (setpoint != previousSetpoint) {
-				if(currentArmPosition > 400) {
-					setpoint = 85;
-				} 
-				previousSetpoint = setpoint;
-				pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
-				previousTime = Timer.getFPGATimestamp();
-			}
-			
-			double dt = Timer.getFPGATimestamp() - previousTime;
+		if (setpoint != previousSetpoint) {
+			if(currentArmPosition > 400) {
+				setpoint = 85;
+			} 
+			previousSetpoint = setpoint;
+			pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
 			previousTime = Timer.getFPGATimestamp();
-			pivotTMP.calculateNextSituation(dt);
-			
-			targetAngle = pivotTMP.getCurrentPosition();
-			targetVelocity = pivotTMP.getCurrentVelocity();
-			targetAcceleration = pivotTMP.getCurrentAcceleration();
+		}
+
+		double dt = Timer.getFPGATimestamp() - previousTime;
+		previousTime = Timer.getFPGATimestamp();
+		pivotTMP.calculateNextSituation(dt);
+
+		targetAngle = pivotTMP.getCurrentPosition();
+		targetVelocity = pivotTMP.getCurrentVelocity();
+		targetAcceleration = pivotTMP.getCurrentAcceleration();
+		
+		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
 				
-		if(i.getMovingLeft()) {
+		if(i.getPivotCCW()) {
 			speed = -.2;
 			setpoint = f.getPTAngle();
-		} else if(i.getMovingRight()) {
+		} 
+		else if(i.getPivotCW()) {
 			speed = .2;
 			setpoint = f.getPTAngle();
 		}
-		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
 		
 		output();
 	}
 	
-	public void output() {
+	private void output() {
 		o.setPivotSpeed(speed);
 	}
 

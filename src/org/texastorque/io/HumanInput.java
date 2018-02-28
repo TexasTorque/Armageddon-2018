@@ -31,8 +31,6 @@ public class HumanInput extends Input {
 		PT_test = 0;
 	}
 	
-
-	
 	public void update() {
 		updateDrive();
 //		updateFile();
@@ -82,7 +80,6 @@ public class HumanInput extends Input {
 			AutoManager.getInstance();
 	}
 	
-	
 	public void updateArm() {
 		
 	}
@@ -90,8 +87,7 @@ public class HumanInput extends Input {
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
 	}
-	 
-
+	
 	public void updateWheelIntake() {
 
 		IN_down.calc(operator.getXButton());
@@ -103,7 +99,6 @@ public class HumanInput extends Input {
 		} else IN_speed = 0;
 	}
 	
-	
 	public void updateBoardSubsystems() {	
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
 		if(MAXIMUM_OVERDRIVE.get()) {
@@ -111,7 +106,7 @@ public class HumanInput extends Input {
 			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
 		} else {
 			updateNotManualOverride();
-			updateArmPivotBackup();
+			updatePivotBackup();
 		} //if not manual override
 	} //method close
 
@@ -149,13 +144,12 @@ public class HumanInput extends Input {
 		}
 	}
 	
-	private void updateArmPivotBackup() {
+	private void updatePivotBackup() {
 		if(operator.getDPADLeft())
-			movingLeft = true;
+			pivotCCW = true;
 		else if(operator.getDPADRight()) {
-			movingRight = true;
+			pivotCW = true;
 		}
-		
 	}
 	
 	public static HumanInput getInstance() {

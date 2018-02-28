@@ -39,8 +39,8 @@ public class Input {
 	protected volatile double[] PT_setpoints = 
 		{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
 	
-	protected boolean movingLeft;
-	protected boolean movingRight;
+	protected boolean pivotCCW;
+	protected boolean pivotCW;
 	//Claw
 	protected TorqueToggle CL_closed;
 	
@@ -109,12 +109,12 @@ public class Input {
 		return pickingUp;
 	}
 	
-	public boolean getMovingLeft() {
-		return movingLeft;
+	public boolean getPivotCCW() {
+		return pivotCCW;
 	}
 	
-	public boolean getMovingRight() {
-		return movingRight;
+	public boolean getPivotCW() {
+		return pivotCW;
 	}
 	
 	public void setArmSpeed(double speed) {
