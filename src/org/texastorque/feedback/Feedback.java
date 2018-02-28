@@ -8,6 +8,8 @@ import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +38,7 @@ public class Feedback {
 	private AHRS DB_gyro;
 	private TorqueEncoder PT_encoder;
 	private TorqueEncoder AM_encoder;
+	private DigitalInput AM_blockade;
 	
 	//related values
 	private double DB_distance;
@@ -62,6 +65,7 @@ public class Feedback {
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
 		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
 		AM_encoder = new TorqueEncoder(Ports.AM_ENCODER_A, Ports.AM_ENCODER_B, true, EncodingType.k4X);
+		AM_blockade = new DigitalInput(Ports.AM_CHECK_SWITCH);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
 		resetEncoders();
 	}
@@ -102,6 +106,8 @@ public class Feedback {
 		PT_angleRate = PT_encoder.getRate() * ANGLE_CONVERSION;
 		
 		AM_distance = AM_encoder.getDistance();
+		
+		AM_blockade.enableInterrupts();
 	}
 	
 	public double getDBDistance() {
@@ -158,6 +164,11 @@ public class Feedback {
 	
 	public void resetDBGyro() {
 		DB_gyro.reset();
+	}
+	
+	public boolean getBlockade() {
+		return AM_blockade.get();
+		
 	}
 	
 	public void smartDashboard() {
