@@ -101,10 +101,12 @@ public class HumanInput extends Input {
 	
 	public void updateBoardSubsystems() {	
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
+		
 		if(MAXIMUM_OVERDRIVE.get()) {
 			AM_setpoint = board.getSlider() * AM_CONVERSION;
 			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
-		} else {
+		} 
+		else {
 			updateNotManualOverride();
 			updatePivotBackup();
 		} //if not manual override
@@ -126,7 +128,7 @@ public class HumanInput extends Input {
 		if(operator.getYButton()) {
 			pickingUp = true;
 		} else pickingUp = false;
-		for(int x = 1; x < 10; x++) {
+		for (int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
 				AM_index = x;
