@@ -34,11 +34,10 @@ public class HumanInput extends Input {
 	public void update() {
 		updateDrive();
 //		updateFile();
-		updateArm();
 		updateClaw();
 		updateWheelIntake();
 		updateBoardSubsystems();
-
+		updateKill();
 	}
 	
 	public void updateDrive(){
@@ -80,9 +79,6 @@ public class HumanInput extends Input {
 			AutoManager.getInstance();
 	}
 	
-	public void updateArm() {
-		
-	}
 	
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
@@ -100,14 +96,17 @@ public class HumanInput extends Input {
 	}
 	
 	public void updateBoardSubsystems() {	
+		if(getEncodersDead()) {
+			updatePivotArmBackup();
+		} else {
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
 		if(MAXIMUM_OVERDRIVE.get()) {
 			AM_setpoint = board.getSlider() * AM_CONVERSION;
 			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
 		} else {
 			updateNotManualOverride();
-			updatePivotBackup();
-		} //if not manual override
+		  } //if not manual override
+		} //if encoders not dead
 	} //method close
 
 	private void updateNotManualOverride() {
@@ -144,14 +143,22 @@ public class HumanInput extends Input {
 		}
 	}
 	
-	private void updatePivotBackup() {
+	private void updatePivotArmBackup() {
 		if(operator.getDPADLeft())
 			pivotCCW = true;
 		else if(operator.getDPADRight()) {
 			pivotCW = true;
 		}
+		if(operator.getDPADUp()) {
+			armFWD = true;
+		} else if(operator.getDPADDown()) {
+			armBACK = true;
+		}
 	}
 	
+	public void updateKill() {
+		encodersDead.calc(operator.getRightTrigger() && operator.getLeftTrigger());
+	}
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
 	}

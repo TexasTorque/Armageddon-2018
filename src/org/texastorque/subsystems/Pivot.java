@@ -33,6 +33,12 @@ public class Pivot extends Subsystem {
 	private double autoStartTime;
 	private double delay;
 	
+	private double currentAngle;
+	private double currentArmPosition; 
+	private double reach;
+	private final double LIMIT = 300;
+	private final double ADJUSTMENT = 0;
+	
 	public Pivot() {
 		init();
 		delay = 0;
@@ -79,12 +85,20 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void teleopContinuous() {
-		runPivot();
+		if(i.getEncodersDead()) {
+			runPivotBackup();
+		} else runPivot();
 	}
 	
 	private void runPivot() {
 		setpoint = i.getPTSetpoint();
-		double currentArmPosition = f.getArmDistance();
+		currentAngle = f.getPTAngle();
+		currentArmPosition = f.getArmDistance();
+		//reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
+		
+		if((currentAngle >=80 && currentAngle < 120) && (reach * currentArmPosition >= LIMIT)){
+			setpoint = currentAngle;			
+		}
 		if(i.getPickingUp()) {
 			setpoint = 7;
 		}
@@ -107,6 +121,10 @@ public class Pivot extends Subsystem {
 		
 		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
 				
+		output();
+	}
+	
+	public void runPivotBackup() {
 		if(i.getPivotCCW()) {
 			speed = -.2;
 			setpoint = f.getPTAngle();
@@ -115,8 +133,6 @@ public class Pivot extends Subsystem {
 			speed = .2;
 			setpoint = f.getPTAngle();
 		}
-		
-		output();
 	}
 	
 	private void output() {

@@ -25,6 +25,9 @@ public class Input {
 		{0, 0, 1208.0, 1855, 2040, 2110, 2110, 1540, 915, 200};
 	protected static final int AM_CONVERSION = 17142;
 	
+	protected boolean armFWD;
+	protected boolean armBACK;
+	
 	protected boolean climbing;
 	protected boolean pickingUp;
 	
@@ -43,6 +46,8 @@ public class Input {
 	protected boolean pivotCW;
 	//Claw
 	protected TorqueToggle CL_closed;
+	
+	protected TorqueToggle encodersDead; //arm and/or pivot encoder is unplugged
 	
 	
 	public Input() {
@@ -117,6 +122,14 @@ public class Input {
 		return pivotCW;
 	}
 	
+	public boolean getArmForward() {
+		return armFWD;
+	}
+	
+	public boolean getArmBack() {
+		return armBACK;
+	}
+	
 	public void setArmSpeed(double speed) {
 		AM_speed = speed;
 	}
@@ -164,6 +177,10 @@ public class Input {
 	
 	public void toggleClaw() {
 		CL_closed.calc(true);
+	}
+	
+	public boolean getEncodersDead() {
+		return encodersDead.get();
 	}
 	
 	public static Input getInstance() {

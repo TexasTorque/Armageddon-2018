@@ -17,14 +17,14 @@ public class Arm extends Subsystem {
 	private double currentAngle;
 	private double autoStartTime;
 	private double delay;
-	
-	private TorqueTMP armTMP;
+	private double reach;
+	private final double LIMIT = 300;
+	private final double ADJUSTMENT = 0;
 	
 	public Arm() {
 		setpoint = 0;
 		previousSetpoint = 0;
 		speed = 0d;
-		armTMP = new TorqueTMP(0.3, 0.3);
 	}
 	
 	
@@ -58,12 +58,12 @@ public class Arm extends Subsystem {
 			setpoint = i.getArmSetpoint();
 			currentDistance = f.getArmDistance();
 			currentAngle = f.getPTAngle();
+		//	reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
 			if(currentAngle < 30) {
 				setpoint = currentDistance;
 			}
-			if((currentAngle >=35 && currentAngle < 80) || currentAngle > 110 || 
-					(currentAngle < 80 && i.getPTSetpoint() > 1)) {
-				setpoint = 10;
+			if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
+				setpoint = currentDistance;
 			}		
 			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 				i.setArmSpeed(0);
@@ -78,32 +78,39 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void teleopContinuous() {
-		setpoint = i.getArmSetpoint();
-		currentDistance = f.getArmDistance();
-		currentAngle = f.getPTAngle();
-		
-		if((currentAngle >=35 && currentAngle < 80) || currentAngle > 110 || 
-				(currentAngle < 80 && i.getPTSetpoint() > 1)) {
-			setpoint = 10;
-		}
-		if(i.getPickingUp()) {
-			setpoint = 350;
-		}
-		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
-			i.setArmSpeed(0);
+		if(i.getEncodersDead()) {
+			if(i.getArmForward()) {
+				speed = .3;
+			} else if(i.getArmBack()) {
+				speed = -.3;
+			} else speed = 0;
 		} else {
-			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-		}
-		if(!f.getBlockade()) {
-			setpoint = f.getArmDistance();
-			speed = 0;
-		}
-		
-		if(i.getClimbing()){
-			speed = -.15;
-		} else 
-			speed = i.getArmSpeed();
+			setpoint = i.getArmSetpoint();
+			currentDistance = f.getArmDistance();
+			currentAngle = f.getPTAngle();
+	//		reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
 			
+			if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
+					setpoint = currentDistance;			
+			}		
+			if(i.getPickingUp()) {
+				setpoint = 325;
+			}
+			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+				i.setArmSpeed(0);
+			} else {
+				i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			}
+			if(!f.getBlockade()) {
+				setpoint = f.getArmDistance();
+				speed = 0;
+			}
+			
+			if(i.getClimbing()){
+				speed = -.15;
+			} else 
+				speed = i.getArmSpeed();
+			}
 		output();
 	}
 	
