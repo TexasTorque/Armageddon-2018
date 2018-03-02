@@ -18,8 +18,8 @@ public class HumanInput extends Input {
 	private double leftNegativeTest = 0;
 	private double rightNegativeTest = 0;
 	
-	protected GenericController driver;
-	protected GenericController operator;
+	public GenericController driver;
+	public GenericController operator;
 	protected OperatorConsole board;
 	
 	private int PT_test;
