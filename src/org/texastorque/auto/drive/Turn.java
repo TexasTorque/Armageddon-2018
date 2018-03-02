@@ -3,7 +3,6 @@ package org.texastorque.auto.drive;
 import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.AutoCommand;
 
-import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Drivebase.DriveType;
 
 public class Turn extends AutoCommand {

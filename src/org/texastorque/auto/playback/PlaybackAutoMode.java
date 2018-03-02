@@ -23,7 +23,7 @@ public class PlaybackAutoMode extends Input {
 	private double referenceTime = -1;  // Should only be negative before first update.
 	
 	public PlaybackAutoMode(String file) {
-		this.inputs = (ArrayList<RobotInputState>) FileUtils.readFromXML(file, ArrayList.class);
+		this.inputs = FileUtils.readFromXML(file, ArrayList.class);
 		
 		this.interpolator = createInterpolator(this.inputs);
 		db = Drivebase.getInstance();
@@ -109,7 +109,7 @@ public class PlaybackAutoMode extends Input {
 	        double sumIndex = 0;
 	        for (int i = 0; i < times.length; i++) {
 	            sumTime  += times[i];
-	            sumIndex  += (double) indices[i];
+	            sumIndex  += indices[i];
 	        }
 	        double averageTime = sumTime / times.length;
 	        double averageIndex = sumIndex / indices.length;

@@ -1,22 +1,13 @@
 package org.texastorque.feedback;
 
 import org.texastorque.constants.Ports;
-import org.texastorque.io.Input;
 import org.texastorque.torquelib.component.TorqueEncoder;
 import com.kauailabs.navx.frc.AHRS;
-import org.texastorque.torquelib.util.TorqueMathUtil;
-
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.kauailabs.navx.frc.AHRS;
-
-import java.util.ArrayList;
 
 public class Feedback {
 	

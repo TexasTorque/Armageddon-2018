@@ -4,10 +4,6 @@ package org.texastorque.auto.sequences;
 import org.texastorque.auto.AutoSequence;
 import org.texastorque.auto.drive.BackupDrive;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Timer;
-
 public class ForwardMode extends AutoSequence {
 	
 	private double time;

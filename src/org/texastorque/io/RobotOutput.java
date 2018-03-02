@@ -7,12 +7,7 @@ import org.texastorque.constants.Ports;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-import org.texastorque.torquelib.util.TorqueMathUtil;
-
 import edu.wpi.first.wpilibj.VictorSP;
-
-import org.texastorque.constants.Constants;
-import org.texastorque.constants.Ports;
 
 public class RobotOutput {
 	

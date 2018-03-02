@@ -1,7 +1,5 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.feedback.Feedback;
-import org.texastorque.torquelib.controlLoop.TorqueTMP;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.Timer;

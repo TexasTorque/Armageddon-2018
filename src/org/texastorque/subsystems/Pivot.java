@@ -1,13 +1,8 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
-import org.texastorque.feedback.Feedback;
-import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
-import org.texastorque.torquelib.util.TorqueMathUtil;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

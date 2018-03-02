@@ -4,7 +4,6 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.AutoCommand;
 
 import org.texastorque.feedback.Feedback;
-import org.texastorque.subsystems.Arm;
 
 public class ShiftArm extends AutoCommand {
 	

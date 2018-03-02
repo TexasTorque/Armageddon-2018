@@ -1,8 +1,5 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.io.HumanInput;
-import org.texastorque.io.RobotOutput;
-
 public class WheelIntake extends Subsystem {
 	
 private static WheelIntake instance;

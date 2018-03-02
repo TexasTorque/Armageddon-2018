@@ -1,9 +1,6 @@
 package org.texastorque.io;
 
-import org.texastorque.torquelib.util.GenericController;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class OperatorConsole extends Joystick {
 

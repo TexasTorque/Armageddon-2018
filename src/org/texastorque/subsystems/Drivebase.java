@@ -2,9 +2,6 @@ package org.texastorque.subsystems;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
-import org.texastorque.feedback.Feedback;
-import org.texastorque.io.HumanInput;
-import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;

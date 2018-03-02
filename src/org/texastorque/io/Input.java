@@ -1,9 +1,6 @@
 package org.texastorque.io;
 
-import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.TorqueToggle;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Input {
 

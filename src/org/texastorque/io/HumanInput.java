@@ -3,11 +3,6 @@ package org.texastorque.io;
 import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.GenericController;
-import org.texastorque.torquelib.util.TorqueToggle;
-
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HumanInput extends Input {
 

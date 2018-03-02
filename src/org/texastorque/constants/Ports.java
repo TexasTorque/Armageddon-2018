@@ -1,7 +1,5 @@
 package org.texastorque.constants;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-
 public class Ports {
 	//Drivebase
 	public static final int DB_LEFT_FORE_MOTOR = 0;
