@@ -22,7 +22,7 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 0, 1208.0, 1855, 2040, 2110, 2110, 1540, 915, 200};
+		{0, 280.0, 846.0, 1950, 1950, 2010, 1560, 1560, 680, 100};
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean armFWD;
@@ -40,7 +40,8 @@ public class Input {
 	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
+	//	{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
+		{0.0, 112.5, 195.0, 215.0, 215d, 250, 270d, 270d, 300, 360}; //TBD
 	
 	protected boolean pivotCCW;
 	protected boolean pivotCW;
@@ -62,6 +63,7 @@ public class Input {
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);
+		encodersDead = new TorqueToggle();
 		initIndexes();
 	}
 	

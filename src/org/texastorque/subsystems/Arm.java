@@ -18,8 +18,8 @@ public class Arm extends Subsystem {
 	private double autoStartTime;
 	private double delay;
 	private double reach;
-	private final double LIMIT = 300;
-	private final double ADJUSTMENT = 0;
+	private final double LIMIT = 200;
+	private final double ADJUSTMENT = 20;
 	
 	public Arm() {
 		setpoint = 0;
@@ -59,16 +59,17 @@ public class Arm extends Subsystem {
 			currentDistance = f.getArmDistance();
 			currentAngle = f.getPTAngle();
 		//	reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
-			if(currentAngle < 30) {
+			if((currentAngle < 205 && i.getPTSetpoint() != 0) || currentAngle > 280 ) {
 				setpoint = currentDistance;
 			}
-			if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
+		/*	if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
 				setpoint = currentDistance;
-			}		
+			}
+			*/		
 			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 				i.setArmSpeed(0);
 			} else {
-				i.setArmSpeed((2/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+				i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 			}	
 				
 			speed = i.getArmSpeed();
@@ -88,13 +89,22 @@ public class Arm extends Subsystem {
 			setpoint = i.getArmSetpoint();
 			currentDistance = f.getArmDistance();
 			currentAngle = f.getPTAngle();
-	//		reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
-			
-			if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
+		/*	reach = Math.abs(Math.cos((Math.toRadians( -(   (.67)*currentAngle)) + ADJUSTMENT )  ));
+			if(currentAngle > 12 && )
+			if((currentAngle >= 12) && (reach * currentDistance >= LIMIT)){
 					setpoint = currentDistance;			
-			}		
+			}
+			*/
+			/*if((currentAngle < 205 && i.getPTSetpoint() != 0) || currentAngle > 280 ) {
+				setpoint = currentDistance;
+			}
 			if(i.getPickingUp()) {
-				setpoint = 325;
+				setpoint = 305;
+			}*/
+			if(i.getPickingUp()) {
+				if(currentAngle < 205 || currentAngle > 280 ) {
+					setpoint = currentDistance;
+				} else setpoint = 305;
 			}
 			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 				i.setArmSpeed(0);
@@ -105,12 +115,14 @@ public class Arm extends Subsystem {
 				setpoint = f.getArmDistance();
 				speed = 0;
 			}
-			
 			if(i.getClimbing()){
-				speed = -.15;
+				if(currentDistance > 100) {
+					speed = -.15;
+				} else speed = 0; 
 			} else 
 				speed = i.getArmSpeed();
 			}
+			
 		output();
 	}
 	
