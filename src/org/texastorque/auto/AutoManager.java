@@ -6,12 +6,9 @@ import java.util.LinkedList;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.feedback.Feedback;
-import org.texastorque.auto.arm.SetClaw;
-import org.texastorque.auto.arm.ShiftPivotArm;
+import org.texastorque.auto.arm.*;
 import org.texastorque.auto.drive.*;
-import org.texastorque.auto.sequences.PlaceCubeSwitch;
-import org.texastorque.auto.sequences.ForwardMode;
-import org.texastorque.auto.sequences.PlaceCubeScale;
+import org.texastorque.auto.sequences.*;
 import org.texastorque.subsystems.*;
 import org.texastorque.subsystems.Drivebase.DriveType;
 
@@ -57,11 +54,15 @@ public class AutoManager {
 				break;
 
 			case 1:
+<<<<<<< HEAD
 				double startTime = Timer.getFPGATimestamp();
 				if (Timer.getFPGATimestamp() < startTime + 1.5) {
 					RobotOutput.getInstance().setDrivebaseSpeed(.65, .65);
 				} else RobotOutput.getInstance().setDrivebaseSpeed(0.0, 0.0);
 				
+=======
+				commandList.add(new BackupDrive(2.0, true));
+>>>>>>> 7c9c714f1c02e2da76f18803fdcfec10cf05a6f7
 				break;
 
 			case 2:

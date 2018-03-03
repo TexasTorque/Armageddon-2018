@@ -1,6 +1,8 @@
 package org.texastorque.auto.drive;
 
 import org.texastorque.auto.AutoCommand;
+import org.texastorque.auto.AutoManager;
+import org.texastorque.subsystems.Drivebase.DriveType;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -8,16 +10,17 @@ public class BackupDrive extends AutoCommand {
 	
 	private double time;
 	
-	public BackupDrive(double time) {
+	public BackupDrive(double time, boolean pause) {
+		super(pause);
 		this.time = time;
 	}
 
 	@Override
 	public void run() {
-		double startTime = Timer.getFPGATimestamp();
-		if (Timer.getFPGATimestamp() < startTime + time) {
-			output.setDrivebaseSpeed(.65, .65);
-		} else output.setDrivebaseSpeed(0.0, 0.0);
+
+		drivebase.setType(DriveType.AUTOBACKUP);
+		if(pause)
+			AutoManager.pause(time);
 	}
 	
 	//when and why is this method used?

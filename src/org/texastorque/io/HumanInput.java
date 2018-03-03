@@ -100,9 +100,10 @@ public class HumanInput extends Input {
 			updatePivotArmBackup();
 		} else {
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
+		
 		if(MAXIMUM_OVERDRIVE.get()) {
 			AM_setpoint = board.getSlider() * AM_CONVERSION;
-			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 13;			
+			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 15;			
 		} else {
 			updateNotManualOverride();
 		  } //if not manual override
@@ -125,7 +126,7 @@ public class HumanInput extends Input {
 		if(operator.getYButton()) {
 			pickingUp = true;
 		} else pickingUp = false;
-		for(int x = 1; x < 10; x++) {
+		for (int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
 				AM_index = x;
