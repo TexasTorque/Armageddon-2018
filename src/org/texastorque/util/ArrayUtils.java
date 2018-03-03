@@ -38,7 +38,7 @@ public final class ArrayUtils {
 		double last = input[0];
 		for (double value : input) {
 			// Check if desired sort order matches actual order of current and previous elements.
-			boolean isAscending = value > last;
+			boolean isAscending = value >= last;
 			if ((!ascending && isAscending) || (ascending && !isAscending)) {
 				return false;
 			}

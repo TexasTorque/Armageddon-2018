@@ -1,5 +1,6 @@
 package org.texastorque.auto.playback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,14 @@ import org.texastorque.models.RobotInputState;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.util.FileUtils;
 
+import com.google.gson.reflect.TypeToken;
+
 import edu.wpi.first.wpilibj.Timer;
 
 public class PlaybackAutoMode extends Input {
+	
+	/** Java magic tricks. */
+	private static final Type LIST_TYPE_JSON = new TypeToken<List<RobotInputState>>() {}.getType();
 	
 	private final List<RobotInputState> inputs;
 	private final Interpolator interpolator;
@@ -23,7 +29,7 @@ public class PlaybackAutoMode extends Input {
 	private double referenceTime = -1;  // Should only be negative before first update.
 	
 	public PlaybackAutoMode(String file) {
-		this.inputs = FileUtils.readFromXML(file, ArrayList.class);
+		this.inputs = FileUtils.readFromJSON(file, LIST_TYPE_JSON);
 		
 		this.interpolator = createInterpolator(this.inputs);
 		db = Drivebase.getInstance();

@@ -14,6 +14,8 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import java.lang.reflect.Type;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -62,7 +64,7 @@ public final class FileUtils {
 	 * @param type The class used to cast the XML decoded object.
 	 * @return The type-cast object if successful, null otherwise.
 	 */
-	public static <Type> Type readFromXML(String fileLocation, Class<Type> type) {
+	public static <ObjectType> ObjectType readFromXML(String fileLocation, Class<ObjectType> type) {
 		try (XMLDecoder reader = new XMLDecoder(new FileInputStream(fileLocation))) {
 			return type.cast(reader.readObject());
 		} catch (FileNotFoundException e) {
@@ -91,12 +93,12 @@ public final class FileUtils {
 	
 	/** Deserializes a java object from JSON.
 	 * @param fileLocation The file path to the JSON to read.
-	 * @param type The class used to cast the JSON decoded object.
+	 * @param listType The class used to cast the JSON decoded object.
 	 * @return The type-cast object if successful, null otherwise.
 	 */
-	public static <Type> Type readFromJSON(String fileLocation, Class<Type> type) {
+	public static <ObjectType> ObjectType readFromJSON(String fileLocation, Type listType) {
 		try (Reader reader = new BufferedReader(new FileReader(fileLocation))) {
-			return GSON.fromJson(reader, type);
+			return GSON.fromJson(reader, listType);
 		} catch (IOException e) {
 			System.out.println(String.format("Could not read JSON from file: %s", fileLocation));
 		}

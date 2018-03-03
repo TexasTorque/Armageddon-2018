@@ -9,8 +9,8 @@ public class TestPID {
 
 	@Test
 	public void testCreateScheduledPID() {
-		ScheduledPID testPID = new ScheduledPID.Builder(5)
-				.setPGains(0.5, 0.1, 0.05)
+		ScheduledPID testPID = new ScheduledPID.Builder(1, 1, 5)
+				.setPGains(0.5, 0.1,  0.05)
 				.setIGains(0.1, 0.01, 0.001)
 				.setRegions(1, 1, 1)
 				.build();
