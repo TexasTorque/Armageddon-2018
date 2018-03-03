@@ -206,14 +206,7 @@ public class Drivebase extends Subsystem {
 
 	@Override
 	public void smartDashboard() {
-		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
-		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
 		
-		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);
-		SmartDashboard.putNumber("DBA_TARGETVELOCITY", targetVelocity);
-		SmartDashboard.putNumber("DBA_TARGETACCELERATION", targetAcceleration);
-		SmartDashboard.putNumber("DBA_TARGETANGLE", targetAngle);
-		SmartDashboard.putNumber("DBA_TARGETANGULARVELOCITY", targetAngularVelocity);
 	}
 	
 	public static Drivebase getInstance() {

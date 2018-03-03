@@ -33,6 +33,13 @@ public class Pivot extends Subsystem {
 	private double autoStartTime;
 	private double delay;
 	
+	private double currentAngle;
+	private double currentArmSetpoint; 
+	private double currentArmDistance;
+	private double reach;
+	private final double LIMIT = 320;
+	private final double ADJUSTMENT = 20;
+	
 	public Pivot() {
 		init();
 		delay = 0;
@@ -79,18 +86,28 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void teleopContinuous() {
-		runPivot();
+		if(i.getEncodersDead()) {
+			runPivotBackup();
+		} else runPivot();
 	}
 	
 	private void runPivot() {
 		setpoint = i.getPTSetpoint();
-		double currentArmPosition = f.getArmDistance();
-		if(i.getPickingUp()) {
-			setpoint = 7;
+		currentAngle = f.getPTAngle();
+		currentArmSetpoint = i.getArmSetpoint();
+		currentArmDistance = f.getArmDistance();
+		/*reach = Math.abs(Math.cos((Math.toRadians( -(   (.67)*currentAngle)) + ADJUSTMENT )  ));
+		
+		if((currentAngle >=80 && currentAngle < 120) && (reach * currentArmPosition >= LIMIT)){
+			setpoint = currentAngle;			
 		}
-		if (setpoint != previousSetpoint) {
-			if(currentArmPosition > 400) {
-				setpoint = 85;
+		*/
+		if(i.getPickingUp()) {
+			setpoint = 10;
+		}
+		if (setpoint != previousSetpoint && !i.getPickingUp()) {
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = 210;
 			} 
 			previousSetpoint = setpoint;
 			pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
@@ -107,16 +124,16 @@ public class Pivot extends Subsystem {
 		
 		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
 				
+		output();
+	}
+	
+	public void runPivotBackup() {
 		if(i.getPivotCCW()) {
 			speed = -.2;
-			setpoint = f.getPTAngle();
 		} 
 		else if(i.getPivotCW()) {
 			speed = .2;
-			setpoint = f.getPTAngle();
 		}
-		
-		output();
 	}
 	
 	private void output() {

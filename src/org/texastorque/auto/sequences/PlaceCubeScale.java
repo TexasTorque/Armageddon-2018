@@ -32,7 +32,7 @@ public class PlaceCubeScale extends AutoSequence {
 				commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 				commandList.add(new Drive(260, 0.125, 5.0, true));
 				commandList.add(new Turn(45, 1.5, 2.0, true));
-				commandList.add(new Drive(32, .125, 1, true));
+				commandList.add(new Drive(28, .125, 1, true));
 			}
 			else {
 				commandList.add(new ShiftPivotArm(4, 5.0, false, 4.0));
@@ -48,7 +48,7 @@ public class PlaceCubeScale extends AutoSequence {
 				commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 				commandList.add(new Drive(260, 0.125, 5.0, true));
 				commandList.add(new Turn(-45, 1.5, 2.0, true));
-				commandList.add(new Drive(32, .125, 1, true));
+				commandList.add(new Drive(28, .125, 1, true));
 			}
 			else {
 				commandList.add(new ShiftPivotArm(4, 5.0, false, 4.0));
