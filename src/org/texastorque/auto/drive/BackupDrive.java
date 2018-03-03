@@ -15,10 +15,9 @@ public class BackupDrive extends AutoCommand {
 	@Override
 	public void run() {
 		double startTime = Timer.getFPGATimestamp();
-		while (Timer.getFPGATimestamp() - startTime < time) {
-			output.setDrivebaseSpeed(1.0, 1.0);
-		}
-		output.setDrivebaseSpeed(0.0, 0.0);
+		if (Timer.getFPGATimestamp() < startTime + time) {
+			output.setDrivebaseSpeed(.65, .65);
+		} else output.setDrivebaseSpeed(0.0, 0.0);
 	}
 	
 	//when and why is this method used?

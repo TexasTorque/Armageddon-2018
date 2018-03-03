@@ -102,7 +102,7 @@ public class HumanInput extends Input {
 		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
 		if(MAXIMUM_OVERDRIVE.get()) {
 			AM_setpoint = board.getSlider() * AM_CONVERSION;
-			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
+			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 13;			
 		} else {
 			updateNotManualOverride();
 		  } //if not manual override
@@ -148,11 +148,19 @@ public class HumanInput extends Input {
 			pivotCCW = true;
 		else if(operator.getDPADRight()) {
 			pivotCW = true;
+			pivotCCW = false;
+		} else {
+			pivotCCW = false;
+			pivotCW = false;
 		}
 		if(operator.getDPADUp()) {
 			armFWD = true;
 		} else if(operator.getDPADDown()) {
 			armBACK = true;
+			armFWD = false;
+		} else {
+			armFWD = false;
+			armBACK = false;
 		}
 	}
 	

@@ -12,12 +12,11 @@ public class PlaceCubeSwitch extends AutoSequence {
 	private int startPos;
 	private char switchSide;
 	
-	public PlaceCubeSwitch() {
+	public PlaceCubeSwitch(int start) {
+		startPos = start;
 		try {	
-			startPos = DriverStation.getInstance().getLocation();
-			switchSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
+			switchSide = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
 		} catch (Exception e) {
-			startPos = -1;
 			switchSide = 'X';
 		}
 		init();

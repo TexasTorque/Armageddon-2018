@@ -22,7 +22,7 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 280.0, 846.0, 1950, 1950, 2010, 1560, 1560, 680, 100};
+		{0, 185.0, 846.0, 1955, 1955, 2010, 2010, 2010, 680, 200};
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean armFWD;
@@ -41,7 +41,8 @@ public class Input {
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
 	//	{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
-		{0.0, 112.5, 195.0, 215.0, 215d, 250, 270d, 270d, 300, 360}; //TBD
+		{0.0, 112.5, 195.0, 215.0, 215d, 260, 275d, 275d, 300, 350}; //TBD
+	//yellow and red front is 200p, 1390a 
 	
 	protected boolean pivotCCW;
 	protected boolean pivotCW;

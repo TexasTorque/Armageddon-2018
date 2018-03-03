@@ -13,12 +13,11 @@ public class PlaceCubeScale extends AutoSequence {
 	private int startPos;
 	private char scaleSide;
 	
-	public PlaceCubeScale() {
+	public PlaceCubeScale(int start) {
+		startPos = start;
 		try {	
-			startPos = DriverStation.getInstance().getLocation();
 			scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
 		} catch (Exception e) {
-			startPos = -1;
 			scaleSide = 'X';
 		}
 		init();

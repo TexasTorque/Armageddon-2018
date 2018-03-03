@@ -103,12 +103,17 @@ public class Pivot extends Subsystem {
 		}
 		*/
 		if(i.getPickingUp()) {
-			setpoint = 10;
+			setpoint = 2;
 		}
-		if (setpoint != previousSetpoint && !i.getPickingUp()) {
+		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
 				setpoint = 210;
-			} 
+			}
+			if(i.getPickingUp()) {
+				setpoint = 2;
+			}
+			
+			 
 			previousSetpoint = setpoint;
 			pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
 			previousTime = Timer.getFPGATimestamp();

@@ -59,7 +59,7 @@ public class Arm extends Subsystem {
 			currentDistance = f.getArmDistance();
 			currentAngle = f.getPTAngle();
 		//	reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
-			if((currentAngle < 205 && i.getPTSetpoint() != 0) || currentAngle > 280 ) {
+			if((currentAngle < 205 && i.getPTSetpoint() < 2) || currentAngle > 280 ) {
 				setpoint = currentDistance;
 			}
 		/*	if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
@@ -102,9 +102,10 @@ public class Arm extends Subsystem {
 				setpoint = 305;
 			}*/
 			if(i.getPickingUp()) {
-				if(currentAngle < 205 || currentAngle > 280 ) {
-					setpoint = currentDistance;
-				} else setpoint = 305;
+				setpoint = 515;
+			}
+			if((currentAngle < 205 && i.getPTSetpoint() > 2) || (currentAngle > 280 && i.getPTSetpoint() == 9)) {
+				setpoint = currentDistance;
 			}
 			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 				i.setArmSpeed(0);
@@ -112,8 +113,8 @@ public class Arm extends Subsystem {
 				i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 			}
 			if(!f.getBlockade()) {
-				setpoint = f.getArmDistance();
-				speed = 0;
+				i.setArmSpeed(0);
+				System.out.println("frozen");
 			}
 			if(i.getClimbing()){
 				if(currentDistance > 100) {
