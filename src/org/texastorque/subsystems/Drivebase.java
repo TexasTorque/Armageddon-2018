@@ -49,7 +49,7 @@ public class Drivebase extends Subsystem {
 	private double targetAngularVelocity;
 	
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT;
 	}
 	private DriveType type;
 	
@@ -173,6 +173,12 @@ public class Drivebase extends Subsystem {
 					rightSpeed = 0;
 				}
 				break;
+				
+			case AUTOBACKUP:
+				leftSpeed = 0.5;
+				rightSpeed = 0.5;
+				break;
+				
 			default:
 				leftSpeed = 0;
 				rightSpeed = 0;

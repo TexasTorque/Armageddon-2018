@@ -6,12 +6,9 @@ import java.util.LinkedList;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.feedback.Feedback;
-import org.texastorque.auto.arm.SetClaw;
-import org.texastorque.auto.arm.ShiftPivotArm;
+import org.texastorque.auto.arm.*;
 import org.texastorque.auto.drive.*;
-import org.texastorque.auto.sequences.PlaceCubeSwitch;
-import org.texastorque.auto.sequences.ForwardMode;
-import org.texastorque.auto.sequences.PlaceCubeScale;
+import org.texastorque.auto.sequences.*;
 import org.texastorque.subsystems.*;
 import org.texastorque.subsystems.Drivebase.DriveType;
 
@@ -57,7 +54,7 @@ public class AutoManager {
 				break;
 
 			case 1:
-				commandList.addAll(new ForwardMode(1.5).getCommands());
+				commandList.add(new BackupDrive(2.0, true));
 				break;
 
 			case 2:
