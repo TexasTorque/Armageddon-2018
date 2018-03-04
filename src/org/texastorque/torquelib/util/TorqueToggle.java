@@ -1,5 +1,7 @@
 package org.texastorque.torquelib.util;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class TorqueToggle {
 
 	private boolean toggle;
@@ -22,6 +24,7 @@ public class TorqueToggle {
 			// the toggle.
 			if (current) {
 				toggle = !toggle;
+				System.out.println("IT FLIPPED");
 			}
 			// Keep track of the previous value. Does not need to be updated if
 			// lastCheck is already equal to current.

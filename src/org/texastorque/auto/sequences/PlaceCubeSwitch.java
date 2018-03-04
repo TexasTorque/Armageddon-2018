@@ -28,32 +28,32 @@ public class PlaceCubeSwitch extends AutoSequence {
 		if (startPos == 1) {
 			if (switchSide == 'L') {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 0.0));
-				commandList.add(new Drive(150, 0.125, 5.0, true));
-				commandList.add(new Turn(90, 1.5, 2.0, true));
+				commandList.add(new Drive(150, 0.125, 3.0, true));
+				commandList.add(new Turn(90, 1.5, 2.25, true));
 				commandList.add(new Drive(36, .125, 1, true));
 			}
 			else {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
 				commandList.add(new Drive(220, 0.125, 3.25, true));
-				commandList.add(new Turn(90, 1.5, 2.0, true));
+				commandList.add(new Turn(90, 1.5, 2.25, true));
 				commandList.add(new Drive(180, 0.125, 3.25, true));
-				commandList.add(new Turn(180, 1.5, 2.0, true));
+				commandList.add(new Turn(180, 1.5, 2.25, true));
 				commandList.add(new Drive(24, 0.125, 1.25, true));
 			}
 		}
 		else if (startPos == 3) {
 			if (switchSide == 'R') {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 0.0));
-				commandList.add(new Drive(150, 0.125, 5.0, true));
-				commandList.add(new Turn(-90, 1.5, 2.0, true));
+				commandList.add(new Drive(150, 0.125, 3.0, true));
+				commandList.add(new Turn(-90, 1.5, 2.25, true));
 				commandList.add(new Drive(36, .125, 1, true));
 			}
 			else {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
 				commandList.add(new Drive(220, 0.125, 3.25, true));
-				commandList.add(new Turn(-90, 1.5, 2.0, true));
+				commandList.add(new Turn(-90, 1.5, 2.25, true));
 				commandList.add(new Drive(180, 0.125, 3.25, true));
-				commandList.add(new Turn(-180, 1.5, 2.0, true));
+				commandList.add(new Turn(-180, 1.5, 2.25, true));
 				commandList.add(new Drive(24, 0.125, 1.25, true));
 			}
 		} else if(startPos == 2) {

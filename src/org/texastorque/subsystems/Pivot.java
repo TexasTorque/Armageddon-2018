@@ -103,22 +103,25 @@ public class Pivot extends Subsystem {
 		}
 		*/
 		if(i.getPickingUp()) {
-			setpoint = 2;
+			setpoint = 7;
 		}
 		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
-				setpoint = 210;
+				setpoint = currentAngle;
 			}
 			if(i.getPickingUp()) {
-				setpoint = 2;
+				setpoint = 7;
 			}
 			
-			 
+			previousSetpoint = setpoint;
+			/* 
 			previousSetpoint = setpoint;
 			pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
 			previousTime = Timer.getFPGATimestamp();
+			*/
 		}
-
+		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+/*
 		double dt = Timer.getFPGATimestamp() - previousTime;
 		previousTime = Timer.getFPGATimestamp();
 		pivotTMP.calculateNextSituation(dt);
@@ -128,7 +131,7 @@ public class Pivot extends Subsystem {
 		targetAcceleration = pivotTMP.getCurrentAcceleration();
 		
 		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
-				
+*/				
 		output();
 	}
 	

@@ -54,15 +54,12 @@ public class AutoManager {
 				break;
 
 			case 1:
-<<<<<<< HEAD
 				double startTime = Timer.getFPGATimestamp();
 				if (Timer.getFPGATimestamp() < startTime + 1.5) {
 					RobotOutput.getInstance().setDrivebaseSpeed(.65, .65);
 				} else RobotOutput.getInstance().setDrivebaseSpeed(0.0, 0.0);
-				
-=======
+		
 				commandList.add(new BackupDrive(2.0, true));
->>>>>>> 7c9c714f1c02e2da76f18803fdcfec10cf05a6f7
 				break;
 
 			case 2:
@@ -79,7 +76,9 @@ public class AutoManager {
 			case 5:
 				commandList.addAll(new PlaceCubeSwitch(3).getCommands());
 				break;
-			
+			case 6: 
+				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
+				break;
 				
 			default:
 				break;

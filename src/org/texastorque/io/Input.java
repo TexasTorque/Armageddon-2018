@@ -22,7 +22,7 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 185.0, 846.0, 1955, 1955, 2010, 2010, 2010, 680, 200};
+		{0, 185.0, 846.0, 1990, 1990, 2010, 2010, 2010, 680, 200};
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean armFWD;

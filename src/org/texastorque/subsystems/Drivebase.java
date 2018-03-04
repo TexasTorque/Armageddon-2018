@@ -161,11 +161,11 @@ public class Drivebase extends Subsystem {
 				rightSpeed = -leftSpeed;
 				break;
 			*/
-				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 5)) {
+				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 					if(turnSetpoint - currentAngle > 0) {
-						leftSpeed = .4;
+						leftSpeed = .33;
 					} else if(turnSetpoint - currentAngle < 0) {
-						leftSpeed = -.4;
+						leftSpeed = -.33;
 					}
 					rightSpeed = -leftSpeed;
 				} else {
