@@ -12,7 +12,7 @@ public final class GenericController extends Joystick {
 	public static final int TYPE_LOGITECH = 1;
 	public static final int TYPE_XBOX = 2;
 
-	private int[] controllerMap;
+	public int[] controllerMap;
 	private int controllerType;
 	private double deadband;
 
@@ -113,6 +113,10 @@ public final class GenericController extends Joystick {
 
 	public synchronized double getRightXAxis() {
 		return scaleInput(getRawAxis(controllerMap[3]));
+	}
+
+	public synchronized boolean getButtonReleased(int button) {
+		return getRawButtonReleased(button);
 	}
 	
 	public synchronized boolean getLeftStickClick() {

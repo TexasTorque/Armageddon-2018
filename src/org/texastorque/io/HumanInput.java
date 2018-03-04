@@ -38,6 +38,10 @@ public class HumanInput extends Input {
 		updateWheelIntake();
 		updateBoardSubsystems();
 		updateKill();
+		if(pickingUp)
+			pickingUp = false;
+		if(operator.getRawButtonReleased(operator.controllerMap[15]));
+		
 	}
 	
 	public void updateDrive(){

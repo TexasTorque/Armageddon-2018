@@ -101,8 +101,13 @@ public class Arm extends Subsystem {
 				setpoint = 305;
 			}*/
 			if(i.getPickingUp()) {
+				i.setClaw(false);
 				setpoint = 430;
 			}
+			if(i.getPullingBack()) {
+				setpoint = 0;
+			}
+			
 			if((currentAngle < 200 && i.getPTSetpoint() > 115) || (currentAngle > 280))/* && i.getPTSetpoint() < 275)*/ {
 				setpoint = currentDistance;
 			}

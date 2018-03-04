@@ -29,8 +29,8 @@ public class Input {
 	protected boolean armBACK;
 	
 	protected boolean climbing;
-	protected boolean pickingUp;
-	
+	protected boolean pickingUp; //extending to pick up a cube
+	protected boolean pullingBack; //retracting after picking up a cube
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
@@ -180,6 +180,14 @@ public class Input {
 	
 	public void toggleClaw() {
 		CL_closed.calc(true);
+	}
+	
+	public void setClaw(boolean closed) {
+		CL_closed.set(closed);
+	}
+	
+	public boolean getPullingBack() {
+		return pullingBack;
 	}
 	
 	public boolean getEncodersDead() {
