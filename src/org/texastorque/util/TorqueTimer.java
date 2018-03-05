@@ -1,8 +1,10 @@
 package org.texastorque.util;
 
+import org.texastorque.util.interfaces.Stopwatch;
+
 import edu.wpi.first.wpilibj.Timer;
 
-public class TorqueTimer {
+public class TorqueTimer implements Stopwatch {
 
 	private double startTime = -1;
 	private double lastTime = -1;

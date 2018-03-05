@@ -6,8 +6,7 @@ import org.texastorque.util.ArrayUtils;
 import org.texastorque.util.Integrator;
 import org.texastorque.util.MathUtils;
 import org.texastorque.util.TorqueTimer;
-
-import edu.wpi.first.wpilibj.Timer;
+import org.texastorque.util.interfaces.Stopwatch;
 
 public class ScheduledPID {
 
@@ -23,9 +22,13 @@ public class ScheduledPID {
 	private double lastError;
 	
 	private final Integrator integrator;
-	private final TorqueTimer timer;
+	private Stopwatch timer;
 
 	private ScheduledPID(double setPoint, double maxOutput, int count) {
+		if (count <= 0) {
+			throw new RuntimeException("PID Schedule must have at least 1 gain, count was: " + count);
+		}
+		
 		this.gainDivisions = new double[count - 1];
 		this.pGains = new double[count];
 		this.iGains = new double[count];
@@ -42,12 +45,14 @@ public class ScheduledPID {
 	public double calculate(double processVar) {
 		handleFirstCalculation();
 
-		double error = processVar - this.setPoint;
+		double error = this.setPoint - processVar;
 		updateGainIndex(error);
 
 		double pGain = this.pGains[this.currentGainIndex];
 		double iTerm = integralTerm(error);
 		double dTerm = derivativeTerm(error);
+		
+		System.out.println(pGain * error + " " + iTerm + " " + dTerm);
 		
 		double output = pGain * (error + iTerm + dTerm);  // Standard PID form.
 		
@@ -90,7 +95,7 @@ public class ScheduledPID {
 	 * @return The integer index for the gain values.
 	 */
 	private int updateGainIndex(double error) {
-		if (error <= this.gainDivisions[0]) {
+		if (gainDivisions.length <= 1 || error <= this.gainDivisions[0]) {
 			this.currentGainIndex = 0;
 			return this.currentGainIndex;
 		}
@@ -111,10 +116,10 @@ public class ScheduledPID {
 	
 	@Override
 	public String toString() {
-		return "ScheduledPID [gainDivisions=" + Arrays.toString(gainDivisions) + ", pGains=" + Arrays.toString(pGains)
-				+ ", iGains=" + Arrays.toString(iGains) + ", dGains=" + Arrays.toString(dGains) + ", currentGainIndex="
-				+ currentGainIndex + ", setPoint=" + setPoint + ", maxOutput=" + maxOutput + ", lastError=" + lastError
-				+ ", integrator=" + integrator + ", timer=" + timer + "]";
+		return "ScheduledPID [\n\tgainDivisions=" + Arrays.toString(gainDivisions) + ", \n\tpGains=" + Arrays.toString(pGains)
+				+ ", \n\tiGains=" + Arrays.toString(iGains) + ", dGains=" + Arrays.toString(dGains) + ", \n\tcurrentGainIndex="
+				+ currentGainIndex + ", \n\tsetPoint=" + setPoint + ", \n\tmaxOutput=" + maxOutput + ", \n\tlastError=" + lastError
+				+ ", \n\tintegrator=" + integrator + ", \n\ttimer=" + timer + "\n]";
 	}
 
 
@@ -151,6 +156,11 @@ public class ScheduledPID {
 		
 		public Builder setDGains(double... dGains) {
 			ArrayUtils.bufferAndFill(dGains, pid.dGains);
+			return this;
+		}
+		
+		public Builder overrideFPGATimer(Stopwatch timer) {
+			this.pid.timer = timer;
 			return this;
 		}
 		

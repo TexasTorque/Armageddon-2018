@@ -20,4 +20,21 @@ public class TestPID {
 		assert(testPID != null);
 	}
 
+	@Test
+	public void testSingleCalculation() {
+		ScheduledPID testPID = new ScheduledPID.Builder(1, 1, 1)
+				.setPGains(0.5)
+				.setIGains(300)
+				.setRegions(0.01)
+				.overrideFPGATimer(new TestingTimer())
+				.build();
+
+		double currentOutput = 0;
+		double newOutput = testPID.calculate(currentOutput);
+		
+		System.out.println(newOutput);
+		System.out.println(testPID.toString());
+		
+		assertNotNull(testPID);
+	}
 }
