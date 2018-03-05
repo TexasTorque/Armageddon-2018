@@ -28,25 +28,14 @@ public class Drivebase extends Subsystem {
 	private TorquePV rightPV;
 	private TorqueRIMP leftRIMP;
 	private TorqueRIMP rightRIMP;
-	private double previousError;
-
-	private double targetPosition;
-	private double targetVelocity;
-	private double targetAcceleration;
 	
-	//Turn
-	private double turnPreviousSetpoint = 0;
 	private double turnSetpoint;
 	private double currentAngle;
 	
-	private TorqueTMP turnTMP;
 	private TorquePV turnPV;
 
-	private double targetAngle;
-	private double targetAngularVelocity;
-	
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT;
 	}
 	private DriveType type;
 	
@@ -74,7 +63,6 @@ public class Drivebase extends Subsystem {
 	
 	private void init() {
 		driveTMP = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
-		turnTMP = new TorqueTMP(Constants.DB_TURN_MVELOCITY.getDouble(), Constants.DB_TURN_MACCELERATION.getDouble());
 		leftPV = new TorquePV();
 		rightPV = new TorquePV();
 		turnPV = new TorquePV();
@@ -126,10 +114,6 @@ public class Drivebase extends Subsystem {
 				previousTime = Timer.getFPGATimestamp();
 				driveTMP.calculateNextSituation(dt);
 		
-				targetPosition = driveTMP.getCurrentPosition();
-				targetVelocity = driveTMP.getCurrentVelocity();
-				targetAcceleration = driveTMP.getCurrentAcceleration();
-		
 				leftSpeed = leftPV.calculate(driveTMP, f.getDBLeftDistance(), f.getDBLeftRate());
 				rightSpeed = rightPV.calculate(driveTMP, f.getDBRightDistance(), f.getDBRightRate());
 				break;
@@ -158,11 +142,11 @@ public class Drivebase extends Subsystem {
 				rightSpeed = -leftSpeed;
 				break;
 			*/
-				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 5)) {
+				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 					if(turnSetpoint - currentAngle > 0) {
-						leftSpeed = .4;
+						leftSpeed = .33;
 					} else if(turnSetpoint - currentAngle < 0) {
-						leftSpeed = -.4;
+						leftSpeed = -.33;
 					}
 					rightSpeed = -leftSpeed;
 				} else {
@@ -170,6 +154,12 @@ public class Drivebase extends Subsystem {
 					rightSpeed = 0;
 				}
 				break;
+				
+			case AUTOBACKUP:
+				leftSpeed = 0.5;
+				rightSpeed = 0.5;
+				break;
+				
 			default:
 				leftSpeed = 0;
 				rightSpeed = 0;
@@ -203,14 +193,7 @@ public class Drivebase extends Subsystem {
 
 	@Override
 	public void smartDashboard() {
-		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
-		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
 		
-		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);
-		SmartDashboard.putNumber("DBA_TARGETVELOCITY", targetVelocity);
-		SmartDashboard.putNumber("DBA_TARGETACCELERATION", targetAcceleration);
-		SmartDashboard.putNumber("DBA_TARGETANGLE", targetAngle);
-		SmartDashboard.putNumber("DBA_TARGETANGULARVELOCITY", targetAngularVelocity);
 	}
 	
 	public static Drivebase getInstance() {
