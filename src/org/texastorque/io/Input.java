@@ -22,15 +22,15 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 0, 1208.0, 1855, 2040, 2110, 2110, 1540, 915, 200};
+		{0, 185.0, 846.0, 1990, 1990, 2010, 2010, 2010, 680, 200};
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean armFWD;
 	protected boolean armBACK;
 	
 	protected boolean climbing;
-	protected boolean pickingUp;
-	
+	protected boolean pickingUp; //extending to pick up a cube
+	protected boolean pullingBack; //retracting after picking up a cube
 	protected volatile double DB_driveSetpoint;
 	protected volatile double DB_turnSetpoint;
 	protected volatile double DB_precision;
@@ -40,7 +40,9 @@ public class Input {
 	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
+	//	{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
+		{0.0, 112.5, 195.0, 215.0, 215d, 260, 275d, 275d, 300, 350}; //TBD
+	//yellow and red front is 200p, 1390a 
 	
 	protected boolean pivotCCW;
 	protected boolean pivotCW;
@@ -62,6 +64,7 @@ public class Input {
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);
+		encodersDead = new TorqueToggle();
 		initIndexes();
 	}
 	
@@ -177,6 +180,14 @@ public class Input {
 	
 	public void toggleClaw() {
 		CL_closed.calc(true);
+	}
+	
+	public void setClaw(boolean closed) {
+		CL_closed.set(closed);
+	}
+	
+	public boolean getPullingBack() {
+		return pullingBack;
 	}
 	
 	public boolean getEncodersDead() {

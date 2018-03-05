@@ -62,7 +62,7 @@ public class Feedback {
 	public Feedback() {
 
 		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
-		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, false, EncodingType.k4X);
+		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, true, EncodingType.k4X);
 		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
 		AM_encoder = new TorqueEncoder(Ports.AM_ENCODER_A, Ports.AM_ENCODER_B, true, EncodingType.k4X);
 		AM_blockade = new DigitalInput(Ports.AM_CHECK_SWITCH);

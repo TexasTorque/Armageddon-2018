@@ -49,7 +49,7 @@ public class Drivebase extends Subsystem {
 	private double targetAngularVelocity;
 	
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOOVERRIDE, WAIT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT;
 	}
 	private DriveType type;
 	
@@ -161,11 +161,11 @@ public class Drivebase extends Subsystem {
 				rightSpeed = -leftSpeed;
 				break;
 			*/
-				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 5)) {
+				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 					if(turnSetpoint - currentAngle > 0) {
-						leftSpeed = .4;
+						leftSpeed = .33;
 					} else if(turnSetpoint - currentAngle < 0) {
-						leftSpeed = -.4;
+						leftSpeed = -.33;
 					}
 					rightSpeed = -leftSpeed;
 				} else {
@@ -173,6 +173,12 @@ public class Drivebase extends Subsystem {
 					rightSpeed = 0;
 				}
 				break;
+				
+			case AUTOBACKUP:
+				leftSpeed = 0.5;
+				rightSpeed = 0.5;
+				break;
+				
 			default:
 				leftSpeed = 0;
 				rightSpeed = 0;
@@ -206,14 +212,7 @@ public class Drivebase extends Subsystem {
 
 	@Override
 	public void smartDashboard() {
-		SmartDashboard.putNumber("DB_LEFTSPEED", leftSpeed);
-		SmartDashboard.putNumber("DB_RIGHTSPEED", rightSpeed);
 		
-		SmartDashboard.putNumber("DBA_TARGETPOSITION", targetPosition);
-		SmartDashboard.putNumber("DBA_TARGETVELOCITY", targetVelocity);
-		SmartDashboard.putNumber("DBA_TARGETACCELERATION", targetAcceleration);
-		SmartDashboard.putNumber("DBA_TARGETANGLE", targetAngle);
-		SmartDashboard.putNumber("DBA_TARGETANGULARVELOCITY", targetAngularVelocity);
 	}
 	
 	public static Drivebase getInstance() {
