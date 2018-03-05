@@ -37,6 +37,12 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void teleopContinuous() {
+		if(i.getPickingUp()) {
+			i.setClaw(false);
+		}
+		if(i.getPullingBack()) {
+			i.setClaw(true);
+		}
 		closed = i.getClawClosed();
 		o.setClaw(closed);
 	}

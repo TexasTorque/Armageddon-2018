@@ -29,10 +29,11 @@ public class Pivot extends Subsystem {
 	private double delay;
 	
 	private double currentAngle;
-	private double currentArmPosition; 
+	private double currentArmSetpoint; 
+	private double currentArmDistance;
 	private double reach;
-	private final double LIMIT = 300;
-	private final double ADJUSTMENT = 0;
+	private final double LIMIT = 320;
+	private final double ADJUSTMENT = 20;
 	
 	public Pivot() {
 		init();
@@ -88,24 +89,36 @@ public class Pivot extends Subsystem {
 	private void runPivot() {
 		setpoint = i.getPTSetpoint();
 		currentAngle = f.getPTAngle();
-		currentArmPosition = f.getArmDistance();
-		//reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
+		currentArmSetpoint = i.getArmSetpoint();
+		currentArmDistance = f.getArmDistance();
+		/*reach = Math.abs(Math.cos((Math.toRadians( -(   (.67)*currentAngle)) + ADJUSTMENT )  ));
 		
 		if((currentAngle >=80 && currentAngle < 120) && (reach * currentArmPosition >= LIMIT)){
 			setpoint = currentAngle;			
 		}
+		*/
 		if(i.getPickingUp()) {
 			setpoint = 7;
 		}
 		if (setpoint != previousSetpoint) {
-			if(currentArmPosition > 400) {
-				setpoint = 85;
-			} 
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = currentAngle;
+			}
+			if(i.getPickingUp()) {
+				setpoint = 7;
+			}
+			if(i.getPullingBack()) {
+				setpoint = 0;
+			}
+			previousSetpoint = setpoint;
+			/* 
 			previousSetpoint = setpoint;
 			pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
 			previousTime = Timer.getFPGATimestamp();
+			*/
 		}
-
+		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+/*
 		double dt = Timer.getFPGATimestamp() - previousTime;
 		previousTime = Timer.getFPGATimestamp();
 		pivotTMP.calculateNextSituation(dt);
@@ -115,18 +128,16 @@ public class Pivot extends Subsystem {
 		targetAcceleration = pivotTMP.getCurrentAcceleration();
 		
 		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
-				
+*/				
 		output();
 	}
 	
 	public void runPivotBackup() {
 		if(i.getPivotCCW()) {
 			speed = -.2;
-			setpoint = f.getPTAngle();
 		} 
 		else if(i.getPivotCW()) {
 			speed = .2;
-			setpoint = f.getPTAngle();
 		}
 	}
 	
