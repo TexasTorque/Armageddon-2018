@@ -86,9 +86,9 @@ public class Robot extends TorqueIterative {
 		*/
 		PlaybackAutoManager.getInstance().getMode().getInstance().update();
 		Feedback.getInstance().update();
-		for (Subsystem system : subsystems) {
+/*		for (Subsystem system : subsystems) {
 			system.autoContinuous();
-		}
+		}*/
 	}
 
 	@Override

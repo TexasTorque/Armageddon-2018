@@ -48,10 +48,10 @@ public class PlaybackAutoMode extends Input {
 		DriverInputState driver = currentInput.driver;
 		
 		// Calculate drive speeds.
-		DB_leftSpeed = driver.leftStick.y + driver.rightStick.x;
-		DB_rightSpeed = driver.leftStick.y - driver.rightStick.x;
-		//o.setDrivebaseSpeed(DB_leftSpeed, DB_rightSpeed);
-		o.setDrivebaseSpeed(.3, .3);
+		DB_leftSpeed = -driver.leftStick.y + .75 * driver.rightStick.x;
+		DB_rightSpeed = -driver.leftStick.y - .75 * driver.rightStick.x;
+		o.setDrivebaseSpeed(DB_leftSpeed, DB_rightSpeed);
+//		o.setDrivebaseSpeed(1.0, 1.0);
 		System.out.println(DB_leftSpeed);
 	}
 	

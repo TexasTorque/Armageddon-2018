@@ -54,6 +54,10 @@ public class HumanInputRecorder extends Input {
 		inputHistory.add(new RobotInputState(this.humanInput, this.robotSensors));
 	}
 
+	public boolean getRecording() {
+		return recordingToggle.get();
+	}
+	
 	private static String createJSONFile() {
 		return FileUtils.createTimestampedFilepath(RECORDING_DIR, "recording", "json");
 	}

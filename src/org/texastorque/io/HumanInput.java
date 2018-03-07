@@ -1,6 +1,7 @@
 package org.texastorque.io;
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.auto.playback.HumanInputRecorder;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.GenericController;
 
@@ -40,37 +41,9 @@ public class HumanInput extends Input {
 	}
 	
 	public void updateDrive(){
-		/*
-		final double MAX_START_ACCEL = .05;
-		boolean starting = false;
-		if(Math.abs(lastLeftSpeed) <.5)
-			starting = true;
-			
-		
-		/*
-		 * Checks to see if the drivebase should be going more positive or negative
-		 */
-		/*
-		leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
-							/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
-		rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
-							  /(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
-		*/
-		
-		/*
-		if(starting && Math.abs(DB_leftSpeed) > 0.05) {
-			DB_leftSpeed = lastLeftSpeed + MAX_START_ACCEL * leftNegativeTest;
-			DB_rightSpeed = lastRightSpeed + MAX_START_ACCEL * rightNegativeTest;
-		} else {
-			
-		}
-		
-		if(starting) {
-			lastLeftSpeed = DB_leftSpeed;
-			lastRightSpeed = DB_rightSpeed;
-		} */
 		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
+		
 	}
 
 	public void updateFile() {
