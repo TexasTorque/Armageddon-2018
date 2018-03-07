@@ -50,7 +50,8 @@ public class PlaybackAutoMode extends Input {
 		// Calculate drive speeds.
 		DB_leftSpeed = driver.leftStick.y + driver.rightStick.x;
 		DB_rightSpeed = driver.leftStick.y - driver.rightStick.x;
-		o.setDrivebaseSpeed(DB_leftSpeed, DB_rightSpeed);
+		//o.setDrivebaseSpeed(DB_leftSpeed, DB_rightSpeed);
+		o.setDrivebaseSpeed(.3, .3);
 		System.out.println(DB_leftSpeed);
 	}
 	
@@ -135,6 +136,6 @@ public class PlaybackAutoMode extends Input {
 	}
 	
 	public static PlaybackAutoMode getInstance() {
-		return instance == null ? instance = new PlaybackAutoMode("/home/lvuser/recording_20180217175346.xml") : instance;
+		return instance == null ? instance = new PlaybackAutoMode("/home/lvuser/recording.json") : instance;
 	}
 }

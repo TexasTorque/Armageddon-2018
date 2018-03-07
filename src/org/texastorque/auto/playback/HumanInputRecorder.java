@@ -29,7 +29,7 @@ public class HumanInputRecorder extends Input {
 	public HumanInputRecorder() {
 		this.humanInput = HumanInput.getInstance();
 		this.robotSensors = Feedback.getInstance();
-		this.outputFile = createXMLFile();
+		this.outputFile = createJSONFile();
 		this.recordingToggle = new TorqueToggle();
 		this.inputHistory = new ArrayList<RobotInputState>();
 	}
@@ -43,7 +43,7 @@ public class HumanInputRecorder extends Input {
 		
 		// Save the output to file if driver is pressing up on DPad.
 		if(humanInput.driver.getDPADUp()) {
-			FileUtils.writeToXML(this.outputFile, this.inputHistory);
+			FileUtils.writeToJSON(this.outputFile, this.inputHistory);
 		}
 		
 		recordRobotState();
@@ -54,7 +54,7 @@ public class HumanInputRecorder extends Input {
 		inputHistory.add(new RobotInputState(this.humanInput, this.robotSensors));
 	}
 
-	private static String createXMLFile() {
-		return FileUtils.createTimestampedFilepath(RECORDING_DIR, "recording", "xml");
+	private static String createJSONFile() {
+		return FileUtils.createTimestampedFilepath(RECORDING_DIR, "recording", "json");
 	}
 }

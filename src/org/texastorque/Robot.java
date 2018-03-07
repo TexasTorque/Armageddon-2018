@@ -3,6 +3,8 @@ package org.texastorque;
 import java.util.ArrayList;
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.auto.PlaybackAutoManager;
+import org.texastorque.auto.playback.HumanInputRecorder;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
@@ -39,7 +41,7 @@ public class Robot extends TorqueIterative {
 		subsystems.add(Arm.getInstance());
 		subsystems.add(WheelIntake.getInstance());
 		subsystems.add(Claw.getInstance());
-		AutoManager.init();
+		PlaybackAutoManager.getInstance();
 	}
 
 	// String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -72,16 +74,17 @@ public class Robot extends TorqueIterative {
 			system.autoInit();
 			system.setInput(Input.getInstance());
 		}
-		AutoManager.beginAuto();
 		hasStarted = true;
 	}
 
 	@Override
 	public void autonomousContinuous() {
-		if (!hasStarted && AutoManager.commandsDone()) {
+		/*if (!hasStarted && AutoManager.commandsDone()) {
 			AutoManager.beginAuto();
 			hasStarted = true;
 		}
+		*/
+		PlaybackAutoManager.getInstance().getMode().getInstance().update();
 		Feedback.getInstance().update();
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
@@ -102,6 +105,7 @@ public class Robot extends TorqueIterative {
 	public void teleopContinuous() {
 		Feedback.getInstance().update();
 		HumanInput.getInstance().update();
+		HumanInputRecorder.getInstance().update();
 		for (Subsystem system : subsystems) {
 			system.teleopContinuous();
 		}
