@@ -60,6 +60,7 @@ public class Input {
 		IN_out = new TorqueToggle();
 		MAXIMUM_OVERDRIVE = new TorqueToggle();
 		pickingUp = false;
+		pullingBack = false;
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);

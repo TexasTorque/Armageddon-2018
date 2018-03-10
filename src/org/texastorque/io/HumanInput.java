@@ -23,6 +23,8 @@ public class HumanInput extends Input {
 	protected GenericController operator;
 	protected OperatorConsole board;
 	
+	protected Feedback feedback;
+	
 	private int PT_test;
 	
 	public HumanInput() {
@@ -87,7 +89,6 @@ public class HumanInput extends Input {
 	}
 	
 	public void updateWheelIntake() {
-
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(driver.getAButton());
 		if(driver.getLeftBumper()) {
@@ -128,13 +129,20 @@ public class HumanInput extends Input {
 			AM_index = 0;
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
-		}
-		*/
-		if(operator.getYButton()) {
+		}*/
+		
+		if (operator.getYButton()) {
 			pickingUp = true;
+			pullingBack = false;
 		} 
 		else {
 			pickingUp = false;
+			if (!TorqueMathUtil.near(feedback.getArmDistance(), 0, 10)) {
+				pullingBack = true;
+			}
+			else {
+				pullingBack = false;
+			}
 		}
 		
 		for (int x = 1; x < 10; x++) {
