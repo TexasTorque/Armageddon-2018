@@ -44,8 +44,6 @@ public class HumanInput extends Input {
 		updateWheelIntake();
 		updateBoardSubsystems();
 		updateKill();
-		if (operator.getRawButtonReleased(operator.controllerMap[15]));
-		
 	}
 	
 	public void updateDrive() {
@@ -135,13 +133,20 @@ public class HumanInput extends Input {
 		}*/
 		
 		if (operator.getYButton()) {
+			setClaw(false);
 			PT_index = 10;
 			AM_index = 10;
 			MAXIMUM_OVERDRIVE.set(false);
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		} 
-		else if (operator.getYButton()) {
+		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
+			setClaw(true);
+			PT_index = 0;
+			AM_index = 0;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		}
 		
 		for (int x = 1; x < 10; x++) {
