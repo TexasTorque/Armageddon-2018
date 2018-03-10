@@ -39,13 +39,14 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void teleopContinuous() {
+		/*
 		if (i.getPickingUp()) {
 			i.setClaw(false);
 			if (TorqueMathUtil.near(f.getArmDistance(), 430, 5)) {
 				i.setClaw(true);
 			}
 		}
-		
+		*/
 		closed = i.getClawClosed();
 		o.setClaw(closed);
 	}

@@ -22,7 +22,7 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0, 185.0, 846.0, 1990, 1990, 2010, 2010, 2010, 680, 200};
+		{0.0, 185.0, 790.0, 790.0, 790.0, 790.0, 790.0, 790.0, 680.0, 200.0, 150.0};
 	protected static final int AM_CONVERSION = 17142;
 	
 	protected boolean armFWD;
@@ -40,7 +40,7 @@ public class Input {
 	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150}; //TBD
+		{0.0, 50.0, 82.0, 82.0, 90.0, 95.0, 110.0, 125, 130, 150, 10.0}; //TBD
 	//	{0.0, 112.5, 195.0, 215.0, 215d, 260, 275d, 275d, 300, 350}; //TBD
 	//yellow and red front is 200p, 1390a 
 	
@@ -59,8 +59,10 @@ public class Input {
 		IN_down = new TorqueToggle();
 		IN_out = new TorqueToggle();
 		MAXIMUM_OVERDRIVE = new TorqueToggle();
+		
 		pickingUp = false;
 		pullingBack = false;
+		
 		CL_closed.set(false);
 		IN_down.set(false);
 		IN_out.set(false);

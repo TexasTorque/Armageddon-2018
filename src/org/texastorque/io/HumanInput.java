@@ -135,17 +135,13 @@ public class HumanInput extends Input {
 		}*/
 		
 		if (operator.getYButton()) {
-			pickingUp = true;
-			pullingBack = false;
+			PT_index = 10;
+			AM_index = 10;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		} 
-		else {
-			pickingUp = false;
-			if (!TorqueMathUtil.near(feedback.getArmDistance(), 0, 10)) {
-				pullingBack = true;
-			}
-			else {
-				pullingBack = false;
-			}
+		else if (operator.getYButton()) {
 		}
 		
 		for (int x = 1; x < 10; x++) {
