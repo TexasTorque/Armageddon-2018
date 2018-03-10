@@ -31,6 +31,9 @@ public class HumanInput extends Input {
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
 		board = new OperatorConsole(2);
+		
+		feedback = Feedback.getInstance();
+		
 		PT_test = 0;
 	}
 	
