@@ -101,10 +101,9 @@ public class Arm extends Subsystem {
 				setpoint = 305;
 			}*/
 			if(i.getPickingUp()) {
-				i.setClaw(false);
 				setpoint = 430;
 			}
-			if(i.getPullingBack()) {
+			else {
 				setpoint = 0;
 			}
 			

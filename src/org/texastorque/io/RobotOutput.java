@@ -74,7 +74,7 @@ public class RobotOutput {
 	}
 	
 	public void setClaw(boolean closed) {
-		CL_sole.set(closed ? Value.kForward : Value.kReverse);
+		CL_sole.set(closed ? Value.kReverse : Value.kForward);
 	}
 
 	public void setIntakeSpeed(double speed) {

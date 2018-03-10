@@ -3,6 +3,7 @@ package org.texastorque.io;
 import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.util.GenericController;
+import org.texastorque.torquelib.util.TorqueMathUtil;
 import org.texastorque.torquelib.util.TorqueToggle;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -24,7 +25,7 @@ public class HumanInput extends Input {
 	
 	private int PT_test;
 	
-	public HumanInput(){
+	public HumanInput() {
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
 		board = new OperatorConsole(2);
@@ -33,18 +34,16 @@ public class HumanInput extends Input {
 	
 	public void update() {
 		updateDrive();
-//		updateFile();
 		updateClaw();
+//		updateFile();
 		updateWheelIntake();
 		updateBoardSubsystems();
 		updateKill();
-		if(pickingUp)
-			pickingUp = false;
-		if(operator.getRawButtonReleased(operator.controllerMap[15]));
+		if (operator.getRawButtonReleased(operator.controllerMap[15]));
 		
 	}
 	
-	public void updateDrive(){
+	public void updateDrive() {
 		/*
 		final double MAX_START_ACCEL = .05;
 		boolean starting = false;
@@ -83,7 +82,6 @@ public class HumanInput extends Input {
 			AutoManager.getInstance();
 	}
 	
-	
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
 	}
@@ -102,34 +100,43 @@ public class HumanInput extends Input {
 	public void updateBoardSubsystems() {	
 		if(getEncodersDead()) {
 			updatePivotArmBackup();
-		} else {
-		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
-		
-		if(MAXIMUM_OVERDRIVE.get()) {
-			AM_setpoint = board.getSlider() * AM_CONVERSION;
-			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 18;			
-		} else {
-			updateNotManualOverride();
-		  } //if not manual override
+		} 
+		else {
+			MAXIMUM_OVERDRIVE.calc(board.getButton(10));
+
+			if(MAXIMUM_OVERDRIVE.get()) {
+				AM_setpoint = board.getSlider() * AM_CONVERSION;
+				PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 18;			
+			}
+			else {
+				updateNotManualOverride();
+			} //if not manual override
 		} //if encoders not dead
 	} //method close
 
 	private void updateNotManualOverride() {
 		if(driver.getXButton()) {
 			climbing = true;
-//			AM_setpoint = 0;
+			AM_setpoint = 0;
 		} else {
 			climbing = false;
 		}
-		if(operator.getLeftCenterButton()) {
-			Feedback.getInstance().resetPivot();
+		/*
+		if(operator.getLeftCenterButton() || operator.getRightCenterButton()) {
+			Feedback.getInstance().resetArmEncoders();
+			PT_index = 0;
+			AM_index = 0;
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		}
-		if(operator.getRightCenterButton()) {
-			Feedback.getInstance().resetPivot();
-		} 
+		*/
 		if(operator.getYButton()) {
 			pickingUp = true;
-		} else pickingUp = false;
+		} 
+		else {
+			pickingUp = false;
+		}
+		
 		for (int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
@@ -172,6 +179,7 @@ public class HumanInput extends Input {
 	public void updateKill() {
 		encodersDead.calc(operator.getRightTrigger() && operator.getLeftTrigger());
 	}
+	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
 	}
