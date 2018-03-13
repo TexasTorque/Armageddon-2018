@@ -1,5 +1,7 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.torquelib.util.TorqueMathUtil;
+
 public class Claw extends Subsystem{
 
 	private boolean closed;
@@ -37,12 +39,14 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void teleopContinuous() {
-		if(i.getPickingUp()) {
+		/*
+		if (i.getPickingUp()) {
 			i.setClaw(false);
+			if (TorqueMathUtil.near(f.getArmDistance(), 430, 5)) {
+				i.setClaw(true);
+			}
 		}
-		if(i.getPullingBack()) {
-			i.setClaw(true);
-		}
+		*/
 		closed = i.getClawClosed();
 		o.setClaw(closed);
 	}

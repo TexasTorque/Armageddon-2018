@@ -54,30 +54,37 @@ public class AutoManager {
 				System.out.println("0");
 				break;
 			case 1:
-				double startTime = Timer.getFPGATimestamp();
+				/*double startTime = Timer.getFPGATimestamp();
 				if (Timer.getFPGATimestamp() < startTime + 1.5) {
 					RobotOutput.getInstance().setDrivebaseSpeed(.65, .65);
 				} else RobotOutput.getInstance().setDrivebaseSpeed(0.0, 0.0);
+<<<<<<< HEAD
 
+=======
+				*/
+>>>>>>> dlzou
 				commandList.add(new BackupDrive(2.0, true));
 				break;
 
 			case 2:
-				commandList.addAll(new PlaceCubeScale(1).getCommands());
+				commandList.addAll(new PlaceCubeSwitch().getCommands());
+				//commandList.addAll(new PlaceCubeScale(1).getCommands());
 				break;
 
 			case 3:
-				commandList.addAll(new PlaceCubeScale(3).getCommands());
+				//commandList.addAll(new PlaceCubeScale(3).getCommands());
 				break;
+				
 			case 4:
-				commandList.addAll(new PlaceCubeSwitch(1).getCommands());
+				//commandList.addAll(new PlaceCubeSwitch(1).getCommands());
 				break;
 
 			case 5:
-				commandList.addAll(new PlaceCubeSwitch(3).getCommands());
+				//commandList.addAll(new PlaceCubeSwitch(3).getCommands());
 				break;
+				
 			case 6: 
-				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
+				//commandList.addAll(new PlaceCubeSwitch(2).getCommands());
 				break;
 
 			default:

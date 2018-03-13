@@ -17,7 +17,7 @@ public class ShiftArm extends AutoCommand {
 	
 	@Override
 	public void run() {
-		Feedback.getInstance().resetEncoders();
+		Feedback.getInstance().resetArmEncoders();
 		
 		input.setArmSetpoint(setpointIndex);
 		AutoManager.pause(time);

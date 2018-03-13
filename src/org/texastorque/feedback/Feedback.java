@@ -51,30 +51,25 @@ public class Feedback {
 	private double AM_distance;
 	
 	public Feedback() {
-
 		DB_leftEncoder = new TorqueEncoder(Ports.DB_LEFT_ENCODER_A, Ports.DB_LEFT_ENCODER_B, false, EncodingType.k4X);
 		DB_rightEncoder = new TorqueEncoder(Ports.DB_RIGHT_ENCODER_A, Ports.DB_RIGHT_ENCODER_B, true, EncodingType.k4X);
 		PT_encoder = new TorqueEncoder(Ports.PT_ENCODER_A, Ports.PT_ENCODER_B, false, EncodingType.k4X);
 		AM_encoder = new TorqueEncoder(Ports.AM_ENCODER_A, Ports.AM_ENCODER_B, true, EncodingType.k4X);
 		AM_blockade = new DigitalInput(Ports.AM_CHECK_SWITCH);
 		DB_gyro = new AHRS(SPI.Port.kMXP);
-		resetEncoders();
+		
+		resetDriveEncoders();
+		resetArmEncoders();
 	}
 		
-	public void resetEncoders() {
-		DB_leftEncoder.reset();
-		DB_rightEncoder.reset();
-		PT_encoder.reset();
-		AM_encoder.reset();
-	}
-	
 	public void resetDriveEncoders() {
 		DB_leftEncoder.reset();
 		DB_rightEncoder.reset();
 	}
 	
-	public void resetPivot() {
+	public void resetArmEncoders() {
 		PT_encoder.reset();
+		AM_encoder.reset();
 	}
 
 	public void update() {

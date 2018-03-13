@@ -17,7 +17,7 @@ public class ShiftPivot extends AutoCommand {
 	
 	@Override
 	public void run() {
-		Feedback.getInstance().resetEncoders();
+		Feedback.getInstance().resetArmEncoders();
 		
 		input.setPTSetpoint(setpointIndex);
 		AutoManager.pause(time);

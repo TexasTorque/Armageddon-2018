@@ -3,7 +3,15 @@ package org.texastorque.io;
 import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.playback.HumanInputRecorder;
 import org.texastorque.feedback.Feedback;
+import org.texastorque.subsystems.Arm;
+import org.texastorque.subsystems.Pivot;
 import org.texastorque.torquelib.util.GenericController;
+import org.texastorque.torquelib.util.TorqueMathUtil;
+import org.texastorque.torquelib.util.TorqueToggle;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HumanInput extends Input {
 
@@ -18,29 +26,59 @@ public class HumanInput extends Input {
 	public GenericController operator;
 	protected OperatorConsole board;
 	
+	protected Feedback feedback;
+	
 	private int PT_test;
 	
-	public HumanInput(){
+	public HumanInput() {
 		driver = new GenericController(0 , .1);
 		operator = new GenericController(1, .1);
 		board = new OperatorConsole(2);
+		
+		feedback = Feedback.getInstance();
+		
 		PT_test = 0;
 	}
 	
 	public void update() {
 		updateDrive();
-//		updateFile();
 		updateClaw();
+//		updateFile();
 		updateWheelIntake();
 		updateBoardSubsystems();
 		updateKill();
-		if(pickingUp)
-			pickingUp = false;
-		if(operator.getRawButtonReleased(operator.controllerMap[15]));
-		
 	}
 	
-	public void updateDrive(){
+	public void updateDrive() {
+		/*
+		final double MAX_START_ACCEL = .05;
+		boolean starting = false;
+		if(Math.abs(lastLeftSpeed) <.5)
+			starting = true;
+			
+		
+		/*
+		 * Checks to see if the drivebase should be going more positive or negative
+		 */
+		/*
+		leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
+							/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
+		rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
+							  /(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
+		*/
+		
+		/*
+		if(starting && Math.abs(DB_leftSpeed) > 0.05) {
+			DB_leftSpeed = lastLeftSpeed + MAX_START_ACCEL * leftNegativeTest;
+			DB_rightSpeed = lastRightSpeed + MAX_START_ACCEL * rightNegativeTest;
+		} else {
+			
+		}
+		
+		if(starting) {
+			lastLeftSpeed = DB_leftSpeed;
+			lastRightSpeed = DB_rightSpeed;
+		} */
 		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
 		
@@ -51,13 +89,11 @@ public class HumanInput extends Input {
 			AutoManager.getInstance();
 	}
 	
-	
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
 	}
 	
 	public void updateWheelIntake() {
-
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(driver.getAButton());
 		if(driver.getLeftBumper()) {
@@ -70,34 +106,55 @@ public class HumanInput extends Input {
 	public void updateBoardSubsystems() {	
 		if(getEncodersDead()) {
 			updatePivotArmBackup();
-		} else {
-		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
-		
-		if(MAXIMUM_OVERDRIVE.get()) {
-			AM_setpoint = board.getSlider() * AM_CONVERSION;
-			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 18;			
-		} else {
-			updateNotManualOverride();
-		  } //if not manual override
+		} 
+		else {
+			MAXIMUM_OVERDRIVE.calc(board.getButton(10));
+
+			if(MAXIMUM_OVERDRIVE.get()) {
+				AM_setpoint = board.getSlider() * AM_CONVERSION;
+				PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 18;			
+			}
+			else {
+				updateNotManualOverride();
+			} //if not manual override
 		} //if encoders not dead
 	} //method close
 
 	private void updateNotManualOverride() {
 		if(driver.getXButton()) {
 			climbing = true;
-//			AM_setpoint = 0;
+			AM_setpoint = 0;
 		} else {
 			climbing = false;
 		}
-		if(operator.getLeftCenterButton()) {
-			Feedback.getInstance().resetPivot();
-		}
-		if(operator.getRightCenterButton()) {
-			Feedback.getInstance().resetPivot();
+		/*
+		if(operator.getLeftCenterButton() || operator.getRightCenterButton()) {
+			Feedback.getInstance().resetArmEncoders();
+			PT_index = 0;
+			AM_index = 0;
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
+		}*/
+		
+		if (operator.getYButton()) {
+			setClaw(false);
+			PT_index = 10;
+			AM_index = 10;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		} 
-		if(operator.getYButton()) {
-			pickingUp = true;
-		} else pickingUp = false;
+		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
+			setClaw(true);
+			Pivot.getInstance().teleopSetDelay(.5);
+			Arm.getInstance().teleopSetDelay(.5);
+			PT_index = 0;
+			AM_index = 0;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
+		}
+		
 		for (int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
 				PT_index = x;
@@ -140,6 +197,7 @@ public class HumanInput extends Input {
 	public void updateKill() {
 		encodersDead.calc(operator.getRightTrigger() && operator.getLeftTrigger());
 	}
+	
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
 	}
