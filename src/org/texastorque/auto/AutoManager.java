@@ -62,7 +62,6 @@ public class AutoManager {
 
 =======
 				*/
->>>>>>> dlzou
 				commandList.add(new BackupDrive(2.0, true));
 				break;
 

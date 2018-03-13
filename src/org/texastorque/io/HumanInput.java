@@ -24,7 +24,7 @@ public class HumanInput extends Input {
 	
 	public GenericController driver;
 	public GenericController operator;
-	protected OperatorConsole board;
+	public OperatorConsole board;
 	
 	protected Feedback feedback;
 	

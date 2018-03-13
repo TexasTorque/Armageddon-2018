@@ -12,6 +12,7 @@ public class RobotInputState {
 	
 	public DriverInputState driver;
 	public OperatorInputState operator;
+	
 	public SensorInputState sensors;
 	
 	public RobotInputState() { }
@@ -19,7 +20,7 @@ public class RobotInputState {
 	public RobotInputState(HumanInput input, Feedback sensorInput) {
 		this.time = Timer.getFPGATimestamp();
 		this.driver = new DriverInputState(input.driver);
-		this.operator = new OperatorInputState(input.operator);
+		this.operator = new OperatorInputState(input.operator, input.board);
 		this.sensors = new SensorInputState(sensorInput);
 	}
 }
