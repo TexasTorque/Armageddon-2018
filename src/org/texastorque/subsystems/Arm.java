@@ -50,7 +50,7 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void disabledContinuous() {
-		
+	
 	}
 
 	@Override
@@ -103,12 +103,12 @@ public class Arm extends Subsystem {
 				} else {
 					i.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 				}
-				/*if(!f.getBlockade()) {
+				if(!f.getBlockade()) {
 					if(i.getArmSpeed() > 0) {
-						//System.out.println("gfndsjk");
+						System.out.println("gfndsjk");
 						i.setArmSpeed(0);
 					}
-				}*/
+				}
 				if(i.getClimbing()){
 					speed = -1; 
 				} else 
