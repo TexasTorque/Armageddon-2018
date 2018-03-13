@@ -7,8 +7,11 @@ import java.util.List;
 import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.models.DriverInputState;
+import org.texastorque.models.OperatorInputState;
 import org.texastorque.models.RobotInputState;
+import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Drivebase;
+import org.texastorque.subsystems.Pivot;
 import org.texastorque.util.FileUtils;
 
 import com.google.gson.reflect.TypeToken;
@@ -46,13 +49,42 @@ public class PlaybackAutoMode extends Input {
 		
 		// Create references to the driver/operator.
 		DriverInputState driver = currentInput.driver;
+		OperatorInputState operator = currentInput.operator;
 		
 		// Calculate drive speeds.
 		DB_leftSpeed = -driver.leftStick.y + .75 * driver.rightStick.x;
 		DB_rightSpeed = -driver.leftStick.y - .75 * driver.rightStick.x;
-		o.setDrivebaseSpeed(DB_leftSpeed, DB_rightSpeed);
-//		o.setDrivebaseSpeed(1.0, 1.0);
-		System.out.println(DB_leftSpeed);
+
+		IN_out.calc(driver.buttonA);
+		IN_down.calc(operator.buttonX);
+		if(driver.bumperLeft) {
+			IN_speed = 1;
+		} else if(driver.bumperRight) {
+			IN_speed = -1;
+		} else IN_speed = 0;
+		
+		if (operator.buttonY) {
+			setClaw(false);
+			PT_index = 10;
+			AM_index = 10;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
+		} 
+		else if (operator.buttonYReleased) {
+			setClaw(true);
+			Pivot.getInstance().teleopSetDelay(.5);
+			Arm.getInstance().teleopSetDelay(.5);
+			PT_index = 0;
+			AM_index = 0;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
+		}
+		
+		PT_setpoint = PT_setpoints[operator.currentState];
+		AM_setpoint = AM_setpoints[operator.currentState];
+
 	}
 	
 	private double getAutoTime() {

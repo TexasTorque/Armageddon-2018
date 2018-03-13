@@ -9,11 +9,15 @@ public class OperatorConsole extends Joystick {
 	 * Oh ok - Daniel
 	 */
 
+	public int currentButton;
+	
     public OperatorConsole(int port) {
         super(port);
+        currentButton = 0;
     }
     
     public synchronized boolean getButton(int x) {
+    	currentButton = x;
     	return getRawButton(x);
     }
     

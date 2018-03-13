@@ -29,12 +29,18 @@ private static WheelIntake instance;
 	
 	@Override
 	public void autoContinuous() {
-//		run();
+		speed = auto.getINSpeed();
+		out = auto.getINOut();
+		down = auto.getINDown();
+		output();
 	}
 
 	@Override
 	public void teleopContinuous() {
-		run();
+		speed = i.getINSpeed();
+		out = i.getINOut();
+		down = i.getINDown();
+		output();
 	}
 	
 	@Override
@@ -42,13 +48,6 @@ private static WheelIntake instance;
 		output();
 	}
 
-	private void run() {
-		speed = i.getINSpeed();
-		out = i.getINOut();
-		down = i.getINDown();
-		output();
-	}
-	
 	private void output() {
 		o.setIntakeSpeed(speed);
 		o.setIntakePneumatics(out, down);

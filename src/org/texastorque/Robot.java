@@ -79,16 +79,11 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void autonomousContinuous() {
-		/*if (!hasStarted && AutoManager.commandsDone()) {
-			AutoManager.beginAuto();
-			hasStarted = true;
-		}
-		*/
+		
 		PlaybackAutoManager.getInstance().getMode().getInstance().update();
-		Feedback.getInstance().update();
-/*		for (Subsystem system : subsystems) {
+		for (Subsystem system : subsystems) {
 			system.autoContinuous();
-		}*/
+		}
 	}
 
 	@Override

@@ -77,8 +77,21 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(autoStartTime + delay < Timer.getFPGATimestamp()) 
-			runPivot();
+		setpoint = auto.getPTSetpoint();
+		currentAngle = f.getPTAngle();
+		currentArmSetpoint = auto.getArmSetpoint();
+		currentArmDistance = f.getArmDistance();
+		if(i.getPickingUp()) {
+			setpoint = 7;
+		}
+		if (setpoint != previousSetpoint) {
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = currentAngle;
+			}
+			previousSetpoint = setpoint;
+		}
+		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+		output();
 	}
 
 	@Override

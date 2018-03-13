@@ -12,8 +12,7 @@ public class DriverInputState {
 	public boolean triggerLeft, triggerRight;
 	public boolean bumperLeft, bumperRight;
 	
-	public boolean clickLeftStick, clickRightStick;
-
+	
 	
 	public DriverInputState() { }  // Required for deserialization.
 	
@@ -27,7 +26,6 @@ public class DriverInputState {
 		this.rightStick = new Vector2D(rightX, rightY);
 		
 		this.buttonA = controller.getAButton();
-		this.buttonB = controller.getBButton();
 		this.buttonX = controller.getXButton();
 		this.buttonY = controller.getYButton();
 		
@@ -37,7 +35,6 @@ public class DriverInputState {
 		this.bumperLeft = controller.getLeftBumper();
 		this.bumperRight = controller.getRightBumper();
 		
-		this.clickLeftStick = controller.getLeftStickClick();
-		this.clickRightStick = controller.getRightStickClick();
+		
 	}
 }
