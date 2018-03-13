@@ -40,6 +40,8 @@ public class Pivot extends Subsystem {
 	private final double LIMIT = 320;
 	private final double ADJUSTMENT = 20;
 	
+	private double delayStartTime = 0;
+	
 	public Pivot() {
 		init();
 		delay = 0;
@@ -88,7 +90,9 @@ public class Pivot extends Subsystem {
 	public void teleopContinuous() {
 		if(i.getEncodersDead()) {
 			runPivotBackup();
-		} else runPivot();
+		} else if(delayStartTime + delay < Timer.getFPGATimestamp()) {
+			runPivot();
+		}
 	}
 	
 	private void runPivot() {
@@ -157,6 +161,11 @@ public class Pivot extends Subsystem {
 	}
 	
 	public void setDelay(double time) {
+		delay = time;
+	}
+	
+	public void teleopSetDelay(double time) {
+		delayStartTime = Timer.getFPGATimestamp();
 		delay = time;
 	}
 	

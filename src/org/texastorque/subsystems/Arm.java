@@ -21,6 +21,8 @@ public class Arm extends Subsystem {
 	private final double LIMIT = 200;
 	private final double ADJUSTMENT = 20;
 	
+	private double delayStartTime;
+	
 	public Arm() {
 		setpoint = 0;
 		previousSetpoint = 0;
@@ -136,6 +138,11 @@ public class Arm extends Subsystem {
 	}
 	
 	public void setDelay(double time) {
+		delay = time;
+	}
+	
+	public void teleopSetDelay(double time) {
+		delayStartTime = Timer.getFPGATimestamp();
 		delay = time;
 	}
 	

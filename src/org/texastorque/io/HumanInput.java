@@ -2,6 +2,8 @@ package org.texastorque.io;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
+import org.texastorque.subsystems.Arm;
+import org.texastorque.subsystems.Pivot;
 import org.texastorque.torquelib.util.GenericController;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 import org.texastorque.torquelib.util.TorqueToggle;
@@ -142,6 +144,8 @@ public class HumanInput extends Input {
 		} 
 		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
 			setClaw(true);
+			Pivot.getInstance().teleopSetDelay(.5);
+			Arm.getInstance().teleopSetDelay(.5);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);

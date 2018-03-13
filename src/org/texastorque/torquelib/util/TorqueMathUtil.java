@@ -1,5 +1,7 @@
 package org.texastorque.torquelib.util;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class TorqueMathUtil {
 
 	public static double constrain(double value, double absMax) {
@@ -33,4 +35,13 @@ public class TorqueMathUtil {
 			return value + add;
 		}
 	}
+	
+	public static void delay(double delay) {
+		double startTime = Timer.getFPGATimestamp();
+		while(startTime + delay >= Timer.getFPGATimestamp()) {
+			if(Timer.getFPGATimestamp() - startTime > 10) {
+				break;
+			}
+		}
+	} //returns true once delayed
 }
