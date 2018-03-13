@@ -15,6 +15,7 @@ import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.torquelib.base.TorqueIterative;
+//import org.texastorque.torquelib.//TorqueLog.//TorqueLog;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -55,19 +56,24 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void alwaysContinuous() {
 		Feedback.getInstance().update();
+		Feedback.getInstance().smartDashboard();
 		for (Subsystem system : subsystems) {
 			system.smartDashboard();
 		}
+		
 		if(!isDisabled()) {
 			SmartDashboard.putNumber("Time", time++);
+			//TorqueLog.logData();
 		}
 		
-		Feedback.getInstance().smartDashboard();
 		AutoManager.smartDashboard();
+
+		
 	}
 	
 	@Override
 	public void autonomousInit() {
+		//TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();
 		time = 0;
@@ -93,6 +99,7 @@ public class Robot extends TorqueIterative {
 	
 	@Override
 	public void teleopInit() {
+		//TorqueLog.startLog();
 		Drivebase.getInstance().setType(DriveType.TELEOP);
 		
 		for(Subsystem system : subsystems) {
