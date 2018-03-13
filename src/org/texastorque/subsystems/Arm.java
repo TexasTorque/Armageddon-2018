@@ -90,48 +90,30 @@ public class Arm extends Subsystem {
 			else speed = 0;
 		} 
 		else {
-			setpoint = i.getArmSetpoint();
-			currentDistance = f.getArmDistance();
-			currentAngle = f.getPTAngle();
-			/*	reach = Math.abs(Math.cos((Math.toRadians( -(   (.67)*currentAngle)) + ADJUSTMENT )  ));
-			if(currentAngle > 12 && )
-			if((currentAngle >= 12) && (reach * currentDistance >= LIMIT)){
-					setpoint = currentDistance;			
-			}
-			 */
-			/*if((currentAngle < 205 && i.getPTSetpoint() != 0) || currentAngle > 280 ) {
-				setpoint = currentDistance;
-			}
-			if(i.getPickingUp()) {
-				setpoint = 305;
-			}*/
-			
-			/*
-			if (i.getPickingUp()) {
-				setpoint = 430;
-			}
-			else if (i.getPullingBack()) {
-				setpoint = 0;
-			}
-			*/
-			if((currentAngle < 200 && i.getPTSetpoint() > 115) || (currentAngle > 280))/* && i.getPTSetpoint() < 275)*/ {
-				setpoint = currentDistance;
-			}
-			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
-				i.setArmSpeed(0);
-			} else {
-				i.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-			}
-			/*if(!f.getBlockade()) {
-				if(i.getArmSpeed() > 0) {
-					//System.out.println("gfndsjk");
-					i.setArmSpeed(0);
+			if(delayStartTime + delay < Timer.getFPGATimestamp()) {
+				setpoint = i.getArmSetpoint();
+				currentDistance = f.getArmDistance();
+				currentAngle = f.getPTAngle();
+				
+				if((currentAngle < 200 && i.getPTSetpoint() > 115) || (currentAngle > 280))/* && i.getPTSetpoint() < 275)*/ {
+					setpoint = currentDistance;
 				}
-			}*/
-			if(i.getClimbing()){
-				speed = -1; 
-			} else 
-				speed = i.getArmSpeed();
+				if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+					i.setArmSpeed(0);
+				} else {
+					i.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+				}
+				/*if(!f.getBlockade()) {
+					if(i.getArmSpeed() > 0) {
+						//System.out.println("gfndsjk");
+						i.setArmSpeed(0);
+					}
+				}*/
+				if(i.getClimbing()){
+					speed = -1; 
+				} else 
+					speed = i.getArmSpeed();
+			}
 		}
 
 		output();
