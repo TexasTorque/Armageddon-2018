@@ -119,12 +119,19 @@ public class HumanInput extends Input {
 	} //method close
 
 	private void updateNotManualOverride() {
+		if(driver.getBButton()) {
+			AM_setpoint = 2000;
+		} 
 		if(driver.getXButton()) {
-			climbing = true;
-			AM_setpoint = 0;
-		} else {
-			climbing = false;
+			AM_setpoint = 700;
 		}
+		if(driver.getRawButtonReleased(driver.controllerMap[14])){
+			AM_setpoint = Feedback.getInstance().getArmDistance();
+			AM_speed = 0;
+		}
+		
+		if(driver.getYButton())
+			climbing = false;
 		/*
 		if(operator.getLeftCenterButton() || operator.getRightCenterButton()) {
 			Feedback.getInstance().resetArmEncoders();
@@ -133,9 +140,8 @@ public class HumanInput extends Input {
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		}*/
-		
 		if (operator.getYButton()) {
-			setClaw(false);
+			setClaw(true);
 			PT_index = 10;
 			AM_index = 10;
 			MAXIMUM_OVERDRIVE.set(false);
@@ -143,7 +149,7 @@ public class HumanInput extends Input {
 			AM_setpoint = AM_setpoints[AM_index];
 		} 
 		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
-			setClaw(true);
+			setClaw(false);
 			Pivot.getInstance().teleopSetDelay(1.5);
 			Arm.getInstance().teleopSetDelay(1.5);
 			PT_index = 0;

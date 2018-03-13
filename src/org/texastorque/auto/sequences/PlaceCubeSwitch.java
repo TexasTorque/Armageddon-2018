@@ -9,16 +9,17 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class PlaceCubeSwitch extends AutoSequence {
 
-	private int startPos;
 	private char switchSide;
+	private int startPos;
 	
-	public PlaceCubeSwitch() {
+	public PlaceCubeSwitch(int loc) {
 		try {
-			startPos = DriverStation.getInstance().getLocation();
+			startPos = loc;
 			switchSide = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
 		} catch (Exception e) {
 			startPos = 0;
 			switchSide = 'X';
+			System.out.println("damn");
 		}
 		init();
 	}
@@ -43,16 +44,22 @@ public class PlaceCubeSwitch extends AutoSequence {
 			}
 		}
 		else if(startPos == 2) {
+			commandList.add(new Drive(6, 0.125, .75, true));
 			if(switchSide == 'L') {
-				commandList.add(new Turn(-17.5, 1.5, 1.0, true));
-				commandList.add(new Drive(108, 0.125, 3.25, true));
+				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
+	//			commandList.add(new Drive(15, 0.125, 1.25, true));
+				
+				commandList.add(new Turn(-22.5, 1.5, 2.0, true));
+				commandList.add(new Drive(108, 0.125, 2.25, true));
 			}
 			else if(switchSide == 'R') {
-				commandList.add(new Turn(17.5, 1.5, 1.0, true));
-				commandList.add(new Drive(108, 0.125, 3.25, true));
+				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
+				commandList.add(new Turn(22.5, 1.5, 2.0, true));
+				commandList.add(new Drive(108, 0.125, 2.25, true));
 			}
 		}
 		else if (startPos == 3) {
+			
 			if (switchSide == 'L') {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
 				commandList.add(new Drive(220, 0.125, 3.25, true));

@@ -95,7 +95,7 @@ public class Arm extends Subsystem {
 				currentDistance = f.getArmDistance();
 				currentAngle = f.getPTAngle();
 				
-				if((currentAngle < 200 && i.getPTSetpoint() > 115) || (currentAngle > 280))/* && i.getPTSetpoint() < 275)*/ {
+				if((currentAngle < 55 && i.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
 					setpoint = currentDistance;
 				}
 				if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
