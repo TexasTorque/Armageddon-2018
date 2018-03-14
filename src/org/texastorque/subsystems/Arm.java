@@ -38,6 +38,7 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void teleopInit() {
+		setpoint = f.getArmDistance();
 		// TODO Auto-generated method stub
 		
 	}
