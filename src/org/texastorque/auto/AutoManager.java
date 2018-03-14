@@ -44,8 +44,7 @@ public class AutoManager {
 	}
 	
 	public static void analyzeAutoMode() {
-		int autoMode = Integer.parseInt(reverse(Integer.toString(
-				(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
+		int autoMode = (int) SmartDashboard.getNumber("AUTOMODE", 0);
 		
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
@@ -63,24 +62,24 @@ public class AutoManager {
 				break;
 
 			case 2:
-				commandList.addAll(new PlaceCubeSwitch().getCommands());
-				//commandList.addAll(new PlaceCubeScale(1).getCommands());
+				//commandList.addAll(new PlaceCubeSwitch().getCommands());
+				commandList.addAll(new PlaceCubeScale(1).getCommands());
 				break;
 				
 			case 3:
-				//commandList.addAll(new PlaceCubeScale(3).getCommands());
+				commandList.addAll(new PlaceCubeScale(3).getCommands());
 				break;
 				
 			case 4:
-				//commandList.addAll(new PlaceCubeSwitch(1).getCommands());
+				commandList.addAll(new PlaceCubeSwitch(1).getCommands());
 				break;
 				
 			case 5:
-				//commandList.addAll(new PlaceCubeSwitch(3).getCommands());
+				commandList.addAll(new PlaceCubeSwitch(3).getCommands());
 				break;
 				
 			case 6: 
-				//commandList.addAll(new PlaceCubeSwitch(2).getCommands());
+				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
 				break;
 				
 			default:

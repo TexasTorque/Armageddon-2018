@@ -17,8 +17,6 @@ public class TorqueLog {
 	private static String fileName;
 	
 	private static ArrayList<LogData> logKeys = new ArrayList<LogData>(){{
-		add(new LogData("AUTOMODE", Priority.HIGH));
-		add(new LogData("AUTOMODE"));
 	}};	
 	
 	//Delimiter used in CSV file
@@ -83,6 +81,7 @@ public class TorqueLog {
 	
 	public static void startLog() {
 		fileName = FileUtils.createTimestampedFilepath("/home/lvuser/TorqueLog", "TorqueLog", "csv");
+
 		try(FileWriter fW = new FileWriter(fileName, true)){
 			fW.append(FH);
 			fW.append(NLS);
