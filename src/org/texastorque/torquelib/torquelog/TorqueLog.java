@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.texastorque.torquelib.torquelog.LogData.Priority;
 import org.texastorque.util.FileUtils;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,6 +17,8 @@ public class TorqueLog {
 	private static String fileName;
 	
 	private static ArrayList<LogData> logKeys = new ArrayList<LogData>(){{
+		add(new LogData("AUTOMODE", Priority.HIGH));
+		add(new LogData("AUTOMODE"));
 	}};	
 	
 	//Delimiter used in CSV file
@@ -35,32 +39,50 @@ public class TorqueLog {
 	public static void logData() {
 		// check if comparisons need to be made
 		if(!needUpdate()) return;
+
+		ArrayList<String> logItems = new ArrayList<String>(logKeys.size());
 		
 		try(FileWriter fW = new FileWriter(fileName, true)){
+			double time = Timer.getFPGATimestamp();
 			for(Priority p : Priority.values()) {
 				if(cycleNum % p.CYCLEHZ == 0) {
-					fW.append(String.valueOf(cycleNum));
-					fW.append(CD);
-					fW.append(String.valueOf(Timer.getFPGATimestamp()));
-					fW.append(CD);
-					fW.append(p.name());
-					fW.append(CD);
+					logItems.add(String.valueOf(cycleNum));
+					logItems.add(String.valueOf(time));
+					logItems.add(p.name());
 					for(LogData data : logKeys) {
-						fW.append((data.P == p) ? String.valueOf(SmartDashboard.getData(data.KEY)) : "");
-						fW.append(CD);
+						if(data.P.compareTo(p) < 0) {
+							logItems.add("");
+						} else {
+							logItems.add(getLogValue(data.KEY));
+						}
 					}
-					fW.append(NLS);
+					logItems.add(NLS);
+					fW.append(String.join(CD, logItems));
+					logItems.clear();
 				}
 			}
 		} catch (IOException e) {
 			System.out.println("Failed to Create Log File at: "+fileName);
+		}	
+	}
+	
+	private static String getLogValue(String key) {
+		NetworkTableType getType = SmartDashboard.getEntry(key).getType();
+		switch(getType) {
+		case kBoolean:
+			return String.valueOf(SmartDashboard.getBoolean(key, false));
+		case kDouble:
+			return String.valueOf(SmartDashboard.getNumber(key, -1));
+		case kString:
+			return SmartDashboard.getString(key, "NA");
+		default:
+			System.out.println(getType);
+			return "";
 		}
-		
-		cycleNum++;		
 	}
 	
 	public static void startLog() {
-		fileName = FileUtils.createTimestampedFilepath("/home/lvuser", "TorqueLog", "xls");
+		fileName = FileUtils.createTimestampedFilepath("/home/lvuser/TorqueLog", "TorqueLog", "csv");
 		try(FileWriter fW = new FileWriter(fileName, true)){
 			fW.append(FH);
 			fW.append(NLS);
@@ -70,7 +92,9 @@ public class TorqueLog {
 		
 	}
 	
-	public static boolean needUpdate() {
+	public static boolean needUpdate() {	
+		cycleNum++;	
+		
 		if(logKeys.size() == 0) return false;
 		Priority[] priorities = Priority.values();
 		for(Priority p : priorities) {
