@@ -17,8 +17,11 @@ public class OperatorConsole extends Joystick {
     }
     
     public synchronized boolean getButton(int x) {
-    	currentButton = x;
     	return getRawButton(x);
+    }
+    
+    public void setCurrentButton(int x) {
+    	currentButton = x;
     }
     
     public synchronized double getSlider() {

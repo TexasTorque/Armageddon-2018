@@ -63,6 +63,8 @@ public class PlaybackAutoMode extends Input {
 			IN_speed = -1;
 		} else IN_speed = 0;
 		
+		CL_closed.calc(operator.buttonB);
+		
 		if (operator.buttonY) {
 			setClaw(false);
 			PT_index = 10;
