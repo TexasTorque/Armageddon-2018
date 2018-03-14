@@ -2,8 +2,6 @@ package org.texastorque.auto.drive;
 
 import org.texastorque.auto.AutoSequence;
 
-import edu.wpi.first.wpilibj.DriverStation;
-
 import java.util.ArrayList;
 
 public class CoordinatePath extends AutoSequence {

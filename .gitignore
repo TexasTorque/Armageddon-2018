@@ -12,3 +12,5 @@ sysProps.xml
 *.*.log
 *.*.synctex.gz
 *.*.toc
+
+.DS_Store

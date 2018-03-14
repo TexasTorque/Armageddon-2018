@@ -1,7 +1,5 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.feedback.Feedback;
-import org.texastorque.torquelib.controlLoop.TorqueTMP;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -56,27 +54,24 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(autoStartTime + delay < Timer.getFPGATimestamp()) {
-			setpoint = i.getArmSetpoint();
-			currentDistance = f.getArmDistance();
-			currentAngle = f.getPTAngle();
-		//	reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
-			if((currentAngle < 190 && i.getPTSetpoint() > 205) || currentAngle > 280 ) {
-				setpoint = currentDistance;
-			}
-		/*	if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
-				setpoint = currentDistance;
-			}
-			*/		
-			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+		setpoint = i.getArmSetpoint();
+		currentDistance = f.getArmDistance();
+		currentAngle = f.getPTAngle();
+		if((currentAngle < 200 && i.getPTSetpoint() > 115) || (currentAngle > 280))/* && i.getPTSetpoint() < 275)*/ {
+			setpoint = currentDistance;
+		}
+		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+			i.setArmSpeed(0);
+		} else {
+			i.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+		}
+		if(!f.getBlockade()) {
+			if(i.getArmSpeed() > 0) {
 				i.setArmSpeed(0);
-			} else {
-				i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-			}	
-				
-			speed = i.getArmSpeed();
-			output();
-		}		
+			}
+		}
+		speed = i.getArmSpeed();
+		
 	}
 
 	@Override

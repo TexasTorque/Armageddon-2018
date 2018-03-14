@@ -1,13 +1,8 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
-import org.texastorque.feedback.Feedback;
-import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
-import org.texastorque.torquelib.util.TorqueMathUtil;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -83,8 +78,21 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(autoStartTime + delay < Timer.getFPGATimestamp()) 
-			runPivot();
+		setpoint = auto.getPTSetpoint();
+		currentAngle = f.getPTAngle();
+		currentArmSetpoint = auto.getArmSetpoint();
+		currentArmDistance = f.getArmDistance();
+		if(i.getPickingUp()) {
+			setpoint = 7;
+		}
+		if (setpoint != previousSetpoint) {
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = currentAngle;
+			}
+			previousSetpoint = setpoint;
+		}
+		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+		output();
 	}
 
 	@Override

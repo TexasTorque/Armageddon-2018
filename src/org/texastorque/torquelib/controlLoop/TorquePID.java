@@ -2,7 +2,6 @@ package org.texastorque.torquelib.controlLoop;
 
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -125,6 +124,7 @@ public class TorquePID extends ControlLoop {
 	/*
 	 * Set the setpoint of the PID loop.
 	 */
+	@Override
 	public void setSetpoint(double set) {
 		setpoint = set;
 	}

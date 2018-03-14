@@ -1,9 +1,6 @@
 package org.texastorque.io;
 
-import org.texastorque.torquelib.util.GenericController;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class OperatorConsole extends Joystick {
 
@@ -12,12 +9,19 @@ public class OperatorConsole extends Joystick {
 	 * Oh ok - Daniel
 	 */
 
+	public int currentButton;
+	
     public OperatorConsole(int port) {
         super(port);
+        currentButton = 0;
     }
     
     public synchronized boolean getButton(int x) {
     	return getRawButton(x);
+    }
+    
+    public void setCurrentButton(int x) {
+    	currentButton = x;
     }
     
     public synchronized double getSlider() {

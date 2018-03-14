@@ -26,7 +26,7 @@ public abstract class TorqueIterative extends RobotBase {
 	private volatile boolean m_autonomousInitialized;
 	private volatile boolean m_teleopInitialized;
 	private volatile boolean m_testInitialized;
-
+	
 	Thread periodicThread;
 	Timer continousTimer;
 	// period is 1 / frequency

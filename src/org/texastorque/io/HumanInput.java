@@ -1,6 +1,7 @@
 package org.texastorque.io;
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.auto.playback.HumanInputRecorder;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Pivot;
@@ -21,9 +22,9 @@ public class HumanInput extends Input {
 	private double leftNegativeTest = 0;
 	private double rightNegativeTest = 0;
 	
-	protected GenericController driver;
-	protected GenericController operator;
-	protected OperatorConsole board;
+	public GenericController driver;
+	public GenericController operator;
+	public OperatorConsole board;
 	
 	protected Feedback feedback;
 	
@@ -80,6 +81,7 @@ public class HumanInput extends Input {
 		} */
 		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
 		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
+		
 	}
 
 	public void updateFile() {
@@ -163,6 +165,7 @@ public class HumanInput extends Input {
 		
 		for (int x = 1; x < 10; x++) {
 			if(board.getButton(x)) {
+				board.setCurrentButton(x);
 				PT_index = x;
 				AM_index = x;
 				MAXIMUM_OVERDRIVE.set(false);
@@ -172,6 +175,7 @@ public class HumanInput extends Input {
 		}
 		if(board.getButton(11)) {
 			setClaw(true);
+			board.setCurrentButton(11);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);

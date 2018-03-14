@@ -3,10 +3,8 @@ package org.texastorque.auto.arm;
 import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.AutoCommand;
 
-import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Pivot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 import org.texastorque.subsystems.Arm;

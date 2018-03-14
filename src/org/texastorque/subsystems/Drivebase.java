@@ -2,9 +2,6 @@ package org.texastorque.subsystems;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
-import org.texastorque.feedback.Feedback;
-import org.texastorque.io.HumanInput;
-import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
@@ -31,23 +28,12 @@ public class Drivebase extends Subsystem {
 	private TorquePV rightPV;
 	private TorqueRIMP leftRIMP;
 	private TorqueRIMP rightRIMP;
-	private double previousError;
-
-	private double targetPosition;
-	private double targetVelocity;
-	private double targetAcceleration;
 	
-	//Turn
-	private double turnPreviousSetpoint = 0;
 	private double turnSetpoint;
 	private double currentAngle;
 	
-	private TorqueTMP turnTMP;
 	private TorquePV turnPV;
 
-	private double targetAngle;
-	private double targetAngularVelocity;
-	
 	public enum DriveType {
 		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT;
 	}
@@ -77,7 +63,6 @@ public class Drivebase extends Subsystem {
 	
 	private void init() {
 		driveTMP = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
-		turnTMP = new TorqueTMP(Constants.DB_TURN_MVELOCITY.getDouble(), Constants.DB_TURN_MACCELERATION.getDouble());
 		leftPV = new TorquePV();
 		rightPV = new TorquePV();
 		turnPV = new TorquePV();
@@ -111,83 +96,6 @@ public class Drivebase extends Subsystem {
 	}
 
 	@Override
-	public void autoContinuous() {
-		double dt;
-		switch (type) {
-			case AUTODRIVE:
-				setpoint = i.getDBDriveSetpoint();
-				if (setpoint != previousSetpoint) {
-					previousSetpoint = setpoint;
-					precision = i.getDBPrecision();
-					driveTMP.generateTrapezoid(setpoint, 0d, 0d);
-					previousTime = Timer.getFPGATimestamp();
-				}
-				if (TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
-						&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision))
-					AutoManager.interruptThread();
-				dt = Timer.getFPGATimestamp() - previousTime;
-				previousTime = Timer.getFPGATimestamp();
-				driveTMP.calculateNextSituation(dt);
-		
-				targetPosition = driveTMP.getCurrentPosition();
-				targetVelocity = driveTMP.getCurrentVelocity();
-				targetAcceleration = driveTMP.getCurrentAcceleration();
-		
-				leftSpeed = leftPV.calculate(driveTMP, f.getDBLeftDistance(), f.getDBLeftRate());
-				rightSpeed = rightPV.calculate(driveTMP, f.getDBRightDistance(), f.getDBRightRate());
-				break;
-			
-			case AUTOTURN:
-				turnSetpoint = i.getDBTurnSetpoint();
-				currentAngle = f.getDBAngle();
-			/*	if (turnSetpoint != turnPreviousSetpoint) {
-					turnPreviousSetpoint = turnSetpoint;
-					precision = i.getDBPrecision();
-					turnTMP.generateTrapezoid(turnSetpoint, 0.0, 0.0);
-					previousTime = Timer.getFPGATimestamp();
-				}
-				if (TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), precision)) {
-					AutoManager.interruptThread();
-				}
-					//AutoManager.interruptThread();
-				dt = Timer.getFPGATimestamp() - previousTime;
-				previousTime = Timer.getFPGATimestamp();
-				turnTMP.calculateNextSituation(dt);
-
-				targetAngle = turnTMP.getCurrentPosition();
-				targetAngularVelocity = turnTMP.getCurrentVelocity();
-
-				leftSpeed = turnPV.calculate(turnTMP, f.getDBLeftDistance(), f.getDBLeftRate());
-				rightSpeed = -leftSpeed;
-				break;
-			*/
-				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
-					if(turnSetpoint - currentAngle > 0) {
-						leftSpeed = .33;
-					} else if(turnSetpoint - currentAngle < 0) {
-						leftSpeed = -.33;
-					}
-					rightSpeed = -leftSpeed;
-				} else {
-					leftSpeed = 0;
-					rightSpeed = 0;
-				}
-				break;
-				
-			case AUTOBACKUP:
-				leftSpeed = 0.5;
-				rightSpeed = 0.5;
-				break;
-				
-			default:
-				leftSpeed = 0;
-				rightSpeed = 0;
-				break;
-		}
-		output();
-	}
-
-	@Override
 	public void teleopContinuous() {
 		switch (type) {
 		case TELEOP:
@@ -199,6 +107,13 @@ public class Drivebase extends Subsystem {
 			type = DriveType.TELEOP;
 			break;
 		}
+		output();
+	}
+	
+	@Override
+	public void autoContinuous() {
+		leftSpeed = auto.getDBLeftSpeed();
+		rightSpeed = auto.getDBRightSpeed();
 		output();
 	}
 	
@@ -220,3 +135,77 @@ public class Drivebase extends Subsystem {
 	}
 	
 }
+/*
+@Override
+public void autoContinuous() {
+	double dt;
+	switch (type) {
+		case AUTODRIVE:
+			setpoint = i.getDBDriveSetpoint();
+			if (setpoint != previousSetpoint) {
+				previousSetpoint = setpoint;
+				precision = i.getDBPrecision();
+				driveTMP.generateTrapezoid(setpoint, 0d, 0d);
+				previousTime = Timer.getFPGATimestamp();
+			}
+			if (TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
+					&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision))
+				AutoManager.interruptThread();
+			dt = Timer.getFPGATimestamp() - previousTime;
+			previousTime = Timer.getFPGATimestamp();
+			driveTMP.calculateNextSituation(dt);
+	
+			leftSpeed = leftPV.calculate(driveTMP, f.getDBLeftDistance(), f.getDBLeftRate());
+			rightSpeed = rightPV.calculate(driveTMP, f.getDBRightDistance(), f.getDBRightRate());
+			break;
+		
+		case AUTOTURN:
+			turnSetpoint = i.getDBTurnSetpoint();
+			currentAngle = f.getDBAngle();
+		/*	if (turnSetpoint != turnPreviousSetpoint) {
+				turnPreviousSetpoint = turnSetpoint;
+				precision = i.getDBPrecision();
+				turnTMP.generateTrapezoid(turnSetpoint, 0.0, 0.0);
+				previousTime = Timer.getFPGATimestamp();
+			}
+			if (TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), precision)) {
+				AutoManager.interruptThread();
+			}
+				//AutoManager.interruptThread();
+			dt = Timer.getFPGATimestamp() - previousTime;
+			previousTime = Timer.getFPGATimestamp();
+			turnTMP.calculateNextSituation(dt);
+
+			targetAngle = turnTMP.getCurrentPosition();
+			targetAngularVelocity = turnTMP.getCurrentVelocity();
+
+			leftSpeed = turnPV.calculate(turnTMP, f.getDBLeftDistance(), f.getDBLeftRate());
+			rightSpeed = -leftSpeed;
+			break;
+		*/
+	/*		if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
+				if(turnSetpoint - currentAngle > 0) {
+					leftSpeed = .33;
+				} else if(turnSetpoint - currentAngle < 0) {
+					leftSpeed = -.33;
+				}
+				rightSpeed = -leftSpeed;
+			} else {
+				leftSpeed = 0;
+				rightSpeed = 0;
+			}
+			break;
+			
+		case AUTOBACKUP:
+			leftSpeed = 0.5;
+			rightSpeed = 0.5;
+			break;
+			
+		default:
+			leftSpeed = 0;
+			rightSpeed = 0;
+			break;
+	}
+	output();
+}
+*/
