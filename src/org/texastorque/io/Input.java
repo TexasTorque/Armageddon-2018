@@ -40,7 +40,7 @@ public class Input {
 	protected double PT_setpoint;
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
-		{0.0, 45.0, 70.0, 70.0, 70.0, 80.0, 85.0, 85.0, 85.0, 150, 5.0}; //TBD
+		{0.0, 45.0, 77.0, 77.0, 77.0, 81.0, 85.0, 85.0, 85.0, 150, 5.0}; //TBD
 	//	{0.0, 112.5, 195.0, 215.0, 215d, 260, 275d, 275d, 300, 350}; //TBD
 	//yellow and red front is 200p, 1390a 
 	

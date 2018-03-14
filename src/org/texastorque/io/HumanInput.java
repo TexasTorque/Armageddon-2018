@@ -125,7 +125,7 @@ public class HumanInput extends Input {
 				PT_setpoint = 85.0;
 		} 
 		if(driver.getXButton()) {
-			AM_setpoint = 700;
+			AM_setpoint = -2000;
 		}
 		if(driver.getRawButtonReleased(driver.controllerMap[14])){
 			AM_setpoint = Feedback.getInstance().getArmDistance();
@@ -152,8 +152,8 @@ public class HumanInput extends Input {
 		} 
 		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
 			setClaw(false);
-			Pivot.getInstance().teleopSetDelay(1.5);
-			Arm.getInstance().teleopSetDelay(1.5);
+			Pivot.getInstance().teleopSetDelay(0.8);
+			Arm.getInstance().teleopSetDelay(0.8);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);
@@ -171,6 +171,7 @@ public class HumanInput extends Input {
 			} 
 		}
 		if(board.getButton(11)) {
+			setClaw(true);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);

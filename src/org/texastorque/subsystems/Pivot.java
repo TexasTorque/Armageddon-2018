@@ -55,7 +55,8 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void teleopInit() {
-		init();
+		if(setpoint < 60)
+			setpoint = f.getPTAngle();
 	}
 
 	@Override
