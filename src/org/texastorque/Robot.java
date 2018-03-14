@@ -30,7 +30,6 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void robotInit() {
 		SmartDashboard.putNumber("AUTOMODE", 0);
-		CameraServer.getInstance().startAutomaticCapture(0);
 		Input.getInstance();
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
@@ -88,6 +87,8 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void teleopInit() {
+		CameraServer.getInstance().startAutomaticCapture(0);
+		
 		Drivebase.getInstance().setType(DriveType.TELEOP);
 
 		for (Subsystem system : subsystems) {

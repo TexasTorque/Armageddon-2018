@@ -27,19 +27,19 @@ public class PlaybackAutoMode extends Input {
 	private final Interpolator interpolator;
 	
 	private static PlaybackAutoMode instance;
-	private static RobotOutput o;
-	private final Drivebase db;
 	private double referenceTime = -1;  // Should only be negative before first update.
 	
 	public PlaybackAutoMode(String file) {
 		this.inputs = FileUtils.readFromJSON(file, LIST_TYPE_JSON);
 		
 		this.interpolator = createInterpolator(this.inputs);
-		db = Drivebase.getInstance();
-		o = RobotOutput.getInstance();
 	}
 	
 	public void update() {
+		if (this.interpolator == null) {
+			System.out.println("Your auto is bad and you should feel bad.");
+			return;
+		}
 		double autoTime = getAutoTime();
 		
 		// Find the input for the current time. Bound to valid indices.
@@ -100,6 +100,10 @@ public class PlaybackAutoMode extends Input {
 	}
 	
 	private static Interpolator createInterpolator(List<RobotInputState> inputs) {
+		if (inputs == null || inputs.size() == 0) {
+			return null;
+		}
+		
 		double timeOffset = inputs.get(0).time;
 		double[] times = new double[inputs.size()];
 		int[] indices = new int[inputs.size()];
@@ -167,7 +171,11 @@ public class PlaybackAutoMode extends Input {
 		}
 	}
 	
-	public static PlaybackAutoMode getInstance() {
+	public static synchronized PlaybackAutoMode getInstance() {
+		try {
 		return instance == null ? instance = new PlaybackAutoMode("/home/lvuser/recording.json") : instance;
+		}catch(Exception e) {
+			return null;
+		}
 	}
 }
