@@ -81,10 +81,13 @@ public class PlaybackAutoMode extends Input {
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		}
-		
-		PT_setpoint = PT_setpoints[operator.currentState];
-		AM_setpoint = AM_setpoints[operator.currentState];
-
+		if(operator.currentState == 11) {
+			PT_setpoint = PT_setpoints[0];
+			AM_setpoint = AM_setpoints[0];
+		} else {
+			PT_setpoint = PT_setpoints[operator.currentState];
+			AM_setpoint = AM_setpoints[operator.currentState];
+		}
 	}
 	
 	private double getAutoTime() {
