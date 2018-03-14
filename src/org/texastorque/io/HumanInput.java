@@ -110,7 +110,7 @@ public class HumanInput extends Input {
 
 			if(MAXIMUM_OVERDRIVE.get()) {
 				AM_setpoint = board.getSlider() * AM_CONVERSION;
-				PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 18;			
+				PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 10;			
 			}
 			else {
 				updateNotManualOverride();
