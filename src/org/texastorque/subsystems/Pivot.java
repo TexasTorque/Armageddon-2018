@@ -128,9 +128,6 @@ public class Pivot extends Subsystem {
 			setpoint = currentAngle;			
 		}
 		*/
-		if(i.getPickingUp()) {
-			setpoint = 7;
-		}
 		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
 				setpoint = currentAngle;

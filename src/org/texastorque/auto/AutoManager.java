@@ -98,7 +98,8 @@ public class AutoManager {
 				break;
 
 			}
-
+			autoMode /= 10;
+		}
 			while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
 				commandList.remove(0).run();
 				System.out.println("end");
@@ -108,7 +109,7 @@ public class AutoManager {
 			for (Subsystem system : subsystems) {
 				system.disabledContinuous();
 			}
-		}
+		
 		
 	}
 
