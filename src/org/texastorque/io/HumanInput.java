@@ -144,6 +144,8 @@ public class HumanInput extends Input {
 		}*/
 		if (operator.getYButton()) {
 			setClaw(true);
+			Pivot.getInstance().teleopSetDelay(0.8);
+			Arm.getInstance().teleopSetDelay(0.8);
 			PT_index = 10;
 			AM_index = 10;
 			MAXIMUM_OVERDRIVE.set(false);
@@ -152,8 +154,8 @@ public class HumanInput extends Input {
 		} 
 		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
 			setClaw(false);
-			Pivot.getInstance().teleopSetDelay(0.8);
-			Arm.getInstance().teleopSetDelay(0.8);
+			Pivot.getInstance().teleopSetDelay(0.5);
+			Arm.getInstance().teleopSetDelay(0.5);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);
