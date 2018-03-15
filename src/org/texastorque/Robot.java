@@ -44,6 +44,7 @@ public class Robot extends TorqueIterative {
 		initSubsystems();
 		initAutoSelector();
 		initRecordingNameSelector();
+		SmartDashboard.putData(autoSelector);
 	}
 
 	private void initSubsystems() {

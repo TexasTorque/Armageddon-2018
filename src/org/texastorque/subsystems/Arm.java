@@ -103,7 +103,7 @@ public class Arm extends Subsystem {
 			} else {
 				i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 			}	
-				
+		}
 			speed = i.getArmSpeed();
 	}
 	
@@ -125,7 +125,7 @@ public class Arm extends Subsystem {
 				currentDistance = f.getArmDistance();
 				currentAngle = f.getPTAngle();
 				
-				if((currentAngle < 55 && i.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+				if((currentAngle < 155 && i.getPTSetpoint() > 160) || (currentAngle > 250))/* && i.getPTSetpoint() < 275)*/ {
 					setpoint = currentDistance;
 				}
 				if(TorqueMathUtil.near(setpoint, currentDistance, 12)){

@@ -95,7 +95,7 @@ public class Pivot extends Subsystem {
 		}
 		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
-				setpoint = currentAngle;
+				setpoint = 190;
 			}
 			previousSetpoint = setpoint;
 		}
