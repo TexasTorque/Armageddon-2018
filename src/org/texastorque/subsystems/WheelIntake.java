@@ -29,12 +29,25 @@ private static WheelIntake instance;
 	
 	@Override
 	public void autoContinuous() {
+		if(type.equals(AutoType.RECORDING))
+			recordingAutoContin();
+		else commandAutoContin();
+		output();
+	}
+	
+	private void recordingAutoContin() {
 		speed = auto.getINSpeed();
 		out = auto.getINOut();
 		down = auto.getINDown();
-		output();
+		
 	}
-
+	
+	private void commandAutoContin() {
+		speed = i.getINSpeed();
+		out = i.getINOut();
+		down = i.getINDown();
+	}
+	
 	@Override
 	public void teleopContinuous() {
 		speed = i.getINSpeed();

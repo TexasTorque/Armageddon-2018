@@ -1,6 +1,7 @@
 package org.texastorque.subsystems;
 
 import org.texastorque.constants.Constants;
+import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
 import edu.wpi.first.wpilibj.Timer;
@@ -78,6 +79,13 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
+		if(type.equals(AutoType.RECORDING))
+			recordingAutoContin();
+		else commandAutoContin();
+		output();
+	}
+
+	private void recordingAutoContin() {
 		setpoint = auto.getPTSetpoint();
 		currentAngle = f.getPTAngle();
 		currentArmSetpoint = auto.getArmSetpoint();
@@ -92,9 +100,14 @@ public class Pivot extends Subsystem {
 			previousSetpoint = setpoint;
 		}
 		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
-		output();
+		
 	}
-
+	
+	private void commandAutoContin() {
+		if(autoStartTime + delay < Timer.getFPGATimestamp()) 
+			runPivot();
+	}
+	
 	@Override
 	public void teleopContinuous() {
 		if(i.getEncodersDead()) {

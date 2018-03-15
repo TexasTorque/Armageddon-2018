@@ -1,5 +1,6 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 public class Claw extends Subsystem{
@@ -33,8 +34,19 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoContinuous() {
-		closed = auto.getClawClosed();
+		if(type.equals(AutoType.RECORDING))
+			recordingAutoContin();
+		else commandAutoContin();
 		o.setClaw(closed);
+	}
+	
+	private void recordingAutoContin() {
+		closed = auto.getClawClosed();
+		
+	}
+	
+	private void commandAutoContin() {
+		closed = i.getClawClosed();
 	}
 
 	@Override

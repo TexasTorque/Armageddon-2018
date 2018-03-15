@@ -1,5 +1,6 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -54,28 +55,58 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-			setpoint = auto.getArmSetpoint();
-			currentDistance = f.getArmDistance();
-			currentAngle = f.getPTAngle();
-			
-			if((currentAngle < 55 && auto.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
-				setpoint = currentDistance;
-			}
-			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
-				auto.setArmSpeed(0);
-			} else {
-				auto.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-			}
-			if(!f.getBlockade()) {
-				if(auto.getArmSpeed() > 0) {
-					System.out.println("gfndsjk");
-					auto.setArmSpeed(0);
-				}
-				
-			}
-		speed = auto.getArmSpeed();
+		if(type.equals(AutoType.RECORDING))
+			recordingAutoContin();
+		else commandAutoContin();
 		output();
 	}
+	
+	private void recordingAutoContin() {
+		setpoint = auto.getArmSetpoint();
+		currentDistance = f.getArmDistance();
+		currentAngle = f.getPTAngle();
+		
+		if((currentAngle < 55 && auto.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+			setpoint = currentDistance;
+		}
+		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+			auto.setArmSpeed(0);
+		} else {
+			auto.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+		}
+		if(!f.getBlockade()) {
+			if(auto.getArmSpeed() > 0) {
+				System.out.println("gfndsjk");
+				auto.setArmSpeed(0);
+			}
+			
+		}
+		speed = auto.getArmSpeed();
+	
+	}
+	
+	private void commandAutoContin() {
+		if(autoStartTime + delay < Timer.getFPGATimestamp()) {
+			setpoint = i.getArmSetpoint();
+			currentDistance = f.getArmDistance();
+			currentAngle = f.getPTAngle();
+		//	reach = Math.abs(Math.cos((Math.toRadians( -(   (d/z)*currentAngle)) + ADJUSTMENT )  );
+			if((currentAngle < 55 && i.getPTSetpoint() > 60) || currentAngle > 100 ) {
+				setpoint = currentDistance;
+			}
+		/*	if((currentAngle >=35 && currentAngle < 80) && (reach * currentDistance >= LIMIT)){
+				setpoint = currentDistance;
+			}
+			*/		
+			if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+				i.setArmSpeed(0);
+			} else {
+				i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			}	
+				
+			speed = i.getArmSpeed();
+	}
+	
 
 	@Override
 	public void teleopContinuous() {
