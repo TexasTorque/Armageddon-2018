@@ -98,21 +98,27 @@ public class Robot extends TorqueIterative {
 		switch(currentMode) {
 		case "DoNothing":
 			AutoManager.getInstance(0);
+			AutoManager.beginAuto();
 			break;
 		case "LeftScaleNoRecording":
 			AutoManager.getInstance(2);
+			AutoManager.beginAuto();
 			break;
 		case "RightScaleNoRecording":
 			AutoManager.getInstance(3);
+			AutoManager.beginAuto();
 			break;
 		case "LeftSwitchNoRecording":
 			AutoManager.getInstance(4);
+			AutoManager.beginAuto();
 			break;
 		case "RightSwitchNoRecording":
 			AutoManager.getInstance(5);
+			AutoManager.beginAuto();
 			break;
 		case "CenterSwitch":
 			AutoManager.getInstance(6);
+			AutoManager.beginAuto();
 			break;
 		case "LeftRecording":
 			if(config.equals("LLL") || config.equals("RLR")) {
@@ -120,6 +126,7 @@ public class Robot extends TorqueIterative {
 				setRecordingAutoType();
 			} else {
 				AutoManager.getInstance(2);
+				AutoManager.beginAuto();
 			}
 				
 			break;
@@ -129,6 +136,7 @@ public class Robot extends TorqueIterative {
 				setRecordingAutoType();
 			} else {
 				AutoManager.getInstance(3);
+				AutoManager.beginAuto();
 			}
 			
 			break;

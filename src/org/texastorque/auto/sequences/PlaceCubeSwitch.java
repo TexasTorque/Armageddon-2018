@@ -79,6 +79,7 @@ public class PlaceCubeSwitch extends AutoSequence {
 			commandList.add(new Drive(220, .125, 3.25, true));
 		}
 		commandList.add(new SetClaw(false));
+		commandList.add(new Drive(-0, .125, 1, true));
 		commandList.add(new Drive(-18, .125, 1, true));
 		
 	}
