@@ -145,9 +145,9 @@ public class HumanInput extends Input {
 			AM_setpoint = AM_setpoints[AM_index];
 		}*/
 		if (operator.getYButton()) {
-			setClaw(true);
-			Pivot.getInstance().teleopSetDelay(0.5);
-			Arm.getInstance().teleopSetDelay(0.5);
+//			setClaw(true);
+//			Pivot.getInstance().teleopSetDelay(0.5);
+//			Arm.getInstance().teleopSetDelay(0.5);
 			PT_index = 10;
 			AM_index = 10;
 			MAXIMUM_OVERDRIVE.set(false);
