@@ -153,6 +153,10 @@ public class Input {
 		IN_down.set(down);
 	}
 	
+	public void setIntakeOut(boolean out) {
+		IN_out.set(out);
+	}
+	
 	public double getINSpeed() {
 		return IN_speed;
 	}
