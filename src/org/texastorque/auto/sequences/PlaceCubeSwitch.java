@@ -49,7 +49,7 @@ public class PlaceCubeSwitch extends AutoSequence {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
 	//			commandList.add(new Drive(15, 0.125, 1.25, true));
 				
-				commandList.add(new Turn(-22.5, 1.5, 2.0, true));
+				commandList.add(new Turn(-25, 1.5, 2.0, true));
 				commandList.add(new Drive(108, 0.125, 2.25, true));
 			}
 			else if(switchSide == 'R') {
