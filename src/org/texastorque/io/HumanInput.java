@@ -121,8 +121,8 @@ public class HumanInput extends Input {
 	private void updateNotManualOverride() {
 		if(driver.getBButton()) {
 			AM_setpoint = 2000;
-			if(feedback.getArmDistance() > 1850)
-				PT_setpoint = 85.0;
+			if(feedback.getArmDistance() > 1750)
+				PT_setpoint = 215.0;
 		} 
 		if(driver.getXButton()) {
 			AM_setpoint = -2000;
