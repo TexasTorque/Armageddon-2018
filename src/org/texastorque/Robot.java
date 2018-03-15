@@ -20,6 +20,7 @@ import org.texastorque.torquelib.base.TorqueIterative;
 import org.texastorque.torquelib.torquelog.TorqueLog;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,6 +31,7 @@ public class Robot extends TorqueIterative {
 	private boolean hasStarted = false;
 	private SendableChooser<String> autoSelector = new SendableChooser<>();
 	private SendableChooser<String> recordingNameSelector = new SendableChooser<>();
+	String config = DriverStation.getInstance().getGameSpecificMessage();
 	
 
 	@Override
@@ -39,7 +41,6 @@ public class Robot extends TorqueIterative {
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
-		PlaybackAutoManager.getInstance();
 		initSubsystems();
 		initAutoSelector();
 		initRecordingNameSelector();
@@ -55,13 +56,13 @@ public class Robot extends TorqueIterative {
 	}
 	
 	private void initAutoSelector() {
-		autoSelector.addDefault("Default_DriveForward_NoEncoders", "DefaultDriveForward");
-		autoSelector.addObject("DoNothing", "DoNothing");
+		autoSelector.addDefault("DoNothing", "DoNothing");
+		autoSelector.addObject("DriveForward", "DriveForward");
 		autoSelector.addObject("LeftScaleNoRecording", "LeftScaleNoRecording");
 		autoSelector.addObject("RightScaleNoRecording", "RightScaleNoRecording");
 		autoSelector.addObject("LeftSwitchNoRecording", "LeftSwitchNoRecording");
 		autoSelector.addObject("RightSwitchNoRecording", "RightSwitchNoRecording");
-		autoSelector.addObject("MiddleSwitch", "MiddleSwitch");
+		autoSelector.addObject("CenterSwitch", "CenterSwitch");
 		autoSelector.addObject("LeftRecording", "LeftRecording");
 		autoSelector.addObject("RightRecording", "RightRecording");
 		
@@ -83,6 +84,7 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void autonomousInit() {
+		String currentMode = autoSelector.getSelected();
 		TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();
@@ -91,7 +93,56 @@ public class Robot extends TorqueIterative {
 			system.autoInit();
 			system.setInput(Input.getInstance());
 		}
+		
+		switch(currentMode) {
+		case "DoNothing":
+			AutoManager.getInstance(0);
+			break;
+		case "LeftScaleNoRecording":
+			AutoManager.getInstance(2);
+			break;
+		case "RightScaleNoRecording":
+			AutoManager.getInstance(3);
+			break;
+		case "LeftSwitchNoRecording":
+			AutoManager.getInstance(4);
+			break;
+		case "RightSwitchNoRecording":
+			AutoManager.getInstance(5);
+			break;
+		case "CenterSwitch":
+			AutoManager.getInstance(6);
+			break;
+		case "LeftRecording":
+			if(config.equals("LLL") || config.equals("RLR")) {
+				PlaybackAutoManager.getInstance();
+				setRecordingAutoType();
+			} else {
+				AutoManager.getInstance(2);
+			}
+				
+			break;
+		case "RightRecording":
+			if(config.equals("RRR") || config.equals("LRL")) {
+				PlaybackAutoManager.getInstance();
+				setRecordingAutoType();
+			} else {
+				AutoManager.getInstance(3);
+			}
+			
+			break;
+		default:
+			AutoManager.getInstance(1);
+			
+		}
 		hasStarted = true;
+	}
+	
+	private void setRecordingAutoType() {
+		for (Subsystem system : subsystems) {
+			system.changeAutoType();
+		}
+		
 	}
 
 	@Override
@@ -141,6 +192,7 @@ public class Robot extends TorqueIterative {
 		for (Subsystem system : subsystems) {
 			system.teleopContinuous();
 		}
+		HumanInputRecorder.getInstance().setCurrentFieldConfig(recordingNameSelector.getSelected());
 	}
 
 	@Override

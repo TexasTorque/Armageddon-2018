@@ -16,6 +16,7 @@ import org.texastorque.util.FileUtils;
 
 import com.google.gson.reflect.TypeToken;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 public class PlaybackAutoMode extends Input {
@@ -177,8 +178,10 @@ public class PlaybackAutoMode extends Input {
 	}
 	
 	public static synchronized PlaybackAutoMode getInstance() {
+		String directory = "/home/lvuser/recording" + DriverStation.getInstance().getGameSpecificMessage()
+				+ ".json";
 		try {
-		return instance == null ? instance = new PlaybackAutoMode("/home/lvuser/recording.json") : instance;
+		return instance == null ? instance = new PlaybackAutoMode(directory) : instance;
 		}catch(Exception e) {
 			return null;
 		}

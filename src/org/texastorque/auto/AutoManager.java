@@ -27,14 +27,25 @@ public class AutoManager {
 	private static boolean commandsDone = false;
 	private static volatile boolean setPointReached;
 
-	public static void init() {
-		SmartDashboard.putNumber("AUTOMODE", 0);
+	private static int autoMode;
+	
+	public AutoManager() {
 		commandList = new LinkedList<>();
-
 		subsystems = new ArrayList<>();
 		subsystems.add(Drivebase.getInstance());
 		subsystems.add(Arm.getInstance());
 		subsystems.add(Pivot.getInstance());
+		setAutoMode(0);
+	}
+	
+	public AutoManager(int auto) {
+		commandList = new LinkedList<>();
+		subsystems = new ArrayList<>();
+		subsystems.add(Drivebase.getInstance());
+		subsystems.add(Arm.getInstance());
+		subsystems.add(Pivot.getInstance());
+		setAutoMode(auto);
+		
 	}
 
 	public static void beginAuto() {
@@ -44,34 +55,26 @@ public class AutoManager {
 		analyzeAutoMode();
 	}
 
+	private void setAutoMode(int auto) {
+		autoMode = auto;
+	}
+	
 	public static void analyzeAutoMode() {
-/*<<<<<<< HEAD
-		int autoMode = (int) SmartDashboard.getNumber("AUTOMODE", 0);
-		
-=======
-		int autoMode = Integer.parseInt(reverse(Integer.toString(
-				(int)(SmartDashboard.getNumber("AUTOMODE", 0)))));
-
->>>>>>> lubecki-and-lowe
 		while (autoMode > 0) {
 			switch (autoMode % 10) {
 			case 0:
 				System.out.println("0");
 				break;
 			case 1:
-				/*double startTime = Timer.getFPGATimestamp();
+				double startTime = Timer.getFPGATimestamp();
 				if (Timer.getFPGATimestamp() < startTime + 1.5) {
 					RobotOutput.getInstance().setDrivebaseSpeed(.65, .65);
 				} else RobotOutput.getInstance().setDrivebaseSpeed(0.0, 0.0);
-<<<<<<< HEAD
-
-=======
-				*/
-	/*			commandList.add(new BackupDrive(2.0, true));
+			
+//				commandList.add(new BackupDrive(2.0, true));
 				break;
 
 			case 2:
-				//commandList.addAll(new PlaceCubeSwitch().getCommands());
 				commandList.addAll(new PlaceCubeScale(1).getCommands());
 				break;
 
@@ -106,7 +109,7 @@ public class AutoManager {
 				system.disabledContinuous();
 			}
 		}
-		*/
+		
 	}
 
 	private static String reverse(String str) {
@@ -151,5 +154,9 @@ public class AutoManager {
 
 	public static AutoManager getInstance() {
 		return instance == null ? instance = new AutoManager() : instance;
+	}
+	
+	public static AutoManager getInstance(int auto) {
+		return instance == null ? instance = new AutoManager(auto) : instance;
 	}
 }

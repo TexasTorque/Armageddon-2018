@@ -67,6 +67,6 @@ public class HumanInputRecorder extends Input {
 	
 	private static String createJSONFile() {
 		String recording = "recording" + currentFieldConfig;
-		return FileUtils.createTimestampedFilepath(RECORDING_DIR, "recording", "json");
+		return FileUtils.createTimestampedFilepath(RECORDING_DIR, recording, "json");
 	}
 }
