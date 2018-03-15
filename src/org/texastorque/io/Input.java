@@ -41,7 +41,7 @@ public class Input {
 	protected int PT_index;
 	protected volatile double[] PT_setpoints = 
 	//	{0.0, 45.0, 77.0, 77.0, 77.0, 81.0, 85.0, 85.0, 85.0, 150, 5.0}; //TBD
-		{0.0, 96.5, 180.0, 180.0, 185.0, 190.5, 250.0, 250.0, 250.0, 278.5, 8.0}; //TBD
+		{0.0, 96.5, 180.0, 180.0, 185.0, 190.5, 250.0, 250.0, 250.0, 278.5, 14.0}; //TBD
 //yellow and red front is 200p, 1390a 
 	
 	protected boolean pivotCCW;
