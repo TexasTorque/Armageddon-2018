@@ -19,8 +19,9 @@ public class HumanInputRecorder extends Input {
 	private String outputFile;
 	private TorqueToggle recordingToggle;
 	private List<RobotInputState> inputHistory;
-	
+	private boolean prevRecordingStatus = false;
 	private static HumanInputRecorder instance;
+	private static String currentFieldConfig;
 	
 	public static HumanInputRecorder getInstance(){
 		return instance == null ? instance = new HumanInputRecorder() : instance;
@@ -34,16 +35,22 @@ public class HumanInputRecorder extends Input {
 		this.inputHistory = new ArrayList<RobotInputState>();
 	}
 	
+	public void setCurrentFieldConfig(String str) {
+		currentFieldConfig = str;
+	}
 	
 	public void update(){
 		humanInput.update();  // Make sure input state is up to date.
 
 		// Toggle recording if driver is pressing down on DPad.
 		recordingToggle.calc(humanInput.driver.getDPADDown());
-		
+		if(prevRecordingStatus != recordingToggle.get())
+			System.out.println(recordingToggle.get());
+		prevRecordingStatus = recordingToggle.get();
 		// Save the output to file if driver is pressing up on DPad.
 		if(humanInput.driver.getDPADUp()) {
 			FileUtils.writeToJSON(this.outputFile, this.inputHistory);
+			System.out.println("That's a print");
 		}
 		
 		recordRobotState();
@@ -59,6 +66,7 @@ public class HumanInputRecorder extends Input {
 	}
 	
 	private static String createJSONFile() {
+		String recording = "recording" + currentFieldConfig;
 		return FileUtils.createTimestampedFilepath(RECORDING_DIR, "recording", "json");
 	}
 }

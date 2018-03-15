@@ -45,7 +45,7 @@ public class AutoManager {
 	}
 
 	public static void analyzeAutoMode() {
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 		int autoMode = (int) SmartDashboard.getNumber("AUTOMODE", 0);
 		
 =======
@@ -67,7 +67,7 @@ public class AutoManager {
 
 =======
 				*/
-				commandList.add(new BackupDrive(2.0, true));
+	/*			commandList.add(new BackupDrive(2.0, true));
 				break;
 
 			case 2:
@@ -106,6 +106,7 @@ public class AutoManager {
 				system.disabledContinuous();
 			}
 		}
+		*/
 	}
 
 	private static String reverse(String str) {

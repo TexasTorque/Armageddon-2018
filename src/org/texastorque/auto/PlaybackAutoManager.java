@@ -3,6 +3,8 @@ package org.texastorque.auto;
 import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.util.FileUtils;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 public class PlaybackAutoManager {
 
 	private static PlaybackAutoMode mode;
@@ -10,7 +12,7 @@ public class PlaybackAutoManager {
 	private static String fileLocation;
 	
 	public PlaybackAutoManager(){
-		fileLocation = "recording.json";
+		fileLocation = "recording" + DriverStation.getInstance().getGameSpecificMessage() + ".json";
 		this.mode = FileUtils.readFromJSON(fileLocation, PlaybackAutoMode.class);
 	}
 	

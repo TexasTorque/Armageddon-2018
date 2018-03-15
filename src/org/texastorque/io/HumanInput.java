@@ -99,7 +99,7 @@ public class HumanInput extends Input {
 		if(driver.getLeftBumper()) {
 			IN_speed = -.5;
 		} else if(driver.getRightBumper()) {
-			IN_speed = .35;
+			IN_speed = .5;
 		} else IN_speed = 0;
 	}
 	

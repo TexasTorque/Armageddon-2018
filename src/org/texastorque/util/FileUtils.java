@@ -38,7 +38,7 @@ public final class FileUtils {
 	public static String createTimestampedFilepath(String dir, String filename, String extension) {
 		SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		String timestamp = timeStampFormat.format(new Date()); // 
-		return String.format("%s/%s.%s", dir, filename, extension);
+		return String.format("%s/%s%s.%s", dir, filename, timestamp, extension);
 	}
 	
 	

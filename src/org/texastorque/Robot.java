@@ -17,9 +17,10 @@ import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.base.TorqueIterative;
-//import org.texastorque.torquelib.//TorqueLog.//TorqueLog;
+import org.texastorque.torquelib.torquelog.TorqueLog;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TorqueIterative {
@@ -27,23 +28,51 @@ public class Robot extends TorqueIterative {
 	private ArrayList<Subsystem> subsystems;
 	private double time;
 	private boolean hasStarted = false;
+	private SendableChooser<String> autoSelector = new SendableChooser<>();
+	private SendableChooser<String> recordingNameSelector = new SendableChooser<>();
+	
 
 	@Override
 	public void robotInit() {
-		SmartDashboard.putNumber("AUTOMODE", 0);
+		//SmartDashboard.putNumber("AUTOMODE", 0);
 		Input.getInstance();
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
+		PlaybackAutoManager.getInstance();
+		initSubsystems();
+		initAutoSelector();
+		initRecordingNameSelector();
+	}
+
+	private void initSubsystems() {
 		subsystems = new ArrayList<Subsystem>();
 		subsystems.add(Drivebase.getInstance());
 		subsystems.add(Pivot.getInstance());
 		subsystems.add(Arm.getInstance());
 		subsystems.add(WheelIntake.getInstance());
 		subsystems.add(Claw.getInstance());
-		PlaybackAutoManager.getInstance();
 	}
-
+	
+	private void initAutoSelector() {
+		autoSelector.addDefault("Default_DriveForward_NoEncoders", "DefaultDriveForward");
+		autoSelector.addObject("DoNothing", "DoNothing");
+		autoSelector.addObject("LeftScaleNoRecording", "LeftScaleNoRecording");
+		autoSelector.addObject("RightScaleNoRecording", "RightScaleNoRecording");
+		autoSelector.addObject("LeftSwitchNoRecording", "LeftSwitchNoRecording");
+		autoSelector.addObject("RightSwitchNoRecording", "RightSwitchNoRecording");
+		autoSelector.addObject("MiddleSwitch", "MiddleSwitch");
+		autoSelector.addObject("LeftRecording", "LeftRecording");
+		autoSelector.addObject("RightRecording", "RightRecording");
+		
+	}
+	
+	private void initRecordingNameSelector() {
+		recordingNameSelector.addObject("LLL", "LLL");
+		recordingNameSelector.addObject("LRL", "LRL");
+		recordingNameSelector.addObject("RLR", "RLR");
+		recordingNameSelector.addObject("RRR", "RRR");
+	}
 	// String autoSelected = SmartDashboard.getString("Auto Selector",
 	// "Default"); switch(autoSelected) { case "My Auto": autonomousCommand =
 	// new MyAutoCommand(); break; case "Default Auto": default:
@@ -51,36 +80,10 @@ public class Robot extends TorqueIterative {
 
 	// schedule the autonomous command (example)
 
-	@Override
-	public void alwaysContinuous() {
-		Feedback.getInstance().update();
-		Feedback.getInstance().smartDashboard();
-		for (Subsystem system : subsystems) {
-			system.smartDashboard();
-		}
-<<<<<<< HEAD
-		
-		if(!isDisabled()) {
-=======
-		if (!isDisabled()) {
->>>>>>> lubecki-and-lowe
-			SmartDashboard.putNumber("Time", time++);
-			//TorqueLog.logData();
-		}
-<<<<<<< HEAD
-		
-=======
-
-		Feedback.getInstance().smartDashboard();
->>>>>>> lubecki-and-lowe
-		AutoManager.smartDashboard();
-
-		
-	}
 
 	@Override
 	public void autonomousInit() {
-		//TorqueLog.startLog();
+		TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();
 		time = 0;
@@ -92,28 +95,41 @@ public class Robot extends TorqueIterative {
 	}
 
 	@Override
-	public void autonomousContinuous() {
-		
-		PlaybackAutoManager.getInstance().getMode().getInstance().update();
-		for (Subsystem system : subsystems) {
-			system.autoContinuous();
-		}
-	}
-
-	@Override
 	public void teleopInit() {
-<<<<<<< HEAD
-		//TorqueLog.startLog();
-		Drivebase.getInstance().setType(DriveType.TELEOP);
-=======
 		CameraServer.getInstance().startAutomaticCapture(0);
->>>>>>> lubecki-and-lowe
-		
+		TorqueLog.startLog();
 		Drivebase.getInstance().setType(DriveType.TELEOP);
 
 		for (Subsystem system : subsystems) {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());
+		}
+		HumanInputRecorder.getInstance().setCurrentFieldConfig(recordingNameSelector.getSelected());
+	}
+	
+	@Override
+	public void alwaysContinuous() {
+		Feedback.getInstance().update();
+		Feedback.getInstance().smartDashboard();
+		for (Subsystem system : subsystems) {
+			system.smartDashboard();
+		}
+		if (isEnabled()) {
+			SmartDashboard.putNumber("Time", time++);
+			TorqueLog.logData();
+		}		
+
+		Feedback.getInstance().smartDashboard();
+		AutoManager.smartDashboard();
+		
+	}
+	
+	@Override
+	public void autonomousContinuous() {
+		
+		PlaybackAutoManager.getInstance().getMode().getInstance().update();
+		for (Subsystem system : subsystems) {
+			system.autoContinuous();
 		}
 	}
 

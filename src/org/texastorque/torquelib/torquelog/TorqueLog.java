@@ -17,6 +17,7 @@ public class TorqueLog {
 	private static String fileName;
 	
 	private static ArrayList<LogData> logKeys = new ArrayList<LogData>(){{
+		add(new LogData("Left_Encoder_Speed", Priority.HIGH));
 	}};	
 	
 	//Delimiter used in CSV file
