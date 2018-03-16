@@ -80,6 +80,10 @@ public class ScheduledPID {
 		return gain * (de/dt);
 	}
 	
+	private boolean isSafeToOutput() {
+		return (this.safetyCheck == null || safetyCheck.isSafe());
+	}
+	
 	private void startTimerIfNeeded() {
 		if (!timer.isRunning()) timer.start();
 	}
@@ -89,10 +93,6 @@ public class ScheduledPID {
 		this.currentGainIndex = calculateGainIndex(error);
 		
 		return error;
-	}
-	
-	private boolean isSafeToOutput() {
-		return (this.safetyCheck == null || safetyCheck.isSafe());
 	}
 	
 	private void finishUpdate(double error) {
@@ -106,11 +106,11 @@ public class ScheduledPID {
 	 * @return The integer index for the gain values.
 	 */
 	private int calculateGainIndex(double error) {
-		if (gainDivisions.length <= 1 || error <= this.gainDivisions[0]) {
+		if (gainDivisions.length == 0 || error <= this.gainDivisions[0]) {
 			return 0;
 		}
 		
-		for (int i = 0; i < gainDivisions.length - 2; i++) {
+		for (int i = 0; i < gainDivisions.length - 1; i++) {
 			double leftBound = this.gainDivisions[i];
 			double rightBound = this.gainDivisions[i + 1];
 			
