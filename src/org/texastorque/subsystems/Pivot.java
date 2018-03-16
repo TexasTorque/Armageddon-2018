@@ -1,9 +1,21 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.torquelib.controlLoop.ScheduledPID;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pivot extends Subsystem {
+	
+	private static final double SETPOINT_DEFAULT = 0;
+	
+	/**
+	 * The absolute magnitude of the largest possible value for speed.
+	 * 
+	 * The original speed calculation had an asymptote in [0.7, 0.8]. 
+	 * For this reason, the value is capped at 0.7 for initial PID tests.
+	 */
+	private static final double OUTPUT_MAX_ABS = 0.7;
 
 	private static Pivot instance;
 
@@ -20,9 +32,15 @@ public class Pivot extends Subsystem {
 	private double currentArmDistance;
 
 	private double delayStartTime = 0;
+	
+	private final ScheduledPID pivotPID;
 
 	private Pivot() {
 		delay = 0;
+		
+		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS)
+				.setPGains(0.05)
+				.build();
 	}
 
 	@Override
@@ -74,9 +92,13 @@ public class Pivot extends Subsystem {
 			}
 
 			previousSetpoint = setpoint;
+			pivotPID.changeSetpoint(setpoint);
 		}
 
-		speed = (1.5 / Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+		// Original Code - Retain for test comparison.
+		// speed = (1.5 / Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+		
+		speed = pivotPID.calculate(currentAngle);
 		output();
 	}
 

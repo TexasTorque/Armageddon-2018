@@ -7,26 +7,18 @@ public class Claw extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void teleopInit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void disabledInit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void disabledContinuous() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -37,18 +29,12 @@ public class Claw extends Subsystem {
 
 	@Override
 	public void teleopContinuous() {
-		/*
-		 * if (i.getPickingUp()) { i.setClaw(false); if
-		 * (TorqueMathUtil.near(f.getArmDistance(), 430, 5)) { i.setClaw(true); } }
-		 */
 		closed = i.getClawClosed();
 		o.setClaw(closed);
 	}
 
 	@Override
 	public void smartDashboard() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public static Claw getInstance() {

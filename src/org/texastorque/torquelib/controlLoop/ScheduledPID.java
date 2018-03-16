@@ -17,10 +17,10 @@ public class ScheduledPID {
 	private final double[] iGains;
 	private final double[] dGains;
 	
-	private final double setPoint;
 	private final double minOutput;
 	private final double maxOutput;
 
+	private double setpoint;
 	private int currentGainIndex;
 	private double lastError;
 
@@ -28,15 +28,7 @@ public class ScheduledPID {
 	private Stopwatch timer;
 	private SafetyCheck safetyCheck;
 
-	private ScheduledPID(double setPoint, double maxOutput) {
-		this(setPoint, -maxOutput, maxOutput, 1);
-	}
-
-	private ScheduledPID(double setPoint, double maxOutput, int count) {
-		this(setPoint, -maxOutput, maxOutput, count);
-	}
-
-	private ScheduledPID(double setPoint, double minOutput, double maxOutput, int count) {
+	private ScheduledPID(double setpoint, double minOutput, double maxOutput, int count) {
 		checkConstructorArguments(minOutput, maxOutput, count);
 		
 		this.gainDivisions = new double[count - 1];
@@ -44,12 +36,20 @@ public class ScheduledPID {
 		this.iGains = new double[count];
 		this.dGains = new double[count];
 		
-		this.setPoint = setPoint;
+		this.setpoint = setpoint;
 		this.minOutput = minOutput;
 		this.maxOutput = maxOutput;
 		
 		this.integrator = new Integrator();
 		this.timer = new TorqueTimer();
+	}
+
+	private ScheduledPID(double setpoint, double maxOutput, int count) {
+		this(setpoint, -maxOutput, maxOutput, count);
+	}
+
+	private ScheduledPID(double setpoint, double maxOutput) {
+		this(setpoint, -maxOutput, maxOutput, 1);
 	}
 	
 	
@@ -85,7 +85,7 @@ public class ScheduledPID {
 	}
 	
 	private double startUpdate(double processVar) {
-		double error = this.setPoint - processVar;
+		double error = this.setpoint - processVar;
 		this.currentGainIndex = calculateGainIndex(error);
 		
 		return error;
@@ -170,11 +170,17 @@ public class ScheduledPID {
 		timer.reset();
 	}
 	
+	public void changeSetpoint(double newSetpoint) {
+		this.setpoint = newSetpoint;
+		
+		reset();
+	}
+	
 	@Override
 	public String toString() {
 		return "ScheduledPID [\n\tgainDivisions=" + Arrays.toString(gainDivisions) + ", \n\tpGains=" + Arrays.toString(pGains)
 				+ ", \n\tiGains=" + Arrays.toString(iGains) + ", dGains=" + Arrays.toString(dGains) + ", \n\tcurrentGainIndex="
-				+ currentGainIndex + ", \n\tsetPoint=" + setPoint + ", \n\tmaxOutput=" + maxOutput + ", \n\tlastError=" + lastError
+				+ currentGainIndex + ", \n\tsetpoint=" + setpoint + ", \n\tmaxOutput=" + maxOutput + ", \n\tlastError=" + lastError
 				+ ", \n\tintegrator=" + integrator + ", \n\ttimer=" + timer + "\n]";
 	}
 
@@ -192,12 +198,16 @@ public class ScheduledPID {
 		
 		private final ScheduledPID pid;
 		
-		public Builder(double setPoint, double maxOutput, int count) {
-			this.pid = new ScheduledPID(setPoint, maxOutput, count);
+		public Builder(double setpoint, double maxOutput) {
+			this.pid = new ScheduledPID(setpoint, maxOutput);
 		}
 		
-		public Builder(double setPoint, double minOutput, double maxOutput, int count) {
-			this.pid = new ScheduledPID(setPoint, minOutput, maxOutput, count);
+		public Builder(double setpoint, double maxOutput, int count) {
+			this.pid = new ScheduledPID(setpoint, maxOutput, count);
+		}
+		
+		public Builder(double setpoint, double minOutput, double maxOutput, int count) {
+			this.pid = new ScheduledPID(setpoint, minOutput, maxOutput, count);
 		}
 		
 		public Builder setRegions(double... regions) {
