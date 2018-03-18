@@ -60,8 +60,7 @@ public class AutoManager {
 	}
 	
 	public static void analyzeAutoMode() {
-		while (autoMode > 0) {
-			switch (autoMode % 10) {
+			switch (autoMode) {
 			case 0:
 				System.out.println("0");
 				break;
@@ -97,8 +96,6 @@ public class AutoManager {
 			default:
 				break;
 
-			}
-			autoMode /= 10;
 		}
 			while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
 				commandList.remove(0).run();

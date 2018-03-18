@@ -90,9 +90,7 @@ public class Pivot extends Subsystem {
 		currentAngle = f.getPTAngle();
 		currentArmSetpoint = auto.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
-		if(i.getPickingUp()) {
-			setpoint = 7;
-		}
+		
 		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
 				setpoint = 190;
