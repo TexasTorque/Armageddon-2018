@@ -144,17 +144,17 @@ public class HumanInput extends Input {
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		}*/
-		if (operator.getYButton()) {
-//			setClaw(true);
-//			Pivot.getInstance().teleopSetDelay(0.5);
-//			Arm.getInstance().teleopSetDelay(0.5);
+		if (operator.getYButtonPressed()) {
+			setClaw(true);
+			Pivot.getInstance().teleopSetDelay(0.5);
+			Arm.getInstance().teleopSetDelay(0.5);
 			PT_index = 10;
 			AM_index = 10;
 			MAXIMUM_OVERDRIVE.set(false);
 			PT_setpoint = PT_setpoints[PT_index];
 			AM_setpoint = AM_setpoints[AM_index];
 		} 
-		else if (operator.getRawButtonReleased(operator.controllerMap[15])) {
+		else if (operator.getYButtonReleased()) {
 			setClaw(false);
 			Pivot.getInstance().teleopSetDelay(0.8);
 			Arm.getInstance().teleopSetDelay(0.8);
