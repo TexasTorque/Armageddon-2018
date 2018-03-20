@@ -29,7 +29,10 @@ public class Drivebase extends Subsystem {
 	private TorquePV rightPV;
 	private TorqueRIMP leftRIMP;
 	private TorqueRIMP rightRIMP;
-
+	
+	private double targetPosition;
+	private double targetVelocity;
+	private double targetAcceleration;
 	// Turn
 	private double turnSetpoint;
 	private double currentAngle;
@@ -108,7 +111,6 @@ public class Drivebase extends Subsystem {
 	
 	@Override
 	public void autoContinuous() {
-<<<<<<< HEAD
 		if(type.equals(AutoType.RECORDING))
 			recordingAutoContin();
 		else commandAutoContin();
@@ -150,25 +152,6 @@ public class Drivebase extends Subsystem {
 			case AUTOTURN:
 				turnSetpoint = i.getDBTurnSetpoint();
 				currentAngle = f.getDBAngle();
-			/*	if (turnSetpoint != turnPreviousSetpoint) {
-					turnPreviousSetpoint = turnSetpoint;
-					precision = i.getDBPrecision();
-					turnTMP.generateTrapezoid(turnSetpoint, 0.0, 0.0);
-					previousTime = Timer.getFPGATimestamp();
-				}
-				if (TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), precision)) {
-					AutoManager.interruptThread();
-				}
-					//AutoManager.interruptThread();
-				dt = Timer.getFPGATimestamp() - previousTime;
-				previousTime = Timer.getFPGATimestamp();
-				turnTMP.calculateNextSituation(dt);
-				targetAngle = turnTMP.getCurrentPosition();
-				targetAngularVelocity = turnTMP.getCurrentVelocity();
-				leftSpeed = turnPV.calculate(turnTMP, f.getDBLeftDistance(), f.getDBLeftRate());
-				rightSpeed = -leftSpeed;
-				break;
-			*/
 				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 					if(turnSetpoint - currentAngle > 0) {
 						leftSpeed = .37;
@@ -191,26 +174,6 @@ public class Drivebase extends Subsystem {
 				leftSpeed = 0;
 				rightSpeed = 0;
 				break;
-		}
-=======
-		switch (type) {
-		case AUTODRIVE:
-			autoDrive();
-			break;
-
-		case AUTOTURN:
-			autoTurn();
-			break;
-
-		case AUTOBACKUP:
-			leftSpeed = 0.5;
-			rightSpeed = 0.5;
-			break;
-
-		default:
-			leftSpeed = 0;
-			rightSpeed = 0;
-			break;
 		}
 
 		output();
@@ -255,23 +218,6 @@ public class Drivebase extends Subsystem {
 			leftSpeed = 0;
 			rightSpeed = 0;
 		}
-	}
-
-	@Override
-	public void teleopContinuous() {
-		switch (type) {
-		case TELEOP:
-			leftSpeed = i.getDBLeftSpeed();
-			rightSpeed = i.getDBRightSpeed();
-			break;
-
-		default:
-			type = DriveType.TELEOP;
-			break;
-		}
-
-		output();
->>>>>>> lubecki-lonestar
 	}
 
 	private void output() {

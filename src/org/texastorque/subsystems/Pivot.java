@@ -52,7 +52,7 @@ public class Pivot extends Subsystem {
 	@Override
 	public void teleopInit() {
 		if (f.getPTAngle() > 30) {
-			setpoint = 77;
+			i.setPTSetpoint(4);
 		}
 	}
 
@@ -67,7 +67,6 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-<<<<<<< HEAD
 		if(type.equals(AutoType.RECORDING))
 			recordingAutoContin();
 		else commandAutoContin();
@@ -91,10 +90,7 @@ public class Pivot extends Subsystem {
 	}
 	
 	private void commandAutoContin() {
-		if(autoStartTime + delay < Timer.getFPGATimestamp()) 
-=======
-		if (hasTimeToRun(true)) {
->>>>>>> lubecki-lonestar
+		if(autoStartTime + delay < Timer.getFPGATimestamp()) {
 			runPivot();
 		}
 	}
@@ -113,16 +109,6 @@ public class Pivot extends Subsystem {
 		currentAngle = f.getPTAngle();
 		currentArmSetpoint = i.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
-<<<<<<< HEAD
-		/*reach = Math.abs(Math.cos((Math.toRadians( -(   (.67)*currentAngle)) + ADJUSTMENT )  ));
-		
-		if((currentAngle >=80 && currentAngle < 120) && (reach * currentArmPosition >= LIMIT)){
-			setpoint = currentAngle;			
-		}
-		*/
-=======
-
->>>>>>> lubecki-lonestar
 		if (setpoint != previousSetpoint) {
 			if (currentArmSetpoint < 400 && currentArmDistance > 400) {
 				setpoint = currentAngle;

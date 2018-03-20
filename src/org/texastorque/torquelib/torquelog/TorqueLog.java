@@ -14,25 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TorqueLog {
 
 	private static String fileName;
-<<<<<<< HEAD
 	
 	private static ArrayList<LogData> logKeys = new ArrayList<LogData>(){{
 		add(new LogData("Left_Encoder_Speed", Priority.HIGH));
 	}};	
 	
 	//Delimiter used in CSV file
-=======
-
-	private static ArrayList<LogData> logKeys = new ArrayList<LogData>() {
-		private static final long serialVersionUID = -4973598394874360423L; // Suppresses warning.
-
-		{
-			// add(new LogData("KEY", Priority.DEFAULT));  // ~ Example ~
-		}
-	};
-
-	// Delimiter used in CSV file
->>>>>>> lubecki-lonestar
 	private static final String CD = ",";
 	private static final String NLS = "\n";
 	// CSV file header
