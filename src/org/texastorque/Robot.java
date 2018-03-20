@@ -3,8 +3,11 @@ package org.texastorque;
 import java.util.ArrayList;
 
 import org.texastorque.auto.AutoManager;
+<<<<<<< HEAD
 import org.texastorque.auto.PlaybackAutoManager;
 import org.texastorque.auto.playback.HumanInputRecorder;
+=======
+>>>>>>> lubecki-lonestar
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
@@ -17,11 +20,16 @@ import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.base.TorqueIterative;
+<<<<<<< HEAD
 import org.texastorque.torquelib.torquelog.TorqueLog;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+=======
+
+import edu.wpi.first.wpilibj.CameraServer;
+>>>>>>> lubecki-lonestar
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TorqueIterative {
@@ -183,7 +191,7 @@ public class Robot extends TorqueIterative {
 		AutoManager.smartDashboard();
 		
 	}
-	
+
 	@Override
 	public void autonomousContinuous() {
 		

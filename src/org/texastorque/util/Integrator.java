@@ -13,4 +13,8 @@ public class Integrator {
 		
 		return this.sum;
 	}
+	
+	public void reset() {
+		this.sum = 0;
+	}
 }

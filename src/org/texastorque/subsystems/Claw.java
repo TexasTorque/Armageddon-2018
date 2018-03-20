@@ -10,26 +10,18 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoInit() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void teleopInit() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void disabledInit() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void disabledContinuous() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -57,12 +49,10 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void smartDashboard() {
-		// TODO Auto-generated method stub
-		
 	}
-	
+
 	public static Claw getInstance() {
 		return instance == null ? instance = new Claw() : instance;
 	}
-	
+
 }

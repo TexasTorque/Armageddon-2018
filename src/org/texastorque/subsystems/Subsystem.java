@@ -2,9 +2,9 @@ package org.texastorque.subsystems;
 
 import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.feedback.Feedback;
-import org.texastorque.torquelib.TorqueSubsystem;
 import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
+import org.texastorque.torquelib.TorqueSubsystem;
 
 public abstract class Subsystem implements TorqueSubsystem {
 

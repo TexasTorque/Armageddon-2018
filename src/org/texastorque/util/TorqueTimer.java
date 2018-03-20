@@ -35,6 +35,10 @@ public class TorqueTimer implements Stopwatch {
 	}
 	
 	public double start() {
+		if (this.started) {
+			return this.startTime;
+		}
+		
 		this.startTime = Timer.getFPGATimestamp();
 		this.lastTime = this.startTime;
 		
@@ -43,6 +47,10 @@ public class TorqueTimer implements Stopwatch {
 	
 	public boolean isRunning() {
 		return this.started;
+	}
+	
+	public void reset() {
+		this.started = false;
 	}
 	
 	private void startIfNeeded() {

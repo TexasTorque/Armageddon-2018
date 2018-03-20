@@ -5,8 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OperatorConsole extends Joystick {
 
 	/**
-	 * Same concept as 2015 for custom controls in 2018 - Jonathon
-	 * Oh ok - Daniel
+	 * Same concept as 2015 for custom controls in 2018 - Jonathon Oh ok - Daniel
 	 */
 
 	public int currentButton;
