@@ -35,11 +35,11 @@ public class Input {
 	protected double PT_speed;
 	protected double PT_setpoint;
 	protected int PT_index;
-	protected volatile double[] PT_setpoints = { 13, 96.5, 180, 180, 185, 190.5, 250, 250, 250, 278.5, 13 };
+//	protected volatile double[] PT_setpoints = { 13, 96.5, 180, 180, 185, 190.5, 250, 250, 250, 278.5, 13 };
 
 	// Bravo Setpoints -- Do not delete.
-	// protected volatile double[] PT_setpoints = {0.0, 45.0, 77.0, 77.0, 77.0,
-	// 81.0, 85.0, 85.0, 85.0, 150, 5.0};
+	 protected volatile double[] PT_setpoints = {0.0, 45.0, 77.0, 77.0, 77.0,
+	 81.0, 85.0, 85.0, 85.0, 150, 5.0};
 
 	protected boolean pivotCCW;
 	protected boolean pivotCW;

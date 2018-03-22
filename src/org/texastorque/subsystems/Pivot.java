@@ -119,9 +119,9 @@ public class Pivot extends Subsystem {
 		}
 
 		// Original Code - Retain for test comparison.
-		// speed = (1.5 / Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+		speed = (1.5 / Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
 		
-		speed = pivotPID.calculate(currentAngle);
+//		speed = pivotPID.calculate(currentAngle);
 		output();
 	}
 

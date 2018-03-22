@@ -1,4 +1,4 @@
-package tests;
+/*package tests;
 
 import org.texastorque.util.interfaces.Stopwatch;
 
@@ -46,3 +46,4 @@ public class TestingTimer implements Stopwatch {
 		return this.started;
 	}
 }
+*/

@@ -8,10 +8,7 @@ import org.texastorque.auto.drive.BackupDrive;
 import org.texastorque.auto.sequences.PlaceCubeScale;
 import org.texastorque.auto.sequences.PlaceCubeSwitch;
 import org.texastorque.feedback.Feedback;
-<<<<<<< HEAD
 import org.texastorque.io.RobotOutput;
-=======
->>>>>>> lubecki-lonestar
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Pivot;
@@ -30,24 +27,16 @@ public class AutoManager {
 	private static boolean commandsDone = false;
 	private static volatile boolean setPointReached;
 
-<<<<<<< HEAD
 	private static int autoMode;
 	
 	public AutoManager() {
 		commandList = new LinkedList<>();
-=======
-	public static void init() {
-		SmartDashboard.putNumber("AUTOMODE", 0);
-		commandList = new LinkedList<>();
-
->>>>>>> lubecki-lonestar
 		subsystems = new ArrayList<>();
 		subsystems.add(Drivebase.getInstance());
 		subsystems.add(Arm.getInstance());
 		subsystems.add(Pivot.getInstance());
 		setAutoMode(0);
 	}
-<<<<<<< HEAD
 	
 	public AutoManager(int auto) {
 		commandList = new LinkedList<>();
@@ -58,8 +47,6 @@ public class AutoManager {
 		setAutoMode(auto);
 		
 	}
-=======
->>>>>>> lubecki-lonestar
 
 	public static void beginAuto() {
 		System.out.println("beginAuto");
@@ -68,34 +55,17 @@ public class AutoManager {
 		analyzeAutoMode();
 	}
 
-<<<<<<< HEAD
 	private void setAutoMode(int auto) {
 		autoMode = auto;
 	}
 	
 	public static void analyzeAutoMode() {
 			switch (autoMode) {
-=======
-	public static void analyzeAutoMode() {
-		int autoMode = (int) SmartDashboard.getNumber("AUTOMODE", 0);
-
-		while (autoMode > 0) {
-			switch (autoMode % 10) {
->>>>>>> lubecki-lonestar
 			case 0:
 				System.out.println("0");
 				break;
 			case 1:
-<<<<<<< HEAD
-				double startTime = Timer.getFPGATimestamp();
-				if (Timer.getFPGATimestamp() < startTime + 1.5) {
-					RobotOutput.getInstance().setDrivebaseSpeed(.65, .65);
-				} else RobotOutput.getInstance().setDrivebaseSpeed(0.0, 0.0);
-			
-//				commandList.add(new BackupDrive(2.0, true));
-=======
 				commandList.add(new BackupDrive(2.0, true));
->>>>>>> lubecki-lonestar
 				break;
 
 			case 2:
@@ -122,7 +92,6 @@ public class AutoManager {
 				break;
 
 		}
-<<<<<<< HEAD
 			while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
 				commandList.remove(0).run();
 				System.out.println("end");
@@ -145,39 +114,17 @@ public class AutoManager {
 		return reverse;
 	}
 
-=======
-
-		while (DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
-			commandList.remove(0).run();
-			System.out.println("end");
-		}
-		commandsDone = true;
-
-		for (Subsystem system : subsystems) {
-			system.disabledContinuous();
-		}
-	}
-
->>>>>>> lubecki-lonestar
 	public static void pause(double time) {
 		double startTime = Timer.getFPGATimestamp();
 		time = Math.abs(time);
 
-<<<<<<< HEAD
-		while (DriverStation.getInstance().isAutonomous() && !setPointReached 
-=======
 		while (DriverStation.getInstance().isAutonomous() && !setPointReached
->>>>>>> lubecki-lonestar
 				&& Timer.getFPGATimestamp() - startTime < time) {
 			Feedback.getInstance().update();
 			Feedback.getInstance().smartDashboard();
 			AutoManager.smartDashboard();
 
-<<<<<<< HEAD
 			for(Subsystem system : subsystems) {
-=======
-			for (Subsystem system : subsystems) {
->>>>>>> lubecki-lonestar
 				system.autoContinuous();
 				system.smartDashboard();
 			}

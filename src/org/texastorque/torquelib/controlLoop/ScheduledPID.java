@@ -10,31 +10,13 @@ import org.texastorque.util.interfaces.Stopwatch;
 
 public class ScheduledPID {
 
-<<<<<<< HEAD
-=======
 	private static boolean strictModeEnabled = false;
 	
->>>>>>> lubecki-lonestar
 	private final double[] gainDivisions;
 	private final double[] pGains;
 	private final double[] iGains;
 	private final double[] dGains;
 	
-<<<<<<< HEAD
-	private int currentGainIndex;
-	
-	private final double setPoint;
-	private final double maxOutput;
-	private double lastError;
-	
-	private final Integrator integrator;
-	private Stopwatch timer;
-
-	private ScheduledPID(double setPoint, double maxOutput, int count) {
-		if (count <= 0) {
-			throw new RuntimeException("PID Schedule must have at least 1 gain, count was: " + count);
-		}
-=======
 	private final double minOutput;
 	private final double maxOutput;
 
@@ -48,42 +30,12 @@ public class ScheduledPID {
 
 	private ScheduledPID(double setpoint, double minOutput, double maxOutput, int count) {
 		checkConstructorArguments(minOutput, maxOutput, count);
->>>>>>> lubecki-lonestar
 		
 		this.gainDivisions = new double[count - 1];
 		this.pGains = new double[count];
 		this.iGains = new double[count];
 		this.dGains = new double[count];
 		
-<<<<<<< HEAD
-		this.setPoint = setPoint;
-		this.maxOutput = maxOutput;
-		
-		this.integrator = new Integrator();
-		
-		this.timer = new TorqueTimer();
-	}
-	
-	public double calculate(double processVar) {
-		handleFirstCalculation();
-
-		double error = this.setPoint - processVar;
-		updateGainIndex(error);
-
-		double pGain = this.pGains[this.currentGainIndex];
-		double iTerm = integralTerm(error);
-		double dTerm = derivativeTerm(error);
-		
-		System.out.println(pGain * error + " " + iTerm + " " + dTerm);
-		
-		double output = pGain * (error + iTerm + dTerm);  // Standard PID form.
-		
-		this.lastError = error;
-
-		timer.startLap();  // Measure deltaTime starting now.
-		
-		return MathUtils.clamp(output, -maxOutput, maxOutput);
-=======
 		this.setpoint = setpoint;
 		this.minOutput = minOutput;
 		this.maxOutput = maxOutput;
@@ -107,7 +59,6 @@ public class ScheduledPID {
 		double gain = this.pGains[this.currentGainIndex];
 		
 		return gain * error;
->>>>>>> lubecki-lonestar
 	}
 	
 	private double integralTerm(double error) {
@@ -127,15 +78,6 @@ public class ScheduledPID {
 		double de = error - this.lastError;
 		
 		return gain * (de/dt);
-<<<<<<< HEAD
-		
-	}
-	
-	private void handleFirstCalculation() {
-		if (timer.isRunning()) return;
-		
-		timer.start();
-=======
 	}
 	
 	private boolean isSafeToOutput() {
@@ -156,7 +98,6 @@ public class ScheduledPID {
 	private void finishUpdate(double error) {
 		this.lastError = error;
 		timer.startLap();  // Measure dt from the end of the last update.
->>>>>>> lubecki-lonestar
 	}
 	
 	/** Calculates the index for the current gain values.
@@ -164,35 +105,16 @@ public class ScheduledPID {
 	 * @param error The current error in the process variable.
 	 * @return The integer index for the gain values.
 	 */
-<<<<<<< HEAD
-	private int updateGainIndex(double error) {
-		if (gainDivisions.length <= 1 || error <= this.gainDivisions[0]) {
-			this.currentGainIndex = 0;
-			return this.currentGainIndex;
-		}
-		
-		for (int i = 0; i < gainDivisions.length - 2; i++) {
-=======
 	private int calculateGainIndex(double error) {
 		if (gainDivisions.length == 0 || error <= this.gainDivisions[0]) {
 			return 0;
 		}
 		
 		for (int i = 0; i < gainDivisions.length - 1; i++) {
->>>>>>> lubecki-lonestar
 			double leftBound = this.gainDivisions[i];
 			double rightBound = this.gainDivisions[i + 1];
 			
 			if (leftBound <= error && error < rightBound) {
-<<<<<<< HEAD
-				this.currentGainIndex = i + 1;
-				return this.currentGainIndex;
-			}
-		}
-
-		this.currentGainIndex = gainDivisions.length;
-		return this.currentGainIndex;
-=======
 				return i + 1;
 			}
 		}
@@ -252,20 +174,12 @@ public class ScheduledPID {
 		this.setpoint = newSetpoint;
 		
 		reset();
->>>>>>> lubecki-lonestar
 	}
 	
 	@Override
 	public String toString() {
 		return "ScheduledPID [\n\tgainDivisions=" + Arrays.toString(gainDivisions) + ", \n\tpGains=" + Arrays.toString(pGains)
 				+ ", \n\tiGains=" + Arrays.toString(iGains) + ", dGains=" + Arrays.toString(dGains) + ", \n\tcurrentGainIndex="
-<<<<<<< HEAD
-				+ currentGainIndex + ", \n\tsetPoint=" + setPoint + ", \n\tmaxOutput=" + maxOutput + ", \n\tlastError=" + lastError
-				+ ", \n\tintegrator=" + integrator + ", \n\ttimer=" + timer + "\n]";
-	}
-
-
-=======
 				+ currentGainIndex + ", \n\tsetpoint=" + setpoint + ", \n\tmaxOutput=" + maxOutput + ", \n\tlastError=" + lastError
 				+ ", \n\tintegrator=" + integrator + ", \n\ttimer=" + timer + "\n]";
 	}
@@ -279,16 +193,11 @@ public class ScheduledPID {
 	}
 	
 	// == PID Construction ==
->>>>>>> lubecki-lonestar
 
 	public static class Builder {
 		
 		private final ScheduledPID pid;
 		
-<<<<<<< HEAD
-		public Builder(double setPoint, double maxOutput, int count) {
-			this.pid = new ScheduledPID(setPoint, maxOutput, count);
-=======
 		public Builder(double setpoint, double maxOutput) {
 			this.pid = new ScheduledPID(setpoint, maxOutput);
 		}
@@ -299,7 +208,6 @@ public class ScheduledPID {
 		
 		public Builder(double setpoint, double minOutput, double maxOutput, int count) {
 			this.pid = new ScheduledPID(setpoint, minOutput, maxOutput, count);
->>>>>>> lubecki-lonestar
 		}
 		
 		public Builder setRegions(double... regions) {
@@ -334,24 +242,18 @@ public class ScheduledPID {
 			return this;
 		}
 		
-<<<<<<< HEAD
-=======
 		public Builder setSafetyMechanism(SafetyCheck safety) {
 			this.pid.safetyCheck = safety;
 			return this;
 		}
 		
->>>>>>> lubecki-lonestar
 		public ScheduledPID build() {
 			return this.pid;
 		}
 	}
-<<<<<<< HEAD
-=======
 	
 	public interface SafetyCheck {
 		public boolean isSafe();
 		public double getSafetyModeOutput();
 	}
->>>>>>> lubecki-lonestar
 }

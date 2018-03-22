@@ -61,7 +61,7 @@ public class Arm extends Subsystem {
 		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 			auto.setArmSpeed(0);
 		} else {
-			auto.setArmSpeed((1.75/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			auto.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 		}
 		if(!f.getBlockade()) {
 			if(auto.getArmSpeed() > 0) {
@@ -124,7 +124,7 @@ public class Arm extends Subsystem {
 		if (TorqueMathUtil.near(setpoint, currentDistance, 12)) {
 			i.setArmSpeed(0);
 		} else {
-			i.setArmSpeed((1.75 / Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 		}
 
 		if (!f.getBlockade() && i.getArmSpeed() > 0) {
