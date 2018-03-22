@@ -43,12 +43,12 @@ public class HumanInputRecorder extends Input {
 		humanInput.update();  // Make sure input state is up to date.
 
 		// Toggle recording if driver is pressing down on DPad.
-		recordingToggle.calc(humanInput.driver.getDPADDown());
+		recordingToggle.calc(humanInput.operator.getLeftCenterButton());
 		if(prevRecordingStatus != recordingToggle.get())
 			System.out.println(recordingToggle.get());
 		prevRecordingStatus = recordingToggle.get();
 		// Save the output to file if driver is pressing up on DPad.
-		if(humanInput.driver.getDPADUp()) {
+		if(humanInput.operator.getRightCenterButton()) {
 			FileUtils.writeToJSON(this.outputFile, this.inputHistory);
 			System.out.println("That's a print");
 		}
