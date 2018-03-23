@@ -104,7 +104,9 @@ public class Robot extends TorqueIterative {
 			AutoManager.beginAuto();
 			break;
 		case "LeftScaleNoRecording":
-			AutoManager.getInstance(2);
+			if(config.equals("LLL") || config.equals("RLR")) {
+				AutoManager.getInstance(2);
+			} else AutoManager.getInstance(7);
 			AutoManager.beginAuto();
 			break;
 		case "RightScaleNoRecording":

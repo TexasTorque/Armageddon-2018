@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import org.texastorque.auto.drive.BackupDrive;
 import org.texastorque.auto.sequences.PlaceCubeScale;
 import org.texastorque.auto.sequences.PlaceCubeSwitch;
+import org.texastorque.auto.sequences.PlaceTwoCubeScale;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Arm;
@@ -87,7 +88,8 @@ public class AutoManager {
 			case 6:
 				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
 				break;
-
+			case 7: 
+				commandList.addAll(new PlaceTwoCubeScale(1).getCommands());
 			default:
 				break;
 
