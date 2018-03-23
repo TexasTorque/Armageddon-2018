@@ -1,5 +1,6 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
@@ -10,6 +11,7 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoInit() {
+		auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override

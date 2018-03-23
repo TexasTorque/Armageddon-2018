@@ -15,14 +15,14 @@ public abstract class Subsystem implements TorqueSubsystem {
 	protected Input i = Input.getInstance();
 	protected RobotOutput o = RobotOutput.getInstance();
 	protected Feedback f = Feedback.getInstance();
-	protected PlaybackAutoMode auto = PlaybackAutoMode.getInstance();
+	protected PlaybackAutoMode auto;
 	protected AutoType type = AutoType.COMMAND_SEQUENCE;
 	
 	
 	public void setInput(Input i) {
 		this.i = i;
 	}
-	
+		
 	public void changeAutoType() {
 		type = AutoType.RECORDING;
 	}

@@ -1,5 +1,7 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.auto.playback.PlaybackAutoMode;
+
 public class WheelIntake extends Subsystem {
 
 	private static WheelIntake instance;
@@ -10,6 +12,7 @@ public class WheelIntake extends Subsystem {
 
 	@Override
 	public void autoInit() {
+		auto = PlaybackAutoMode.getInstance();
 		init();
 	}
 

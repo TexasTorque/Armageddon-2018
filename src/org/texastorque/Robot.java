@@ -38,7 +38,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void robotInit() {
 		Input.getInstance();
-		CameraServer.getInstance().startAutomaticCapture(1);
+//		CameraServer.getInstance().startAutomaticCapture(1);
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
@@ -46,6 +46,7 @@ public class Robot extends TorqueIterative {
 		initAutoSelector();
 		initRecordingNameSelector();
 		SmartDashboard.putData(autoSelector);
+		SmartDashboard.putData(recordingNameSelector);
 	}
 
 	private void initSubsystems() {
@@ -87,6 +88,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 		String currentMode = autoSelector.getSelected();
+		System.out.println(currentMode);
 		TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();
@@ -134,6 +136,7 @@ public class Robot extends TorqueIterative {
 		case "RightRecording":
 			if(config.equals("RRR") || config.equals("LRL")) {
 				PlaybackAutoManager.getInstance();
+				System.out.println("flow 0.5");
 				setRecordingAutoType();
 			} else {
 				AutoManager.getInstance(3);
@@ -166,6 +169,7 @@ public class Robot extends TorqueIterative {
 			system.setInput(HumanInput.getInstance());
 		}
 		HumanInputRecorder.getInstance().setCurrentFieldConfig(recordingNameSelector.getSelected());
+		
 	}
 	
 	@Override

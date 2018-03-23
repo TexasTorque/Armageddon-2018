@@ -1,5 +1,6 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.constants.Constants;
 import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.controlLoop.ScheduledPID;
@@ -47,6 +48,7 @@ public class Pivot extends Subsystem {
 	@Override
 	public void autoInit() {
 		autoStartTime = Timer.getFPGATimestamp();
+		auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override
@@ -110,8 +112,8 @@ public class Pivot extends Subsystem {
 		currentArmSetpoint = i.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
 		if (setpoint != previousSetpoint) {
-			if (currentArmSetpoint < 400 && currentArmDistance > 400) {
-				setpoint = currentAngle;
+			if (currentArmSetpoint < 150 && currentArmDistance > 150) {
+				setpoint = 75;
 			}
 
 			previousSetpoint = setpoint;
@@ -119,7 +121,7 @@ public class Pivot extends Subsystem {
 		}
 
 		// Original Code - Retain for test comparison.
-		speed = (1.5 / Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+		speed = (1.5 / Math.PI) * Math.atan(0.06 * (setpoint - currentAngle));
 		
 //		speed = pivotPID.calculate(currentAngle);
 		output();

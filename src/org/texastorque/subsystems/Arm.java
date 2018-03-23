@@ -1,5 +1,6 @@
 package org.texastorque.subsystems;
 
+import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
@@ -27,6 +28,7 @@ public class Arm extends Subsystem {
 	public void autoInit() {
 		autoStartTime = Timer.getFPGATimestamp();
 		delay = 0;
+		auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override
@@ -55,13 +57,18 @@ public class Arm extends Subsystem {
 		currentDistance = f.getArmDistance();
 		currentAngle = f.getPTAngle();
 		
-		if((currentAngle < 55 && auto.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+		//if((currentAngle < 55 && auto.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+		//	setpoint = currentDistance;
+		//}
+
+		if((currentAngle < 35 && auto.getPTSetpoint() > 40) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
 			setpoint = currentDistance;
 		}
+		
 		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
 			auto.setArmSpeed(0);
 		} else {
-			auto.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			auto.setArmSpeed((1.5/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 		}
 		if(!f.getBlockade()) {
 			if(auto.getArmSpeed() > 0) {
@@ -82,7 +89,7 @@ public class Arm extends Subsystem {
 			if((currentAngle < 55 && i.getPTSetpoint() > 60) || currentAngle > 100 ) {
 				setpoint = currentDistance;
 			}
-				i.setArmSpeed((1 / Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+				i.setArmSpeed((1.5 / Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
 			}
 
 			speed = i.getArmSpeed();
@@ -117,14 +124,17 @@ public class Arm extends Subsystem {
 		currentDistance = f.getArmDistance();
 		currentAngle = f.getPTAngle();
 
-		if ((currentAngle < 155 && i.getPTSetpoint() > 160) || (currentAngle > 250)) {
-			setpoint = currentDistance;
-		}
+		//if((currentAngle < 155 && auto.getPTSetpoint() > 160) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+		//	setpoint = currentDistance;
+		//}
 
+		if((currentAngle < 65 && i.getPTSetpoint() > 67) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+			setpoint = currentDistance;
+		}		
 		if (TorqueMathUtil.near(setpoint, currentDistance, 12)) {
 			i.setArmSpeed(0);
 		} else {
-			i.setArmSpeed((1/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+			i.setArmSpeed((2.0/Math.PI) * Math.atan(0.04 * (setpoint - currentDistance)));
 		}
 
 		if (!f.getBlockade() && i.getArmSpeed() > 0) {

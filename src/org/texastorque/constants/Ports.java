@@ -26,8 +26,8 @@ public class Ports {
 	public static final int IN_LEFT_DOWN_SOLE_B = 5;
 	public static final int IN_RIGHT_DOWN_SOLE_A = 6;
 	public static final int IN_RIGHT_DOWN_SOLE_B = 7;
-	public static final int IN_OUT_SOLE_A = 2;
-	public static final int IN_OUT_SOLE_B = 3;
+	public static final int IN_OUT_SOLE_A = 3;
+	public static final int IN_OUT_SOLE_B = 2;
 
 	// Arm
 	public static final int AM_RIGHT_MOTOR = 9;

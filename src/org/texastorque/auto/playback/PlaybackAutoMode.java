@@ -32,7 +32,8 @@ public class PlaybackAutoMode extends Input {
 	
 	public PlaybackAutoMode(String file) {
 		this.inputs = FileUtils.readFromJSON(file, LIST_TYPE_JSON);
-		
+		System.out.println("flow2");
+		System.out.println(this.inputs);
 		this.interpolator = createInterpolator(this.inputs);
 	}
 	

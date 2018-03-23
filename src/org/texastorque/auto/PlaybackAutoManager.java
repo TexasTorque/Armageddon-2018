@@ -12,7 +12,7 @@ public class PlaybackAutoManager {
 	private static String fileLocation;
 	
 	public PlaybackAutoManager(){
-		fileLocation = "recording" + DriverStation.getInstance().getGameSpecificMessage() + ".json";
+		fileLocation = "recording" /*DriverStation.getInstance().getGameSpecificMessage()*/ + "null.json";
 		this.mode = FileUtils.readFromJSON(fileLocation, PlaybackAutoMode.class);
 	}
 	

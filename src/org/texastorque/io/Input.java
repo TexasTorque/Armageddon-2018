@@ -19,8 +19,9 @@ public class Input {
 	protected double AM_setpoint;
 	protected int AM_index;
 	protected volatile double[] AM_setpoints = 
-		{0.0, 135.0, 850.0, 1700.0, 2050.0, 100.0, 790.0, 790.0, 680.0, 200.0, 345.0};
-//	protected volatile double[] AM_setpoints = { 0, 135, 850, 1700, 2000, 100, 790, 790, 680, 170, 365 };
+		{0.0, 40.0, 200.0, 480.0, 800.0, 100.0, 790.0, 790.0, 340.0, 200.0, 165.0}; //bravo has back pickup
+//	protected volatile double[] AM_setpoints = { 0, 135, 850, 1700, 2050, 100, 790, 790, 680, 170, 345 };
+	//this is charlie
 	protected static final int AM_CONVERSION = 17142;
 
 	protected boolean armFWD;
@@ -37,9 +38,9 @@ public class Input {
 	protected int PT_index;
 //	protected volatile double[] PT_setpoints = { 13, 96.5, 180, 180, 185, 190.5, 250, 250, 250, 278.5, 13 };
 
-	// Bravo Setpoints -- Do not delete.
-	 protected volatile double[] PT_setpoints = {0.0, 45.0, 77.0, 77.0, 77.0,
-	 81.0, 85.0, 85.0, 85.0, 150, 5.0};
+	// Bravo Setpoints -- Do not delete. Has back pickup.
+	 protected volatile double[] PT_setpoints = {0.0, 45.0, 75.0, 75.0, 75.0,
+	 79.0, 81.0, 81.0, 150.0, 115, 5.0};
 
 	protected boolean pivotCCW;
 	protected boolean pivotCW;
