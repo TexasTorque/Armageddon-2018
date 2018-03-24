@@ -76,7 +76,7 @@ public class AutoManager {
 			case 3:
 				commandList.addAll(new PlaceCubeScale(3).getCommands());
 				break;
-
+fdsklja
 			case 4:
 				commandList.addAll(new PlaceCubeSwitch(1).getCommands());
 				break;
