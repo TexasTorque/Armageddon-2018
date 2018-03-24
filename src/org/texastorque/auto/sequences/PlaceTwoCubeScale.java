@@ -74,8 +74,37 @@ public class PlaceTwoCubeScale extends AutoSequence {
 	private void handlePosition3() {
 		if (scaleSide == 'R') {
 			
-		} else {
+			commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
+			commandList.add(new Drive(172, 0.125, 4.0, true));
+			commandList.add(new Turn(-25, 1.5, 2.25, true));
+			commandList.add(new Drive(108, .125, 1, true));
+			commandList.add(new Turn(0, 1.5, 2.25, true));
+			commandList.add(new SetClaw(false));
+			commandList.add(new SetClaw(true));
+			commandList.add(new ShiftPivotArm(8, 4.0, false, 0.0));
+			commandList.add(new Drive(-72, 0.125, 4.0, true));
+			commandList.add(new SetClaw(true));
 			
+			commandList.add(new ShiftPivotArm(4, 4.0, false, 0.0));
+			commandList.add(new Drive(72, 0.125, 4.0, true));
+			commandList.add(new SetClaw(false));
+		} else {
+			commandList.add(new ShiftPivotArm(4, 5.0, false, 6.0));
+			commandList.add(new Drive(220, 0.125, 3.25, true));
+			commandList.add(new Turn(-90, 1.5, 2.25, true));
+			commandList.add(new Drive(178, 0.125, 3.25, true));
+			commandList.add(new Turn(0, 1.5, 2.25, true));
+			commandList.add(new Drive(48, 0.125, 2.0, true));
+			commandList.add(new SetClaw(false));
+			
+			commandList.add(new ShiftPivotArm(8, 4.0, false, 0.0));
+			commandList.add(new Drive(-72, 0.125, 4.0, true));
+			commandList.add(new SetClaw(true));
+			
+			commandList.add(new ShiftPivotArm(4, 4.0, false, 0.0));
+			commandList.add(new Drive(72, 0.125, 4.0, true));
+			commandList.add(new SetClaw(false));
+	
 		}
 	}
 
