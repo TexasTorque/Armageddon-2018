@@ -47,6 +47,7 @@ public class Robot extends TorqueIterative {
 		initRecordingNameSelector();
 		SmartDashboard.putData(autoSelector);
 		SmartDashboard.putData(recordingNameSelector);
+		System.out.println("I want to quit");
 	}
 
 	private void initSubsystems() {
@@ -87,7 +88,7 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void autonomousInit() {
-		String currentMode = autoSelector.getSelected();
+		String currentMode = "LeftScaleNoRecording";//autoSelector.getSelected();
 		System.out.println(currentMode);
 		TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
@@ -104,9 +105,10 @@ public class Robot extends TorqueIterative {
 			AutoManager.beginAuto();
 			break;
 		case "LeftScaleNoRecording":
-			if(config.equals("LLL") || config.equals("RLR")) {
-				AutoManager.getInstance(2);
-			} else AutoManager.getInstance(7);
+			//if(config.equals("LLL") || config.equals("RLR")) {
+			//	AutoManager.getInstance(2);
+			//} else 
+			AutoManager.getInstance(7);
 			AutoManager.beginAuto();
 			break;
 		case "RightScaleNoRecording":
@@ -194,7 +196,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousContinuous() {
 		
-		PlaybackAutoManager.getInstance().getMode().getInstance().update();
+	//	PlaybackAutoManager.getInstance().getMode().getInstance().update();
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
 		}

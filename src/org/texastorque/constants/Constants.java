@@ -11,10 +11,10 @@ public class Constants {
 	public static final Constant HI_DOBOTHSHOOTERS = new Constant("HI_DOBOTHSHOOTERS", 1.0);
 
 	// Drivebase
-	public static final Constant DB_MVELOCITY = new Constant("DB_MVELOCITY", 100.0);
-	public static final Constant DB_MACCELERATION = new Constant("DB_MACCELERATION", 75.0);
-	public static final Constant DB_TURN_MVELOCITY = new Constant("DB_TURN_MVELOCITY", 50.0); // 60
-	public static final Constant DB_TURN_MACCELERATION = new Constant("DB_TURN_MACCELERATION", 20.0); // 10
+	public static final Constant DB_MVELOCITY = new Constant("DB_MVELOCITY", 168.0);
+	public static final Constant DB_MACCELERATION = new Constant("DB_MACCELERATION", 3549807.0);
+	public static final Constant DB_TURN_MVELOCITY = new Constant("DB_TURN_MVELOCITY", 30.0); // 60
+	public static final Constant DB_TURN_MACCELERATION = new Constant("DB_TURN_MACCELERATION", 8.0); // 10
 
 	public static final Constant DB_RIGHT_PV_P = new Constant("DB_RIGHT_PV_P", .08);
 	public static final Constant DB_RIGHT_PV_V = new Constant("DB_RIGHT_PV_V", .008);

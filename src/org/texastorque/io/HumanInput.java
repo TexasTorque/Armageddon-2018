@@ -57,9 +57,9 @@ public class HumanInput extends Input {
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(driver.getAButton());
 		if (driver.getLeftBumper()) {
-			IN_speed = -.5;
+			IN_speed = -.35;
 		} else if (driver.getRightBumper()) {
-			IN_speed = .5;
+			IN_speed = .35;
 		} else {
 			IN_speed = 0;
 		}
@@ -113,8 +113,8 @@ public class HumanInput extends Input {
 	private void handleOperatorInputs() {
 		if (operator.getYButtonPressed()) {
 			setClaw(true);
-			Pivot.getInstance().teleopSetDelay(0.5);
-			Arm.getInstance().teleopSetDelay(0.5);
+			Pivot.getInstance().teleopSetDelay(0.25);
+			Arm.getInstance().teleopSetDelay(0.25);
 			PT_index = 10;
 			AM_index = 10;
 			MAXIMUM_OVERDRIVE.set(false);
@@ -123,8 +123,9 @@ public class HumanInput extends Input {
 		} 
 		else if (operator.getYButtonReleased()) {
 			setClaw(false);
-			Pivot.getInstance().teleopSetDelay(0.5);
-			Arm.getInstance().teleopSetDelay(0.5);
+			setIntakeOut(false);
+			Pivot.getInstance().teleopSetDelay(0.4);
+			Arm.getInstance().teleopSetDelay(0.4);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);

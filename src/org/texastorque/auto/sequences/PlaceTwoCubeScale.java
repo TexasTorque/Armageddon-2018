@@ -39,18 +39,18 @@ public class PlaceTwoCubeScale extends AutoSequence {
 	private void handlePosition1() {
 		if (scaleSide == 'L') {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
-			commandList.add(new Drive(172, 0.125, 4.0, true));
-			commandList.add(new Turn(25, 1.5, 2.25, true));
-			commandList.add(new Drive(108, .125, 1, true));
-			commandList.add(new Turn(0, 1.5, 2.25, true));
-			commandList.add(new SetClaw(false));
-			
-			commandList.add(new ShiftPivotArm(8, 4.0, false, 0.0));
-			commandList.add(new Drive(-72, 0.125, 4.0, true));
+			commandList.add(new Drive(172, 0.125, 2.75, true));
+			commandList.add(new Turn(20, 1.5, 0.75, true));
+			commandList.add(new Drive(96, .125, 1.5, true));
+			commandList.add(new Turn(0, 1.5, 1.25, true));
 			commandList.add(new SetClaw(true));
 			
-			commandList.add(new ShiftPivotArm(4, 4.0, false, 0.0));
-			commandList.add(new Drive(72, 0.125, 4.0, true));
+			commandList.add(new ShiftPivotArm(8, 2.0, true, 0.0));
+			commandList.add(new Drive(-52, 0.125, 2.0, true));
+			commandList.add(new SetClaw(false));
+			
+			commandList.add(new ShiftPivotArm(4, 2.5, false, 0.0));
+			commandList.add(new Drive(52, 0.125, 2.5, true));
 			commandList.add(new SetClaw(false));
 		} else {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 6.0));
