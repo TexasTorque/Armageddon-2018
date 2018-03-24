@@ -89,7 +89,7 @@ public class Arm extends Subsystem {
 			if((currentAngle < 55 && i.getPTSetpoint() > 60) || currentAngle > 100 ) {
 				setpoint = currentDistance;
 			}
-				i.setArmSpeed((1.5 / Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+				i.setArmSpeed((2.0 / Math.PI) * Math.atan(0.06 * (setpoint - currentDistance)));
 			}
 
 			speed = i.getArmSpeed();

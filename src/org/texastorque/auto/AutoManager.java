@@ -11,6 +11,7 @@ import org.texastorque.auto.sequences.PlaceTwoCubeScale;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Arm;
+import org.texastorque.subsystems.Claw;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
@@ -36,6 +37,7 @@ public class AutoManager {
 		subsystems.add(Drivebase.getInstance());
 		subsystems.add(Arm.getInstance());
 		subsystems.add(Pivot.getInstance());
+		subsystems.add(Claw.getInstance());
 		setAutoMode(0);
 	}
 	
@@ -45,6 +47,7 @@ public class AutoManager {
 		subsystems.add(Drivebase.getInstance());
 		subsystems.add(Arm.getInstance());
 		subsystems.add(Pivot.getInstance());
+		subsystems.add(Claw.getInstance());
 		setAutoMode(auto);
 		
 	}
@@ -76,7 +79,7 @@ public class AutoManager {
 			case 3:
 				commandList.addAll(new PlaceCubeScale(3).getCommands());
 				break;
-fdsklja
+
 			case 4:
 				commandList.addAll(new PlaceCubeSwitch(1).getCommands());
 				break;
@@ -89,7 +92,7 @@ fdsklja
 				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
 				break;
 			case 7: 
-				commandList.addAll(new PlaceTwoCubeScale(1).getCommands());
+				commandList.addAll(new PlaceTwoCubeScale(3).getCommands());
 			default:
 				break;
 
