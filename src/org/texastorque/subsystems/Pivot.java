@@ -17,7 +17,7 @@ public class Pivot extends Subsystem {
 	 * The original speed calculation had an asymptote in [0.7, 0.8]. 
 	 * For this reason, the value is capped at 0.7 for initial PID tests.
 	 */
-	private static final double OUTPUT_MAX_ABS = 0.7;
+	private static final double OUTPUT_MAX_ABS = 0.9;
 
 	private static Pivot instance;
 
@@ -40,8 +40,11 @@ public class Pivot extends Subsystem {
 	private Pivot() {
 		delay = 0;
 		
-		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS)
-				.setPGains(0.05)
+		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS, 3)
+				.setPGains(0.06, 0.1, 0.06)
+				.setIGains(0.01)
+				.setDGains(0.00001, 0, 0.00001)
+				.setRegions(-10, 10)
 				.build();
 	}
 
@@ -121,9 +124,9 @@ public class Pivot extends Subsystem {
 		}
 
 		// Original Code - Retain for test comparison.
-		speed = (1.5 / Math.PI) * Math.atan(0.06 * (setpoint - currentAngle));
+//		speed = (1.5 / Math.PI) * Math.atan(0.06 * (setpoint - currentAngle));
 		
-//		speed = pivotPID.calculate(currentAngle);
+		speed = pivotPID.calculate(currentAngle);
 		output();
 	}
 

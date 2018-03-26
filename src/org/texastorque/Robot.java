@@ -38,7 +38,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void robotInit() {
 		Input.getInstance();
-//		CameraServer.getInstance().startAutomaticCapture(1);
+	//	CameraServer.getInstance().startAutomaticCapture(1);
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
