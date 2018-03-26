@@ -182,6 +182,7 @@ public class Input {
 	}
 
 	public void setClaw(boolean closed) {
+		System.out.println(closed);
 		CL_closed.set(closed);
 	}
 
@@ -189,6 +190,17 @@ public class Input {
 		return encodersDead.get();
 	}
 
+	public void startIntaking() {
+		IN_speed = -.35;
+	}
+	
+	public void startOutaking() {
+		IN_speed = .35;
+	}
+	
+	public void stopSpinning() {
+		IN_speed = 0;
+	}
 	public static Input getInstance() {
 		return instance == null ? instance = new Input() : instance;
 	}

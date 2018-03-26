@@ -15,6 +15,7 @@ import org.texastorque.subsystems.Claw;
 import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
+import org.texastorque.subsystems.WheelIntake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +39,7 @@ public class AutoManager {
 		subsystems.add(Arm.getInstance());
 		subsystems.add(Pivot.getInstance());
 		subsystems.add(Claw.getInstance());
+		subsystems.add(WheelIntake.getInstance());
 		setAutoMode(0);
 	}
 	
@@ -48,6 +50,7 @@ public class AutoManager {
 		subsystems.add(Arm.getInstance());
 		subsystems.add(Pivot.getInstance());
 		subsystems.add(Claw.getInstance());
+		subsystems.add(WheelIntake.getInstance());
 		setAutoMode(auto);
 		
 	}
@@ -92,6 +95,8 @@ public class AutoManager {
 				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
 				break;
 			case 7: 
+				commandList.addAll(new PlaceTwoCubeScale(1).getCommands());
+			case 8:
 				commandList.addAll(new PlaceTwoCubeScale(3).getCommands());
 			default:
 				break;

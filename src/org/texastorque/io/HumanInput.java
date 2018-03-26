@@ -57,11 +57,11 @@ public class HumanInput extends Input {
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(driver.getAButton());
 		if (driver.getLeftBumper()) {
-			IN_speed = -.35;
+			startIntaking();
 		} else if (driver.getRightBumper()) {
-			IN_speed = .35;
+			startOutaking();
 		} else {
-			IN_speed = 0;
+			stopSpinning();
 		}
 	}
 

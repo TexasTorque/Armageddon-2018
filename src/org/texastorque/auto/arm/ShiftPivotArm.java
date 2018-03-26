@@ -1,7 +1,6 @@
 package org.texastorque.auto.arm;
 
 import org.texastorque.auto.AutoCommand;
-
 import org.texastorque.auto.AutoManager;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Pivot;

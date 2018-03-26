@@ -12,7 +12,7 @@ public class Constants {
 
 	// Drivebase
 	public static final Constant DB_MVELOCITY = new Constant("DB_MVELOCITY", 168.0);
-	public static final Constant DB_MACCELERATION = new Constant("DB_MACCELERATION", 80.0);
+	public static final Constant DB_MACCELERATION = new Constant("DB_MACCELERATION", 60.0);
 	public static final Constant DB_TURN_MVELOCITY = new Constant("DB_TURN_MVELOCITY", 30.0); // 60
 	public static final Constant DB_TURN_MACCELERATION = new Constant("DB_TURN_MACCELERATION", 8.0); // 10
 

@@ -33,7 +33,6 @@ public class Robot extends TorqueIterative {
 	private SendableChooser<String> autoSelector = new SendableChooser<>();
 	private SendableChooser<String> recordingNameSelector = new SendableChooser<>();
 	String config = DriverStation.getInstance().getGameSpecificMessage();
-	
 
 	@Override
 	public void robotInit() {
@@ -47,6 +46,7 @@ public class Robot extends TorqueIterative {
 		initRecordingNameSelector();
 		SmartDashboard.putData(autoSelector);
 		SmartDashboard.putData(recordingNameSelector);
+		SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
 		System.out.println("I want to quit");
 	}
 
@@ -88,7 +88,7 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void autonomousInit() {
-		String currentMode = "LeftScaleNoRecording";//autoSelector.getSelected();
+		String currentMode = autoSelector.getSelected();
 		System.out.println(currentMode);
 		TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
@@ -108,11 +108,19 @@ public class Robot extends TorqueIterative {
 			//if(config.equals("LLL") || config.equals("RLR")) {
 			//	AutoManager.getInstance(2);
 			//} else 
-			AutoManager.getInstance(7);
+			AutoManager.getInstance(2);
 			AutoManager.beginAuto();
 			break;
 		case "RightScaleNoRecording":
 			AutoManager.getInstance(3);
+			AutoManager.beginAuto();
+			break;
+		case "LeftScaleTwoCube":
+			AutoManager.getInstance(7);
+			AutoManager.beginAuto();
+			break;
+		case "RightScaleTwoCube":
+			AutoManager.getInstance(8);
 			AutoManager.beginAuto();
 			break;
 		case "LeftSwitchNoRecording":
@@ -187,7 +195,10 @@ public class Robot extends TorqueIterative {
 			SmartDashboard.putNumber("Time", time++);
 			TorqueLog.logData();
 		}		
-
+		if(SmartDashboard.getNumber("AUTO_MENU_WORKING", 0) != 0.0) {
+			SmartDashboard.putData(autoSelector);
+			SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
+		}
 		Feedback.getInstance().smartDashboard();
 		AutoManager.smartDashboard();
 		

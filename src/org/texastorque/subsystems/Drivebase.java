@@ -25,8 +25,6 @@ public class Drivebase extends Subsystem {
 	private double precision;
 
 	private TorqueTMP driveTMP;
-	private TorqueTMP leftDriftTMP;
-	private TorqueTMP rightDriftTMP;
 	private TorquePV leftPV;
 	private TorquePV rightPV;
 	private TorqueRIMP leftRIMP;
@@ -38,6 +36,10 @@ public class Drivebase extends Subsystem {
 	// Turn
 	private double turnSetpoint;
 	private double currentAngle;
+	
+	private boolean driftLeft;
+	private boolean driftForward;
+	private int driftIndex;
 
 	public enum DriveType {
 		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT, AUTODRIFT;
@@ -51,6 +53,7 @@ public class Drivebase extends Subsystem {
 
 	@Override
 	public void autoInit() {
+		driftIndex = 0;
 		type = DriveType.AUTODRIVE;
 		auto = PlaybackAutoMode.getInstance();
 		init();
@@ -70,8 +73,6 @@ public class Drivebase extends Subsystem {
 
 	private void init() {
 		driveTMP = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
-		leftDriftTMP = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
-		rightDriftTMP = new TorqueTMP(Constants.DB_MVELOCITY.getDouble(), Constants.DB_MACCELERATION.getDouble());
 		leftPV = new TorquePV();
 		rightPV = new TorquePV();
 
@@ -170,30 +171,53 @@ public class Drivebase extends Subsystem {
 				}
 				break;
 			case AUTODRIFT:
-				turnSetpoint = i.getDBTurnSetpoint();
-				currentAngle = f.getDBAngle();
-				setpoint = i.getDBDriveSetpoint();
-				if (setpoint != previousSetpoint) {
-					previousSetpoint = setpoint;
-					precision = i.getDBPrecision();
-					leftDriftTMP.generateTrapezoid(setpoint + turnSetpoint * 17/360/*radius / degrees*/, 0d, 0d);
-					rightDriftTMP.generateTrapezoid(setpoint - turnSetpoint * 17/360/*radius / degrees*/, 0d, 0d);
-					previousTime = Timer.getFPGATimestamp();
-				}
-				if (TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
-						&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision))
-					AutoManager.interruptThread();
-				dt = Timer.getFPGATimestamp() - previousTime;
-				previousTime = Timer.getFPGATimestamp();
-				driveTMP.calculateNextSituation(dt);
-		
-				targetPosition = driveTMP.getCurrentPosition();
-				targetVelocity = driveTMP.getCurrentVelocity();
-				targetAcceleration = driveTMP.getCurrentAcceleration();
-		
-				leftSpeed = leftPV.calculate(leftDriftTMP, f.getDBLeftDistance(), f.getDBLeftRate());
-				rightSpeed = rightPV.calculate(rightDriftTMP, f.getDBRightDistance(), f.getDBRightRate());
-				
+				switch(driftIndex) {
+				case 0: 
+					if(f.getDBLeftDistance() > 140) {
+						driftIndex++;
+					}
+					if(driftForward) {
+						leftSpeed = .7;
+						rightSpeed = .7;
+					} else {
+						leftSpeed = -.7;
+						rightSpeed = -.7;
+					}
+					break;
+				case 1:
+					if(driftLeft) {
+						if(f.getDBAngle() < -85) {
+							driftIndex++;
+						}	
+						leftSpeed = -.4;
+						rightSpeed = .4;
+					} else {
+						if(f.getDBAngle() > 85) {
+							driftIndex++;
+						}
+						leftSpeed = .4;
+						rightSpeed = -.4;
+					}//else
+					//
+					break;
+				case 2:
+					if(Math.abs(90 - Math.abs(f.getDBAngle())) < 2) {
+						driftIndex++;
+					} else if(driftLeft) {
+						leftSpeed = -.2;
+						rightSpeed = .2;
+					} else {
+						leftSpeed = .2;
+						rightSpeed = -.2;
+					}
+					break;
+				case 3:
+					i.setDBDriveSetpoint(100, 1);
+					setType(DriveType.AUTODRIVE);
+					break;
+					
+				}				
+				break;
 			case AUTOBACKUP:
 				leftSpeed = 0.5;
 				rightSpeed = 0.5;
@@ -249,6 +273,11 @@ public class Drivebase extends Subsystem {
 		}
 	}
 
+	public void setDriftDirection(boolean left, boolean forward) {
+		driftLeft = left;
+		driftForward = forward;
+	}
+	
 	private void output() {
 		o.setDrivebaseSpeed(leftSpeed, rightSpeed);
 	}
