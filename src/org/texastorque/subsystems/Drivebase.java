@@ -173,7 +173,7 @@ public class Drivebase extends Subsystem {
 			case AUTODRIFT:
 				switch(driftIndex) {
 				case 0: 
-					if(f.getDBLeftDistance() > 140) {
+					if(f.getDBLeftDistance() > 90) {
 						driftIndex++;
 					}
 					if(driftForward) {

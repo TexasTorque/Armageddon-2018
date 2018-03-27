@@ -184,6 +184,7 @@ public class ScheduledPID {
 				+ ", \n\tintegrator=" + integrator + ", \n\ttimer=" + timer + "\n]";
 	}
 
+
 	/** Enables strict handling of invalid constructor arguments.
 	 * 
 	 * @param enabled True if invalid constructor arguments should throw errors.

@@ -17,7 +17,7 @@ public class Pivot extends Subsystem {
 	 * The original speed calculation had an asymptote in [0.7, 0.8]. 
 	 * For this reason, the value is capped at 0.7 for initial PID tests.
 	 */
-	private static final double OUTPUT_MAX_ABS = 0.9;
+	private static final double OUTPUT_MAX_ABS = 0.5;
 
 	private static Pivot instance;
 

@@ -66,6 +66,8 @@ public class Robot extends TorqueIterative {
 		autoSelector.addObject("RightScaleNoRecording", "RightScaleNoRecording");
 		autoSelector.addObject("LeftSwitchNoRecording", "LeftSwitchNoRecording");
 		autoSelector.addObject("RightSwitchNoRecording", "RightSwitchNoRecording");
+		autoSelector.addObject("LeftScaleTwoCube", "LeftScaleTwoCube");
+		autoSelector.addObject("RightScaleTwoCube", "RightScaleTwoCube");
 		autoSelector.addObject("CenterSwitch", "CenterSwitch");
 		autoSelector.addObject("LeftRecording", "LeftRecording");
 		autoSelector.addObject("RightRecording", "RightRecording");
