@@ -219,8 +219,8 @@ public class Drivebase extends Subsystem {
 				}				
 				break;
 			case AUTOBACKUP:
-				leftSpeed = 0.5;
-				rightSpeed = 0.5;
+				leftSpeed = 0.6;
+				rightSpeed = 0.6;
 				break;
 				
 			default:
