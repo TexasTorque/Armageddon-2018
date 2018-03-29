@@ -50,8 +50,7 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		autoStartTime = Timer.getFPGATimestamp();
-		//auto = PlaybackAutoMode.getInstance();
+
 	}
 
 	@Override
@@ -105,7 +104,7 @@ public class Pivot extends Subsystem {
 	public void teleopContinuous() {
 		if (i.getEncodersDead()) {
 			runPivotBackup();
-		} else if (hasTimeToRun(false)) {
+		} else if (delayStartTime + delay < Timer.getFPGATimestamp()) {
 			runPivot();
 		}
 	}
@@ -150,15 +149,12 @@ public class Pivot extends Subsystem {
 	public void setDelay(double time) {
 		System.out.println(autoStartTime + "AST" + delay + "DLY" + Timer.getFPGATimestamp() + "TMR");
 		delay = time;
+		autoStartTime = Timer.getFPGATimestamp();
 	}
 
 	public void teleopSetDelay(double time) {
 		delayStartTime = Timer.getFPGATimestamp();
-		delay = time;	}
-
-	private boolean hasTimeToRun(boolean isInAuto) {
-		double startTime = isInAuto ? autoStartTime : delayStartTime;
-		return (startTime + delay) < Timer.getFPGATimestamp();
+		delay = time;	
 	}
 
 	@Override

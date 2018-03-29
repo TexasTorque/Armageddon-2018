@@ -16,16 +16,15 @@ public class ShiftPivotArm extends AutoCommand {
 		super(pause);
 		this.setpointIndex = setpointIndex;
 		this.time = time;
-		Arm.getInstance().setDelay(delay);
-		Pivot.getInstance().setDelay(delay);
 	}
 
 	@Override
 	public void run() {
-		input.setIntakeDown(false);
-		input.setIntakeOut(true);
 		input.setPTSetpoint(setpointIndex);
-		input.setArmSetpoint(setpointIndex);
+		input.setArmSetpoint(setpointIndex);		
+		Arm.getInstance().setDelay(delay);
+		Pivot.getInstance().setDelay(delay);
+
 		if (pause) {
 			AutoManager.pause(time);
 		}
