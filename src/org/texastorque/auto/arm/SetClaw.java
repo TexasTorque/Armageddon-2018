@@ -6,6 +6,7 @@ import org.texastorque.auto.AutoManager;
 public class SetClaw extends AutoCommand {
 
 	private boolean open;
+
 	public SetClaw(boolean open, boolean pause) {
 		super(pause);
 		this.open = open;
@@ -13,7 +14,6 @@ public class SetClaw extends AutoCommand {
 
 	public SetClaw(boolean pause) {
 		super(pause);
-		input.toggleClaw();
 	}
 	@Override
 	public void run() {
