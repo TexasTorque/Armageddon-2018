@@ -47,7 +47,6 @@ public class Robot extends TorqueIterative {
 		SmartDashboard.putData(autoSelector);
 		SmartDashboard.putData(recordingNameSelector);
 		SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
-		System.out.println("I want to quit");
 	}
 
 	private void initSubsystems() {
@@ -91,7 +90,6 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 		String currentMode = autoSelector.getSelected();
-		System.out.println(currentMode);
 		TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();

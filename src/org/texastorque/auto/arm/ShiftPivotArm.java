@@ -11,11 +11,9 @@ public class ShiftPivotArm extends AutoCommand {
 
 	private int setpointIndex;
 	private final double time;
-	private final double startingTime;
-
+	
 	public ShiftPivotArm(int setpointIndex, double time, boolean pause, double delay) {
 		super(pause);
-		startingTime = Timer.getFPGATimestamp();
 		this.setpointIndex = setpointIndex;
 		this.time = time;
 		Arm.getInstance().setDelay(delay);

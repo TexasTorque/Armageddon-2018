@@ -86,9 +86,9 @@ public class HumanInput extends Input {
 
 	private void handleDriverInputs() {
 		if (driver.getBButton()) {
-			AM_setpoint = 950;
-			if(feedback.getArmDistance() > 850)
-				PT_setpoint = 85.0;
+			AM_setpoint = 1950;
+			if(feedback.getArmDistance() > 1750)
+				PT_setpoint = 220.0; //bravo 85 charlie 220
 		} 
 		if (driver.getXButton()) {
 			AM_setpoint = -2000;

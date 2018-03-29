@@ -86,7 +86,7 @@ public class Arm extends Subsystem {
 			setpoint = i.getArmSetpoint();
 			currentDistance = f.getArmDistance();
 			currentAngle = f.getPTAngle();
-			if((currentAngle < 55 && i.getPTSetpoint() > 60) || currentAngle > 100 ) {
+			if((currentAngle < 175 && i.getPTSetpoint() > 177) || (i.getPTSetpoint() > 250 && currentAngle < 248)) {
 				setpoint = currentDistance;
 			}
 				i.setArmSpeed((2.0 / Math.PI) * Math.atan(0.06 * (setpoint - currentDistance)));
@@ -128,7 +128,7 @@ public class Arm extends Subsystem {
 		//	setpoint = currentDistance;
 		//}
 
-		if((currentAngle < 65 && i.getPTSetpoint() > 67) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+		if((currentAngle < 175 && i.getPTSetpoint() > 177) || (i.getPTSetpoint() > 250 && currentAngle < 248)) {
 			setpoint = currentDistance;
 		}		
 		if (TorqueMathUtil.near(setpoint, currentDistance, 12)) {
@@ -150,7 +150,9 @@ public class Arm extends Subsystem {
 	}
 
 	public void setDelay(double time) {
+		autoStartTime = Timer.getFPGATimestamp();
 		delay = time;
+		System.out.println(autoStartTime + "AST" + delay + "DLY" + Timer.getFPGATimestamp() + "TMR");
 	}
 
 	public void teleopSetDelay(double time) {

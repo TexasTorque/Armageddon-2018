@@ -17,7 +17,7 @@ public class Pivot extends Subsystem {
 	 * The original speed calculation had an asymptote in [0.7, 0.8]. 
 	 * For this reason, the value is capped at 0.7 for initial PID tests.
 	 */
-	private static final double OUTPUT_MAX_ABS = 0.5;
+	private static final double OUTPUT_MAX_ABS = 0.7;
 
 	private static Pivot instance;
 
@@ -41,9 +41,9 @@ public class Pivot extends Subsystem {
 		delay = 0;
 		
 		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS, 3)
-				.setPGains(0.06, 0.1, 0.06)
-				.setIGains(0.01)
-				.setDGains(0.00001, 0, 0.00001)
+				.setPGains(0.03)//, 0.04, 0.025)
+			//	.setIGains(0.007)
+			//	.setDGains(0.00001, 0, 0.00001)
 				.setRegions(-10, 10)
 				.build();
 	}
@@ -51,7 +51,7 @@ public class Pivot extends Subsystem {
 	@Override
 	public void autoInit() {
 		autoStartTime = Timer.getFPGATimestamp();
-		auto = PlaybackAutoMode.getInstance();
+		//auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override
@@ -72,9 +72,10 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(type.equals(AutoType.RECORDING))
-			recordingAutoContin();
-		else commandAutoContin();
+	//	if(type.equals(AutoType.RECORDING))
+	//		recordingAutoContin();
+	//	else 
+		commandAutoContin();
 		output();
 	}
 
@@ -115,8 +116,8 @@ public class Pivot extends Subsystem {
 		currentArmSetpoint = i.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
 		if (setpoint != previousSetpoint) {
-			if (currentArmSetpoint < 150 && currentArmDistance > 150) {
-				setpoint = 75;
+			if (currentArmSetpoint < 350 && currentArmDistance > 350) {
+				setpoint = 190;
 			}
 
 			previousSetpoint = setpoint;
@@ -147,13 +148,13 @@ public class Pivot extends Subsystem {
 	}
 
 	public void setDelay(double time) {
+		System.out.println(autoStartTime + "AST" + delay + "DLY" + Timer.getFPGATimestamp() + "TMR");
 		delay = time;
 	}
 
 	public void teleopSetDelay(double time) {
 		delayStartTime = Timer.getFPGATimestamp();
-		delay = time;
-	}
+		delay = time;	}
 
 	private boolean hasTimeToRun(boolean isInAuto) {
 		double startTime = isInAuto ? autoStartTime : delayStartTime;

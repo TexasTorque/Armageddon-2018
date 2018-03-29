@@ -34,7 +34,7 @@ public class PlaceCubeScale extends AutoSequence {
 			commandList.add(new Drive(220, .125, 3.25, true));
 		}
 
-		commandList.add(new SetClaw(false)); // Open claw after any sequence.
+		commandList.add(new SetClaw(true, false)); // Open claw after any sequence.
 	}
 
 	private void handlePosition1() {

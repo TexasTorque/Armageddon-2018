@@ -11,7 +11,7 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoInit() {
-		auto = PlaybackAutoMode.getInstance();
+//		auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override
