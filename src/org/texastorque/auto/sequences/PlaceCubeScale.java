@@ -34,22 +34,24 @@ public class PlaceCubeScale extends AutoSequence {
 			commandList.add(new Drive(220, .125, 3.25, true));
 		}
 
-		commandList.add(new SetClaw(true, false)); // Open claw after any sequence.
+		commandList.add(new SetClaw(true, true)); // Open claw after any sequence.
+		commandList.add(new Drive(1, .125, 1.0, true));
+		commandList.add(new Drive(-12, .125, 2.0, true));
 	}
 
 	private void handlePosition1() {
 		if (scaleSide == 'L') {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 			commandList.add(new Drive(260, 0.125, 4.0, true));
-			commandList.add(new Turn(45, 1.5, 2.25, true));
-			commandList.add(new Drive(28, .125, 1, true));
+			commandList.add(new Turn(45, 1.5, 1.5, true));
+			commandList.add(new Drive(32, .125, 1.5, true));
 		} else {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 6.0));
 			commandList.add(new Drive(220, 0.125, 3.25, true));
-			commandList.add(new Turn(90, 1.5, 2.25, true));
+			commandList.add(new Turn(90, 1.5, 1.5, true));
 			commandList.add(new Drive(178, 0.125, 3.25, true));
-			commandList.add(new Turn(0, 1.5, 2.25, true));
-			commandList.add(new Drive(48, 0.125, 2.0, true));
+			commandList.add(new Turn(0, 1.5, 2.0, true));
+			commandList.add(new Drive(54, 0.125, 2.0, true));
 		}
 	}
 
@@ -57,15 +59,15 @@ public class PlaceCubeScale extends AutoSequence {
 		if (scaleSide == 'R') {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 			commandList.add(new Drive(260, 0.125, 4.0, true));
-			commandList.add(new Turn(-45, 1.5, 2.25, true));
-			commandList.add(new Drive(28, .125, 1, true));
+			commandList.add(new Turn(-45, 1.5, 1.5, true));
+			commandList.add(new Drive(32, .125, 1.5, true));
 		} else {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 6.0));
 			commandList.add(new Drive(220, 0.125, 3.25, true));
-			commandList.add(new Turn(-90, 1.5, 2.25, true));
+			commandList.add(new Turn(-90, 1.5, 1.5, true));
 			commandList.add(new Drive(178, 0.125, 3.25, true));
-			commandList.add(new Turn(0, 1.5, 2.25, true));
-			commandList.add(new Drive(48, 0.125, 2.0, true));
+			commandList.add(new Turn(0, 1.5, 2.0, true));
+			commandList.add(new Drive(54, 0.125, 2.0, true));
 		}
 	}
 

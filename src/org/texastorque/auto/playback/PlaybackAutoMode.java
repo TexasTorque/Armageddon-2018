@@ -177,14 +177,16 @@ public class PlaybackAutoMode extends Input {
 	        return new double[]{slope, intercept};
 		}
 	}
-	
+
 	public static synchronized PlaybackAutoMode getInstance() {
-		String directory = "/home/lvuser/recording" + DriverStation.getInstance().getGameSpecificMessage()
+		/*String directory = "/home/lvuser/recording" + DriverStation.getInstance().getGameSpecificMessage()
 				+ ".json";
 		try {
 		return instance == null ? instance = new PlaybackAutoMode(directory) : instance;
 		}catch(Exception e) {
 			return null;
 		}
+		*/
+		return null;
 	}
 }

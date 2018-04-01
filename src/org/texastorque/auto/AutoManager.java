@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.texastorque.auto.drive.BackupDrive;
+import org.texastorque.auto.drive.Drive;
 import org.texastorque.auto.sequences.PlaceCubeScale;
 import org.texastorque.auto.sequences.PlaceCubeSwitch;
 import org.texastorque.auto.sequences.PlaceTwoCubeScale;
+import org.texastorque.auto.sequences.PlaceTwoCubeSwitch;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Arm;
@@ -56,7 +58,6 @@ public class AutoManager {
 	}
 
 	public static void beginAuto() {
-		System.out.println("beginAuto");
 		setPointReached = false;
 		commandsDone = false;
 		analyzeAutoMode();
@@ -72,7 +73,7 @@ public class AutoManager {
 				System.out.println("0");
 				break;
 			case 1:
-				commandList.add(new BackupDrive(2.0, true));
+				commandList.add(new Drive(120, 1, 2, true));
 				break;
 
 			case 2:
@@ -96,8 +97,12 @@ public class AutoManager {
 				break;
 			case 7: 
 				commandList.addAll(new PlaceTwoCubeScale(1).getCommands());
+				break;
 			case 8:
 				commandList.addAll(new PlaceTwoCubeScale(3).getCommands());
+				break;
+			case 9: 
+				commandList.addAll(new PlaceTwoCubeSwitch().getCommands());
 			default:
 				break;
 

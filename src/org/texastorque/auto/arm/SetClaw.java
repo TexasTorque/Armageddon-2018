@@ -9,18 +9,15 @@ public class SetClaw extends AutoCommand {
 
 	public SetClaw(boolean open, boolean pause) {
 		super(pause);
-		this.open = open;
+		this.open = open;		
+		if(pause)
+			AutoManager.pause(.5);
+
 	}
 
 	@Override
 	public void run() {
 		input.setClaw(open);
-	}
-
-	public void run(double time) {
-		input.setClaw(open);
-		AutoManager.getInstance();
-		AutoManager.pause(time);
 	}
 
 	@Override

@@ -115,7 +115,7 @@ public class Pivot extends Subsystem {
 		currentArmSetpoint = i.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
 		if (setpoint != previousSetpoint) {
-			if (currentArmSetpoint < 350 && currentArmDistance > 350) {
+			if (currentArmSetpoint < 200 && currentArmDistance > 200) {
 				setpoint = 190;
 			}
 
@@ -135,7 +135,8 @@ public class Pivot extends Subsystem {
 			speed = -.2;
 		} else if (i.getPivotCW()) {
 			speed = .2;
-		}
+		} else speed = 0;
+		output();
 	}
 
 	private void output() {

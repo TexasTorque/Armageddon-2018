@@ -37,7 +37,7 @@ public class Ports {
 	public static final int AM_ENCODER_B = 5;
 
 	// Claw
-	public static final int CL_SOLE_A = 1;
-	public static final int CL_SOLE_B = 0;
+	public static final int CL_SOLE_A = 0;
+	public static final int CL_SOLE_B = 1;
 
 }

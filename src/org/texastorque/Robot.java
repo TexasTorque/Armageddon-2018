@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 
 import org.texastorque.auto.AutoManager;
-import org.texastorque.auto.PlaybackAutoManager;
 import org.texastorque.auto.playback.HumanInputRecorder;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
@@ -18,7 +17,7 @@ import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.base.TorqueIterative;
-import org.texastorque.torquelib.torquelog.TorqueLog;
+//import org.texastorque.torquelib.torquelog.TorqueLog;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -59,10 +58,10 @@ public class Robot extends TorqueIterative {
 	}
 	
 	private void initAutoSelector() {
-		autoSelector.addDefault("DoNothing", "DoNothing");
-		autoSelector.addObject("DriveForward", "DriveForward");
-		autoSelector.addObject("LeftScaleNoRecording", "LeftScaleNoRecording");
-		autoSelector.addObject("RightScaleNoRecording", "RightScaleNoRecording");
+		autoSelector.addDefault("DriveForward", "DriveForward");
+		autoSelector.addObject("DoNothing", "DoNothing");
+		autoSelector.addObject("LeftScaleOneCube", "LeftScaleOneCube");
+		autoSelector.addObject("RightScaleOneCube", "RightScaleOneCube");
 		autoSelector.addObject("LeftSwitchNoRecording", "LeftSwitchNoRecording");
 		autoSelector.addObject("RightSwitchNoRecording", "RightSwitchNoRecording");
 		autoSelector.addObject("LeftScaleTwoCube", "LeftScaleTwoCube");
@@ -70,7 +69,7 @@ public class Robot extends TorqueIterative {
 		autoSelector.addObject("CenterSwitch", "CenterSwitch");
 		autoSelector.addObject("LeftRecording", "LeftRecording");
 		autoSelector.addObject("RightRecording", "RightRecording");
-		
+		autoSelector.addObject("CenterSwitchTwoCube", "CenterSwitchTwoCube");
 	}
 	
 	private void initRecordingNameSelector() {
@@ -90,7 +89,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousInit() {
 		String currentMode = autoSelector.getSelected();
-		TorqueLog.startLog();
+		//TorqueLog.startLog();
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();
 		time = 0;
@@ -100,18 +99,22 @@ public class Robot extends TorqueIterative {
 		}
 		
 		switch(currentMode) {
+		case "CenterSwitchTwoCube":
+			AutoManager.getInstance(9);
+			AutoManager.beginAuto();
+			break;
 		case "DoNothing":
 			AutoManager.getInstance(0);
 			AutoManager.beginAuto();
 			break;
-		case "LeftScaleNoRecording":
+		case "LeftScaleOneCube":
 			//if(config.equals("LLL") || config.equals("RLR")) {
 			//	AutoManager.getInstance(2);
 			//} else 
 			AutoManager.getInstance(2);
 			AutoManager.beginAuto();
 			break;
-		case "RightScaleNoRecording":
+		case "RightScaleOneCube":
 			AutoManager.getInstance(3);
 			AutoManager.beginAuto();
 			break;
@@ -136,25 +139,8 @@ public class Robot extends TorqueIterative {
 			AutoManager.beginAuto();
 			break;
 		case "LeftRecording":
-			if(config.equals("LLL") || config.equals("RLR")) {
-				PlaybackAutoManager.getInstance();
-				setRecordingAutoType();
-			} else {
-				AutoManager.getInstance(2);
-				AutoManager.beginAuto();
-			}
-				
 			break;
 		case "RightRecording":
-			if(config.equals("RRR") || config.equals("LRL")) {
-				PlaybackAutoManager.getInstance();
-				System.out.println("flow 0.5");
-				setRecordingAutoType();
-			} else {
-				AutoManager.getInstance(3);
-				AutoManager.beginAuto();
-			}
-			
 			break;
 		default:
 			AutoManager.getInstance(1);
@@ -173,7 +159,7 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void teleopInit() {
 		CameraServer.getInstance().startAutomaticCapture(0);
-		TorqueLog.startLog();
+	//	TorqueLog.startLog();
 		Drivebase.getInstance().setType(DriveType.TELEOP);
 
 		for (Subsystem system : subsystems) {
@@ -193,7 +179,6 @@ public class Robot extends TorqueIterative {
 		}
 		if (isEnabled()) {
 			SmartDashboard.putNumber("Time", time++);
-			TorqueLog.logData();
 		}		
 		if(SmartDashboard.getNumber("AUTO_MENU_WORKING", 0) != 0.0) {
 			SmartDashboard.putData(autoSelector);

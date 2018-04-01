@@ -53,10 +53,10 @@ public class RobotOutput {
 	}
 
 	public void setDrivebaseSpeed(double leftSpeed, double rightSpeed) {
-		DB_leftFore.set(0);//leftSpeed);
-		DB_leftRear.set(0);//leftSpeed);
-		DB_rightFore.set(0);//rightSpeed);
-		DB_rightRear.set(0);//rightSpeed);
+		DB_leftFore.set(leftSpeed);
+		DB_leftRear.set(leftSpeed);
+		DB_rightFore.set(rightSpeed);
+		DB_rightRear.set(rightSpeed);
 	}
 
 	public void setPivotSpeed(double speed) {

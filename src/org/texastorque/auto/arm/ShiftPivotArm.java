@@ -11,11 +11,13 @@ public class ShiftPivotArm extends AutoCommand {
 
 	private int setpointIndex;
 	private final double time;
+	private double delay;
 	
 	public ShiftPivotArm(int setpointIndex, double time, boolean pause, double delay) {
 		super(pause);
 		this.setpointIndex = setpointIndex;
 		this.time = time;
+		this.delay = delay;
 	}
 
 	@Override
