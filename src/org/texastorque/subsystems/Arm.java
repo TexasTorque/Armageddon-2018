@@ -28,7 +28,6 @@ public class Arm extends Subsystem {
 	public void autoInit() {
 		autoStartTime = Timer.getFPGATimestamp();
 		delay = 0;
-		auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class Arm extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(type.equals(AutoType.RECORDING))
+		if(autoType.equals(AutoType.RECORDING))
 			recordingAutoContin();
 		else commandAutoContin();
 		output();
@@ -124,13 +123,14 @@ public class Arm extends Subsystem {
 		currentDistance = f.getArmDistance();
 		currentAngle = f.getPTAngle();
 
-		//if((currentAngle < 155 && auto.getPTSetpoint() > 160) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
-		//	setpoint = currentDistance;
-		//}
-
-		if((currentAngle < 160 && i.getPTSetpoint() > 162) || (i.getPTSetpoint() > 250 && currentAngle < 248)) {
+		if((currentAngle < 70 && i.getPTSetpoint() > 72) || (currentAngle < 100)&& i.getPTSetpoint() >101)  {
 			setpoint = currentDistance;
-		}		
+		}
+
+		/*if((currentAngle < 160 && i.getPTSetpoint() > 162) || (i.getPTSetpoint() > 250 && currentAngle < 248)) {
+			setpoint = currentDistance;
+		}
+		*/		
 		if (TorqueMathUtil.near(setpoint, currentDistance, 12)) {
 			i.setArmSpeed(0);
 		} else {
@@ -168,6 +168,7 @@ public class Arm extends Subsystem {
 		o.setArmSpeed(speed);
 	}
 
+	
 	public static Arm getInstance() {
 		return instance == null ? instance = new Arm() : instance;
 	}

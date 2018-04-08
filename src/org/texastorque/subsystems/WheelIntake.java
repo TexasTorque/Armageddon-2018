@@ -12,7 +12,6 @@ public class WheelIntake extends Subsystem {
 
 	@Override
 	public void autoInit() {
-		auto = PlaybackAutoMode.getInstance();
 		init();
 	}
 
@@ -31,7 +30,7 @@ public class WheelIntake extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(type.equals(AutoType.RECORDING))
+		if(autoType.equals(AutoType.RECORDING))
 			recordingAutoContin();
 		else commandAutoContin();
 		output();

@@ -55,7 +55,6 @@ public class Drivebase extends Subsystem {
 	public void autoInit() {
 		driftIndex = 0;
 		type = DriveType.AUTODRIVE;
-		auto = PlaybackAutoMode.getInstance();
 		init();
 	}
 
@@ -117,7 +116,7 @@ public class Drivebase extends Subsystem {
 	
 	@Override
 	public void autoContinuous() {
-		if(type.equals(AutoType.RECORDING))
+		if(autoType.equals(AutoType.RECORDING))
 			recordingAutoContin();
 		else commandAutoContin();
 		output();
@@ -126,7 +125,7 @@ public class Drivebase extends Subsystem {
 	private void recordingAutoContin() {
 		leftSpeed = auto.getDBLeftSpeed();
 		rightSpeed = auto.getDBRightSpeed();
-		
+		System.out.println(leftSpeed);
 	}
 	
 	private void commandAutoContin() {

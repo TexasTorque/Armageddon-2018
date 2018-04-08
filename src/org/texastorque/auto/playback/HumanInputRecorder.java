@@ -10,6 +10,9 @@ import org.texastorque.models.RobotInputState;
 import org.texastorque.torquelib.util.TorqueToggle;
 import org.texastorque.util.FileUtils;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 public class HumanInputRecorder extends Input {
 	
 	private static final String RECORDING_DIR = "/home/lvuser";
@@ -35,8 +38,8 @@ public class HumanInputRecorder extends Input {
 		this.inputHistory = new ArrayList<RobotInputState>();
 	}
 	
-	public void setCurrentFieldConfig(String str) {
-		currentFieldConfig = str;
+	public void setCurrentFieldConfig() {
+		currentFieldConfig = DriverStation.getInstance().getGameSpecificMessage();
 	}
 	
 	public void update(){
@@ -66,7 +69,10 @@ public class HumanInputRecorder extends Input {
 	}
 	
 	private static String createJSONFile() {
-		String recording = "recording" + currentFieldConfig;
+		String recording = "";
+		if(DriverStation.getInstance().getAlliance().equals(Alliance.Red))
+			recording = "recording_LEFT" + currentFieldConfig;
+		else recording = "recording_RIGHT" + currentFieldConfig;
 		return FileUtils.createTimestampedFilepath(RECORDING_DIR, recording, "json");
 	}
 }

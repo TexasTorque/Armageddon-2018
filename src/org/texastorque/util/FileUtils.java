@@ -97,9 +97,11 @@ public final class FileUtils {
 	 */
 	public static <ObjectType> ObjectType readFromJSON(String fileLocation, Type listType) {
 		try (Reader reader = new BufferedReader(new FileReader(fileLocation))) {
+			System.out.println(fileLocation);
+			System.out.println(reader);
 			return GSON.fromJson(reader, listType);
 		} catch (IOException e) {
-			System.out.println(String.format("Could not read JSON from file: %s", fileLocation));
+			System.out.println(String.format(e.getMessage()+"Could not read JSON from file: %s", fileLocation));
 		}
 		
 		return null;

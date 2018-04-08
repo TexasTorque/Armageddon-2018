@@ -11,7 +11,6 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoInit() {
-//		auto = PlaybackAutoMode.getInstance();
 	}
 
 	@Override
@@ -28,7 +27,7 @@ public class Claw extends Subsystem{
 
 	@Override
 	public void autoContinuous() {
-		if(type.equals(AutoType.RECORDING))
+		if(autoType.equals(AutoType.RECORDING))
 			recordingAutoContin();
 		else commandAutoContin();
 		o.setClaw(closed);

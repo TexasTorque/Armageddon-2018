@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 
 import org.texastorque.auto.AutoManager;
+import org.texastorque.auto.PlaybackAutoManager;
 import org.texastorque.auto.playback.HumanInputRecorder;
+import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
@@ -15,6 +17,7 @@ import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
+import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.base.TorqueIterative;
 //import org.texastorque.torquelib.torquelog.TorqueLog;
@@ -30,7 +33,6 @@ public class Robot extends TorqueIterative {
 	private double time;
 	private boolean hasStarted = false;
 	private SendableChooser<String> autoSelector = new SendableChooser<>();
-	private SendableChooser<String> recordingNameSelector = new SendableChooser<>();
 	String config = DriverStation.getInstance().getGameSpecificMessage();
 
 	@Override
@@ -42,9 +44,7 @@ public class Robot extends TorqueIterative {
 		Feedback.getInstance();
 		initSubsystems();
 		initAutoSelector();
-		initRecordingNameSelector();
 		SmartDashboard.putData(autoSelector);
-		SmartDashboard.putData(recordingNameSelector);
 		SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
 	}
 
@@ -72,12 +72,6 @@ public class Robot extends TorqueIterative {
 		autoSelector.addObject("CenterSwitchTwoCube", "CenterSwitchTwoCube");
 	}
 	
-	private void initRecordingNameSelector() {
-		recordingNameSelector.addObject("LLL", "LLL");
-		recordingNameSelector.addObject("LRL", "LRL");
-		recordingNameSelector.addObject("RLR", "RLR");
-		recordingNameSelector.addObject("RRR", "RRR");
-	}
 	// String autoSelected = SmartDashboard.getString("Auto Selector",
 	// "Default"); switch(autoSelected) { case "My Auto": autonomousCommand =
 	// new MyAutoCommand(); break; case "Default Auto": default:
@@ -139,8 +133,19 @@ public class Robot extends TorqueIterative {
 			AutoManager.beginAuto();
 			break;
 		case "LeftRecording":
+			PlaybackAutoManager.getInstance();
+			for (Subsystem system : subsystems) {
+				system.changeAutoType();
+				system.initAutoMode("LEFT");
+			}
+				
 			break;
 		case "RightRecording":
+			PlaybackAutoManager.getInstance();
+			for (Subsystem system : subsystems) {
+				system.changeAutoType();
+				system.initAutoMode("RIGHT");
+			}
 			break;
 		default:
 			AutoManager.getInstance(1);
@@ -166,7 +171,7 @@ public class Robot extends TorqueIterative {
 			system.teleopInit();
 			system.setInput(HumanInput.getInstance());
 		}
-		HumanInputRecorder.getInstance().setCurrentFieldConfig(recordingNameSelector.getSelected());
+		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 		
 	}
 	
@@ -191,8 +196,9 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void autonomousContinuous() {
-		
-	//	PlaybackAutoManager.getInstance().getMode().getInstance().update();
+		System.out.println("auto");
+		if(autoSelector.getSelected().equals("LeftRecording") || autoSelector.getSelected().equals("RightRecording"));
+			PlaybackAutoManager.getInstance().getMode().getInstance().update();
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
 		}
@@ -206,7 +212,7 @@ public class Robot extends TorqueIterative {
 		for (Subsystem system : subsystems) {
 			system.teleopContinuous();
 		}
-		HumanInputRecorder.getInstance().setCurrentFieldConfig(recordingNameSelector.getSelected());
+		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 	}
 
 	@Override

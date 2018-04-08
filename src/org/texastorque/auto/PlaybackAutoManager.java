@@ -19,6 +19,7 @@ public class PlaybackAutoManager {
 	public PlaybackAutoMode getMode() {
 		return mode;
 	}
+	
 	public static PlaybackAutoManager getInstance() {
 		return instance == null ? instance = new PlaybackAutoManager() : instance;
 	}

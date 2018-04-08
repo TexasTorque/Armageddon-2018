@@ -178,15 +178,14 @@ public class PlaybackAutoMode extends Input {
 		}
 	}
 
-	public static synchronized PlaybackAutoMode getInstance() {
-		/*String directory = "/home/lvuser/recording" + DriverStation.getInstance().getGameSpecificMessage()
+	public static synchronized PlaybackAutoMode getInstance(String side) {
+		String directory = "/home/lvuser/recording" + side + DriverStation.getInstance().getGameSpecificMessage()
 				+ ".json";
 		try {
 		return instance == null ? instance = new PlaybackAutoMode(directory) : instance;
 		}catch(Exception e) {
 			return null;
 		}
-		*/
-		return null;
+		
 	}
 }
