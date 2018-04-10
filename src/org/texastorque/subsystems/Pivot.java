@@ -115,9 +115,9 @@ public class Pivot extends Subsystem {
 		currentArmSetpoint = i.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
 		if (setpoint != previousSetpoint) {
-			if(/*currentArmSetpoint < 400 && currentArmDistance > 400*/currentArmSetpoint < 200 && currentArmDistance > 200) {
-				//setpoint = 190;
-				setpoint = 80;
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = 190;
+				
 			}
 		
 			previousSetpoint = setpoint;
