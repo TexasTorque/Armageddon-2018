@@ -198,7 +198,7 @@ public class Robot extends TorqueIterative {
 	public void autonomousContinuous() {
 		System.out.println("auto");
 		if(autoSelector.getSelected().equals("LeftRecording") || autoSelector.getSelected().equals("RightRecording"));
-			PlaybackAutoManager.getInstance().getMode().getInstance().update();
+			PlaybackAutoManager.getInstance().getMode().update();
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
 		}
