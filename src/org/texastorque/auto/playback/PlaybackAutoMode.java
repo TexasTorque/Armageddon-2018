@@ -29,6 +29,7 @@ public class PlaybackAutoMode extends Input {
 	
 	private static PlaybackAutoMode instance;
 	private double referenceTime = -1;  // Should only be negative before first update.
+	private String side;
 	
 	public PlaybackAutoMode(String file) {
 		this.inputs = FileUtils.readFromJSON(file, LIST_TYPE_JSON);
@@ -54,8 +55,8 @@ public class PlaybackAutoMode extends Input {
 		OperatorInputState operator = currentInput.operator;
 		
 		// Calculate drive speeds.
-		DB_leftSpeed = -driver.leftStick.y + .75 * driver.rightStick.x;
-		DB_rightSpeed = -driver.leftStick.y - .75 * driver.rightStick.x;
+		DB_leftSpeed = -driver.leftStick.y + driver.rightStick.x;
+		DB_rightSpeed = -driver.leftStick.y - driver.rightStick.x;
 
 		IN_out.calc(driver.buttonA);
 		IN_down.calc(operator.buttonX);
@@ -178,6 +179,10 @@ public class PlaybackAutoMode extends Input {
 		}
 	}
 
+	public void setSide(String side) {
+		this.side = side;
+	}
+	
 	public static synchronized PlaybackAutoMode getInstance(String side) {
 		String directory = "/home/lvuser/recording" + side + DriverStation.getInstance().getGameSpecificMessage()
 				+ ".json";

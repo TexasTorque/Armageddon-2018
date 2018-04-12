@@ -37,7 +37,6 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void robotInit() {
-		Input.getInstance();
 	//	CameraServer.getInstance().startAutomaticCapture(1);
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
@@ -89,7 +88,6 @@ public class Robot extends TorqueIterative {
 		time = 0;
 		for (Subsystem system : subsystems) {
 			system.autoInit();
-			system.setInput(Input.getInstance());
 		}
 		
 		switch(currentMode) {
@@ -169,7 +167,6 @@ public class Robot extends TorqueIterative {
 
 		for (Subsystem system : subsystems) {
 			system.teleopInit();
-			system.setInput(HumanInput.getInstance());
 		}
 		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 		
@@ -197,8 +194,10 @@ public class Robot extends TorqueIterative {
 	@Override
 	public void autonomousContinuous() {
 		System.out.println("auto");
-		if(autoSelector.getSelected().equals("LeftRecording") || autoSelector.getSelected().equals("RightRecording"));
-			PlaybackAutoManager.getInstance().getMode().update();
+		if(autoSelector.getSelected().equals("LeftRecording"))
+			PlaybackAutoManager.getInstance().getMode().getInstance("LEFT").update();
+		if(autoSelector.getSelected().equals("RightRecording"))
+			PlaybackAutoManager.getInstance().getMode().getInstance("RIGHT").update();			
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
 		}
@@ -219,7 +218,6 @@ public class Robot extends TorqueIterative {
 	public void disabledInit() {
 		for (Subsystem system : subsystems) {
 			system.disabledInit();
-			system.setInput(HumanInput.getInstance());
 		}
 	}
 

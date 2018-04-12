@@ -54,9 +54,7 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void teleopInit() {
-		if (f.getPTAngle() > 30) {
-			i.setPTSetpoint(4);
-		}
+		
 	}
 
 	@Override

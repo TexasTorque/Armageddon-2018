@@ -28,7 +28,7 @@ public abstract class Subsystem implements TorqueSubsystem {
 	}
 	
 	public void initAutoMode(String side) {
-		auto = PlaybackAutoMode.getInstance(side);
+		//auto = PlaybackAutoMode.getInstance(side);
 	}
 	
 	
