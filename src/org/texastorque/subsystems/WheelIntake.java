@@ -37,9 +37,9 @@ public class WheelIntake extends Subsystem {
 	}
 	
 	private void recordingAutoContin() {
-		speed = auto.getINSpeed();
-		out = auto.getINOut();
-		down = auto.getINDown();
+//		speed = auto.getINSpeed();
+//		out = auto.getINOut();
+//		down = auto.getINDown();
 		
 	}
 	

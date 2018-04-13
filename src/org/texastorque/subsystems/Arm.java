@@ -52,32 +52,32 @@ public class Arm extends Subsystem {
 	}
 	
 	private void recordingAutoContin() {
-		setpoint = auto.getArmSetpoint();
-		currentDistance = f.getArmDistance();
-		currentAngle = f.getPTAngle();
-		
-		//if((currentAngle < 55 && auto.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
-		//	setpoint = currentDistance;
-		//}
-
-		if((currentAngle < 35 && auto.getPTSetpoint() > 40) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
-			setpoint = currentDistance;
-		}
-		
-		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
-			auto.setArmSpeed(0);
-		} else {
-			auto.setArmSpeed((1.5/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
-		}
-		if(!f.getBlockade()) {
-			if(auto.getArmSpeed() > 0) {
-				System.out.println("gfndsjk");
-				auto.setArmSpeed(0);
-			}
-			
-		}
-		speed = auto.getArmSpeed();
-	
+//		setpoint = auto.getArmSetpoint();
+//		currentDistance = f.getArmDistance();
+//		currentAngle = f.getPTAngle();
+//		*/
+//		//if((currentAngle < 55 && auto.getPTSetpoint() > 60) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+//		//	setpoint = currentDistance;
+//		//}
+//
+//		if((currentAngle < 35 && auto.getPTSetpoint() > 40) || (currentAngle > 100))/* && i.getPTSetpoint() < 275)*/ {
+//			setpoint = currentDistance;
+//		}
+//		
+//		if(TorqueMathUtil.near(setpoint, currentDistance, 12)){
+//			auto.setArmSpeed(0);
+//		} else {
+//			auto.setArmSpeed((1.5/Math.PI) * Math.atan(0.01 * (setpoint - currentDistance)));
+//		}
+//		if(!f.getBlockade()) {
+//			if(auto.getArmSpeed() > 0) {
+//				System.out.println("gfndsjk");
+//				auto.setArmSpeed(0);
+//			}
+//			
+//		}
+//		speed = auto.getArmSpeed();
+//	*/
 	}
 	
 	private void commandAutoContin() {
@@ -135,7 +135,6 @@ public class Arm extends Subsystem {
 		}
 
 		if (!f.getBlockade() && i.getArmSpeed() > 0) {
-			System.out.println("gfndsjk");
 			i.setArmSpeed(0);
 		}
 

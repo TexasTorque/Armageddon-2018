@@ -166,7 +166,9 @@ public class Robot extends TorqueIterative {
 		Drivebase.getInstance().setType(DriveType.TELEOP);
 
 		for (Subsystem system : subsystems) {
+			system.setInput(HumanInput.getInstance());
 			system.teleopInit();
+			
 		}
 		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 		
@@ -188,6 +190,7 @@ public class Robot extends TorqueIterative {
 		}
 		Feedback.getInstance().smartDashboard();
 		AutoManager.smartDashboard();
+	
 		
 	}
 

@@ -5,18 +5,22 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Drivebase.DriveType;
 
-public class FirstTurnDrift extends AutoCommand{
+public class FirstTurn extends AutoCommand{
 
-
-	public FirstTurnDrift(boolean left, boolean forward) {
+	private boolean forward;
+	
+	public FirstTurn(boolean clockwise, boolean forward) {
 		super(true);
-		drivebase.setDriftDirection(left, forward);
+		this.forward = forward;
+		drivebase.setDriftDirection(clockwise);
 	}
 
 	@Override
 	public void run() {
 		Feedback.getInstance().resetDriveEncoders();
-		drivebase.setType(DriveType.AUTODRIFT);
+		if(forward)
+			drivebase.setType(DriveType.AUTODRIFTFORWARD);
+		else drivebase.setType(DriveType.AUTODRIFTBACKWARD);
 		AutoManager.pause(5);
 		
 	}

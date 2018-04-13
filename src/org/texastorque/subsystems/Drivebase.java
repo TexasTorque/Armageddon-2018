@@ -37,12 +37,12 @@ public class Drivebase extends Subsystem {
 	private double turnSetpoint;
 	private double currentAngle;
 	
-	private boolean driftLeft;
+	private boolean driftClockwise;
 	private boolean driftForward;
 	private int driftIndex;
 
 	public enum DriveType {
-		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT, AUTODRIFT;
+		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT, AUTODRIFTFORWARD, AUTODRIFTBACKWARD;
 	}
 
 	private DriveType type;
@@ -123,9 +123,9 @@ public class Drivebase extends Subsystem {
 	}
 	
 	private void recordingAutoContin() {
-		leftSpeed = auto.getDBLeftSpeed();
-		rightSpeed = auto.getDBRightSpeed();
-		System.out.println(leftSpeed);
+//		leftSpeed = auto.getDBLeftSpeed();
+//		rightSpeed = auto.getDBRightSpeed();
+//		System.out.println(leftSpeed);
 	}
 	
 	private void commandAutoContin() {
@@ -159,9 +159,9 @@ public class Drivebase extends Subsystem {
 				currentAngle = f.getDBAngle();
 				if(!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 					if(turnSetpoint - currentAngle > 0) {
-						leftSpeed = .37;
+						leftSpeed = .4;
 					} else if(turnSetpoint - currentAngle < 0) {
-						leftSpeed = -.37;
+						leftSpeed = -.4;
 					}
 					rightSpeed = -leftSpeed;
 				} else {
@@ -169,49 +169,96 @@ public class Drivebase extends Subsystem {
 					rightSpeed = 0;
 				}
 				break;
-			case AUTODRIFT:
+			case AUTODRIFTFORWARD:
 				switch(driftIndex) {
 				case 0: 
 					if(f.getDBLeftDistance() > 90) {
 						driftIndex++;
+						System.out.println("1");
 					}
-					if(driftForward) {
-						leftSpeed = .7;
-						rightSpeed = .7;
-					} else {
-						leftSpeed = -.7;
-						rightSpeed = -.7;
-					}
+					leftSpeed = .7;
+					rightSpeed = .7;
 					break;
 				case 1:
-					if(driftLeft) {
-						if(f.getDBAngle() < -85) {
+					if(driftClockwise) {
+						if(f.getDBAngle() > 88) {
 							driftIndex++;
+							System.out.println("2 CW");
 						}	
-						leftSpeed = -.4;
-						rightSpeed = .4;
+						leftSpeed = .5;
+						rightSpeed = .2;
 					} else {
-						if(f.getDBAngle() > 85) {
+						if(f.getDBAngle() < -88) {
 							driftIndex++;
+							System.out.println("2 CCW");
 						}
-						leftSpeed = .4;
-						rightSpeed = -.4;
+						leftSpeed = .2;
+						rightSpeed = .5;
 					}//else
 					//
 					break;
-				case 2:
+			/*	case 2:
 					if(Math.abs(90 - Math.abs(f.getDBAngle())) < 2) {
 						driftIndex++;
-					} else if(driftLeft) {
-						leftSpeed = -.2;
-						rightSpeed = .2;
+						System.out.println("3");
+					} else if(driftClockwise) {
+						leftSpeed = .1;
+						rightSpeed = .3;
 					} else {
-						leftSpeed = .2;
-						rightSpeed = -.2;
+						leftSpeed = .3;
+						rightSpeed = .1;
 					}
 					break;
-				case 3:
+			*/	case 2:
 					i.setDBDriveSetpoint(100, 1);
+					setType(DriveType.AUTODRIVE);
+					break;
+					
+				}				
+				break;
+			case AUTODRIFTBACKWARD:
+				switch(driftIndex) {
+				case 0: 
+					if(f.getDBLeftDistance() < -90) {
+						driftIndex++;
+						System.out.println("1");
+					}
+					leftSpeed = -.7;
+					rightSpeed = -.7;
+					
+					break;
+				case 1:
+					if(driftClockwise) {
+						if(f.getDBAngle() > 88) {
+							driftIndex++;
+							System.out.println("2 L");
+						}	
+						leftSpeed = -.2;
+						rightSpeed = -.5;
+					} else {
+						if(f.getDBAngle() < -88) {
+							driftIndex++;
+							System.out.println("2 R");
+						}
+						leftSpeed = -.5;
+						rightSpeed = -.2;
+					}//else
+					//
+					break;
+			/*	case 2:
+					if(Math.abs(90 - Math.abs(f.getDBAngle())) < 2) {
+						driftIndex++;
+						System.out.println("3");
+					} else if(driftClockwise) {
+						leftSpeed = .1;
+						rightSpeed = .3;
+					} else {
+						leftSpeed = .3;
+						rightSpeed = .1;
+					}
+					break;
+			*/	case 2:
+					i.setDBDriveSetpoint(-100, 1);
 					setType(DriveType.AUTODRIVE);
 					break;
 					
@@ -272,9 +319,8 @@ public class Drivebase extends Subsystem {
 		}
 	}
 
-	public void setDriftDirection(boolean left, boolean forward) {
-		driftLeft = left;
-		driftForward = forward;
+	public void setDriftDirection(boolean clockwise) {
+		driftClockwise= clockwise;
 	}
 	
 	private void output() {

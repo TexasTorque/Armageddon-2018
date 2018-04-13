@@ -34,7 +34,7 @@ public class Claw extends Subsystem{
 	}
 	
 	private void recordingAutoContin() {
-		closed = auto.getClawClosed();
+	//	closed = auto.getClawClosed();
 		
 	}
 	

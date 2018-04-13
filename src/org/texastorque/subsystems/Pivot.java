@@ -37,6 +37,9 @@ public class Pivot extends Subsystem {
 	
 	private final ScheduledPID pivotPID;
 
+	private double teleopStartTime;
+	private int autoPosition;
+	
 	private Pivot() {
 		delay = 0;
 		
@@ -54,7 +57,8 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void teleopInit() {
-		
+		if(f.getPTAngle() > 15)
+			i.setPTSetpoint(4);
 	}
 
 	@Override
@@ -76,20 +80,20 @@ public class Pivot extends Subsystem {
 	}
 
 	private void recordingAutoContin() {
-		setpoint = auto.getPTSetpoint();
-		currentAngle = f.getPTAngle();
-		currentArmSetpoint = auto.getArmSetpoint();
-		currentArmDistance = f.getArmDistance();
-		
-		if (setpoint != previousSetpoint) {
-			if(/*currentArmSetpoint < 400 && currentArmDistance > 400*/currentArmSetpoint < 200 && currentArmDistance > 200) {
-				//setpoint = 190;
-				setpoint = 80;
-			}
-			previousSetpoint = setpoint;
-		}
-		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
-		
+//		setpoint = auto.getPTSetpoint();
+//		currentAngle = f.getPTAngle();
+//		currentArmSetpoint = auto.getArmSetpoint();
+//		currentArmDistance = f.getArmDistance();
+//		
+//		if (setpoint != previousSetpoint) {
+//			if(/*currentArmSetpoint < 400 && currentArmDistance > 400*/currentArmSetpoint < 200 && currentArmDistance > 200) {
+//				//setpoint = 190;
+//				setpoint = 80;
+//			}
+//			previousSetpoint = setpoint;
+//		}
+//		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+//		
 	}
 	
 	private void commandAutoContin() {
@@ -100,6 +104,7 @@ public class Pivot extends Subsystem {
 	
 	@Override
 	public void teleopContinuous() {
+		
 		if (i.getEncodersDead()) {
 			runPivotBackup();
 		} else if (delayStartTime + delay < Timer.getFPGATimestamp()) {

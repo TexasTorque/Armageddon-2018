@@ -36,7 +36,7 @@ public class Input {
 	protected double PT_speed;
 	protected double PT_setpoint;
 	protected int PT_index;
-	protected volatile double[] PT_setpoints = { 5, 96.5, 170, 174, 178, 190.5, 205, 210, 210, 278.5, 5 };
+	protected volatile double[] PT_setpoints = {0, 96.5, 170, 174, 178, 190.5, 215, 215, 215, 278.5, 9};
 
 	// Bravo Setpoints -- Do not delete. Has back pickup.
 //	 protected volatile double[] PT_setpoints = {4.0, 45.0, 75.0, 75.0, 75.0,
@@ -164,6 +164,10 @@ public class Input {
 	// Pivot
 	public double getPTSetpoint() {
 		return PT_setpoint;
+	}
+	
+	public int getPTSetpointIndex() {
+		return PT_index;
 	}
 
 	public void setPTSetpoint(int setpointIndex) {

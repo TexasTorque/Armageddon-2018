@@ -15,7 +15,7 @@ public abstract class Subsystem implements TorqueSubsystem {
 	protected Input i = Input.getInstance();
 	protected RobotOutput o = RobotOutput.getInstance();
 	protected Feedback f = Feedback.getInstance();
-	protected PlaybackAutoMode auto;
+//	protected PlaybackAutoMode auto;
 	protected AutoType autoType = AutoType.COMMAND_SEQUENCE;
 	
 	
