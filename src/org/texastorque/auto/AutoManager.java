@@ -2,6 +2,7 @@ package org.texastorque.auto;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 
 import org.texastorque.auto.drive.BackupDrive;
@@ -28,11 +29,13 @@ public class AutoManager {
 	private static LinkedList<AutoCommand> commandList;
 	private static ArrayList<Subsystem> subsystems;
 	private static double aggregateTime;
+	private static ArrayList<AutoSequence> autoModes = new ArrayList<AutoSequence>();
 
 	private static boolean commandsDone = false;
 	private static volatile boolean setPointReached;
 
 	private static int autoMode;
+	
 	
 	public AutoManager() {
 		commandList = new LinkedList<>();
@@ -42,19 +45,22 @@ public class AutoManager {
 		subsystems.add(Pivot.getInstance());
 		subsystems.add(Claw.getInstance());
 		subsystems.add(WheelIntake.getInstance());
-		setAutoMode(0);
+		initAutoList();
+		
 	}
 	
-	public AutoManager(int auto) {
-		commandList = new LinkedList<>();
-		subsystems = new ArrayList<>();
-		subsystems.add(Drivebase.getInstance());
-		subsystems.add(Arm.getInstance());
-		subsystems.add(Pivot.getInstance());
-		subsystems.add(Claw.getInstance());
-		subsystems.add(WheelIntake.getInstance());
-		setAutoMode(auto);
-		
+	private void initAutoList() {
+		autoModes.add((new PlaceCubeScale(1)));
+		autoModes.add((new PlaceCubeScale(1)));
+		autoModes.add((new PlaceCubeScale(1)));
+		autoModes.add((new PlaceCubeScale(3)));
+		autoModes.add((new PlaceCubeSwitch(1)));
+		autoModes.add((new PlaceCubeSwitch(3)));
+		autoModes.add((new PlaceCubeSwitch(2)));
+		autoModes.add(new PlaceTwoCubeScale(1));
+		autoModes.add(new PlaceTwoCubeScale(3));
+		autoModes.add(new PlaceTwoCubeSwitch());
+
 	}
 
 	public static void beginAuto() {
@@ -63,51 +69,13 @@ public class AutoManager {
 		analyzeAutoMode();
 	}
 
-	private void setAutoMode(int auto) {
+	public void setAutoMode(int auto) {
 		autoMode = auto;
 	}
 	
 	public static void analyzeAutoMode() {
-			switch (autoMode) {
-			case 0:
-				System.out.println("0");
-				break;
-			case 1:
-				commandList.add(new Drive(120, 1, 2, true));
-				break;
-
-			case 2:
-				commandList.addAll(new PlaceCubeScale(1).getCommands());
-				break;
-
-			case 3:
-				commandList.addAll(new PlaceCubeScale(3).getCommands());
-				break;
-
-			case 4:
-				commandList.addAll(new PlaceCubeSwitch(1).getCommands());
-				break;
-
-			case 5:
-				commandList.addAll(new PlaceCubeSwitch(3).getCommands());
-				break;
-
-			case 6:
-				commandList.addAll(new PlaceCubeSwitch(2).getCommands());
-				break;
-			case 7: 
-				commandList.addAll(new PlaceTwoCubeScale(1).getCommands());
-				break;
-			case 8:
-				commandList.addAll(new PlaceTwoCubeScale(3).getCommands());
-				break;
-			case 9: 
-				commandList.addAll(new PlaceTwoCubeSwitch().getCommands());
-			default:
-				break;
-
-		}
-			while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
+		commandList.addAll(autoModes.get(autoMode).getCommands());
+		while(DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
 				commandList.remove(0).run();
 				System.out.println("end");
 			}
@@ -118,15 +86,6 @@ public class AutoManager {
 			}
 		
 		
-	}
-
-	private static String reverse(String str) {
-		String reverse = "";
-		while (str.length() > 0) {
-			reverse = str.substring(0, 1) + reverse;
-			str = str.substring(1);
-		}
-		return reverse;
 	}
 
 	public static void pause(double time) {
@@ -164,7 +123,4 @@ public class AutoManager {
 		return instance == null ? instance = new AutoManager() : instance;
 	}
 	
-	public static AutoManager getInstance(int auto) {
-		return instance == null ? instance = new AutoManager(auto) : instance;
-	}
 }

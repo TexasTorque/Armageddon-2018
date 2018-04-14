@@ -81,7 +81,7 @@ public class TorqueLog {
 	}
 
 	public static void startLog() {
-		fileName = FileUtils.createTimestampedFilepath("/home/lvuser/TorqueLog", "TorqueLog", "csv");
+//		fileName = FileUtils.createTimestampedFilepath("/home/lvuser/TorqueLog", "TorqueLog", "csv");
 
 		try (FileWriter fW = new FileWriter(fileName, true)) {
 			fW.append(FH);

@@ -22,6 +22,8 @@ import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.base.TorqueIterative;
 //import org.texastorque.torquelib.torquelog.TorqueLog;
 
+import org.texastorque.auto.arm.*;
+import org.texastorque.auto.drive.*;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,6 +47,7 @@ public class Robot extends TorqueIterative {
 		initAutoSelector();
 		SmartDashboard.putData(autoSelector);
 		SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
+		AutoManager.getInstance();
 	}
 
 	private void initSubsystems() {
@@ -92,42 +95,37 @@ public class Robot extends TorqueIterative {
 		
 		switch(currentMode) {
 		case "CenterSwitchTwoCube":
-			AutoManager.getInstance(9);
+			AutoManager.getInstance().setAutoMode(9);
 			AutoManager.beginAuto();
 			break;
 		case "DoNothing":
-			AutoManager.getInstance(0);
-			AutoManager.beginAuto();
 			break;
 		case "LeftScaleOneCube":
-			//if(config.equals("LLL") || config.equals("RLR")) {
-			//	AutoManager.getInstance(2);
-			//} else 
-			AutoManager.getInstance(2);
+			AutoManager.getInstance().setAutoMode(2);
 			AutoManager.beginAuto();
 			break;
 		case "RightScaleOneCube":
-			AutoManager.getInstance(3);
+			AutoManager.getInstance().setAutoMode(3);
 			AutoManager.beginAuto();
 			break;
 		case "LeftScaleTwoCube":
-			AutoManager.getInstance(7);
+			AutoManager.getInstance().setAutoMode(7);
 			AutoManager.beginAuto();
 			break;
 		case "RightScaleTwoCube":
-			AutoManager.getInstance(8);
+			AutoManager.getInstance().setAutoMode(8);
 			AutoManager.beginAuto();
 			break;
 		case "LeftSwitchNoRecording":
-			AutoManager.getInstance(4);
+			AutoManager.getInstance().setAutoMode(4);
 			AutoManager.beginAuto();
 			break;
 		case "RightSwitchNoRecording":
-			AutoManager.getInstance(5);
+			AutoManager.getInstance().setAutoMode(5);
 			AutoManager.beginAuto();
 			break;
 		case "CenterSwitch":
-			AutoManager.getInstance(6);
+			AutoManager.getInstance().setAutoMode(6);
 			AutoManager.beginAuto();
 			break;
 		case "LeftRecording":
@@ -146,7 +144,7 @@ public class Robot extends TorqueIterative {
 			}
 			break;
 		default:
-			AutoManager.getInstance(1);
+			
 			
 		}
 		hasStarted = true;
@@ -164,13 +162,13 @@ public class Robot extends TorqueIterative {
 		CameraServer.getInstance().startAutomaticCapture(0);
 	//	TorqueLog.startLog();
 		Drivebase.getInstance().setType(DriveType.TELEOP);
-
+		
 		for (Subsystem system : subsystems) {
 			system.setInput(HumanInput.getInstance());
 			system.teleopInit();
 			
 		}
-		HumanInputRecorder.getInstance().setCurrentFieldConfig();
+//		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 		
 	}
 	
@@ -198,9 +196,9 @@ public class Robot extends TorqueIterative {
 	public void autonomousContinuous() {
 		System.out.println("auto");
 		if(autoSelector.getSelected().equals("LeftRecording"))
-			PlaybackAutoManager.getInstance().getMode().getInstance("LEFT").update();
+//			PlaybackAutoManager.getInstance().getMode().getInstance("LEFT").update();
 		if(autoSelector.getSelected().equals("RightRecording"))
-			PlaybackAutoManager.getInstance().getMode().getInstance("RIGHT").update();			
+//			PlaybackAutoManager.getInstance().getMode().getInstance("RIGHT").update();			
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
 		}
@@ -210,11 +208,11 @@ public class Robot extends TorqueIterative {
 	public void teleopContinuous() {
 		Feedback.getInstance().update();
 		HumanInput.getInstance().update();
-		HumanInputRecorder.getInstance().update();
+//		HumanInputRecorder.getInstance().update();
 		for (Subsystem system : subsystems) {
 			system.teleopContinuous();
 		}
-		HumanInputRecorder.getInstance().setCurrentFieldConfig();
+//		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 	}
 
 	@Override

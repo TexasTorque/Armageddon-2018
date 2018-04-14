@@ -5,7 +5,7 @@ import org.texastorque.auto.arm.SetClaw;
 import org.texastorque.auto.arm.SetIntake;
 import org.texastorque.auto.arm.ShiftPivotArm;
 import org.texastorque.auto.drive.Drive;
-import org.texastorque.auto.drive.FirstTurnDrift;
+import org.texastorque.auto.drive.FirstTurn;
 import org.texastorque.auto.drive.Turn;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -84,7 +84,7 @@ public class PlaceTwoCubeScale extends AutoSequence {
 			commandList.add(new SetIntake(true));
 			commandList.add(new Turn(6, 1.5, 1.5, true));
 			commandList.add(new ShiftPivotArm(10, 1.5, true, 0.5));
-			commandList.add(new Drive(62, 0.125, 1.85, true));
+			commandList.add(new Drive(62, 0.125, 2.0, true));
 			commandList.add(new SetClaw(false, true));			
 			commandList.add(new ShiftPivotArm(0, 1.5, false, 0.0));
 			commandList.add(new ShiftPivotArm(6, 4.0, false, 0.0));

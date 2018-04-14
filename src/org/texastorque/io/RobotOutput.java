@@ -4,6 +4,8 @@ import org.texastorque.constants.Ports;
 
 import org.texastorque.torquelib.component.TorqueMotor;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.VictorSP;
