@@ -44,9 +44,7 @@ public class Pivot extends Subsystem {
 		delay = 0;
 		
 		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS, 3)
-				.setPGains(0.03)//, 0.04, 0.025)
-			//	.setIGains(0.007)
-			//	.setDGains(0.00001, 0, 0.00001)
+				.setPGains(0.03)
 				.setRegions(-10, 10)
 				.build();
 	}
@@ -98,7 +96,7 @@ public class Pivot extends Subsystem {
 	
 	private void commandAutoContin() {
 		if(autoStartTime + delay < Timer.getFPGATimestamp()) {
-			runPivot();
+			runPivotAuto();
 		}
 	}
 	
@@ -120,7 +118,27 @@ public class Pivot extends Subsystem {
 		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
 				setpoint = 190;
-				
+			}
+		
+			previousSetpoint = setpoint;
+			pivotPID.changeSetpoint(setpoint);
+		}
+
+		// Original Code - Retain for test comparison.
+//		speed = (1.5 / Math.PI) * Math.atan(0.06 * (setpoint - currentAngle));
+		
+		speed = pivotPID.calculate(currentAngle);
+		output();
+	}
+	
+	private void runPivotAuto() {
+		setpoint = i.getPTSetpoint();
+		currentAngle = f.getPTAngle();
+		currentArmSetpoint = i.getArmSetpoint();
+		currentArmDistance = f.getArmDistance();
+		if (setpoint != previousSetpoint) {
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = 190;
 			}
 		
 			previousSetpoint = setpoint;
@@ -152,9 +170,8 @@ public class Pivot extends Subsystem {
 	}
 
 	public void setDelay(double time) {
-		System.out.println(autoStartTime + "AST" + delay + "DLY" + Timer.getFPGATimestamp() + "TMR");
-		delay = time;
 		autoStartTime = Timer.getFPGATimestamp();
+		delay = time;
 	}
 
 	public void teleopSetDelay(double time) {

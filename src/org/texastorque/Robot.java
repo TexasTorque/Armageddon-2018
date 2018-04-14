@@ -33,7 +33,6 @@ public class Robot extends TorqueIterative {
 
 	private ArrayList<Subsystem> subsystems;
 	private double time;
-	private boolean hasStarted = false;
 	private SendableChooser<String> autoSelector = new SendableChooser<>();
 	String config = DriverStation.getInstance().getGameSpecificMessage();
 
@@ -43,11 +42,17 @@ public class Robot extends TorqueIterative {
 		HumanInput.getInstance();
 		RobotOutput.getInstance();
 		Feedback.getInstance();
+		AutoManager.getInstance();
 		initSubsystems();
 		initAutoSelector();
 		SmartDashboard.putData(autoSelector);
 		SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
-		AutoManager.getInstance();
+		System.out.println(AutoManager.getInstance());
+		for (Subsystem system : subsystems) {
+			system.autoInit();
+		}
+		
+		AutoManager.getInstance().initAutoList();
 	}
 
 	private void initSubsystems() {
@@ -89,9 +94,6 @@ public class Robot extends TorqueIterative {
 		Feedback.getInstance().resetDBGyro();
 		Feedback.getInstance().resetDriveEncoders();
 		time = 0;
-		for (Subsystem system : subsystems) {
-			system.autoInit();
-		}
 		
 		switch(currentMode) {
 		case "CenterSwitchTwoCube":
@@ -143,11 +145,11 @@ public class Robot extends TorqueIterative {
 				system.initAutoMode("RIGHT");
 			}
 			break;
+			
 		default:
-			
-			
+			break;
 		}
-		hasStarted = true;
+		
 	}
 	
 	private void setRecordingAutoType() {
@@ -166,7 +168,6 @@ public class Robot extends TorqueIterative {
 		for (Subsystem system : subsystems) {
 			system.setInput(HumanInput.getInstance());
 			system.teleopInit();
-			
 		}
 //		HumanInputRecorder.getInstance().setCurrentFieldConfig();
 		
@@ -179,26 +180,26 @@ public class Robot extends TorqueIterative {
 		for (Subsystem system : subsystems) {
 			system.smartDashboard();
 		}
-		if (isEnabled()) {
+//		if (isEnabled()) {
 			SmartDashboard.putNumber("Time", time++);
-		}		
+//		}		
 		if(SmartDashboard.getNumber("AUTO_MENU_WORKING", 0) != 0.0) {
 			SmartDashboard.putData(autoSelector);
 			SmartDashboard.putNumber("AUTO_MENU_WORKING", 0.0);
 		}
-		Feedback.getInstance().smartDashboard();
 		AutoManager.smartDashboard();
-	
-		
 	}
 
 	@Override
 	public void autonomousContinuous() {
-		System.out.println("auto");
-		if(autoSelector.getSelected().equals("LeftRecording"))
+		if(autoSelector.getSelected().equals("LeftRecording")) {
 //			PlaybackAutoManager.getInstance().getMode().getInstance("LEFT").update();
-		if(autoSelector.getSelected().equals("RightRecording"))
-//			PlaybackAutoManager.getInstance().getMode().getInstance("RIGHT").update();			
+		}
+		
+		if(autoSelector.getSelected().equals("RightRecording")) {
+//			PlaybackAutoManager.getInstance().getMode().getInstance("RIGHT").update();
+		}
+		
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();
 		}
@@ -224,7 +225,6 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void disabledContinuous() {
-		hasStarted = false;
 		for (Subsystem system : subsystems) {
 			system.disabledContinuous();
 		}

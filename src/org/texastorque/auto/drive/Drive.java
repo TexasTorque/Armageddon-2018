@@ -9,10 +9,12 @@ public class Drive extends AutoCommand {
 
 	private final double D_CONSTANT = 0.00926;
 	private final double D_PRECISION = 0.125;
+	
+	private static final double ERR_TIME = -999;
 
 	private double distance;
 	private final double precision;
-	private double time = -999;
+	private double time = ERR_TIME;
 
 	public Drive(double distance, double precision, double time, boolean pause) {
 		super(pause);
@@ -36,7 +38,7 @@ public class Drive extends AutoCommand {
 		Feedback.getInstance().resetDriveEncoders();
 		input.setDBDriveSetpoint(distance, precision);
 		drivebase.setType(DriveType.AUTODRIVE);
-		if (time != -999 && pause) {
+		if (time != ERR_TIME && pause) {
 			AutoManager.pause(time);
 		} else {
 			AutoManager.pause(distance * D_CONSTANT);
