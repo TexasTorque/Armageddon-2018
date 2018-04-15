@@ -12,28 +12,33 @@ public class TorqueTimer implements Stopwatch {
 	
 	public TorqueTimer() { }
 	
+	@Override
 	public double elapsed() {
 		startIfNeeded();
 		
 		return Timer.getFPGATimestamp() - this.startTime;
 	}
 	
+	@Override
 	public double lapTime() {
 		startIfNeeded();
 		
 		return Timer.getFPGATimestamp() - this.lastTime;
 	}
 	
+	@Override
 	public void startLap() {
 		this.lastTime = Timer.getFPGATimestamp();
 	}
 	
+	@Override
 	public double timeSince(double lastTime) {
 		startIfNeeded();
 		
 		return Timer.getFPGATimestamp() - lastTime;
 	}
 	
+	@Override
 	public double start() {
 		if (this.started) {
 			return this.startTime;
@@ -45,10 +50,12 @@ public class TorqueTimer implements Stopwatch {
 		return this.startTime;
 	}
 	
+	@Override
 	public boolean isRunning() {
 		return this.started;
 	}
 	
+	@Override
 	public void reset() {
 		this.started = false;
 	}

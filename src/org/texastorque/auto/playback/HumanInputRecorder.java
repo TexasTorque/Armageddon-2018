@@ -1,17 +1,6 @@
 package org.texastorque.auto.playback;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.texastorque.feedback.Feedback;
-import org.texastorque.io.HumanInput;
 import org.texastorque.io.Input;
-import org.texastorque.models.RobotInputState;
-import org.texastorque.torquelib.util.TorqueToggle;
-import org.texastorque.util.FileUtils;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class HumanInputRecorder extends Input {
 //	

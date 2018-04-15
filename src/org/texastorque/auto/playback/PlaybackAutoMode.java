@@ -1,23 +1,6 @@
 package org.texastorque.auto.playback;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.texastorque.io.Input;
-import org.texastorque.io.RobotOutput;
-import org.texastorque.models.DriverInputState;
-import org.texastorque.models.OperatorInputState;
-import org.texastorque.models.RobotInputState;
-import org.texastorque.subsystems.Arm;
-import org.texastorque.subsystems.Drivebase;
-import org.texastorque.subsystems.Pivot;
-import org.texastorque.util.FileUtils;
-
-import com.google.gson.reflect.TypeToken;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 
 public class PlaybackAutoMode extends Input {
 	

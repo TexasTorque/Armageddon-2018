@@ -1,10 +1,8 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.auto.playback.PlaybackAutoMode;
-
 public class WheelIntake extends Subsystem {
 
-	private static WheelIntake instance;
+	private static volatile WheelIntake instance;
 
 	private double speed = 0d;
 	private boolean out = false;
@@ -71,7 +69,7 @@ public class WheelIntake extends Subsystem {
 	public void smartDashboard() {
 	}
 
-	public static WheelIntake getInstance() {
+	public static synchronized WheelIntake getInstance() {
 		return instance == null ? instance = new WheelIntake() : instance;
 	}
 }

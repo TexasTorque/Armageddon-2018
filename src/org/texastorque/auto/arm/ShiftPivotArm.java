@@ -5,8 +5,6 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Pivot;
 
-import edu.wpi.first.wpilibj.Timer;
-
 public class ShiftPivotArm extends AutoCommand {
 
 	private int setpointIndex;

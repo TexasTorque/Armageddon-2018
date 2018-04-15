@@ -2,14 +2,10 @@ package org.texastorque;
 
 import java.util.ArrayList;
 
-
 import org.texastorque.auto.AutoManager;
 import org.texastorque.auto.PlaybackAutoManager;
-import org.texastorque.auto.playback.HumanInputRecorder;
-import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.io.HumanInput;
-import org.texastorque.io.Input;
 import org.texastorque.io.RobotOutput;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Claw;
@@ -17,13 +13,10 @@ import org.texastorque.subsystems.Drivebase;
 import org.texastorque.subsystems.Drivebase.DriveType;
 import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
-import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.base.TorqueIterative;
 //import org.texastorque.torquelib.torquelog.TorqueLog;
 
-import org.texastorque.auto.arm.*;
-import org.texastorque.auto.drive.*;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -77,6 +70,8 @@ public class Robot extends TorqueIterative {
 		autoSelector.addObject("LeftRecording", "LeftRecording");
 		autoSelector.addObject("RightRecording", "RightRecording");
 		autoSelector.addObject("CenterSwitchTwoCube", "CenterSwitchTwoCube");
+		autoSelector.addObject("TeamPlayerLeft", "TeamPlayerLeft");
+		autoSelector.addObject("TeamPlayerRight", "TeamPlayerRight");
 	}
 	
 	// String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -128,6 +123,14 @@ public class Robot extends TorqueIterative {
 			break;
 		case "CenterSwitch":
 			AutoManager.getInstance().setAutoMode(6);
+			AutoManager.beginAuto();
+			break;
+		case "TeamPlayerLeft":
+			AutoManager.getInstance().setAutoMode(10);
+			AutoManager.beginAuto();
+			break;
+		case "TeamPlayerRight":
+			AutoManager.getInstance().setAutoMode(11);
 			AutoManager.beginAuto();
 			break;
 		case "LeftRecording":
@@ -192,13 +195,13 @@ public class Robot extends TorqueIterative {
 
 	@Override
 	public void autonomousContinuous() {
-		if(autoSelector.getSelected().equals("LeftRecording")) {
+//		if(autoSelector.getSelected().equals("LeftRecording")) {
 //			PlaybackAutoManager.getInstance().getMode().getInstance("LEFT").update();
-		}
-		
-		if(autoSelector.getSelected().equals("RightRecording")) {
+//		}
+//		
+//		if(autoSelector.getSelected().equals("RightRecording")) {
 //			PlaybackAutoManager.getInstance().getMode().getInstance("RIGHT").update();
-		}
+//		}
 		
 		for (Subsystem system : subsystems) {
 			system.autoContinuous();

@@ -1,16 +1,16 @@
 package org.texastorque.auto;
 
-import edu.wpi.first.wpilibj.DriverStation;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
 import org.texastorque.auto.sequences.PlaceCubeScale;
+import org.texastorque.auto.sequences.PlaceCubeScaleDebug;
 import org.texastorque.auto.sequences.PlaceCubeSwitch;
 import org.texastorque.auto.sequences.PlaceTwoCubeScale;
 import org.texastorque.auto.sequences.PlaceTwoCubeSwitch;
+import org.texastorque.auto.sequences.TeamPlayer;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Claw;
@@ -19,6 +19,7 @@ import org.texastorque.subsystems.Pivot;
 import org.texastorque.subsystems.Subsystem;
 import org.texastorque.subsystems.WheelIntake;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AutoManager {
@@ -54,6 +55,8 @@ public class AutoManager {
 		autoModes.add(new PlaceTwoCubeScale(1));
 		autoModes.add(new PlaceTwoCubeScale(3));
 		autoModes.add(new PlaceTwoCubeSwitch());
+		autoModes.add(new TeamPlayer(1));
+		autoModes.add(new TeamPlayer(3));
 	}
 
 	public static void beginAuto() {
@@ -80,22 +83,19 @@ public class AutoManager {
 	}
 
 	private static volatile String lastThread = "";
+	private static final SimpleDateFormat DEBUG_DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
 	
 	public static synchronized void pause(double time) {
-		String threadName = Thread.currentThread().getName();
-		
-		if (!threadName.equals(lastThread)) {
-			System.out.println("Pausing thread: " + threadName + " Timestamp: " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-			lastThread = threadName;
-		}
-		
 		double startTime = Timer.getFPGATimestamp();
 		time = Math.abs(time);
 
-		while (DriverStation.getInstance().isAutonomous() && !setPointReached
-				&& Timer.getFPGATimestamp() - startTime < time) {
+		while (DriverStation.getInstance().isAutonomous()
+				&& !setPointReached
+				&& (Timer.getFPGATimestamp() - startTime < time || time == 0)) {
+			
 			Feedback.getInstance().update();
 			Feedback.getInstance().smartDashboard();
+			
 			for (Subsystem system : subsystems) {
 				system.autoContinuous();
 				system.smartDashboard();
@@ -105,7 +105,7 @@ public class AutoManager {
 		setPointReached = false;
 	}
 
-	public static void interruptThread() {
+	public static void setStepDone() {
 		setPointReached = true;
 	}
 
@@ -115,7 +115,16 @@ public class AutoManager {
 
 	public static void smartDashboard() {
 	}
-
+	
+	private static void debugThread() {
+		String threadName = Thread.currentThread().getName();
+		
+		if (!threadName.equals(lastThread)) {
+			System.out.println("Pausing thread: " + threadName + " Timestamp: " + DEBUG_DATE_FORMAT.format(new Date()));
+			lastThread = threadName;
+		}
+	}
+	
 	public static synchronized AutoManager getInstance() {
 		return instance == null ? instance = new AutoManager() : instance;
 	}

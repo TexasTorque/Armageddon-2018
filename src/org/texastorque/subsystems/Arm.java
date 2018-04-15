@@ -1,14 +1,12 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.auto.playback.PlaybackAutoMode;
-import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.util.TorqueMathUtil;
 
 import edu.wpi.first.wpilibj.Timer;
 
 public class Arm extends Subsystem {
 
-	private static Arm instance;
+	private static volatile Arm instance;
 
 	private double speed;
 	private double setpoint;
@@ -167,7 +165,7 @@ public class Arm extends Subsystem {
 	}
 
 	
-	public static Arm getInstance() {
+	public static synchronized Arm getInstance() {
 		return instance == null ? instance = new Arm() : instance;
 	}
 }

@@ -1,9 +1,7 @@
 package org.texastorque.subsystems;
 
 import org.texastorque.auto.AutoManager;
-import org.texastorque.auto.playback.PlaybackAutoMode;
 import org.texastorque.constants.Constants;
-import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
@@ -13,7 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Drivebase extends Subsystem {
 
-	private static Drivebase instance;
+	private static volatile Drivebase instance;
 
 	private double leftSpeed;
 	private double rightSpeed;
@@ -142,7 +140,7 @@ public class Drivebase extends Subsystem {
 			}
 
 			if (hasDrivenFarEnough()) {
-				AutoManager.interruptThread();
+				AutoManager.setStepDone();
 			}
 
 			dt = Timer.getFPGATimestamp() - previousTime;
@@ -162,15 +160,24 @@ public class Drivebase extends Subsystem {
 			currentAngle = f.getDBAngle();
 			if (!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 				if (turnSetpoint - currentAngle > 0) {
-					leftSpeed = .4;
+					leftSpeed = .5;
 				} else if (turnSetpoint - currentAngle < 0) {
-					leftSpeed = -.4;
+					leftSpeed = -.5;
 				}
 				rightSpeed = -leftSpeed;
 			} else {
 				leftSpeed = 0;
 				rightSpeed = 0;
 			}
+			/*
+			turnSetpoint = i.getDBTurnSetpoint();
+			currentAngle = f.getDBAngle();
+			if (!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
+				leftSpeed = (1.5 / Math.PI) * Math.atan(0.02 * (setpoint - currentDistance));
+	
+			}
+	 
+			 */
 			break;
 		case AUTODRIFTFORWARD:
 			switch (driftIndex) {
@@ -266,49 +273,9 @@ public class Drivebase extends Subsystem {
 		output();
 	}
 
-	private void autoDrive() {
-		double dt = Timer.getFPGATimestamp() - previousTime;
-
-		setpoint = i.getDBDriveSetpoint();
-		if (setpoint != previousSetpoint) {
-			previousSetpoint = setpoint;
-			precision = i.getDBPrecision();
-			driveTMP.generateTrapezoid(setpoint, 0d, 0d);
-			previousTime = Timer.getFPGATimestamp();
-		}
-
-		if (hasDrivenFarEnough()) {
-			AutoManager.interruptThread();
-		}
-
-		previousTime = Timer.getFPGATimestamp();
-		driveTMP.calculateNextSituation(dt);
-
-		leftSpeed = leftPV.calculate(driveTMP, f.getDBLeftDistance(), f.getDBLeftRate());
-		rightSpeed = rightPV.calculate(driveTMP, f.getDBRightDistance(), f.getDBRightRate());
-	}
-
 	private boolean hasDrivenFarEnough() {
 		return TorqueMathUtil.near(setpoint, f.getDBLeftDistance(), precision)
 				&& TorqueMathUtil.near(setpoint, f.getDBRightDistance(), precision);
-	}
-
-	private void autoTurn() {
-		turnSetpoint = i.getDBTurnSetpoint();
-		currentAngle = f.getDBAngle();
-
-		if (!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
-			if (turnSetpoint - currentAngle > 0) {
-				leftSpeed = .33;
-			} else if (turnSetpoint - currentAngle < 0) {
-				leftSpeed = -.33;
-			}
-
-			rightSpeed = -leftSpeed;
-		} else {
-			leftSpeed = 0;
-			rightSpeed = 0;
-		}
 	}
 
 	public void setDriftDirection(boolean clockwise) {
@@ -327,7 +294,7 @@ public class Drivebase extends Subsystem {
 	public void smartDashboard() {
 	}
 
-	public static Drivebase getInstance() {
+	public static synchronized Drivebase getInstance() {
 		return instance == null ? instance = new Drivebase() : instance;
 	}
 }

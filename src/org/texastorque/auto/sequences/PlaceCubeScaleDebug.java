@@ -9,8 +9,9 @@ import org.texastorque.auto.drive.Turn;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class PlaceCubeScaleDebug extends AutoSequence {
-	
+
 	private static final double DEBUG_DRIVE = 10;
+	private static final int SWITCH_INDEX = 0;
 
 	private final int startPos;
 	private char scaleSide;
@@ -33,13 +34,13 @@ public class PlaceCubeScaleDebug extends AutoSequence {
 		} else if (startPos == 3) {
 			handleStartOnRight();
 		} else if (startPos == -1 || scaleSide == 'X') {
-			commandList.add(new Drive(10, .125, 3.25, true));
+			commandList.add(new Drive(DEBUG_DRIVE, .125, 3.25, true));
 		}
 
 		commandList.add(new SetClaw(true, true)); // Open claw after any sequence.
 		commandList.add(new Drive(DEBUG_DRIVE, .125, 1.0, true));
 		commandList.add(new Drive(-DEBUG_DRIVE, .125, 2.0, true));
-		commandList.add(new ShiftPivotArm(0, 5.0, true, 0));
+		commandList.add(new ShiftPivotArm(SWITCH_INDEX, 5.0, true, 0));
 	}
 
 	private void handleStartOnLeft() {

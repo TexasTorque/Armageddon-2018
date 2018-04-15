@@ -1,9 +1,6 @@
 package org.texastorque.auto;
 
 import org.texastorque.auto.playback.PlaybackAutoMode;
-import org.texastorque.util.FileUtils;
-
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class PlaybackAutoManager {
 

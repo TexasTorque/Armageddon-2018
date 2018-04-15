@@ -78,6 +78,7 @@ public class PlaceCubeScale extends AutoSequence {
 	
 	@Deprecated
 	private void handlePosition1() {
+
 		if (scaleSide == 'L') {
 			commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 			commandList.add(new Drive(260, 0.125, 4.0, true));

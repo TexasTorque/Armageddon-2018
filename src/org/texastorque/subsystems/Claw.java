@@ -1,13 +1,9 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.auto.playback.PlaybackAutoMode;
-import org.texastorque.subsystems.Subsystem.AutoType;
-import org.texastorque.torquelib.util.TorqueMathUtil;
-
 public class Claw extends Subsystem{
 
 	private boolean closed;
-	private static Claw instance;
+	private static volatile Claw instance;
 
 	@Override
 	public void autoInit() {
@@ -52,7 +48,7 @@ public class Claw extends Subsystem{
 	public void smartDashboard() {
 	}
 
-	public static Claw getInstance() {
+	public static synchronized Claw getInstance() {
 		return instance == null ? instance = new Claw() : instance;
 	}
 

@@ -1,9 +1,7 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.auto.playback.PlaybackAutoMode;
-import org.texastorque.constants.Constants;
-import org.texastorque.subsystems.Subsystem.AutoType;
 import org.texastorque.torquelib.controlLoop.ScheduledPID;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,7 +17,7 @@ public class Pivot extends Subsystem {
 	 */
 	private static final double OUTPUT_MAX_ABS = 0.7;
 
-	private static Pivot instance;
+	private static volatile Pivot instance;
 
 	private double speed;
 
@@ -43,9 +41,9 @@ public class Pivot extends Subsystem {
 	private Pivot() {
 		delay = 0;
 		
-		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS, 3)
+		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS)
 				.setPGains(0.03)
-				.setRegions(-10, 10)
+		//		.setIGains(0.0001)
 				.build();
 	}
 
@@ -70,10 +68,11 @@ public class Pivot extends Subsystem {
 
 	@Override
 	public void autoContinuous() {
-		if(autoType.equals(AutoType.RECORDING))
+		if(autoType.equals(AutoType.RECORDING)) {
 			recordingAutoContin();
-		else 
+		} else {
 			commandAutoContin();
+		}
 		output();
 	}
 
@@ -184,7 +183,7 @@ public class Pivot extends Subsystem {
 		SmartDashboard.putNumber("PT_SPEED", speed);
 	}
 
-	public static Pivot getInstance() {
+	public static synchronized Pivot getInstance() {
 		return instance == null ? instance = new Pivot() : instance;
 	}
 }

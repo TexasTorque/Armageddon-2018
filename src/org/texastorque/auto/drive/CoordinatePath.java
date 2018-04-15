@@ -3,8 +3,6 @@ package org.texastorque.auto.drive;
 import java.util.ArrayList;
 
 import org.texastorque.auto.AutoSequence;
-
-import java.util.ArrayList;
 public class CoordinatePath extends AutoSequence {
 
 	private final ArrayList<int[]> coordinates;
