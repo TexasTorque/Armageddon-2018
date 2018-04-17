@@ -189,32 +189,33 @@ public class Drivebase extends Subsystem {
 			currentDistance = f.getDBLeftDistance();
 			switch (driftIndex) {
 			case 0:
-				if (currentDistance > 84) {
+				if (currentDistance < 92) {
 					driftIndex++;
 					System.out.println("1");
 				}
-				leftSpeed = .8;
-				rightSpeed = .8;
+				leftSpeed = .7;
+				rightSpeed = .7;
 
 				break;
 			case 1:
 				if (driftClockwise) {
-					if (currentAngle > 81) {
+					if (currentAngle > 75) {
 						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
+						i.setDBDriveSetpoint(170, 1);
 						System.out.println("2 L");
 					}
-					leftSpeed = .3 - (.45 * currentAngle)/90;
-					rightSpeed = .7 - (1.05 * currentAngle)/90;
+					leftSpeed = .7 - (1.05 * currentAngle)/90;
+					rightSpeed = .3 - (.45 * currentAngle)/90;
 				} else {
-					if (currentAngle > 81) {
+					if (currentAngle < -75) {
 						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
-						i.setDBDriveSetpoint(166, 1);
+						i.setDBDriveSetpoint(170, 1);
 						System.out.println("2 R");
 					}
-					rightSpeed = .3 + (.45 * currentAngle)/90;
-					leftSpeed = .7 + (1.05 * currentAngle)/90;
+					leftSpeed = .3 + (.45 * currentAngle)/90;
+					rightSpeed = .7 + (1.05 * currentAngle)/90;
 				} // else
 					//
 				break;
