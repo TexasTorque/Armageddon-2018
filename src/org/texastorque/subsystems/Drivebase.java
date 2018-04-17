@@ -185,39 +185,41 @@ public class Drivebase extends Subsystem {
 			
 			break;
 		case AUTODRIFTFORWARD:
+			currentAngle = f.getDBAngle();
+			currentDistance = f.getDBLeftDistance();
 			switch (driftIndex) {
 			case 0:
-				if (f.getDBLeftDistance() > 80) {
+				if (currentDistance > 84) {
 					driftIndex++;
 					System.out.println("1");
 				}
-				leftSpeed = .7;
-				rightSpeed = .7;
+				leftSpeed = .8;
+				rightSpeed = .8;
+
 				break;
 			case 1:
 				if (driftClockwise) {
-					if (f.getDBAngle() > 88) {
+					if (currentAngle > 81) {
+						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
-						System.out.println("2 CW");
+						System.out.println("2 L");
 					}
-					leftSpeed = .7;
-					rightSpeed = .4;
+					leftSpeed = .3 - (.45 * currentAngle)/90;
+					rightSpeed = .7 - (1.05 * currentAngle)/90;
 				} else {
-					if (f.getDBAngle() < -88) {
+					if (currentAngle > 81) {
+						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
-						System.out.println("2 CCW");
+						i.setDBDriveSetpoint(166, 1);
+						System.out.println("2 R");
 					}
-					leftSpeed = .4;
-					rightSpeed = .7;
+					rightSpeed = .3 + (.45 * currentAngle)/90;
+					leftSpeed = .7 + (1.05 * currentAngle)/90;
 				} // else
 					//
 				break;
-			/*
-			 * case 2: if(Math.abs(90 - Math.abs(f.getDBAngle())) < 2) { driftIndex++;
-			 * System.out.println("3"); } else if(driftClockwise) { leftSpeed = .1;
-			 * rightSpeed = .3; } else { leftSpeed = .3; rightSpeed = .1; } break;
-			 */ case 2:
-				i.setDBDriveSetpoint(100, 1);
+			
+			 case 2:
 				setType(DriveType.AUTODRIVE);
 				break;
 
@@ -228,28 +230,28 @@ public class Drivebase extends Subsystem {
 			currentDistance = f.getDBLeftDistance();
 			switch (driftIndex) {
 			case 0:
-				if (currentDistance < -84) {
+				if (currentDistance < -92) {
 					driftIndex++;
 					System.out.println("1");
 				}
-				leftSpeed = -.8;
-				rightSpeed = -.8;
+				leftSpeed = -.7;
+				rightSpeed = -.7;
 
 				break;
 			case 1:
 				if (driftClockwise) {
-					if (currentAngle > 81) {
+					if (currentAngle > 75) {
 						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
 						System.out.println("2 L");
 					}
-					leftSpeed = -.3 + (.3 * currentAngle)/90;
-					rightSpeed = -.7 + (.7 * currentAngle)/90;
+					leftSpeed = -.3 + (.45 * currentAngle)/90;
+					rightSpeed = -.7 + (1.05 * currentAngle)/90;
 				} else {
-					if (currentAngle < -81) {
+					if (currentAngle < -75) {
 						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
-						i.setDBDriveSetpoint(-166, 1);
+						i.setDBDriveSetpoint(-170, 1);
 						System.out.println("2 R");
 					}
 					rightSpeed = -.3 - (.45 * currentAngle)/90;
