@@ -167,27 +167,23 @@ public class HumanInput extends Input {
 	private void updatePivotArmBackup() {
 		if (operator.getDPADLeft()) {
 			pivotCCW = true;
-		} else if (operator.getDPADRight()) {
+		} else pivotCCW = false;
+		if (operator.getDPADRight()) {
 			pivotCW = true;
-			pivotCCW = false;
-		} else {
-			pivotCCW = false;
-			pivotCW = false;
-		}
+		} else pivotCW = false;
 
 		if (operator.getDPADUp()) {
 			armFWD = true;
-		} else if (operator.getDPADDown()) {
+		} else armFWD = false;
+		if (operator.getDPADDown()) {
 			armBACK = true;
-			armFWD = false;
-		} else {
-			armFWD = false;
-			armBACK = false;
-		}
+		} else armBACK = false;
 	}
 
 	public void updateKill() {
 		encodersDead.calc(operator.getRightTrigger() && operator.getLeftTrigger());
+		if(operator.getLeftCenterButton())
+			Feedback.getInstance().resetArmEncoders();
 	}
 
 	public static HumanInput getInstance() {

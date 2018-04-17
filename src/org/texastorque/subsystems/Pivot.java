@@ -152,11 +152,13 @@ public class Pivot extends Subsystem {
 	}
 
 	public void runPivotBackup() {
+		speed = 0;
 		if (i.getPivotCCW()) {
-			speed = -.2;
-		} else if (i.getPivotCW()) {
 			speed = .2;
-		} else speed = 0;
+		}
+		if (i.getPivotCW()) {
+			speed = -.2;
+		} 
 		output();
 	}
 
