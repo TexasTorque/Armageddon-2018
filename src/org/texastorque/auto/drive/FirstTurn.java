@@ -21,7 +21,7 @@ public class FirstTurn extends AutoCommand{
 		if(forward)
 			drivebase.setType(DriveType.AUTODRIFTFORWARD);
 		else drivebase.setType(DriveType.AUTODRIFTBACKWARD);
-		AutoManager.pause(5);
+		AutoManager.pause(6.5);
 		
 	}
 

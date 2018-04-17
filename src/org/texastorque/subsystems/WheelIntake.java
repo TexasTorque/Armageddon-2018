@@ -1,5 +1,7 @@
 package org.texastorque.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class WheelIntake extends Subsystem {
 
 	private static volatile WheelIntake instance;
@@ -7,7 +9,9 @@ public class WheelIntake extends Subsystem {
 	private double speed = 0d;
 	private boolean out = false;
 	private boolean down = false;
-
+	private double delay;
+	private double delayStartTime;
+	
 	@Override
 	public void autoInit() {
 		init();
@@ -54,10 +58,18 @@ public class WheelIntake extends Subsystem {
 	
 	@Override
 	public void teleopContinuous() {
-		speed = i.getINSpeed();
-		out = i.getINOut();
-		down = i.getINDown();
-		output();
+		if (delayStartTime + delay < Timer.getFPGATimestamp()) {
+			speed = i.getINSpeed();
+		
+			out = i.getINOut();
+			down = i.getINDown();
+			output();
+		}
+	}
+
+	public void teleopSetDelay(double time) {
+		delayStartTime = Timer.getFPGATimestamp();
+		delay = time;
 	}
 
 	private void output() {

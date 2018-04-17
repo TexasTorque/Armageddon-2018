@@ -2,6 +2,7 @@ package org.texastorque.subsystems;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.constants.Constants;
+import org.texastorque.feedback.Feedback;
 import org.texastorque.torquelib.controlLoop.TorquePV;
 import org.texastorque.torquelib.controlLoop.TorqueRIMP;
 import org.texastorque.torquelib.controlLoop.TorqueTMP;
@@ -38,7 +39,8 @@ public class Drivebase extends Subsystem {
 	private boolean driftClockwise;
 	private boolean driftForward;
 	private int driftIndex;
-
+	private double currentDistance;
+	
 	public enum DriveType {
 		TELEOP, AUTODRIVE, AUTOTURN, AUTOBACKUP, AUTOOVERRIDE, WAIT, AUTODRIFTFORWARD, AUTODRIFTBACKWARD;
 	}
@@ -173,11 +175,14 @@ public class Drivebase extends Subsystem {
 			turnSetpoint = i.getDBTurnSetpoint();
 			currentAngle = f.getDBAngle();
 			if (!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
-				leftSpeed = (1.5 / Math.PI) * Math.atan(0.02 * (setpoint - currentDistance));
-	
+				leftSpeed = (1.5 / Math.PI) * Math.atan(0.007 * (setpoint - currentAngle));
+				rightSpeed = -leftSpeed;
+			} else {
+			leftSpeed = 0;
+			rightSpeed = 0;
 			}
-	 
-			 */
+			*/
+			
 			break;
 		case AUTODRIFTFORWARD:
 			switch (driftIndex) {
@@ -219,41 +224,41 @@ public class Drivebase extends Subsystem {
 			}
 			break;
 		case AUTODRIFTBACKWARD:
+			currentAngle = f.getDBAngle();
+			currentDistance = f.getDBLeftDistance();
 			switch (driftIndex) {
 			case 0:
-				if (f.getDBLeftDistance() < -80) {
+				if (currentDistance < -84) {
 					driftIndex++;
 					System.out.println("1");
 				}
-				leftSpeed = -.7;
-				rightSpeed = -.7;
+				leftSpeed = -.8;
+				rightSpeed = -.8;
 
 				break;
 			case 1:
 				if (driftClockwise) {
-					if (f.getDBAngle() > 88) {
+					if (currentAngle > 81) {
+						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
 						System.out.println("2 L");
 					}
-					leftSpeed = -.4;
-					rightSpeed = -.7;
+					leftSpeed = -.3 + (.3 * currentAngle)/90;
+					rightSpeed = -.7 + (.7 * currentAngle)/90;
 				} else {
-					if (f.getDBAngle() < -88) {
+					if (currentAngle < -81) {
+						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
+						i.setDBDriveSetpoint(-166, 1);
 						System.out.println("2 R");
 					}
-					leftSpeed = -.7;
-					rightSpeed = -.4;
+					rightSpeed = -.3 - (.45 * currentAngle)/90;
+					leftSpeed = -.7 - (1.05 * currentAngle)/90;
 				} // else
 					//
 				break;
-			/*
-			 * case 2: if(Math.abs(90 - Math.abs(f.getDBAngle())) < 2) { driftIndex++;
-			 * System.out.println("3"); } else if(driftClockwise) { leftSpeed = .1;
-			 * rightSpeed = .3; } else { leftSpeed = .3; rightSpeed = .1; } break;
-			 */
-			case 2:
-				i.setDBDriveSetpoint(-100, 1);
+			
+			 case 2:
 				setType(DriveType.AUTODRIVE);
 				break;
 

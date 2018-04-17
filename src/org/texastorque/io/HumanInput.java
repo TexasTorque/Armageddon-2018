@@ -4,6 +4,7 @@ import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
 import org.texastorque.subsystems.Arm;
 import org.texastorque.subsystems.Pivot;
+import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.util.GenericController;
 
 public class HumanInput extends Input {
@@ -116,9 +117,10 @@ public class HumanInput extends Input {
 		} 
 		else if (operator.getYButtonReleased()) {
 			setClaw(false);
-			setIntakeOut(false);
 			Pivot.getInstance().teleopSetDelay(0.4);
 			Arm.getInstance().teleopSetDelay(0.4);
+			WheelIntake.getInstance().teleopSetDelay(0.8);
+			setIntakeOut(false);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);
