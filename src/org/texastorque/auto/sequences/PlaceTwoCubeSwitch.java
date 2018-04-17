@@ -30,7 +30,6 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 				commandList.add(new SetClaw(true, true));
 				commandList.add(new ShiftPivotArm(0, 5.0, false, 0.75));
 				commandList.add(new Drive(-6, 0.125, 0, true));
-				//commandList.add(new SetClaw(false, true));
 				commandList.add(new SetIntake(true));
 				commandList.add(new Turn(82, 1.5, 2.0, true));
 				commandList.add(new ShiftPivotArm(10, 5.0, false, 1.0));
@@ -52,7 +51,6 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 				commandList.add(new SetClaw(true, true));
 				commandList.add(new ShiftPivotArm(0, 5.0, false, 0.75));
 				commandList.add(new Drive(-16, 0.125, 2.25, true));
-				//commandList.add(new SetClaw(false, true));
 				commandList.add(new SetIntake(true));
 				commandList.add(new Turn(-55, 1.5, 1.5, true));
 				commandList.add(new ShiftPivotArm(10, 5.0, false, 1.0));
@@ -66,21 +64,6 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 				commandList.add(new Turn(0, 1.5, 1.25, true));
 				commandList.add(new Drive(26, 0.125, 1.25, true));
 				commandList.add(new SetClaw(true, false));			
-				//=======================================================
-		/*		commandList.add(new SetClaw(false));
-		 * 		commandList.add(new Drive(-12, 0.125, 2.25, true));
-		 * 		commandList.add(new Turn(-90, 1.5, 2.0, true));
-		 * 		setIntakes(true)
-		 * 		commandList.add(new Drive(24, 0.125, 1.25, true));
-		 * 		setClaw(open)
-		 * 		setPivotArm(1, delay 1)
-		 * 		commandList.add(new Drive(-24, 0.125, 1.25, true));
-		 * 		setIntakes(false)
-		 * 		commandList.add(new Turn(0, 1.5, 1.5, true));
-		 * 		commandList.add(new Drive(-24, 0.125, 1.25, true));
-		 * 		
-		 * 		
-		 */
 				
 			}
 	}
