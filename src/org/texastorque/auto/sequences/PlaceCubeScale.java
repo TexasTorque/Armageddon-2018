@@ -1,5 +1,8 @@
 package org.texastorque.auto.sequences;
 
+import java.util.ArrayList;
+
+import org.texastorque.auto.AutoCommand;
 import org.texastorque.auto.AutoSequence;
 import org.texastorque.auto.arm.SetClaw;
 import org.texastorque.auto.arm.ShiftPivotArm;
@@ -12,19 +15,22 @@ public class PlaceCubeScale extends AutoSequence {
 
 	private final int startPos;
 	private char scaleSide;
+	private ArrayList<AutoCommand> leftClose = new ArrayList<AutoCommand>();
+	private ArrayList<AutoCommand> rightClose = new ArrayList<AutoCommand>();
+	private ArrayList<AutoCommand> leftFar = new ArrayList<AutoCommand>();
+	private ArrayList<AutoCommand> rightFar = new ArrayList<AutoCommand>();
+	
 
 	public PlaceCubeScale(int start) {
 		startPos = start;
-		try {
-			scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
-		} catch (Exception e) {
-			scaleSide = 'X';
-		}
-		init();
+		scaleSide = fieldConfig.charAt(1);
+	//	init();
 	}
 
+	
 	@Override
 	public void init() {
+		scaleSide = fieldConfig.charAt(1);
 		System.out.println("init PlaceCubeScale");
 		if (startPos == 1) {
 			handleStartOnLeft();
@@ -39,7 +45,13 @@ public class PlaceCubeScale extends AutoSequence {
 		commandList.add(new Drive(-24, .125, 2.0, true));
 		commandList.add(new ShiftPivotArm(0, 5.0, true, 0));
 	}
-
+	
+	@Override
+	public void initCommandLists() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private void handleStartOnLeft() {
 		if (scaleSide == 'L') {
 			driveToScale(true);
@@ -110,4 +122,5 @@ public class PlaceCubeScale extends AutoSequence {
 			commandList.add(new Drive(44, 0.125, 1.75, true));
 		}
 	}
+	
 }

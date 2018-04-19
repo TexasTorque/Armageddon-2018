@@ -14,22 +14,21 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 	private char switchSide;
 
 	public PlaceTwoCubeSwitch() {
-		switchSide = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
-		init();
-		commandList.add(new SetClaw(true, false));
+		switchSide = fieldConfig.charAt(0);
 	}
 
 	@Override
 	public void init() {
-		System.out.println("inittwocubeswitch");
-			commandList.add(new Drive(6, 0.125, 1, true));
+		System.out.println("inittwocubeswitch" + switchSide);
+		switchSide = fieldConfig.charAt(0);	
+		commandList.add(new Drive(6, 0.125, 1, true));
 			if (switchSide == 'L') {
 				commandList.add(new ShiftPivotArm(1, 5.0, false, 2.0));
 				commandList.add(new Turn(-27, 1.5, 0.75, true));
 				commandList.add(new Drive(108, 0.125, 2.5, true));
 				commandList.add(new SetClaw(true, true));
 				commandList.add(new ShiftPivotArm(0, 5.0, false, 0.75));
-				commandList.add(new Drive(-6, 0.125, 0, true));
+				commandList.add(new Drive(-8, 0.125, 1.0, true));
 				commandList.add(new SetIntake(true));
 				commandList.add(new Turn(82, 1.5, 2.0, true));
 				commandList.add(new ShiftPivotArm(10, 5.0, false, 1.0));
@@ -66,5 +65,7 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 				commandList.add(new SetClaw(true, false));			
 				
 			}
+			commandList.add(new SetClaw(true, false));
+
 	}
 }

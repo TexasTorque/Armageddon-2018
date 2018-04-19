@@ -17,17 +17,13 @@ public class PlaceTwoCubeScale extends AutoSequence {
 
 	public PlaceTwoCubeScale(int start) {
 		startPos = start;
-		try {
-			scaleSide = DriverStation.getInstance().getGameSpecificMessage().charAt(1);
-		} catch (Exception e) {
-			scaleSide = 'X';
-		}
-		init();
+		scaleSide = fieldConfig.charAt(1);
 	}
 
 	@Override
 	public void init() {
-		System.out.println("init PlaceTwoCubeScale");
+		scaleSide = getFieldConfig().charAt(1);
+		System.out.println("init PlaceTwoCubeScale" + scaleSide);
 		if (startPos == 1) {
 			handlePosition1();
 		} else if (startPos == 3) {
@@ -41,35 +37,34 @@ public class PlaceTwoCubeScale extends AutoSequence {
 	private void handlePosition1() {
 		if (scaleSide == 'L') {
 			commandList.add(new ShiftPivotArm(6, 5.0, false, 1.5));
-			commandList.add(new Drive(-216, 0.125, 2.75, true));
-			commandList.add(new Turn(33, 1.25, .65, true));
-			commandList.add(new Drive(-63, .125, 1.45, true));
+			commandList.add(new Drive(-224, 0.125, 3.5, true));
+			commandList.add(new Turn(28, 1.25, .75, true));
+			commandList.add(new Drive(-54, .125, 1.5, true));
 			commandList.add(new SetClaw(true, true));
 			commandList.add(new ShiftPivotArm(0, 4.0, false, 0.5));
 			commandList.add(new SetIntake(true));
-			commandList.add(new Drive(20, 0.125, 1.25, true));
-			commandList.add(new Turn(-12, 1.5, 1.5, true));
-			commandList.add(new ShiftPivotArm(10, 1.5, true, 0.75));
-			commandList.add(new Drive(48, 0.125, 1.25, true));
+			commandList.add(new Turn(-9, 1.5, 1.5, true));
+			commandList.add(new Drive(71, 0.125, 2.0, true));
+			commandList.add(new Turn(-5, .125, 1.0, true));
+			commandList.add(new ShiftPivotArm(10, 1.5, true, 0));
 			commandList.add(new SetClaw(false, true));			
-			commandList.add(new ShiftPivotArm(0, 1.5, false, 0.0));
-			commandList.add(new Turn(3, 1.5, 1.25, true));
-			commandList.add(new ShiftPivotArm(6, 4.0, false, 0.0));
-			commandList.add(new SetIntake(false));
-			commandList.add(new Drive(-64, 0.125, 1.75, true));
+			commandList.add(new SetIntake(false, true));
+			commandList.add(new ShiftPivotArm(0, .25, true, 0));
+			commandList.add(new Drive(-68, 0.125, 2.5, false));
+			commandList.add(new ShiftPivotArm(6, 2.0, true, 0));
+			commandList.add(new SetClaw(true, true));	
+			} else {
+			commandList.add(new ShiftPivotArm(6, 5.0, false, 4.0));
+			commandList.add(new FirstTurn(true, false));
+			commandList.add(new Turn(0, 0.125, 1.5, true));
+			commandList.add(new Drive(-72, .125, 2.0, true));
 			commandList.add(new SetClaw(true, true));
-		} else {
-			commandList.add(new ShiftPivotArm(6, 5.0, false, 6.0));
-			commandList.add(new Drive(-214, 0.125, 3.25, true));
-			commandList.add(new Turn(75, 1.5, 1.5, true));
-			commandList.add(new Drive(-194, 0.125, 3, true));
-			commandList.add(new Turn(0, 1.5, 1.5, true));
-			commandList.add(new Drive(-52, 0.125, 2.0, true));
-			commandList.add(new SetClaw(true, true));
-			commandList.add(new ShiftPivotArm(0, 4.0, false, 0.0));
-			commandList.add(new Drive(-65, 0.125, 4.0, true));
-//			commandList.add(new SetClaw(true));
-			
+			commandList.add(new ShiftPivotArm(0, 4.0, false, 0.5));
+			commandList.add(new SetIntake(true));
+			commandList.add(new Turn(2, 1.5, 1.5, true));
+			commandList.add(new Drive(81, 0.125, 2.0, true));
+			commandList.add(new Turn(-5, .125, 1.0, true));
+//						
 		}
 	}
 

@@ -15,19 +15,14 @@ public class PlaceCubeSwitch extends AutoSequence {
 	private int startPos;
 
 	public PlaceCubeSwitch(int loc) {
-		try {
-			startPos = loc;
-			switchSide = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
-		} catch (Exception e) {
-			startPos = 0;
-			switchSide = 'X';
-			System.out.println("damn");
-		}
-		init();
+		startPos = loc;
+		switchSide = fieldConfig.charAt(0);
+		//init();
 	}
 
 	@Override
 	public void init() {
+		switchSide = fieldConfig.charAt(0);
 		System.out.println("init PlaceCubeScale");
 		if (startPos == 1) {
 			if (switchSide == 'L') {

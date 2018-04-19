@@ -18,9 +18,9 @@ public class Input {
 	protected double AM_speed;
 	protected double AM_setpoint;
 	protected int AM_index;
-	protected volatile double[] AM_setpoints = 
-		{0.0, 40.0, 80.0, 480.0, 800.0, 100.0, 790.0, 450.0, 200.0, 200.0, 105.0}; //bravo has back pickup
-//	protected volatile double[] AM_setpoints = { 0, 135, 570, 1400, 2050, 100, 2050, 1400, 680, 170, 245 };
+	//protected volatile double[] AM_setpoints = 
+	//	{0.0, 40.0, 80.0, 480.0, 800.0, 100.0, 790.0, 450.0, 200.0, 200.0, 105.0}; //bravo has back pickup
+	protected volatile double[] AM_setpoints = { 0, 135, 250, 1400, 2050, 100, 2050, 1400, 680, 170, 245 };
 	//this is charlie
 	protected static final int AM_CONVERSION = 17142;
 

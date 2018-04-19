@@ -31,7 +31,8 @@ public class AutoManager {
 
 	private static boolean commandsDone = false;
 	private static volatile boolean setPointReached;
-
+	private String fieldConfig;
+	
 	private static int autoMode;
 
 	private AutoManager() {
@@ -67,8 +68,14 @@ public class AutoManager {
 
 	public void setAutoMode(int auto) {
 		autoMode = auto;
+		autoModes.get(auto).setFieldConfig(DriverStation.getInstance().getGameSpecificMessage());
+		autoModes.get(auto).init();
 	}
 
+	public String getFieldConfig() {
+		return fieldConfig;
+	}
+	
 	public static void analyzeAutoMode() {
 		commandList.addAll(autoModes.get(autoMode).getCommands());
 		while (DriverStation.getInstance().isAutonomous() && !commandList.isEmpty()) {
