@@ -162,9 +162,9 @@ public class Drivebase extends Subsystem {
 			currentAngle = f.getDBAngle();
 			if (!TorqueMathUtil.near(turnSetpoint, f.getDBAngle(), 3)) {
 				if (turnSetpoint - currentAngle > 0) {
-					leftSpeed = .5;
+					leftSpeed = .4;
 				} else if (turnSetpoint - currentAngle < 0) {
-					leftSpeed = -.5;
+					leftSpeed = -.4 ;
 				}
 				rightSpeed = -leftSpeed;
 			} else {
@@ -241,7 +241,7 @@ public class Drivebase extends Subsystem {
 				break;
 			case 1:
 				if (driftClockwise) {
-					if (currentAngle > 75) {
+					if (currentAngle > 70) {
 						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
 						System.out.println("2 L");
@@ -288,6 +288,7 @@ public class Drivebase extends Subsystem {
 
 	public void setDriftDirection(boolean clockwise) {
 		driftClockwise = clockwise;
+		System.out.println(driftClockwise);
 	}
 
 	private void output() {

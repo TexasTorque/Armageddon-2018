@@ -15,11 +15,6 @@ public class PlaceCubeScale extends AutoSequence {
 
 	private final int startPos;
 	private char scaleSide;
-	private ArrayList<AutoCommand> leftClose = new ArrayList<AutoCommand>();
-	private ArrayList<AutoCommand> rightClose = new ArrayList<AutoCommand>();
-	private ArrayList<AutoCommand> leftFar = new ArrayList<AutoCommand>();
-	private ArrayList<AutoCommand> rightFar = new ArrayList<AutoCommand>();
-	
 
 	public PlaceCubeScale(int start) {
 		startPos = start;

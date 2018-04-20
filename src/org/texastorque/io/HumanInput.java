@@ -38,8 +38,8 @@ public class HumanInput extends Input {
 	}
 
 	public void updateDrive() {
-		DB_leftSpeed = -driver.getLeftYAxis() + driver.getRightXAxis();
-		DB_rightSpeed = -driver.getLeftYAxis() - driver.getRightXAxis();
+		DB_leftSpeed = -driver.getLeftYAxis() + .8 * driver.getRightXAxis();
+		DB_rightSpeed = -driver.getLeftYAxis() - .8 * driver.getRightXAxis();
 		
 	}
 
@@ -86,8 +86,8 @@ public class HumanInput extends Input {
 
 	private void handleDriverInputs() {
 		if (driver.getBButton()) {
-			AM_setpoint = 750;
-			if(feedback.getArmDistance() > 700)
+			AM_setpoint = 2000;
+			if(feedback.getArmDistance() > 1800)
 				PT_setpoint = 220.0; //bravo 85 charlie 220
 		} 
 		if (driver.getXButton()) {

@@ -78,4 +78,10 @@ public class PlaceCubeScaleDebug extends AutoSequence {
 		commandList.add(new Turn(0, 1.5, 2.0, true));
 		commandList.add(new Drive(DEBUG_DRIVE, 0.125, 1.75, true));
 	}
+
+	@Override
+	public void initCommandLists() {
+		// TODO Auto-generated method stub
+		
+	}
 }

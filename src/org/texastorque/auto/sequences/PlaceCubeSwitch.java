@@ -76,4 +76,10 @@ public class PlaceCubeSwitch extends AutoSequence {
 		// commandList.add(new Drive(-18, .125, 1, true));
 
 	}
+
+	@Override
+	public void initCommandLists() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -12,7 +12,6 @@ public class FirstTurn extends AutoCommand{
 	public FirstTurn(boolean clockwise, boolean forward) {
 		super(true);
 		this.forward = forward;
-		drivebase.setDriftDirection(clockwise);
 	}
 
 	@Override

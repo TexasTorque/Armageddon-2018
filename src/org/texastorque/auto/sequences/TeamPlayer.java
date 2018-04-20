@@ -30,7 +30,7 @@ public class TeamPlayer extends AutoSequence {
 		switchSide = fieldConfig.substring(0, 1);
 		scaleSide = fieldConfig.substring(1, 2);
 		fieldString = switchSide + scaleSide;
-	//	init();
+		initCommandLists();
 	}
 
 	@Override
@@ -40,24 +40,22 @@ public class TeamPlayer extends AutoSequence {
 		fieldString = switchSide + scaleSide;
 		System.out.println("init PlaceCubeScale");
 		if (startPos == 1) {
-			handlePosition1();
+			processPosition1();
 		} else if (startPos == 3) {
-			handlePosition3();
+			processPosition3();
 		} else if (startPos == -1 || scaleSide.equals("X")) {
-			commandList.add(new Drive(220, .125, 3.25, true));
+			commandList = leftBaseline;
 		
 		}
 	}
 
 	@Override
 	public void initCommandLists() {
-		
+		initPosition1();
+		initPosition3();
 	}
 	
 	private void initPosition1() {
-		switch(fieldString) {
-		case "LL":	
-		case "RL":
 			leftScale.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 			leftScale.add(new Drive(312, 0.125, 5.0, true));
 			leftScale.add(new Turn(90, 1.5, 2.25, true));
@@ -66,8 +64,6 @@ public class TeamPlayer extends AutoSequence {
 			leftScale.add(new Drive(1, .125, 1.0, true));
 			leftScale.add(new Drive(-24, .125, 2.0, true));
 			leftScale.add(new ShiftPivotArm(0, 5.0, true, 0));
-			break;
-		case "LR":				
 			leftSwitch.add(new ShiftPivotArm(1, 5.0, false, 0.0));
 			leftSwitch.add(new Drive(168, 0.125, 3.0, true));
 			leftSwitch.add(new Turn(90, 1.5, 2.25, true));
@@ -76,25 +72,17 @@ public class TeamPlayer extends AutoSequence {
 			leftSwitch.add(new Drive(1, .125, 1.0, true));
 			leftSwitch.add(new Drive(-24, .125, 2.0, true));
 			leftSwitch.add(new ShiftPivotArm(0, 5.0, true, 0));
-			break;
-		case "RR":
 			leftBaseline.add(new Drive(244, .125, 3.5, true));
 			leftBaseline.add(new Turn(90, 1.5, 2.25, true));
 			leftBaseline.add(new Drive(72, .125, 1, true));
-			break;
-		}
+		
 	}
 
 	private void initPosition3() {
-		switch(fieldString) {
-		case "LL":		
 			rightBaseline.add(new Drive(244, .125, 3.5, true));
 			rightBaseline.add(new Turn(-90, 1.5, 2.25, true));
 			rightBaseline.add(new Drive(72, .125, 1, true));
 			
-			break;
-		case "RR":
-		case "LR":			
 			rightScale.add(new ShiftPivotArm(4, 5.0, false, 0.0));
 			rightScale.add(new Drive(312, 0.125, 5.0, true));
 			rightScale.add(new Turn(-90, 1.5, 2.25, true));
@@ -103,8 +91,6 @@ public class TeamPlayer extends AutoSequence {
 			rightScale.add(new Drive(1, .125, 1.0, true));
 			rightScale.add(new Drive(-24, .125, 2.0, true));
 			rightScale.add(new ShiftPivotArm(0, 5.0, true, 0));
-			break;
-		case "RL":
 			rightSwitch.add(new ShiftPivotArm(1, 5.0, false, 0.0));
 			rightSwitch.add(new Drive(168, 0.125, 3.0, true));
 			rightSwitch.add(new Turn(-90, 1.5, 2.25, true));
@@ -113,8 +99,9 @@ public class TeamPlayer extends AutoSequence {
 			rightSwitch.add(new Drive(1, .125, 1.0, true));
 			rightSwitch.add(new Drive(-24, .125, 2.0, true));
 			rightSwitch.add(new ShiftPivotArm(0, 5.0, true, 0));
-			break;
-		}
+			
+		
+	}
 		
 		private void processPosition1() {
 			switch(fieldString) {
@@ -123,52 +110,25 @@ public class TeamPlayer extends AutoSequence {
 				commandList = leftScale;
 				break;
 			case "LR":				
-				commandList.add(new ShiftPivotArm(1, 5.0, false, 0.0));
-				commandList.add(new Drive(168, 0.125, 3.0, true));
-				commandList.add(new Turn(90, 1.5, 2.25, true));
-				commandList.add(new Drive(30, .125, 1, true));
-				commandList.add(new SetClaw(true, true)); // Open claw after any sequence.
-				commandList.add(new Drive(1, .125, 1.0, true));
-				commandList.add(new Drive(-24, .125, 2.0, true));
-				commandList.add(new ShiftPivotArm(0, 5.0, true, 0));
+				commandList = leftSwitch;
 				break;
 			case "RR":
-				commandList.add(new Drive(244, .125, 3.5, true));
-				commandList.add(new Turn(90, 1.5, 2.25, true));
-				commandList.add(new Drive(72, .125, 1, true));
-				
+				commandList = leftBaseline;
 				break;
 			}
 		}
-
+		
 		private void processPosition3() {
 			switch(fieldString) {
 			case "LL":		
-				commandList.add(new Drive(244, .125, 3.5, true));
-				commandList.add(new Turn(-90, 1.5, 2.25, true));
-				commandList.add(new Drive(72, .125, 1, true));
-				
+				commandList = rightBaseline;
 				break;
 			case "RR":
 			case "LR":			
-				commandList.add(new ShiftPivotArm(4, 5.0, false, 0.0));
-				commandList.add(new Drive(312, 0.125, 5.0, true));
-				commandList.add(new Turn(-90, 1.5, 2.25, true));
-				commandList.add(new Drive(30, .125, 1, true));
-				commandList.add(new SetClaw(true, true)); // Open claw after any sequence.
-				commandList.add(new Drive(1, .125, 1.0, true));
-				commandList.add(new Drive(-24, .125, 2.0, true));
-				commandList.add(new ShiftPivotArm(0, 5.0, true, 0));
+				commandList = rightScale;
 				break;
 			case "RL":
-				commandList.add(new ShiftPivotArm(1, 5.0, false, 0.0));
-				commandList.add(new Drive(168, 0.125, 3.0, true));
-				commandList.add(new Turn(-90, 1.5, 2.25, true));
-				commandList.add(new Drive(30, .125, 1, true));
-				commandList.add(new SetClaw(true, true)); // Open claw after any sequence.
-				commandList.add(new Drive(1, .125, 1.0, true));
-				commandList.add(new Drive(-24, .125, 2.0, true));
-				commandList.add(new ShiftPivotArm(0, 5.0, true, 0));
+				commandList = rightSwitch;		
 				break;
 			}
 		

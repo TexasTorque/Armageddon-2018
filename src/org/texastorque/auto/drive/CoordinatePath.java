@@ -26,4 +26,10 @@ public class CoordinatePath extends AutoSequence {
 			commandList.add(new Turn(angle, 0.125));
 		}
 	}
+
+	@Override
+	public void initCommandLists() {
+		// TODO Auto-generated method stub
+		
+	}
 }
