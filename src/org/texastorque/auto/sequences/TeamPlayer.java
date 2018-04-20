@@ -57,42 +57,42 @@ public class TeamPlayer extends AutoSequence {
 	
 	private void initPosition1() {
 			leftScale.add(new ShiftPivotArm(4, 5.0, false, 0.0));
-			leftScale.add(new Drive(312, 0.125, 5.0, true));
+			leftScale.add(new Drive(300, 0.125, 5.0, true));
 			leftScale.add(new Turn(90, 1.5, 2.25, true));
-			leftScale.add(new Drive(18, .125, 1, true));
+			leftScale.add(new Drive(24, .125, 1, true));
 			leftScale.add(new SetClaw(true, true)); // Open claw after any sequence.
 			leftScale.add(new Drive(1, .125, 1.0, true));
 			leftScale.add(new Drive(-24, .125, 2.0, true));
 			leftScale.add(new ShiftPivotArm(0, 5.0, true, 0));
 			leftSwitch.add(new ShiftPivotArm(1, 5.0, false, 0.0));
-			leftSwitch.add(new Drive(168, 0.125, 3.0, true));
+			leftSwitch.add(new Drive(150, 0.125, 3.0, true));
 			leftSwitch.add(new Turn(90, 1.5, 2.25, true));
 			leftSwitch.add(new Drive(30, .125, 1, true));
 			leftSwitch.add(new SetClaw(true, true)); // Open claw after any sequence.
 			leftSwitch.add(new Drive(1, .125, 1.0, true));
 			leftSwitch.add(new Drive(-24, .125, 2.0, true));
 			leftSwitch.add(new ShiftPivotArm(0, 5.0, true, 0));
-			leftBaseline.add(new Drive(244, .125, 3.5, true));
+			leftBaseline.add(new Drive(234, .125, 3.5, true));
 			leftBaseline.add(new Turn(90, 1.5, 2.25, true));
 			leftBaseline.add(new Drive(72, .125, 1, true));
 		
 	}
 
 	private void initPosition3() {
-			rightBaseline.add(new Drive(244, .125, 3.5, true));
+			rightBaseline.add(new Drive(234, .125, 3.5, true));
 			rightBaseline.add(new Turn(-90, 1.5, 2.25, true));
 			rightBaseline.add(new Drive(72, .125, 1, true));
 			
 			rightScale.add(new ShiftPivotArm(4, 5.0, false, 0.0));
-			rightScale.add(new Drive(312, 0.125, 5.0, true));
+			rightScale.add(new Drive(300, 0.125, 5.0, true));
 			rightScale.add(new Turn(-90, 1.5, 2.25, true));
-			rightScale.add(new Drive(30, .125, 1, true));
+			rightScale.add(new Drive(24, .125, 1, true));
 			rightScale.add(new SetClaw(true, true)); // Open claw after any sequence.
 			rightScale.add(new Drive(1, .125, 1.0, true));
 			rightScale.add(new Drive(-24, .125, 2.0, true));
 			rightScale.add(new ShiftPivotArm(0, 5.0, true, 0));
 			rightSwitch.add(new ShiftPivotArm(1, 5.0, false, 0.0));
-			rightSwitch.add(new Drive(168, 0.125, 3.0, true));
+			rightSwitch.add(new Drive(150, 0.125, 3.0, true));
 			rightSwitch.add(new Turn(-90, 1.5, 2.25, true));
 			rightSwitch.add(new Drive(30, .125, 1, true));
 			rightSwitch.add(new SetClaw(true, true)); // Open claw after any sequence.

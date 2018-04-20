@@ -67,7 +67,7 @@ public class PlaceTwoCubeScale extends AutoSequence {
 		leftFar.add(new ShiftPivotArm(6, 5.0, false, 4.0));
 		leftFar.add(new FirstTurn(true, false));
 		leftFar.add(new Turn(0, 0.125, 1.5, true));
-		leftFar.add(new Drive(-72, .125, 2.0, true));
+		leftFar.add(new Drive(-68, .125, 2.0, true));
 		leftFar.add(new SetClaw(true, true));
 		leftFar.add(new ShiftPivotArm(0, 4.0, false, 0.5));
 		leftFar.add(new SetIntake(true));
@@ -98,7 +98,7 @@ public class PlaceTwoCubeScale extends AutoSequence {
 		rightFar.add(new ShiftPivotArm(6, 5.0, false, 4.0));
 		rightFar.add(new FirstTurn(false, false));
 		rightFar.add(new Turn(0, 0.125, 1.5, true));
-		rightFar.add(new Drive(-72, .125, 2.0, true));
+		rightFar.add(new Drive(-68, .125, 2.0, true));
 		rightFar.add(new SetClaw(true, true));
 		rightFar.add(new ShiftPivotArm(0, 4.0, false, 0.5));
 		rightFar.add(new SetIntake(true));

@@ -231,7 +231,7 @@ public class Drivebase extends Subsystem {
 			currentDistance = f.getDBLeftDistance();
 			switch (driftIndex) {
 			case 0:
-				if (currentDistance < -124) {
+				if (currentDistance < -100) {
 					driftIndex++;
 					System.out.println("1");
 				}
@@ -256,7 +256,7 @@ public class Drivebase extends Subsystem {
 						System.out.println("2 R");
 					}
 					rightSpeed = -.3 - (.45 * currentAngle)/90;
-					leftSpeed = -.7 - (1.05 * currentAngle)/90;
+					leftSpeed = -.72 - (1.05 * currentAngle)/90;
 				} // else
 					//
 				break;

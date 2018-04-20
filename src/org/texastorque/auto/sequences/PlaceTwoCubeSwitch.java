@@ -51,11 +51,11 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 		leftCenter.add(new Turn(78, 1.5, 2.0, true));
 		leftCenter.add(new ShiftPivotArm(10, 5.0, false, 1.0));
 		leftCenter.add(new SetClaw(true, true));
-		leftCenter.add(new Drive(24, 0.125, 1.75, true));
+		leftCenter.add(new Drive(28, 0.125, 1.75, true));
 		leftCenter.add(new SetClaw(false, true));
 		leftCenter.add(new ShiftPivotArm(1, 5.0, false, 0.75));
 		leftCenter.add(new SetIntake(false, true));
-		leftCenter.add(new Drive(-36, 0.125, 1.25, true));
+		leftCenter.add(new Drive(-40, 0.125, 1.25, true));
 		leftCenter.add(new SetIntake(false));
 		leftCenter.add(new Turn(0, 1.5, 1.5, true));
 		leftCenter.add(new Drive(28, 0.125, 1.25, true));
