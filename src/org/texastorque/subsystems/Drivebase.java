@@ -231,7 +231,7 @@ public class Drivebase extends Subsystem {
 			currentDistance = f.getDBLeftDistance();
 			switch (driftIndex) {
 			case 0:
-				if (currentDistance < -100) {
+				if (currentDistance < -92) {
 					driftIndex++;
 					System.out.println("1");
 				}

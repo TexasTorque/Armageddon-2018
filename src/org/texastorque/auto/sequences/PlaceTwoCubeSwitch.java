@@ -70,7 +70,7 @@ public class PlaceTwoCubeSwitch extends AutoSequence {
 		rightCenter.add(new ShiftPivotArm(0, 5.0, false, 0.75));
 		rightCenter.add(new Drive(-16, 0.125, 2.25, true));
 		rightCenter.add(new SetIntake(true));
-		rightCenter.add(new Turn(-50, 1.5, 1.5, true));
+		rightCenter.add(new Turn(-46, 1.5, 1.5, true));
 		rightCenter.add(new ShiftPivotArm(10, 5.0, false, 1.0));
 		rightCenter.add(new SetClaw(true, true));
 		rightCenter.add(new Drive(24, 0.125, 1.75, true));
