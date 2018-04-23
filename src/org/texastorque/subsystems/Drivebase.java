@@ -252,7 +252,7 @@ public class Drivebase extends Subsystem {
 					if (currentAngle < -75) {
 						Feedback.getInstance().resetDriveEncoders();
 						driftIndex++;
-						i.setDBDriveSetpoint(-170, 1);
+						i.setDBDriveSetpoint(-180, 1);
 						System.out.println("2 R");
 					}
 					rightSpeed = -.3 - (.45 * currentAngle)/90;
