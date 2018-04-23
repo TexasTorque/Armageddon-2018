@@ -6,15 +6,16 @@ import java.util.ArrayList;
 
 import org.texastorque.torquelib.torquelog.LogData.Priority;
 import org.texastorque.util.FileUtils;
-
+import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TorqueLog {
-	
+
 	private static String fileName;
 	
 	private static ArrayList<LogData> logKeys = new ArrayList<LogData>(){{
+		add(new LogData("Left_Encoder_Speed", Priority.HIGH));
 	}};	
 	
 	//Delimiter used in CSV file
@@ -30,51 +31,42 @@ public class TorqueLog {
 	}
 
 	private static int cycleNum = 0;
-		
-	// call once per cycle to log data
-	public static void logData() {
-		// check if comparisons need to be made
-		if(!needUpdate()) return;
-		
-		try(FileWriter fW = new FileWriter(fileName, true)){
-			for(Priority p : Priority.values()) {
-				if(cycleNum % p.CYCLEHZ == 0) {
-					fW.append(String.valueOf(cycleNum));
-					fW.append(CD);
-					fW.append(String.valueOf(Timer.getFPGATimestamp()));
-					fW.append(CD);
-					fW.append(p.name());
-					fW.append(CD);
-					for(LogData data : logKeys) {
-						fW.append((data.P == p) ? String.valueOf(SmartDashboard.getData(data.KEY)) : "");
-						fW.append(CD);
-					}
-					fW.append(NLS);
-				}
-			}
-		} catch (IOException e) {
-			System.out.println("Failed to Create Log File at: "+fileName);
+	private static String getLogValue(String key) {
+		NetworkTableType getType = SmartDashboard.getEntry(key).getType();
+		switch (getType) {
+		case kBoolean:
+			return String.valueOf(SmartDashboard.getBoolean(key, false));
+		case kDouble:
+			return String.valueOf(SmartDashboard.getNumber(key, -1));
+		case kString:
+			return SmartDashboard.getString(key, "NA");
+		default:
+			System.out.println(getType);
+			return "";
 		}
-		
-		cycleNum++;		
 	}
-	
+
 	public static void startLog() {
-		fileName = FileUtils.createTimestampedFilepath("/home/lvuser", "TorqueLog", "xls");
-		try(FileWriter fW = new FileWriter(fileName, true)){
+//		fileName = FileUtils.createTimestampedFilepath("/home/lvuser/TorqueLog", "TorqueLog", "csv");
+
+		try (FileWriter fW = new FileWriter(fileName, true)) {
 			fW.append(FH);
 			fW.append(NLS);
 		} catch (IOException e) {
-			System.out.println("Failed to Create Log File at: "+fileName);
+			System.out.println("Failed to Create Log File at: " + fileName);
 		}
-		
+
 	}
-	
+
 	public static boolean needUpdate() {
-		if(logKeys.size() == 0) return false;
+		cycleNum++;
+
+		if (logKeys.size() == 0)
+			return false;
 		Priority[] priorities = Priority.values();
-		for(Priority p : priorities) {
-			if(cycleNum % p.CYCLEHZ == 0) return true;
+		for (Priority p : priorities) {
+			if (cycleNum % p.CYCLEHZ == 0)
+				return true;
 		}
 		return false;
 	}

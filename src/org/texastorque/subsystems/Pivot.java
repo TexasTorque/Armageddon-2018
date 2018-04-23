@@ -1,146 +1,167 @@
 package org.texastorque.subsystems;
 
-import org.texastorque.constants.Constants;
-import org.texastorque.torquelib.controlLoop.TorquePV;
-import org.texastorque.torquelib.controlLoop.TorqueTMP;
+import org.texastorque.torquelib.controlLoop.ScheduledPID;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pivot extends Subsystem {
+	
+	private static final double SETPOINT_DEFAULT = 0;
+	
+	/**
+	 * The absolute magnitude of the largest possible value for speed.
+	 * 
+	 * The original speed calculation had an asymptote in [0.7, 0.8]. 
+	 * For this reason, the value is capped at 0.7 for initial PID tests.
+	 */
+	private static final double OUTPUT_MAX_ABS = 0.7;
 
-	private static Pivot instance;
-	
+	private static volatile Pivot instance;
+
 	private double speed;
-	
-	private TorqueTMP pivotTMP;
-	private TorqueTMP pivotDownTMP;
-	private TorquePV pivotPV;
-	
+
 	private double setpoint = 0;
 	private double previousSetpoint = 0;
-	private double previousTime;
-	private double precision;
-	
-	private double targetAngle;
-	private double targetVelocity;
-	private double targetAcceleration;
-	
+
 	private double autoStartTime;
 	private double delay;
-	
+
 	private double currentAngle;
-	private double currentArmSetpoint; 
+	private double currentArmSetpoint;
 	private double currentArmDistance;
-	private double reach;
-	private final double LIMIT = 320;
-	private final double ADJUSTMENT = 20;
+
+	private double delayStartTime = 0;
 	
-	public Pivot() {
-		init();
+	private final ScheduledPID pivotPID;
+
+	private double teleopStartTime;
+	private int autoPosition;
+	
+	private Pivot() {
 		delay = 0;
+		
+		this.pivotPID = new ScheduledPID.Builder(SETPOINT_DEFAULT, OUTPUT_MAX_ABS)
+				.setPGains(0.03)
+		//		.setIGains(0.0001)
+				.build();
 	}
-	
+
 	@Override
 	public void autoInit() {
-		autoStartTime = Timer.getFPGATimestamp();
-		init();
 	}
 
 	@Override
 	public void teleopInit() {
-		init();
+		if(f.getPTAngle() > 15)
+			i.setPTSetpoint(4);
 	}
 
 	@Override
 	public void disabledInit() {
 		speed = 0;
 	}
-	
-	private void init() {
-		pivotTMP = new TorqueTMP(Constants.PT_MVELOCITY.getDouble(), Constants.PT_MACCELERATION.getDouble());
-		pivotPV = new TorquePV();
-		
-		pivotPV.setGains(Constants.PT_PV_P.getDouble(), Constants.PT_PV_V.getDouble(),
-				Constants.PT_PV_ffV.getDouble(), Constants.PT_PV_ffA.getDouble());
-		pivotPV.setTunedVoltage(Constants.TUNED_VOLTAGE.getDouble());
-		
-		previousTime = Timer.getFPGATimestamp();
-	}
 
 	@Override
 	public void disabledContinuous() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void autoContinuous() {
-		if(autoStartTime + delay < Timer.getFPGATimestamp()) 
-			runPivot();
+		if(autoType.equals(AutoType.RECORDING)) {
+			recordingAutoContin();
+		} else {
+			commandAutoContin();
+		}
+		output();
 	}
 
-	@Override
-	public void teleopContinuous() {
-		if(i.getEncodersDead()) {
-			runPivotBackup();
-		} else runPivot();
+	private void recordingAutoContin() {
+//		setpoint = auto.getPTSetpoint();
+//		currentAngle = f.getPTAngle();
+//		currentArmSetpoint = auto.getArmSetpoint();
+//		currentArmDistance = f.getArmDistance();
+//		
+//		if (setpoint != previousSetpoint) {
+//			if(/*currentArmSetpoint < 400 && currentArmDistance > 400*/currentArmSetpoint < 200 && currentArmDistance > 200) {
+//				//setpoint = 190;
+//				setpoint = 80;
+//			}
+//			previousSetpoint = setpoint;
+//		}
+//		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
+//		
 	}
 	
+	private void commandAutoContin() {
+		if(autoStartTime + delay < Timer.getFPGATimestamp()) {
+			runPivotAuto();
+		}
+	}
+	
+	@Override
+	public void teleopContinuous() {
+		
+		if (i.getEncodersDead()) {
+			runPivotBackup();
+		} else if (delayStartTime + delay < Timer.getFPGATimestamp()) {
+			runPivot();
+		}
+	}
+
 	private void runPivot() {
 		setpoint = i.getPTSetpoint();
 		currentAngle = f.getPTAngle();
 		currentArmSetpoint = i.getArmSetpoint();
 		currentArmDistance = f.getArmDistance();
-		/*reach = Math.abs(Math.cos((Math.toRadians( -(   (.67)*currentAngle)) + ADJUSTMENT )  ));
-		
-		if((currentAngle >=80 && currentAngle < 120) && (reach * currentArmPosition >= LIMIT)){
-			setpoint = currentAngle;			
-		}
-		*/
-		if(i.getPickingUp()) {
-			setpoint = 7;
-		}
 		if (setpoint != previousSetpoint) {
 			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
-				setpoint = currentAngle;
+				setpoint = 190;
 			}
-			if(i.getPickingUp()) {
-				setpoint = 7;
-			}
-			if(i.getPullingBack()) {
-				setpoint = 0;
-			}
-			previousSetpoint = setpoint;
-			/* 
-			previousSetpoint = setpoint;
-			pivotTMP.generateTrapezoid(setpoint, f.getPTAngle(), 0d);
-			previousTime = Timer.getFPGATimestamp();
-			*/
-		}
-		speed = (1.5/Math.PI) * Math.atan(0.03 * (setpoint - currentAngle));
-/*
-		double dt = Timer.getFPGATimestamp() - previousTime;
-		previousTime = Timer.getFPGATimestamp();
-		pivotTMP.calculateNextSituation(dt);
-
-		targetAngle = pivotTMP.getCurrentPosition();
-		targetVelocity = pivotTMP.getCurrentVelocity();
-		targetAcceleration = pivotTMP.getCurrentAcceleration();
 		
-		speed = pivotPV.calculate(pivotTMP, f.getPTAngle(), f.getPTAngleRate());
-*/				
+			previousSetpoint = setpoint;
+			pivotPID.changeSetpoint(setpoint);
+		}
+
+		// Original Code - Retain for test comparison.
+//		speed = (1.5 / Math.PI) * Math.atan(0.06 * (setpoint - currentAngle));
+		
+		speed = pivotPID.calculate(currentAngle);
 		output();
 	}
 	
+	private void runPivotAuto() {
+		setpoint = i.getPTSetpoint();
+		currentAngle = f.getPTAngle();
+		currentArmSetpoint = i.getArmSetpoint();
+		currentArmDistance = f.getArmDistance();
+		if (setpoint != previousSetpoint) {
+			if(currentArmSetpoint < 400 && currentArmDistance > 400) {
+				setpoint = 190;
+			}
+		
+			previousSetpoint = setpoint;
+			pivotPID.changeSetpoint(setpoint);
+		}
+
+		// Original Code - Retain for test comparison.
+//		speed = (1.5 / Math.PI) * Math.atan(0.06 * (setpoint - currentAngle));
+		
+		speed = pivotPID.calculate(currentAngle);
+		output();
+	}
+
 	public void runPivotBackup() {
-		if(i.getPivotCCW()) {
-			speed = -.2;
-		} 
-		else if(i.getPivotCW()) {
+		speed = 0;
+		if (i.getPivotCCW()) {
 			speed = .2;
 		}
+		if (i.getPivotCW()) {
+			speed = -.2;
+		} 
+		output();
 	}
-	
+
 	private void output() {
 		o.setPivotSpeed(speed);
 	}
@@ -148,18 +169,23 @@ public class Pivot extends Subsystem {
 	public double getSpeed() {
 		return speed;
 	}
-	
+
 	public void setDelay(double time) {
+		autoStartTime = Timer.getFPGATimestamp();
 		delay = time;
 	}
-	
+
+	public void teleopSetDelay(double time) {
+		delayStartTime = Timer.getFPGATimestamp();
+		delay = time;	
+	}
+
 	@Override
 	public void smartDashboard() {
 		SmartDashboard.putNumber("PT_SPEED", speed);
 	}
-	
-	public static Pivot getInstance() {
+
+	public static synchronized Pivot getInstance() {
 		return instance == null ? instance = new Pivot() : instance;
 	}
-
 }

@@ -115,10 +115,6 @@ public final class GenericController extends Joystick {
 		return scaleInput(getRawAxis(controllerMap[3]));
 	}
 
-	public synchronized boolean getButtonReleased(int button) {
-		return getRawButtonReleased(button);
-	}
-	
 	public synchronized boolean getLeftStickClick() {
 		return getRawButton(controllerMap[6]);
 	}
@@ -179,6 +175,31 @@ public final class GenericController extends Joystick {
 		return getRawButton(controllerMap[17]);
 	}
 	
+	public synchronized boolean getAButtonReleased() {
+		return getRawButtonReleased(controllerMap[17]);
+	}
+	public synchronized boolean getBButtonReleased() {
+		return getRawButtonReleased(controllerMap[16]);
+	}
+	public synchronized boolean getXButtonReleased() {
+		return getRawButtonReleased(controllerMap[14]);
+	}
+	public synchronized boolean getYButtonReleased() {
+		return getRawButtonReleased(controllerMap[15]);
+	}
+	public synchronized boolean getAButtonPressed() {
+		return getRawButtonPressed(controllerMap[17]);
+	}
+	public synchronized boolean getBButtonPressed() {
+		return getRawButtonPressed(controllerMap[16]);
+	}
+	public synchronized boolean getXButtonPressed() {
+		return getRawButtonPressed(controllerMap[14]);
+	}
+	public synchronized boolean getYButtonPressed() {
+		return getRawButtonPressed(controllerMap[15]);
+	}
+		
 	public synchronized boolean getDPADUp() {
 		return getPOV() == 0;
 	}

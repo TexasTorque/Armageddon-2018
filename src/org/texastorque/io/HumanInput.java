@@ -2,139 +2,125 @@ package org.texastorque.io;
 
 import org.texastorque.auto.AutoManager;
 import org.texastorque.feedback.Feedback;
+import org.texastorque.subsystems.Arm;
+import org.texastorque.subsystems.Pivot;
+import org.texastorque.subsystems.WheelIntake;
 import org.texastorque.torquelib.util.GenericController;
 
 public class HumanInput extends Input {
 
+	private static final double PIVOT_MAX_ENCODER = 320; // click-value
+	private static final double DIAL_RANGE = 0.118;
+	private static final double ENCODER_DIAL_CONVERSION = PIVOT_MAX_ENCODER / DIAL_RANGE;
+
 	public static HumanInput instance;
 
-	private double lastLeftSpeed = 0;
-	private double lastRightSpeed = 0;
-	private double leftNegativeTest = 0;
-	private double rightNegativeTest = 0;
-	
 	public GenericController driver;
-	public GenericController operator;
-	protected OperatorConsole board;
-	
-	private int PT_test;
-	
-	public HumanInput(){
-		driver = new GenericController(0 , .1);
+	public  GenericController operator;
+	public OperatorConsole board;
+
+	protected Feedback feedback;
+
+	public HumanInput() {
+		driver = new GenericController(0, .1);
 		operator = new GenericController(1, .1);
 		board = new OperatorConsole(2);
-		PT_test = 0;
+
+		feedback = Feedback.getInstance();
 	}
-	
+
 	public void update() {
 		updateDrive();
-//		updateFile();
 		updateClaw();
 		updateWheelIntake();
 		updateBoardSubsystems();
 		updateKill();
-		if(pickingUp)
-			pickingUp = false;
-		if(operator.getRawButtonReleased(operator.controllerMap[15]));
-		
 	}
-	
-	public void updateDrive(){
-		/*
-		final double MAX_START_ACCEL = .05;
-		boolean starting = false;
-		if(Math.abs(lastLeftSpeed) <.5)
-			starting = true;
-			
+
+	public void updateDrive() {
+		DB_leftSpeed = -driver.getLeftYAxis() + .8 * driver.getRightXAxis();
+		DB_rightSpeed = -driver.getLeftYAxis() - .8 * driver.getRightXAxis();
 		
-		/*
-		 * Checks to see if the drivebase should be going more positive or negative
-		 */
-		/*
-		leftNegativeTest = (-driver.getLeftYAxis() + driver.getRightXAxis())
-							/(Math.abs(-driver.getLeftYAxis() + driver.getRightXAxis()));
-		rightNegativeTest = (-driver.getLeftYAxis() - driver.getRightXAxis())
-							  /(Math.abs(-driver.getLeftYAxis() - driver.getRightXAxis()));
-		*/
-		
-		/*
-		if(starting && Math.abs(DB_leftSpeed) > 0.05) {
-			DB_leftSpeed = lastLeftSpeed + MAX_START_ACCEL * leftNegativeTest;
-			DB_rightSpeed = lastRightSpeed + MAX_START_ACCEL * rightNegativeTest;
-		} else {
-			
-		}
-		
-		if(starting) {
-			lastLeftSpeed = DB_leftSpeed;
-			lastRightSpeed = DB_rightSpeed;
-		} */
-		DB_leftSpeed = -driver.getLeftYAxis() + .75 * driver.getRightXAxis();
-		DB_rightSpeed = -driver.getLeftYAxis() - .75 * driver.getRightXAxis();
 	}
 
 	public void updateFile() {
-		if(driver.getYButton())
+		if (driver.getYButton()) {
 			AutoManager.getInstance();
+		}
 	}
-	
-	
+
 	public void updateClaw() {
 		CL_closed.calc(operator.getBButton());
 	}
-	
-	public void updateWheelIntake() {
 
+	public void updateWheelIntake() {
 		IN_down.calc(operator.getXButton());
 		IN_out.calc(driver.getAButton());
-		if(driver.getLeftBumper()) {
-			IN_speed = -.5;
-		} else if(driver.getRightBumper()) {
-			IN_speed = .35;
-		} else IN_speed = 0;
+		if (driver.getLeftBumper()) {
+			startIntaking();
+		} else if (driver.getRightBumper()) {
+			startOutaking();
+		} else {
+			stopSpinning();
+		}
 	}
-	
-	public void updateBoardSubsystems() {	
-		if(getEncodersDead()) {
+
+	public void updateBoardSubsystems() {
+		if (getEncodersDead()) {
 			updatePivotArmBackup();
 		} else {
-		MAXIMUM_OVERDRIVE.calc(board.getButton(10));
-		
-		if(MAXIMUM_OVERDRIVE.get()) {
-			AM_setpoint = board.getSlider() * AM_CONVERSION;
-			PT_setpoint = (int)(Math.round(board.getDial() / 0.00787401571)) * 18;			
-		} else {
-			updateNotManualOverride();
-		  } //if not manual override
-		} //if encoders not dead
-	} //method close
+			MAXIMUM_OVERDRIVE.calc(board.getButton(10));
 
-	private void updateNotManualOverride() {
-		if(driver.getXButton()) {
-			climbing = true;
-//			AM_setpoint = 0;
-		} else {
+			if (MAXIMUM_OVERDRIVE.get()) {
+				handleManualOverride();
+			} else {
+				handleInputs();
+			}
+		}
+	}
+
+	private void handleManualOverride() {
+		AM_setpoint = board.getSlider() * AM_CONVERSION;
+		PT_setpoint = (int) (Math.round(board.getDial() * ENCODER_DIAL_CONVERSION));
+	}
+
+	private void handleDriverInputs() {
+		if (driver.getBButton()) {
+			AM_setpoint = 2000;
+			if(feedback.getArmDistance() > 1800)
+				PT_setpoint = 220.0; //bravo 85 charlie 220
+		} 
+		if (driver.getXButton()) {
+			AM_setpoint = -2000;
+		}
+
+		if (driver.getRawButtonReleased(driver.controllerMap[14])) {
+			AM_setpoint = Feedback.getInstance().getArmDistance();
+			AM_speed = 0;
+		}
+
+		if (driver.getYButton()) {
 			climbing = false;
 		}
-		if(operator.getLeftCenterButton()) {
-			Feedback.getInstance().resetPivot();
-		}
-		if(operator.getRightCenterButton()) {
-			Feedback.getInstance().resetPivot();
+	}
+
+	private void handleOperatorInputs() {
+		if (operator.getYButtonPressed()) {
+			setClaw(true);
+			Pivot.getInstance().teleopSetDelay(0.25);
+			Arm.getInstance().teleopSetDelay(0.25);
+			PT_index = 10;
+			AM_index = 10;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		} 
-		if(operator.getYButton()) {
-			pickingUp = true;
-		} else pickingUp = false;
-		for (int x = 1; x < 10; x++) {
-			if(board.getButton(x)) {
-				PT_index = x;
-				AM_index = x;
-				MAXIMUM_OVERDRIVE.set(false);
-				PT_setpoint = PT_setpoints[PT_index];
-				AM_setpoint = AM_setpoints[AM_index];
-			} 
-		}
-		if(board.getButton(11)) {
+		else if (operator.getYButtonReleased()) {
+			setClaw(false);
+			Pivot.getInstance().teleopSetDelay(0.4);
+			Arm.getInstance().teleopSetDelay(0.4);
+			WheelIntake.getInstance().teleopSetDelay(0.8);
+			setIntakeOut(false);
 			PT_index = 0;
 			AM_index = 0;
 			MAXIMUM_OVERDRIVE.set(false);
@@ -142,35 +128,68 @@ public class HumanInput extends Input {
 			AM_setpoint = AM_setpoints[AM_index];
 		}
 	}
-	
-	private void updatePivotArmBackup() {
-		if(operator.getDPADLeft())
-			pivotCCW = true;
-		else if(operator.getDPADRight()) {
-			pivotCW = true;
-			pivotCCW = false;
-		} else {
-			pivotCCW = false;
-			pivotCW = false;
+
+	private void handleBoardInputs() {
+		for (int x = 1; x < 10; x++) {
+			if(board.getButton(x)) {
+				board.setCurrentButton(x);
+				PT_index = x;
+				AM_index = x;
+				MAXIMUM_OVERDRIVE.set(false);
+				PT_setpoint = PT_setpoints[PT_index];
+				AM_setpoint = AM_setpoints[AM_index];
+			}
 		}
-		if(operator.getDPADUp()) {
-			armFWD = true;
-		} else if(operator.getDPADDown()) {
-			armBACK = true;
-			armFWD = false;
-		} else {
-			armFWD = false;
-			armBACK = false;
+
+		if (board.getButton(11)) {
+			setClaw(true);
+			board.setCurrentButton(11);
+			PT_index = 0;
+			AM_index = 0;
+			MAXIMUM_OVERDRIVE.set(false);
+			PT_setpoint = PT_setpoints[PT_index];
+			AM_setpoint = AM_setpoints[AM_index];
 		}
+
 	}
-	
+
+	private void handleInputs() {
+		handleDriverInputs();
+		handleOperatorInputs();
+		handleBoardInputs();
+	}
+
+	private static boolean didReleaseYButton(GenericController controller) {
+		int rawYButton = controller.controllerMap[15];
+		return controller.getRawButtonReleased(rawYButton);
+	}
+
+	private void updatePivotArmBackup() {
+		if (operator.getDPADLeft()) {
+			pivotCCW = true;
+		} else pivotCCW = false;
+		if (operator.getDPADRight()) {
+			pivotCW = true;
+		} else pivotCW = false;
+
+		if (operator.getDPADUp()) {
+			armFWD = true;
+		} else armFWD = false;
+		if (operator.getDPADDown()) {
+			armBACK = true;
+		} else armBACK = false;
+	}
+
 	public void updateKill() {
 		encodersDead.calc(operator.getRightTrigger() && operator.getLeftTrigger());
+		if(operator.getLeftCenterButton())
+			Feedback.getInstance().resetArmEncoders();
 	}
+
 	public static HumanInput getInstance() {
 		return instance == null ? instance = new HumanInput() : instance;
 	}
-	
+
 }
 
 // Emily Lauren Roth was here!!!
