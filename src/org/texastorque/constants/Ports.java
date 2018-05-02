@@ -32,6 +32,7 @@ public class Ports {
 	// Arm
 	public static final int AM_RIGHT_MOTOR = 9;
 	public static final int AM_LEFT_MOTOR = 19;
+	public static final int AM_EXTRA_MOTOR = 10000;
 
 	public static final int AM_ENCODER_A = 4;
 	public static final int AM_ENCODER_B = 5;

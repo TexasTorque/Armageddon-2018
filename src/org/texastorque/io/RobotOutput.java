@@ -19,6 +19,7 @@ public class RobotOutput {
 	
 	private TorqueMotor AM_right;
 	private TorqueMotor AM_left;
+	private TorqueMotor AM_extra;
 	private DoubleSolenoid CL_sole;
 
 	private TorqueMotor IN_left;
@@ -46,6 +47,7 @@ public class RobotOutput {
 
 		AM_right = new TorqueMotor(new VictorSP(Ports.AM_RIGHT_MOTOR), clockwise);
 		AM_left = new TorqueMotor(new VictorSP(Ports.AM_LEFT_MOTOR), clockwise);
+		AM_extra = new TorqueMotor(new VictorSP(Ports.AM_EXTRA_MOTOR), clockwise);
 
 		CL_sole = new DoubleSolenoid(2, Ports.CL_SOLE_A, Ports.CL_SOLE_B);
 	}
@@ -64,6 +66,7 @@ public class RobotOutput {
 	public void setArmSpeed(double speed) {
 		AM_left.set(speed);
 		AM_right.set(-speed);
+		AM_extra.set(speed);
 	}
 
 	public void setClaw(boolean closed) {
