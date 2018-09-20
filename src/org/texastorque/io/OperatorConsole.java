@@ -1,37 +1,34 @@
 package org.texastorque.io;
 
-import org.texastorque.torquelib.util.GenericController;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
-public class OperatorConsole {
+public class OperatorConsole extends Joystick {
 
-	/*
-	 * Same concept as 2015 for custom controls in 2018 - Jonathon
-	 * 
+	/**
+	 * Same concept as 2015 for custom controls in 2018 - Jonathon Oh ok - Daniel
 	 */
-	
-    private GenericController joystick;
 
+	public int currentButton;
+	
     public OperatorConsole(int port) {
-        joystick = new GenericController(port, .1);
+        super(port);
+        currentButton = 0;
     }
     
-    public boolean getButton(int x) {
-    	if(x != 7 && x != 8) {
-    		return joystick.getRawButton(x);
-    	} else if(x == 7) {
-    		return joystick.getRawButton(11);
-    	}
-    	return joystick.getRawButton(12);
+    public synchronized boolean getButton(int x) {
+    	return getRawButton(x);
     }
     
-    public double getSlider() {
-    	return joystick.getRightYAxis();
+    public void setCurrentButton(int x) {
+    	currentButton = x;
     }
     
-    public double getDial() {
-    	return joystick.getLeftXAxis();
+    public synchronized double getSlider() {
+    	return getRawAxis(5);
+    }
+    
+    //Not used
+    public synchronized double getDial() {
+    	return getRawAxis(4);
     }
 }

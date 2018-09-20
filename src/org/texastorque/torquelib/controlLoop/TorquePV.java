@@ -61,6 +61,7 @@ public class TorquePV extends ControlLoop {
 		positionDoneRange = range;
 	}
 
+	@Override
 	public boolean isDone() {
 		if ((Math.abs(profile.getCurrentPosition() - actualPosition) < positionDoneRange)
 				&& Math.abs(profile.getCurrentVelocity() - actualVelocity) < doneRange) {

@@ -1,5 +1,7 @@
 package org.texastorque.torquelib.component;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**

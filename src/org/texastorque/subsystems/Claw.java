@@ -3,53 +3,53 @@ package org.texastorque.subsystems;
 public class Claw extends Subsystem{
 
 	private boolean closed;
-	private static Claw instance;
+	private static volatile Claw instance;
 
 	@Override
 	public void autoInit() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void teleopInit() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void disabledInit() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void disabledContinuous() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void autoContinuous() {
-		// TODO Auto-generated method stub
+		if(autoType.equals(AutoType.RECORDING))
+			recordingAutoContin();
+		else commandAutoContin();
+		o.setClaw(closed);
+	}
+	
+	private void recordingAutoContin() {
+	//	closed = auto.getClawClosed();
 		
+	}
+	
+	private void commandAutoContin() {
+		closed = i.getClawClosed();
 	}
 
 	@Override
 	public void teleopContinuous() {
 		closed = i.getClawClosed();
 		o.setClaw(closed);
-		
 	}
 
 	@Override
 	public void smartDashboard() {
-		// TODO Auto-generated method stub
-		
 	}
-	
-	public static Claw getInstance() {
+
+	public static synchronized Claw getInstance() {
 		return instance == null ? instance = new Claw() : instance;
 	}
-	
+
 }
